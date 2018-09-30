@@ -17,7 +17,7 @@ class ProfileDrawerObject {
 }
 
 const profileImage =
-  '<img src="../../../assets/profile.png" alt="Profile" id="profile_image">';
+  '<img src="https://rawgit.com/delta3dprinting/delta3dprinting/master/assets/profile.png" alt="Profile" id="profile_image">';
 
 const profileIconBodyHTML =
   "<div id='profile_icon_body' onclick='profileClicked();'></div>";
