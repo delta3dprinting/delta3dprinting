@@ -1,0 +1,129 @@
+.service_body_content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(245, 245, 245);
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease-in;
+}
+
+.service_title_body {
+  height: 25%;
+  max-width: 80%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.service_title_text {
+  text-align: center;
+  font-family: "Russo One", sans-serif;
+  font-size: 8vmin;
+  color: rgb(140, 10, 10);
+}
+
+.service_summary_quote_body {
+  height: 20%;
+  max-width: 80%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.service_summary_quote_text {
+  text-align: center;
+  font-family: "Russo One", sans-serif;
+  font-size: 5vmin;
+  color: rgb(120, 120, 120);
+}
+
+.service_button_body {
+  height: 20%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.service_button {
+  z-index: 1;
+  height: 9vmin;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgb(255, 75, 90);
+  border-radius: 4.5vmin;
+  box-shadow: 0 1vmin 1.5vmin 0 rgba(76, 18, 31, 0.35);
+  padding: 0 5vmin 0 5vmin;
+}
+
+.service_button:hover {
+  background-color: rgb(255, 50, 60);
+}
+
+.service_button:active {
+  background-color: rgb(255, 50, 60);
+  box-shadow: none;
+}
+
+.service_button_text {
+  text-align: center;
+  font-family: "Chivo", sans-serif;
+  font-size: 3.5vmin;
+  color: white;
+  font-weight: 500;
+}
+
+.service_description_body {
+  max-width: 80%;
+  height: 35%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 6vmin 0 0 0;
+}
+
+.service_description_text {
+  text-align: justify;
+  font-family: "Open Sans", sans-serif;
+  font-size: 4vmin;
+  font-weight: 800;
+  color: rgb(70, 70, 70);
+}
+
+.service_modal_body {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.temp_modal_title {
+  height: 30%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 10vmin 0 10vmin;
+  font-family: "Russo One", sans-serif;
+  font-size: 6vmin;
+}
+
+.temp_modal_content {
+  height: 70%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 14vmin 10vmin 0 10vmin;
+  font-family: "Chivo", sans-serif;
+  font-size: 4vmin;
+}

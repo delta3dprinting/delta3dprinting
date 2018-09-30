@@ -1,0 +1,25 @@
+{
+  "name": "delta3dprinting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delta3dprinting/delta3dprinting.git"
+  },
+  "author": "Carl Velasco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/delta3dprinting/delta3dprinting/issues"
+  },
+  "homepage": "https://github.com/delta3dprinting/delta3dprinting#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {}
+}

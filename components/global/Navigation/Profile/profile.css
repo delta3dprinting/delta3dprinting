@@ -1,0 +1,20 @@
+#profile_icon_body {
+  height: 7vmin;
+  width: 7vmin;
+  background-color: rgb(245, 245, 245);
+  border-radius: 3.75vmin;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  border-color: rgb(100, 100, 100);
+  border-width: 0.5vmin;
+  border-style: solid;
+  z-index: 1;
+}
+
+#profile_image {
+  height: 70%;
+  width: 70%;
+  z-index: 0;
+}

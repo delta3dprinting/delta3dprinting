@@ -1,0 +1,26 @@
+#side_drawer_toggle {
+  width: 8vmin;
+  height: 7vmin;
+  margin: 0;
+  border: 0;
+  padding: 1vmin;
+  border-style: solid;
+  border-width: 0.5vmin;
+  border-radius: 2vmin;
+  border-color: rgb(170, 10, 10);
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.drawer {
+  width: 80%;
+  height: 0.8vmin;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 1vmin;
+  background-color: rgb(242, 242, 242);
+  z-index: 1;
+}

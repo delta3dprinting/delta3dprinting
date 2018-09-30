@@ -1,0 +1,16 @@
+#side_drawer {
+  position: fixed;
+  width: 40vmin;
+  top: 12vmin;
+  left: 0;
+  z-index: 100;
+  background-color: rgb(240, 240, 240);
+  box-sizing: border-box;
+  transition: transform 0.3s ease-out;
+  transform: translateX(-100%);
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 0 0 3vmin 0;
+}

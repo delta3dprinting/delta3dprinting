@@ -1,0 +1,9 @@
+#footer {
+  position: relative;
+  display: flex;
+  background-color: rgb(220, 220, 220);
+  height: 24vmin;
+  width: 100%;
+  z-index: 80;
+  top: 12vmin;
+}
