@@ -14,7 +14,7 @@ const signupObject = new ProfileDrawerObject(
 // Create the Signup Form HTML
 const signupModalHTML =
   "<div id='modal_signup_form_body'>" +
-  "<form='signup_form' action='' method='post' onsubmit=''>" +
+  "<form='signup_form' action='/users/signup' method='POST' onsubmit=''>" +
   "<div id='username_field_body' class='input_field_body'>" +
   "<div id='username_field_title' class='input_field_title'>Username</div>" +
   "<input type='text' name='username' id='username_field' class='input_field'>" +
