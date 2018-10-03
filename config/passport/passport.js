@@ -92,13 +92,10 @@ module.exports = passport => {
         User.findOne({ email }, (err, user) => {
           // If there are any errors, return the error before anything else
           if (err) return done(err);
-          console.log("No Login Error");
           // If no user is found, return the message
           if (!user) return done(null, false);
-          console.log("User Found");
           // If the user is found but the password is wrong
-          if (!user.validPassword(password)) return done(null, false);
-          console.log("Password Match");
+          if (!user.validatePassword(password)) return done(null, false);
           // all is well, return successful user
           return done(null, user);
         });

@@ -1,7 +1,5 @@
 const profileDrawerInit = () => {
-  document
-    .querySelector("#body")
-    .insertAdjacentHTML("afterbegin", profileDrawerHTML);
+  rootPointer.insertAdjacentHTML("afterbegin", profileDrawerHTML);
   profileDrawerPointer = document.querySelector("#profile_drawer_body");
   addProfileDrawerElements(visitorProfileObject());
 };

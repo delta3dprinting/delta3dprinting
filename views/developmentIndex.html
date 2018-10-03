@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Delta 3D Printing</title>
+  <!-- =============================================== GLOBAL COMPONENTS =============================================== -->
+  <!-- NAVIGATION -->
+  <!-- Footer -->
+  <script src="../components/global/Navigation/Footer/footer.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/Footer/footer.css">
+  <!-- SideDrawer -->
+  <script src="../components/global/Navigation/SideDrawer/sideDrawer.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/SideDrawer/sideDrawer.css">
+  <!-- SideDrawerToggle -->
+  <script src="../components/global/Navigation/SideDrawer/SideDrawerToggle/sideDrawerToggle.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/SideDrawer/SideDrawerToggle/sideDrawerToggle.css">
+  <!-- Drawer -->
+  <script src="../components/global/Navigation/SideDrawer/Drawer/drawer.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/SideDrawer/Drawer/drawer.css">
+  <!-- Toolbar -->
+  <script src="../components/global/Navigation/Toolbar/toolbar.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/Toolbar/toolbar.css">
+  <!-- Profile -->
+  <script src="../components/global/Navigation/Profile/profile.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/Profile/profile.css">
+  <!-- Profile Drawer -->
+  <script src="../components/global/Navigation/Profile/ProfileDrawer/profileDrawer.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/Profile/ProfileDrawer/profileDrawer.css">
+  <!-- Visitor -->
+  <script src="../components/global/Navigation/Profile/Visitor/visitor.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/Profile/Visitor/visitor.css">
+  <!-- Login -->
+  <script src="../components/global/Navigation/Profile/Visitor/Login/login.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/Profile/Visitor/Login/login.css">
+  <!-- Signup -->
+  <script src="../components/global/Navigation/Profile/Visitor/Signup/signup.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/Profile/Visitor/Signup/signup.css">
+  <!-- User -->
+  <script src="../components/global/Navigation/Profile/User/user.js"></script>
+  <link rel="stylesheet" href="../components/global/Navigation/Profile/User/user.css">
+  <!-- UI -->
+  <!-- Backdrop -->
+  <script src="../components/global/UI/Backdrop/backdrop.js"></script>
+  <link rel="stylesheet" href="../components/global/UI/Backdrop/backdrop.css">
+  <!-- Modal -->
+  <script src="../components/global/UI/Modal/modal.js"></script>
+  <link rel="stylesheet" href="../components/global/UI/Modal/modal.css">
+  <!-- =============================================== LOCAL COMPONENTS ================================================ -->
+  <!-- --------------------------------------------------- HOMEPAGE ---------------------------------------------------- -->
+  <script src="../components/local/Homepage/homepage.js"></script>
+  <link rel="stylesheet" href="../components/local/Homepage/homepage.css">
+  <!-- SERVICES -->
+  <script src="../components/local/Homepage/Services/services.js"></script>
+  <link rel="stylesheet" href="../components/local/Homepage/Services/services.css">
+  <!-- Service -->
+  <script src="../components/local/Homepage/Services/Service/service.js"></script>
+  <link rel="stylesheet" href="../components/local/Homepage/Services/Service/service.css">
+  <!-- Marketplace -->
+  <script src="../components/local/Homepage/Services/Service/Marketplace/marketplace.js"></script>
+  <link rel="stylesheet" href="../components/local/Homepage/Services/Service/Marketplace/marketplace.css">
+  <!-- 3D Modelling Service -->
+  <script src="../components/local/Homepage/Services/Service/ModellingService/modellingService.js"></script>
+  <link rel="stylesheet" href="../components/local/Homepage/Services/Service/ModellingService/modellingService.css">
+  <!-- 3D Printing Service -->
+  <script src="../components/local/Homepage/Services/Service/PrintingService/printingService.js"></script>
+  <link rel="stylesheet" href="../components/local/Homepage/Services/Service/PrintingService/printingService.css">
+  <!-- ---------------------------------------------------- PRICING ---------------------------------------------------- -->
+  <script src="../components/local/Pricing/pricing.js"></script>
+  <link rel="stylesheet" href="../components/local/Pricing/pricing.css">
+  <!-- =================================================== EXTERNAL ==================================================== -->
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Chivo|Open+Sans|Russo+One" rel="stylesheet">
+</head>
+
+<body>
+  <div id="root">
+    <div id='toolbar'></div>
+    <div id='body'></div>
+    <div id='footer'></div>
+  </div>
+</body>
+
+<style>
+  #root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  const rootPointer = document.querySelector("#root");
+  const toolbarPointer = document.querySelector('#toolbar');
+  const bodyPointer = document.querySelector('#body');
+
+  // Global Initialisation
+  window.onload = () => {
+    sideDrawerInit();
+    profileInit();
+    homepageBodyPointer = document.querySelector("#body");
+    homepageInit();
+  };
+
+</script>
+
+</html>

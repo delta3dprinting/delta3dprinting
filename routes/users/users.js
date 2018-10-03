@@ -15,7 +15,7 @@ module.exports = (app, passport) => {
   app.post(
     "/users/signup",
     passport.authenticate("local-signup", {
-      successRedirect: "/users/profile", // redirect back to the homepage
+      successRedirect: "/", // redirect back to the homepage
       failureRedirect: "/users/login" // redirect back to the homepage
     })
   );
@@ -26,7 +26,7 @@ module.exports = (app, passport) => {
   app.post(
     "/users/login",
     passport.authenticate("local-login", {
-      successRedirect: "/users/profile", // redirect back to the homepage
+      successRedirect: "/", // redirect back to the homepage
       failureRedirect: "/users/login" // redirect back to the homepage
     })
   );
@@ -34,9 +34,9 @@ module.exports = (app, passport) => {
   // @route   GET users/profile
   // @desc    Tests profile route
   // @access  Private
-  app.get("/users/profile", isLoggedIn, (req, res) =>
-    res.json({ msg: "Profile Works" })
-  );
+  app.get("/users/profile", isLoggedIn, (req, res) => {
+    res.json({ msg: "Profile Works" });
+  });
 
   // @route   GET users/login
   // @desc    Receive failed login attempts

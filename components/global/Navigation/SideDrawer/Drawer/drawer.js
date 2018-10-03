@@ -1,7 +1,10 @@
 // Initialisation
 const drawerInit = objArr => {
+  sideDrawerPointer.innerHTML = "";
   addDrawerElements(objArr);
 };
+
+let drawerElements;
 
 const addDrawerElements = objArr => {
   // Set Height of Side Drawer

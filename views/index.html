@@ -73,7 +73,11 @@
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div id='toolbar'></div>
+    <div id='body'></div>
+    <div id='footer'></div>
+  </div>
 </body>
 
 <style>
@@ -91,8 +95,8 @@
 
   // Global Initialisation
   window.onload = () => {
-    homepageInit();
     sideDrawerInit();
+    homepageInit();
     drawerInit(testObj);
     sideDrawerToggleInit();
     profileInit();

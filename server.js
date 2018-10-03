@@ -32,7 +32,7 @@ mongoose
   .catch(err => console.log(err));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./views/Homepage/homepage.html"));
+  res.sendFile(path.join(__dirname, "./views/index.html"));
 });
 
 // Passport Configuration

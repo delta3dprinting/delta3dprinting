@@ -1,6 +1,7 @@
 // Initialisation
 const sideDrawerInit = () => {
   addSideDrawer();
+  sideDrawerToggleInit();
 };
 
 // Add Side Drawer
@@ -18,9 +19,6 @@ class SideDrawerObject {
 }
 
 const addSideDrawer = () => {
-  document
-    .querySelector("#body")
-    .insertAdjacentHTML("afterbegin", sideDrawerHTML);
-
+  rootPointer.insertAdjacentHTML("afterbegin", sideDrawerHTML);
   sideDrawerPointer = document.querySelector("#side_drawer");
 };
