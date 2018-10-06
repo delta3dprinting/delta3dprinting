@@ -6,7 +6,7 @@ let servicesBodyPointer;
 
 const addServicesBody = () => {
   // Create the Base HTML
-  homepageBodyPointer.insertAdjacentHTML("afterbegin", servicesBodyHTML);
+  bodyPointer.insertAdjacentHTML("afterbegin", servicesBodyHTML);
   servicesBodyPointer = document.querySelector("#services_body");
   servicesBodyPointer.innerHTML = servicesComponentStructureHTML;
   // Populate the Base HTML with Contents

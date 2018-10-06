@@ -1,0 +1,17 @@
+.manufacturing_method_pricing_tab_body {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  background-color: rgb(220, 220, 220);
+  border-color: rgb(170, 30, 30, 0.95);
+  box-sizing: border-box;
+}
+
+.manufacturing_method_pricing_tab_text {
+  font-family: "Russo One";
+  transition: opacity 1s ease;
+  opacity: 0.5;
+  color: rgb(170, 10, 10, 0.95);
+}

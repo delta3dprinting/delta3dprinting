@@ -1,0 +1,113 @@
+.material_detail_pricing_table {
+  margin: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-sizing: border-box;
+}
+
+.material_detail_pricing_row_body {
+  max-width: 100%;
+  width: 100%;
+  min-width: 100%;
+  height: 16vmin;
+  display: flex;
+  margin: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-sizing: border-box;
+}
+
+.material_detail_pricing_suitable_for_row_header,
+.material_detail_pricing_suitable_for_row_body {
+  height: 32vmin;
+}
+
+.material_detail_pricing_header {
+  max-width: 25%;
+  width: 25%;
+  min-width: 25%;
+  font-family: "Russo One", sans-serif;
+  text-align: center;
+  font-size: 2.8vmin;
+  color: rgb(245, 245, 245);
+  border-style: solid none solid none;
+  background-color: rgba(170, 30, 30, 0.95);
+  border-color: rgb(180, 180, 180);
+  border-width: 0.2vmin 0 0.2vmin 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  margin: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-sizing: border-box;
+}
+
+.material_detail_pricing_detail_odd,
+.material_detail_pricing_detail_even {
+  max-width: 75%;
+  width: 75%;
+  min-width: 75%;
+  font-family: "Chivo", sans-serif;
+  text-align: center;
+  font-size: 2.8vmin;
+  color: rgb(80, 80, 80);
+  background-color: rgb(245, 245, 245);
+  border-style: solid dotted solid dotted;
+  border-color: rgb(180, 180, 180);
+  border-width: 0.2vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  margin: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-sizing: border-box;
+  text-align: justify;
+}
+
+.material_detail_pricing_detail_odd {
+  background-color: rgb(230, 230, 230);
+}
+
+.material_detail_pricing_details_array_odd,
+.material_detail_pricing_details_array_even {
+  font-family: "Chivo", sans-serif;
+  text-align: center;
+  font-size: 2.8vmin;
+  color: rgb(80, 80, 80);
+  background-color: rgb(245, 245, 245);
+  border-style: solid dotted solid dotted;
+  border-color: rgb(180, 180, 180);
+  border-width: 0.2vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  margin: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-sizing: border-box;
+}
+
+.material_detail_pricing_details_array_odd {
+  background-color: rgb(230, 230, 230);
+}
+
+.material_detail_pricing_table {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s ease;
+  box-sizing: border-box;
+}
+
+td {
+  padding: 1vmin;
+}
+
+.material_detail_priority_pricing_pricing_details_array,
+.material_detail_basic_pricing_pricing_details_array {
+  font-weight: bold;
+}

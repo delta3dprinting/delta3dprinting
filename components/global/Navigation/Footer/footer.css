@@ -1,9 +1,36 @@
 #footer {
   position: relative;
   display: flex;
+  justify-content: space-between;
   background-color: rgb(220, 220, 220);
-  height: 24vmin;
+  height: 36vmin;
   width: 100%;
+  max-width: 100%;
   z-index: 80;
   top: 12vmin;
+  padding: 3vmin;
+}
+
+.footer_category_body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.footer_category_text {
+  font-family: "Russo One", sans-serif;
+  font-size: 3vmin;
+  margin: 0 1vmin 1vmin 1vmin;
+}
+
+.footer_content_body {
+  height: 8vmin;
+  display: flex;
+  align-items: center;
+}
+
+.footer_content_text {
+  font-family: "Chivo", sans-serif;
+  font-size: 2.8vmin;
+  margin: 0 1vmin 0 1vmin;
 }

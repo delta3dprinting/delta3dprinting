@@ -1,0 +1,22 @@
+#pricing_summary_body {
+  height: 142vmin;
+  width: 100vw;
+  min-width: 100vw;
+  max-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  background-color: rgb(245, 245, 245);
+}
+
+.material_pricing_tabs {
+  height: 10vmin;
+  width: 100%;
+  display: flex;
+}
+
+#material_details_pricing_body {
+  height: 112vmin;
+  width: 100%;
+}

@@ -1,8 +1,9 @@
 // Initialisation
 const pricingInit = () => {
-  homepageBodyPointer.innerHTML = "";
+  bodyPointer.innerHTML = "";
   pricingDrawerElements();
   drawerInit(drawerElements);
+  pricingComponentStructure();
 };
 
 // Set Contents of the Side Drawer

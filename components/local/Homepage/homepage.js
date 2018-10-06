@@ -1,6 +1,6 @@
 // Initialisation
 const homepageInit = () => {
-  homepageBodyPointer.innerHTML = "";
+  bodyPointer.innerHTML = "";
   componentStructureHTML();
   homepageDrawerElements();
   drawerInit(drawerElements);
@@ -17,5 +17,3 @@ const homepageDrawerElements = () => {
     new SideDrawerObject("pricing-sidedrawer", "Pricing", pricingInit)
   ];
 };
-
-let homepageBodyPointer;
