@@ -6,7 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Delta 3D Printing</title>
+  <!-- ===================================================== INDEX ===================================================== -->
+  <script src="../components/developmentIndex.js"></script>
+  <link rel="stylesheet" href="../components/developmentIndex.css">
   <!-- =============================================== GLOBAL COMPONENTS =============================================== -->
+  <!-- -------------------------------------------------- VALIDATION --------------------------------------------------- -->
+  <!-- Is User Logged In -->
+  <!--   <script src="../components/global/Validation/isUserLoggedIn.js"></script>
+  <link rel="stylesheet" href="../components/global/Validation/isUserLoggedIn.css"> -->
   <!-- -------------------------------------------------- NAVIGATION --------------------------------------------------- -->
   <!-- Footer -->
   <script src="../components/global/Navigation/Footer/footer.js"></script>
@@ -65,13 +72,16 @@
   <script src="../components/global/Navigation/ProfileIcon/User/Profile/profile.js"></script>
   <!-- Logout -->
   <script src="../components/global/Navigation/ProfileIcon/User/Logout/logout.js"></script>
-  <!-- UI -->
+  <!-- ------------------------------------------------------ UI ------------------------------------------------------- -->
   <!-- Backdrop -->
   <script src="../components/global/UI/Backdrop/backdrop.js"></script>
   <link rel="stylesheet" href="../components/global/UI/Backdrop/backdrop.css">
   <!-- Modal -->
   <script src="../components/global/UI/Modal/modal.js"></script>
   <link rel="stylesheet" href="../components/global/UI/Modal/modal.css">
+  <!-- Loader -->
+  <script src="../components/global/UI/Loader/loader.js"></script>
+  <link rel="stylesheet" href="../components/global/UI/Loader/loader.css">
   <!-- --------------------------------------------------- NEW ORDER --------------------------------------------------- -->
   <!-- New Print -->
   <script src="../components/global/NewOrder/NewPrint/newPrint.js"></script>
@@ -190,74 +200,12 @@
   <!-- =================================================== EXTERNAL ==================================================== -->
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Chivo|Open+Sans|Raleway|Russo+One" rel="stylesheet">
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
-  <div id="root">
-    <div id='toolbar'></div>
-    <div id='body'></div>
-    <div id='footer'></div>
-  </div>
+  <div id="root"></div>
 </body>
-
-<style>
-  #root {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  body {
-    margin: 0;
-    border: 0;
-    padding: 0;
-  }
-
-  #body {
-    position: relative;
-    display: flex;
-    flex-flow: column;
-    top: 12vmin;
-  }
-
-  html {
-    box-sizing: border-box;
-  }
-
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-  }
-</style>
-
-<script>
-  let rootPointer;
-  let toolbarPointer;
-  let bodyPointer;
-  let footerPointer;
-  let loginStatus = true;
-
-  // Global Initialisation
-  window.onload = () => {
-    createMainPointers();
-    sideDrawerInit();
-    profileIconInit();
-    footerInit();
-    homepageInit();
-  };
-
-  const createMainPointers = () => {
-    rootPointer = document.querySelector("#root");
-    toolbarPointer = document.querySelector('#toolbar');
-    bodyPointer = document.querySelector('#body');
-    footerPointer = document.querySelector('#footer');
-  }
-
-  const createBaseElements = () => {
-    rootPointer.innerHTML = "<div id='toolbar'></div><div id='body'></div><div id='footer'></div>";
-  }
-
-</script>
 
 </html>

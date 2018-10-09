@@ -10,6 +10,7 @@ class NewPrintOrderMaterialObject {
 const constructSelectMaterialFormMaterial = objArr => {
   document.querySelector("#order_new_prints_materials_input_body").innerHTML =
     "";
+  selectedSelectMaterialMaterialId = undefined;
   objArr.forEach(obj => {
     const selectMaterialFormMaterialHTML =
       "<div id='order_new_prints_" +

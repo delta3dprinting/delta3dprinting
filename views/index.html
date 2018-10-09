@@ -6,7 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Delta 3D Printing</title>
+  <!-- ===================================================== INDEX ===================================================== -->
+  <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/index.js"></script>
+  <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/index.css">
   <!-- =============================================== GLOBAL COMPONENTS =============================================== -->
+  <!-- -------------------------------------------------- VALIDATION --------------------------------------------------- -->
+  <!-- Is User Logged In -->
+  <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Validation/isUserLoggedIn.js"></script>
+  <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Validation/isUserLoggedIn.css">
   <!-- -------------------------------------------------- NAVIGATION --------------------------------------------------- -->
   <!-- Footer -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Navigation/Footer/footer.js"></script>
@@ -190,6 +197,8 @@
   <!-- =================================================== EXTERNAL ==================================================== -->
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Chivo|Open+Sans|Raleway|Russo+One" rel="stylesheet">
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -241,13 +250,13 @@
   // Global Initialisation
   window.onload = () => {
     loadLoginStatus().then(() => {
-      console.log(loginStatus);
       createMainPointers();
       sideDrawerInit();
-      profileInit();
+      profileIconInit();
       footerInit();
       homepageInit();
     });
+
   };
 
   const loadLoginStatus = () => {
@@ -262,11 +271,6 @@
     bodyPointer = document.querySelector('#body');
     footerPointer = document.querySelector('#footer');
   }
-
-  const createBaseElements = () => {
-    rootPointer.innerHTML = "<div id='toolbar'></div><div id='body'></div><div id='footer'></div>";
-  }
-
 </script>
 
 </html>
