@@ -72,13 +72,16 @@
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Navigation/ProfileIcon/User/Profile/profile.js"></script>
   <!-- Logout -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Navigation/ProfileIcon/User/Logout/logout.js"></script>
-  <!-- UI -->
+  <!-- ------------------------------------------------------ UI ------------------------------------------------------- -->
   <!-- Backdrop -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/UI/Backdrop/backdrop.js"></script>
   <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/UI/Backdrop/backdrop.css">
   <!-- Modal -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/UI/Modal/modal.js"></script>
   <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/UI/Modal/modal.css">
+  <!-- Loader -->
+  <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/UI/Loader/loader.js"></script>
+  <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/UI/Loader/loader.css">
   <!-- --------------------------------------------------- NEW ORDER --------------------------------------------------- -->
   <!-- New Print -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/NewOrder/NewPrint/newPrint.js"></script>
@@ -202,14 +205,10 @@
 </head>
 
 <body>
-  <div id="root">
-    <div id='toolbar'></div>
-    <div id='body'></div>
-    <div id='footer'></div>
-  </div>
+  <div id="root"></div>
 </body>
 
-<style>
+<!-- <style>
   #root {
     display: flex;
     flex-direction: column;
@@ -271,6 +270,6 @@
     bodyPointer = document.querySelector('#body');
     footerPointer = document.querySelector('#footer');
   }
-</script>
+</script> -->
 
 </html>

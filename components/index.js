@@ -15,6 +15,7 @@ window.onload = () => {
 };
 
 const windowOnloadInit = () => {
+  console.log(loginStatus);
   constructRootBaseElements();
   createMainPointers();
   sideDrawerInit();
