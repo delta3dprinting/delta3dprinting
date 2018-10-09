@@ -7,8 +7,8 @@ const isUserLoggedIn = (pointer, callback) => {
       axios.get("/users/login-status").then(res => {
         loginStatus = res.data;
         console.log(loginStatus);
+        resolve();
       });
-      resolve();
     }, 2000);
   });
 
