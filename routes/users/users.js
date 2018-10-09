@@ -3,7 +3,23 @@ const path = require("path");
 // Load User Model
 const User = require("../../models/User");
 
+let loginStatus;
+
 module.exports = (app, passport) => {
+  // @route   GET /login-status
+  // @desc    Get Login Status
+  // @access  Public
+  app.get("/users/login-status", (req, res) => {
+    res.send(loginStatus);
+  });
+
+  // @route   GET /
+  // @desc    Homepage
+  // @access  Public
+  app.get("/", unrestrictedPages, (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/index.html"));
+  });
+
   // @route   GET users/test
   // @desc    Tests post route
   // @access  Public
@@ -34,8 +50,9 @@ module.exports = (app, passport) => {
   // @route   GET users/profile
   // @desc    Tests profile route
   // @access  Private
-  app.get("/users/profile", isLoggedIn, (req, res) => {
+  app.get("/users/profile", restrictedPages, (req, res) => {
     res.json({ msg: "Profile Works" });
+    console.log(req.isAuthenticated());
   });
 
   // @route   GET users/login
@@ -53,10 +70,23 @@ module.exports = (app, passport) => {
 };
 
 // Route middleware to make sure a user is logged in
-const isLoggedIn = (req, res, next) => {
+const restrictedPages = (req, res, next) => {
   // If user is authenticated in the session, carry on
-  if (req.isAuthenticated()) return next();
+  if (req.isAuthenticated()) {
+    loginStatus = true;
+    return next();
+  } else {
+    loginStatus = false;
+    // If they aren't redirect them to the homepage
+    res.redirect("/");
+  }
+};
 
-  // If they aren't redirect them to the homepage
-  res.redirect("/");
+const unrestrictedPages = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    loginStatus = true;
+  } else {
+    loginStatus = false;
+  }
+  return next();
 };

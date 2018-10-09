@@ -22,9 +22,17 @@ const footerInit = () => {
   createFooterArray();
   // Populate Footer
   // Create Footer Category HTML
+  let maximumNumberOfContents = 0;
+  let footerBodyHeight;
   footerCategoryArray.forEach(ele => {
     createFooterCategory(ele);
     createFooterCategoryContents(ele);
+    if (maximumNumberOfContents < ele.contentObjectsArray.length) {
+      maximumNumberOfContents = ele.contentObjectsArray.length;
+      footerBodyHeight = 18 + 8 * ele.contentObjectsArray.length;
+      document.querySelector("#footer").style.height =
+        footerBodyHeight + "vmin";
+    }
   });
 };
 

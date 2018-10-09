@@ -31,10 +31,6 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./views/index.html"));
-});
-
 // Passport Configuration
 require("./config/passport/passport")(passport); // pass passport for configuration
 

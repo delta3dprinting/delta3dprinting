@@ -1,0 +1,45 @@
+#partner_with_us_homepage_body {
+  width: 100%;
+  height: 35vmin;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(150, 19, 10, 0.9);
+}
+
+#partner_with_us_homepage_title_body {
+  height: 40%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+#partner_with_us_homepage_title_text {
+  font-family: "Russo One", sans-serif;
+  font-size: 6vmin;
+  color: white;
+  text-shadow: 0vmin 0.8vmin rgba(76, 18, 31, 0.35);
+}
+
+#partner_with_us_homepage_button_body {
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#partner_with_us_homepage_button {
+  height: 9vmin;
+  padding: 0 5vmin 0 5vmin;
+  border-radius: 4.5vmin;
+  box-shadow: 0 1vmin 1.5vmin 0 rgba(76, 18, 31, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 75, 90);
+}
+
+#partner_with_us_homepage_button_text {
+  font-family: "Chivo", sans-serif;
+  color: white;
+  font-size: 3.5vmin;
+}

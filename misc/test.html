@@ -5,41 +5,79 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./test.css">
+  <script src="./test.js"></script>
   <title>Document</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Chivo|Open+Sans|Raleway|Roboto|Russo+One" rel="stylesheet">
 </head>
 
 <body>
-  <table>
-    <tbody>
-      <tr id="material_detail_pricing_pros_row_body">
-        <td id="material_detail_pricing_pros_row_header"></td>
-        <td id="material_detail_pricing_pros_row_detail"></td>
-      </tr>
-      <tr id="material_detail_pricing_cons_row_body">
-        <td id="material_detail_pricing_cons_row_header"></td>
-        <td id="material_detail_pricing_cons_row_detail"></td>
-      </tr>
-      <tr id="material_detail_pricing_suitable_for_row_body">
-        <td id="material_detail_pricing_suitable_for_row_header"></td>
-        <td id="material_detail_pricing_suitable_for_row_detail"></td>
-      </tr>
-      <tr id="material_detail_pricing_quality_row_body">
-        <td id="material_detail_pricing_quality_row_header"></td>
-      </tr>
-      <tr id="material_detail_pricing_z_resolution_row_body">
-        <td id="material_detail_pricing_z_resolution_row_header"></td>
-      </tr>
-      <tr id="material_detail_pricing_suitable_dimension_row_body">
-        <td id="material_detail_pricing_suitable_dimension_row_header"></td>
-      </tr>
-      <tr id="material_detail_pricing_basic_pricing_row_body">
-        <td id="material_detail_pricing_basic_pricing_row_header"></td>
-      </tr>
-      <tr id="material_detail_pricing_priority_pricing_row_body">
-        <td id="material_detail_pricing_priority_pricing_row_header"></td>
-      </tr>
-    </tbody>
-  </table>
+  <div id="order_new_prints_body">
+    <div id="order_new_prints_step_1_body" class="order_new_prints_step_body">
+      <div id="order_new_prints_step_1_header_body" class="order_new_prints_steps_header_body">
+        <div id="order_new_prints_step_1_header_text" class="order_new_prints_steps_header_text">Step 1: Upload 3D
+          Model</div>
+      </div>
+    </div>
+    <div id="order_new_prints_step_2_body" class="order_new_prints_step_body">
+      <div id="order_new_prints_step_2_header_body" class="order_new_prints_steps_header_body">
+        <div id="order_new_prints_step_2_header_text" class="order_new_prints_steps_header_text">Step 2: Select
+          Material</div>
+      </div>
+      <div id="order_new_prints_material_groups_body" class="order_new_prints_step_2_input_field_body">
+        <div id="order_new_prints_material_groups_header_body" class="order_new_prints_step_2_header_body">
+          <div id="order_new_prints_material_group_header_text" class="order_new_prints_step_2_header_text">Material
+            Group</div>
+        </div>
+        <div id="order_new_prints_material_groups_input_body" class="order_new_prints_step_2_input_body">
+          <div id="order_new_prints_plastic_body" class="order_new_prints_material_group_body">
+            <div id="order_new_prints_plastic_text" class="order_new_prints_material_group_text">Plastic</div>
+          </div>
+          <div id="order_new_prints_metal_body" class="order_new_prints_material_group_body">
+            <div id="order_new_prints_metal_text" class="order_new_prints_material_group_text">Metal</div>
+          </div>
+        </div>
+      </div>
+      <div id="order_new_prints_processes_body" class="order_new_prints_step_2_input_field_body">
+        <div id="order_new_prints_processes_header_body" class="order_new_prints_step_2_header_body">
+          <div id="order_new_prints_processes_header_text" class="order_new_prints_step_2_header_text">Process</div>
+        </div>
+        <div id="order_new_prints_processes_input_body" class="order_new_prints_step_2_input_body">
+          <div id="order_new_prints_fdm_body" class="order_new_prints_process_body">
+            <div id="order_new_prints_fdm_text" class="order_new_prints_process_text">FDM</div>
+          </div>
+          <div id="order_new_prints_sla_body" class="order_new_prints_process_body">
+            <div id="order_new_prints_sla_text" class="order_new_prints_process_text">SLA</div>
+          </div>
+        </div>
+      </div>
+      <div id="order_new_prints_materials_body" class="order_new_prints_step_2_input_field_body">
+        <div id="order_new_prints_materials_header_body" class="order_new_prints_step_2_header_body">
+          <div id="order_new_prints_materials_header_text" class="order_new_prints_step_2_header_text">Material</div>
+        </div>
+        <div id="order_new_prints_materials_input_body" class="order_new_prints_step_2_input_body">
+          <div id="order_new_prints_pla_body" class="order_new_prints_material_body">
+            <div id="order_new_prints_pla_text" class="order_new_prints_material_text">PLA</div>
+          </div>
+          <div id="order_new_prints_abs_body" class="order_new_prints_material_body">
+            <div id="order_new_prints_abs_text" class="order_new_prints_material_text">ABS</div>
+          </div>
+          <div id="order_new_prints_petg_body" class="order_new_prints_material_body">
+            <div id="order_new_prints_petg_text" class="order_new_prints_material_text">PETG</div>
+          </div>
+          <div id="order_new_prints_flex_body" class="order_new_prints_material_body">
+            <div id="order_new_prints_flex_text" class="order_new_prints_material_text">FLEX</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="order_new_prints_step_3_body" class="order_new_prints_step_body">
+      <div id="order_new_prints_step_3_header_body" class="order_new_prints_steps_header_body">
+        <div id="order_new_prints_step_3_header_text" class="order_new_prints_steps_header_text">Step 3: Choose Options</div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

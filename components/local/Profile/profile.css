@@ -1,0 +1,32 @@
+#profile_body {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(245, 245, 245);
+}
+
+#profile_navigation_tabs_body {
+  height: 8vmin;
+  display: flex;
+}
+
+#profile_components_body {
+  height: 80vmin;
+}
+
+.profile_navigation_tab_body {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(170, 10, 10);
+  opacity: 0.3;
+  border-color: rgb(170, 10, 10);
+  transition: opacity 1s ease;
+}
+
+.profile_navigation_tab_text {
+  font-family: "Chivo", sans-serif;
+  font-size: 3.5vmin;
+  color: white;
+  font-weight: 800;
+}

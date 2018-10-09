@@ -45,9 +45,10 @@ const printingServiceModalContentsHTML =
   printingServiceTempModalTitleHTML + printingServiceTempModalContentHTML;
 
 const printingServiceButtonClicked = () => {
-  addModal();
+  /*   addModal();
   modalPointer.insertAdjacentHTML("beforeend", printingServiceModalBodyHTML);
   document
     .querySelector("#printing_service_modal_body")
-    .insertAdjacentHTML("beforeend", printingServiceModalContentsHTML);
+    .insertAdjacentHTML("beforeend", printingServiceModalContentsHTML); */
+  addOrderNewPrintForm();
 };

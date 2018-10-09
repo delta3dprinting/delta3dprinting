@@ -9,6 +9,7 @@ const homepageInit = () => {
 // Create the Component Structure for the Homepage
 const componentStructureHTML = () => {
   addServicesBody();
+  addPartnerWithUsHomepage();
 };
 
 const homepageDrawerElements = () => {

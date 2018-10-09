@@ -3,12 +3,11 @@
   display: flex;
   justify-content: space-between;
   background-color: rgb(220, 220, 220);
-  height: 36vmin;
   width: 100%;
   max-width: 100%;
   z-index: 80;
   top: 12vmin;
-  padding: 3vmin;
+  padding: 6vmin 3vmin 6vmin 3vmin;
 }
 
 .footer_category_body {
@@ -20,7 +19,8 @@
 .footer_category_text {
   font-family: "Russo One", sans-serif;
   font-size: 3vmin;
-  margin: 0 1vmin 1vmin 1vmin;
+  margin: 0 1vmin 0 1vmin;
+  height: 6vmin;
 }
 
 .footer_content_body {
