@@ -1,0 +1,14 @@
+#signup_modal {
+  height: 60vh;
+  width: 80vw;
+  top: 20vh;
+  left: 10vw;
+  background-color: rgb(100, 10, 10, 0.95);
+}
+
+#modal_signup_login_statement_text_one {
+  margin: 0 1vmin 0 0;
+  color: rgb(80, 150, 255);
+  font-weight: bolder;
+  cursor: pointer;
+}

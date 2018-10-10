@@ -1,3 +1,3 @@
 const visitorProfileObject = () => {
-  return [loginObject, signupObject];
+  return [profileDrawerLoginObject, profileDrawerSignupObject];
 };

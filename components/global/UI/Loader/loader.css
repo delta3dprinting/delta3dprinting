@@ -1,9 +1,9 @@
 .loader_element {
-  border: 16px solid #f3f3f3;
+  border: 3vmin solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid rgb(170, 10, 10);
-  width: 120px;
-  height: 120px;
+  border-top: 3vmin solid rgb(170, 10, 10);
+  width: 20vmin;
+  height: 20vmin;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }

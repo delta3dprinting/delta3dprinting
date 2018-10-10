@@ -48,12 +48,12 @@ const isUserLoggedIn = (pointer, callback) => {
 
   const checkIfUserIsAuthenticated = new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(true);
-    }, 3000);
+      loginStatus = false;
+      resolve();
+    }, 500);
   });
 
-  checkIfUserIsAuthenticated.then(status => {
-    loginStatus = status;
+  checkIfUserIsAuthenticated.then(() => {
     pointer.innerHTML = "";
     callback();
   });

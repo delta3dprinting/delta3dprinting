@@ -14,6 +14,14 @@
   <!-- Is User Logged In -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Validation/isUserLoggedIn.js"></script>
   <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Validation/isUserLoggedIn.css">
+  <!-- ---------------------------------------------------- ACCOUNT ---------------------------------------------------- -->
+  <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Account/account.css">
+  <!-- LOGIN -->
+  <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Account/Login/login.js"></script>
+  <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Account/Login/login.css">
+  <!-- SIGNUP -->
+  <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Account/Signup/signup.js"></script>
+  <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Account/Signup/signup.css">
   <!-- -------------------------------------------------- NAVIGATION --------------------------------------------------- -->
   <!-- Footer -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/Navigation/Footer/footer.js"></script>
@@ -207,69 +215,5 @@
 <body>
   <div id="root"></div>
 </body>
-
-<!-- <style>
-  #root {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  body {
-    margin: 0;
-    border: 0;
-    padding: 0;
-  }
-
-  #body {
-    position: relative;
-    display: flex;
-    flex-flow: column;
-    top: 12vmin;
-  }
-
-  html {
-    box-sizing: border-box;
-  }
-
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-  }
-</style>
-
-<script>
-  let rootPointer;
-  let toolbarPointer;
-  let bodyPointer;
-  let footerPointer;
-  let loginStatus;
-
-  // Global Initialisation
-  window.onload = () => {
-    loadLoginStatus().then(() => {
-      createMainPointers();
-      sideDrawerInit();
-      profileIconInit();
-      footerInit();
-      homepageInit();
-    });
-
-  };
-
-  const loadLoginStatus = () => {
-    return axios.get('/users/login-status').then((res) => {
-      loginStatus = res.data;
-    });
-  }
-
-  const createMainPointers = () => {
-    rootPointer = document.querySelector("#root");
-    toolbarPointer = document.querySelector('#toolbar');
-    bodyPointer = document.querySelector('#body');
-    footerPointer = document.querySelector('#footer');
-  }
-</script> -->
 
 </html>

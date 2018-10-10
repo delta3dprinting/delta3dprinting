@@ -6,10 +6,9 @@ const isUserLoggedIn = (pointer, callback) => {
     setTimeout(() => {
       axios.get("/users/login-status").then(res => {
         loginStatus = res.data;
-        console.log(loginStatus);
         resolve();
       });
-    }, 2000);
+    });
   });
 
   checkIfUserIsAuthenticated.then(() => {
