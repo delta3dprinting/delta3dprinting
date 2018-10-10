@@ -1,6 +1,6 @@
 const logoutId = "logout";
 
-const logoutName = "Logout";
+const logoutName = "<a href='/users/logout'>Logout</a>";
 
 const logoutMethod = () => {
   console.log("Logout");
