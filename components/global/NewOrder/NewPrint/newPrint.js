@@ -13,7 +13,6 @@ let orderNewPrintPointer;
 const addOrderNewPrintForm = () => {
   if (loginStatus) {
     addModal(orderNewPrintId, orderNewPrintModalHeader);
-    testFunction();
     constructSelectMaterialObjectArray();
     constructOrderNewPrintForm(selectMaterialObjectArray);
   } else {
@@ -43,4 +42,5 @@ const constructOrderNewPrintForm = obj => {
     "beforeend",
     orderNewPrintModalFooter
   );
+  testFunction();
 };
