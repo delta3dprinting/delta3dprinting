@@ -222,18 +222,34 @@
 <script>
   const testFunction = () => {
     /* Add Event Listener for Order Button */
-    document
-      .querySelector("#order_new_print_order_body")
-      .addEventListener("click", () => {
-        let file = document.querySelector("#order_new_prints_upload_input_file").files;
+    /*     document
+          .querySelector("#order_new_print_order_body")
+          .addEventListener("click", () => {
+            let file = document.querySelector("#order_new_prints_upload_input_file").files;
+    
+            console.log(files);
+    
+            axios.post(
+              "/new_order",
+              { test: file }
+            );
+          }); */
+    $("form#data").submit(function (e) {
+      e.preventDefault();
+      var formData = new FormData(this);
 
-        console.log(files);
-
-        axios.post(
-          "/new_order",
-          { test: file }
-        );
+      $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+          alert(data)
+        },
+        cache: false,
+        contentType: false,
+        processData: false
       });
+    });
   }
 </script>
 

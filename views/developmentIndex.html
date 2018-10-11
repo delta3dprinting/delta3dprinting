@@ -213,6 +213,8 @@
   <link href="https://fonts.googleapis.com/css?family=Chivo|Open+Sans|Raleway|Russo+One" rel="stylesheet">
   <!-- Axios -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Jquery -->
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.js"></script>
 </head>
 
 <body>
@@ -222,17 +224,33 @@
 <script>
   const testFunction = () => {
     /* Add Event Listener for Order Button */
-    document
-      .querySelector("#order_new_print_order_body")
-      .addEventListener("click", () => {
-        console.log(
-          document.querySelector("#order_new_prints_upload_input_file").files
-        );
-        axios.post(
-          "/new_order",
-          document.querySelector("#order_new_prints_upload_input_file").files
-        );
+    /*     document
+          .querySelector("#order_new_print_order_body")
+          .addEventListener("click", () => {
+            console.log(
+              document.querySelector("#order_new_prints_upload_input_file").files
+            );
+            axios.post(
+              "/new_order",
+              document.querySelector("#order_new_prints_upload_input_file").files
+            );
+          }); */
+    $("form#data").submit(function (e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+
+      $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+          alert(data)
+        },
+        cache: false,
+        contentType: false,
+        processData: false
       });
+    });
   }
 </script>
 

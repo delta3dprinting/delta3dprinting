@@ -1,11 +1,13 @@
 const orderNewPrintId = "order_new_print";
 const orderNewPrintModalHeader = "New Order";
 const orderNewPrintModalFooter =
+  "<div id='order_new_print_modal_footer_body' class='modal_footer_body'>" +
   "<div id='order_new_print_order_body' class='order_new_print_button_body'>" +
   "<div id='order_new_print_order_text' class='order_new_print_button_text'>Order</div>" +
   "</div>" +
   "<div id='order_new_print_cancel_body' class='order_new_print_button_body'>" +
   "<div id='order_new_print_cancel_text' class='order_new_print_button_text'>Cancel</div>" +
+  "</div>" +
   "</div>";
 let orderNewPrintPointer;
 

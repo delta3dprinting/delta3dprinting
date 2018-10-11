@@ -12,7 +12,8 @@
 }
 
 #order_new_print_modal_body {
-  padding: 12vmin 4vmin 18vmin 4vmin;
+  padding: 12vmin 0 18vmin 0;
+  width: 100%;
 }
 
 #order_new_print_modal_footer_body {
