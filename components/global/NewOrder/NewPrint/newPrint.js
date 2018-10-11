@@ -3,7 +3,7 @@ const orderNewPrintModalHeader = "New Order";
 const orderNewPrintModalFooter =
   "<div id='order_new_print_modal_footer_body' class='modal_footer_body'>" +
   "<div id='order_new_print_order_body' class='order_new_print_button_body'>" +
-  "<div id='order_new_print_order_text' class='order_new_print_button_text'>Order</div>" +
+  "<button id='order_new_print_order_text' class='order_new_print_button_text'>Order</button>" +
   "</div>" +
   "<div id='order_new_print_cancel_body' class='order_new_print_button_body'>" +
   "<div id='order_new_print_cancel_text' class='order_new_print_button_text'>Cancel</div>" +

@@ -213,6 +213,8 @@
   <link href="https://fonts.googleapis.com/css?family=Chivo|Open+Sans|Raleway|Russo+One" rel="stylesheet">
   <!-- Axios -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Jquery -->
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.js"></script>
 </head>
 
 <body>
@@ -234,23 +236,23 @@
               { test: file }
             );
           }); */
-    $("form#data").submit(function (e) {
-      e.preventDefault();
-      var formData = new FormData(this);
-
-      $.ajax({
-        url: window.location.pathname,
-        type: 'POST',
-        data: formData,
-        success: function (data) {
-          alert(data)
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-      });
-    });
   }
+  $("form#order_new_prints_body").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+      url: window.location.pathname,
+      type: 'POST',
+      data: formData,
+      success: function (data) {
+        alert(data)
+      },
+      cache: false,
+      contentType: false,
+      processData: false
+    });
+  });
 </script>
 
 </html>
