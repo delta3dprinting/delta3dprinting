@@ -19,6 +19,9 @@
         <div id="order_new_prints_step_1_header_text" class="order_new_prints_steps_header_text">Step 1: Upload 3D
           Model</div>
       </div>
+      <div class="order_new_prints_upload_input_body">
+        <input type="file" name="order_new_print_3d_model" id="order_new_prints_upload_input_file">
+      </div>
     </div>
     <div id="order_new_prints_step_2_body" class="order_new_prints_step_body">
       <div id="order_new_prints_step_2_header_body" class="order_new_prints_steps_header_body">
@@ -108,5 +111,12 @@
     </div>
   </div>
 </body>
+
+<script>
+  const checkFileInput = () => {
+    console.log(document.querySelector('#file').files);
+    document.querySelector('#file2').files = document.querySelector('#file').files;
+  }
+</script>
 
 </html>

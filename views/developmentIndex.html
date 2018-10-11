@@ -219,4 +219,21 @@
   <div id="root"></div>
 </body>
 
+<script>
+  const testFunction = () => {
+    /* Add Event Listener for Order Button */
+    document
+      .querySelector("#order_new_print_order_body")
+      .addEventListener("click", () => {
+        console.log(
+          document.querySelector("#order_new_prints_upload_input_file").files
+        );
+        axios.post(
+          "/new_order",
+          document.querySelector("#order_new_prints_upload_input_file").files
+        );
+      });
+  }
+</script>
+
 </html>

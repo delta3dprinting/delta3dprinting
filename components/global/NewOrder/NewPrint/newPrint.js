@@ -17,6 +17,7 @@ const addOrderNewPrintForm = () => {
       orderNewPrintModalHeader,
       orderNewPrintModalFooter
     );
+    testFunction();
     constructSelectMaterialObjectArray();
     constructOrderNewPrintForm(selectMaterialObjectArray);
   } else {
