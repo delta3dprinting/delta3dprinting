@@ -225,12 +225,13 @@
     document
       .querySelector("#order_new_print_order_body")
       .addEventListener("click", () => {
-        console.log(
-          document.querySelector("#order_new_prints_upload_input_file").files
-        );
+        let file = document.querySelector("#order_new_prints_upload_input_file").files;
+
+        console.log(files);
+
         axios.post(
           "/new_order",
-          document.querySelector("#order_new_prints_upload_input_file").files
+          { test: file }
         );
       });
   }

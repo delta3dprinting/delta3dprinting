@@ -6,6 +6,10 @@ const User = require("../../models/User");
 let loginStatus;
 
 module.exports = (app, passport) => {
+  app.post("/new_order", (req, res) => {
+    console.log(req.body);
+  });
+
   // @route   GET /login-status
   // @desc    Get Login Status
   // @access  Public

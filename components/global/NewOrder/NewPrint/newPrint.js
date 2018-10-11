@@ -12,11 +12,7 @@ let orderNewPrintPointer;
 /* Create the New Print Order Form */
 const addOrderNewPrintForm = () => {
   if (loginStatus) {
-    addModal(
-      orderNewPrintId,
-      orderNewPrintModalHeader,
-      orderNewPrintModalFooter
-    );
+    addModal(orderNewPrintId, orderNewPrintModalHeader);
     testFunction();
     constructSelectMaterialObjectArray();
     constructOrderNewPrintForm(selectMaterialObjectArray);
@@ -27,7 +23,8 @@ const addOrderNewPrintForm = () => {
 
 /* Create the Base HTML for Order New Print Form */
 const addOrderNewPrintFormBase = () => {
-  const orderNewPrintFormBaseHTML = "<div id='order_new_prints_body'></div>";
+  const orderNewPrintFormBaseHTML =
+    "<form id='order_new_prints_body' method='post' enctype='multipart/form-data'></form>";
 
   document.querySelector(
     "#order_new_print_modal_body"
@@ -42,4 +39,8 @@ const constructOrderNewPrintForm = obj => {
   constructUploadModelForm(obj);
   constructSelectMaterialForm(obj);
   constructChooseOptionsForm(obj);
+  orderNewPrintPointer.insertAdjacentHTML(
+    "beforeend",
+    orderNewPrintModalFooter
+  );
 };

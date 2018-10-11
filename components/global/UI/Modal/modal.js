@@ -3,7 +3,7 @@ let modalPointer;
 let modalBodyPointer;
 
 // Add Modal
-const addModal = (id, headerText, footerContent) => {
+const addModal = (id, headerText) => {
   // Create the Modal HTML
   const modalHTML =
     "<div id='" +
@@ -21,11 +21,6 @@ const addModal = (id, headerText, footerContent) => {
     "<div id='" +
     id +
     "_modal_body' class='modal_body'></div>" +
-    "<div id='" +
-    id +
-    "_modal_footer_body' class='modal_footer_body'>" +
-    footerContent +
-    "</div>" +
     "</div>";
 
   if (modalActive) {
