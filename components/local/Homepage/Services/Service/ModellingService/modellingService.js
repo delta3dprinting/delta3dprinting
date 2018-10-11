@@ -43,8 +43,11 @@ const modellingServiceModalContentsHTML =
   modellingServiceTempModalTitleHTML + modellingServiceTempModalContentHTML;
 
 const modellingServiceButtonClicked = () => {
-  addModal();
-  modalPointer.insertAdjacentHTML("beforeend", modellingServiceModalBodyHTML);
+  addModal("modelling_service");
+  modalBodyPointer.insertAdjacentHTML(
+    "beforeend",
+    modellingServiceModalBodyHTML
+  );
   document
     .querySelector("#modelling_service_modal_body")
     .insertAdjacentHTML("beforeend", modellingServiceModalContentsHTML);

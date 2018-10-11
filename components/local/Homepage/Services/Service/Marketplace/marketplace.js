@@ -43,8 +43,8 @@ const marketplaceModalContentsHTML =
   marketplaceTempModalTitleHTML + marketplaceTempModalContentHTML;
 
 const marketplaceButtonClicked = () => {
-  addModal();
-  modalPointer.insertAdjacentHTML("beforeend", marketplaceModalBodyHTML);
+  addModal("marketplace");
+  modalBodyPointer.insertAdjacentHTML("beforeend", marketplaceModalBodyHTML);
   document
     .querySelector("#marketplace_modal_body")
     .insertAdjacentHTML("beforeend", marketplaceModalContentsHTML);

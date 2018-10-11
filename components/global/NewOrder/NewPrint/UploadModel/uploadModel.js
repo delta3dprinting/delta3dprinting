@@ -6,6 +6,8 @@ const constructUploadModelForm = obj => {
     "<div id='order_new_prints_step_1_header_text' class='order_new_prints_steps_header_text'>Step 1: Upload 3D " +
     "Model</div>" +
     "</div>" +
+    "<div></div>" +
+    "<div></div>" +
     "</div>";
 
   orderNewPrintPointer.insertAdjacentHTML("beforeend", uploadModelFormHTML);

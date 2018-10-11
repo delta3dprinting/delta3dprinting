@@ -1,9 +1,31 @@
+/* ============================ MODAL ============================ */
+
 #order_new_print_modal {
   height: 80vh;
   width: 80vw;
   top: 10vh;
   left: 10vw;
 }
+
+#order_new_print_modal_header_body {
+  width: 80vw;
+}
+
+#order_new_print_modal_body {
+  padding: 12vmin 4vmin 18vmin 4vmin;
+}
+
+#order_new_print_modal_footer_body {
+  top: calc(90vh - 16vmin);
+  height: 16vmin;
+  width: 80vw;
+}
+
+#order_new_print_modal_footer_body {
+  justify-content: space-around;
+}
+
+/* ========================== NEW PRINT ========================== */
 
 #order_new_prints_body {
   width: 100%;
@@ -22,4 +44,23 @@
   font-family: "Russo One", sans-serif;
   font-size: 5.5vmin;
   color: rgb(140, 10, 10);
+}
+
+/* FOOTER */
+
+.order_new_print_button_body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10vmin;
+  width: 20vmin;
+  border-radius: 1vmin;
+  background-color: rgb(170, 10, 10);
+  box-shadow: 0 0.5vmin 2vmin 0 rgba(20, 40, 50, 0.3);
+}
+
+.order_new_print_button_text {
+  font-family: "Russo One", sans-serif;
+  font-size: 4vmin;
+  color: rgb(245, 245, 245);
 }

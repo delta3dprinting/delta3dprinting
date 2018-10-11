@@ -6,12 +6,12 @@ const newOrderFDMId = "fdm";
 const newOrderFDMName = "FDM";
 
 // Construct the New Order FDM Object
-const contructNewOrderFDMObject = () => {
+const constructNewOrderFDMObject = () => {
   // Construct the FDM Material Object Array
-  contructNewOrderPLAObject();
-  contructNewOrderABSObject();
-  contructNewOrderPETGObject();
-  contructNewOrderFLEXObject();
+  constructNewOrderPLAObject();
+  constructNewOrderABSObject();
+  constructNewOrderPETGObject();
+  constructNewOrderFLEXObject();
 
   const newOrderFDMMaterialObjectArray = [
     newOrderPLAObject,

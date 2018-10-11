@@ -3,8 +3,8 @@ let selectMaterialObjectArray;
 
 // Construct Array for the Selectable Materials
 const constructSelectMaterialObjectArray = () => {
-  contructNewOrderPlasticObject();
-  contructNewOrderMetalObject();
+  constructNewOrderPlasticObject();
+  constructNewOrderMetalObject();
   selectMaterialObjectArray = [newOrderPlasticObject, newOrderMetalObject];
 };
 

@@ -23,7 +23,7 @@ const loginModalHTML =
 // Create a Login Modal
 const constructLoginModal = () => {
   addModal(loginId);
-  modalPointer.insertAdjacentHTML("beforeend", loginModalHTML);
+  modalBodyPointer.insertAdjacentHTML("beforeend", loginModalHTML);
   document
     .querySelector("#modal_login_signup_statement_text_one")
     .addEventListener("click", () => {

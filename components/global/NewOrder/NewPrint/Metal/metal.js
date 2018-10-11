@@ -6,7 +6,7 @@ const newOrderMetalId = "metal";
 const newOrderMetalName = "Metal";
 
 // Construct the New Order Metal Object
-const contructNewOrderMetalObject = () => {
+const constructNewOrderMetalObject = () => {
   // Construct the Metal Material Object Array
 
   const newOrderMetalProcessObjectArray = [];

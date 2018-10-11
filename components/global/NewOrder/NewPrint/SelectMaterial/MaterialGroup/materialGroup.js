@@ -9,6 +9,7 @@ class NewPrintOrderMaterialGroupObject {
 
 // Construct the Select Material Form Material Group
 const constructSelectMaterialFormMaterialGroup = objArr => {
+  selectedSelectMaterialMaterialGroupId = undefined;
   objArr.forEach(obj => {
     const selectMaterialFormMaterialGroupHTML =
       "<div id='order_new_prints_" +

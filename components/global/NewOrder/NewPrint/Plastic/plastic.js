@@ -6,9 +6,9 @@ const newOrderPlasticId = "plastic";
 const newOrderPlasticName = "Plastic";
 
 // Construct the New Order Plastic Object
-const contructNewOrderPlasticObject = () => {
+const constructNewOrderPlasticObject = () => {
   // Construct the Plastic Material Object Array
-  contructNewOrderFDMObject();
+  constructNewOrderFDMObject();
 
   const newOrderPlasticProcessObjectArray = [newOrderFDMObject];
 

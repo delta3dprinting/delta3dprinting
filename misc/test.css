@@ -95,3 +95,50 @@
   font-family: "Chivo", sans-serif;
   color: rgb(60, 60, 60);
 }
+
+/* ========================================== CHOOSE OPTIONS ========================================== */
+.order_new_prints_option_body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.order_new_prints_option_header_body {
+  width: 30vmin;
+  margin: 5vmin 0 5vmin 10vmin;
+}
+
+.order_new_prints_option_header_text {
+  font-family: "Raleway", sans-serif;
+  font-size: 4.5vmin;
+  font-weight: bold;
+  color: rgb(140, 10, 10);
+}
+
+.order_new_prints_option_input_select {
+  width: 40vmin;
+  border-radius: 1vmin;
+  height: 7vmin;
+  padding: 0vmin 3vmin 0vmin 3vmin;
+  display: flex;
+  align-items: center;
+  outline: none;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  background-color: rgb(240, 240, 240);
+  color: rgb(50, 50, 50);
+}
+
+.order_new_prints_option_input_select_option {
+  width: 40vmin;
+  border-radius: 1vmin;
+  height: 7vmin;
+  padding: 1vmin 3vmin 1vmin 3vmin;
+  display: flex;
+  align-items: center;
+  outline: none;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  background-color: rgb(240, 240, 240);
+  color: rgb(50, 50, 50);
+}
