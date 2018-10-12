@@ -6,8 +6,17 @@ const User = require("../../models/User");
 let loginStatus;
 
 module.exports = (app, passport) => {
+  // @route   GET /testform
+  // @desc    Test Form Values
+  // @access  Public
+  app.get("/testform", unrestrictedPages, (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/testform.html"));
+  });
+
   app.post("/new_order", (req, res) => {
+    console.log("Received");
     console.log(req.body);
+    res.send(req.body);
   });
 
   // @route   GET /login-status

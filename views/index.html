@@ -223,39 +223,6 @@
 
 <script>
   const testFunction = () => {
-    /* Add Event Listener for Order Button */
-    document
-      .querySelector("#order_new_print_order_body")
-      .addEventListener("click", () => {
-        /* let file = document.querySelector("#order_new_prints_upload_input_file").files;
-            
-                    console.log(files);
-            
-                    axios.post(
-                      "/new_order",
-                      { test: file }
-                    ); */
-        $("form#order_new_prints_body").submit(function (e) {
-          e.preventDefault();
-          var formData = new FormData(this);
-
-          console.log(formData)
-
-          $.ajax({
-            url: "/new_order",
-            type: 'POST',
-            data: formData,
-            success: function (data) {
-              alert(data)
-            },
-            cache: false,
-            contentType: false,
-            processData: false
-          });
-        });
-
-      });
-
   }
 
 </script>
