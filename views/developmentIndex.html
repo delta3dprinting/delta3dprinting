@@ -223,33 +223,23 @@
 
 <script>
   const testFunction = () => {
-    /* Add Event Listener for Order Button */
-    /*     document
-          .querySelector("#order_new_print_order_body")
-          .addEventListener("click", () => {
-            console.log(
-              document.querySelector("#order_new_prints_upload_input_file").files
-            );
-            axios.post(
-              "/new_order",
-              document.querySelector("#order_new_prints_upload_input_file").files
-            );
-          }); */
-    $("form#data").submit(function (e) {
-      e.preventDefault();
-      var formData = new FormData(this);
+    document.querySelector('#order_new_print_order_body').addEventListener('click', () => {
+      console.log('Submit Initiated');
 
-      $.ajax({
-        url: window.location.pathname,
-        type: 'POST',
-        data: formData,
-        success: function (data) {
-          alert(data)
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-      });
+      const newOrderAttributesObject = {
+        materialGroup: selectedSelectMaterialMaterialGroupId,
+        process: selectedSelectMaterialProcessId,
+        material: selectedSelectMaterialMaterialId,
+        quality: document.querySelector('#order_new_prints_quality_option_input_select').value,
+        strength: document.querySelector('#order_new_prints_strength_option_input_select').value,
+        color: document.querySelector('#order_new_prints_color_option_input_select').value
+      };
+      console.log(newOrderAttributesObject);
+
+      let formElement = document.querySelector('#order_new_prints_upload_input_file_form');
+      let formData = new FormData(formElement);
+
+      formData.append("newOrderAttributesObject", newOrderAttributesObject);
     });
   }
 </script>

@@ -223,8 +223,36 @@
 
 <script>
   const testFunction = () => {
-  }
+    document.querySelector('#order_new_print_order_body').addEventListener('click', () => {
+      console.log('Submit Initiated');
 
+      const newOrderAttributesObject = {
+        materialGroup: selectedSelectMaterialMaterialGroupId,
+        process: selectedSelectMaterialProcessId,
+        material: selectedSelectMaterialMaterialId,
+        quality: document.querySelector('#order_new_prints_quality_option_input_select').value,
+        strength: document.querySelector('#order_new_prints_strength_option_input_select').value,
+        color: document.querySelector('#order_new_prints_color_option_input_select').value
+      };
+      console.log(newOrderAttributesObject);
+
+      let formElement = document.querySelector('#order_new_prints_upload_input_file_form');
+      let formData = new FormData(formElement);
+
+      formData.append("newOrderAttributesObject", newOrderAttributesObject);
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "/new_order",
+      processData: false,
+      contentType: false,
+      data: formData,
+      success: function () {
+        console.log('Success!');
+      }
+    })
+  }
 </script>
 
 </html>

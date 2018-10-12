@@ -12,7 +12,7 @@
 }
 
 #order_new_print_modal_body {
-  padding: 12vmin 0 18vmin 0;
+  padding: 12vmin 4vmin 18vmin 4vmin;
   width: 100%;
 }
 
@@ -58,19 +58,11 @@
   border-radius: 1vmin;
   background-color: rgb(170, 10, 10);
   box-shadow: 0 0.5vmin 2vmin 0 rgba(20, 40, 50, 0.3);
+  z-index: 1;
 }
 
 .order_new_print_button_text {
   font-family: "Russo One", sans-serif;
   font-size: 4vmin;
   color: rgb(245, 245, 245);
-}
-
-.modal_footer_body {
-  position: fixed;
-  background-color: rgb(200, 200, 200);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  padding: 0 3vmin 0 3vmin;
 }

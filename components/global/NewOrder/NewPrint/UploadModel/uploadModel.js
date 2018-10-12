@@ -7,9 +7,10 @@ const constructUploadModelForm = obj => {
     "Model</div>" +
     "</div>" +
     "<div class='order_new_prints_upload_input_body'>" +
+    "<form id='order_new_prints_upload_input_file_form'>" +
     "<input type='file' name='order_new_print_3d_model' id='order_new_prints_upload_input_file'>" +
+    "</form>" +
     "</div>" +
-    "<div></div>" +
     "</div>";
 
   orderNewPrintPointer.insertAdjacentHTML("beforeend", uploadModelFormHTML);
