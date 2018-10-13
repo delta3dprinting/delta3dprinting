@@ -115,6 +115,8 @@
   <link rel="stylesheet" href="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/NewOrder/NewPrint/ChooseOptions/chooseOptions.css">
   <!-- Material Options -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/NewOrder/NewPrint/ChooseOptions/MaterialOptions/materialOptions.js"></script>
+  <!-- Submit Order -->
+  <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/NewOrder/NewPrint/SubmitOrder/submitOrder.js"></script>
   <!-- Plastic -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/NewOrder/NewPrint/Plastic/plastic.js"></script>
   <!-- FDM -->
@@ -223,36 +225,14 @@
 
 <script>
   const testFunction = () => {
-    document.querySelector('#order_new_print_order_body').addEventListener('click', () => {
-      console.log('Submit Initiated');
-
-      const newOrderAttributesObject = {
-        materialGroup: selectedSelectMaterialMaterialGroupId,
-        process: selectedSelectMaterialProcessId,
-        material: selectedSelectMaterialMaterialId,
-        quality: document.querySelector('#order_new_prints_quality_option_input_select').value,
-        strength: document.querySelector('#order_new_prints_strength_option_input_select').value,
-        color: document.querySelector('#order_new_prints_color_option_input_select').value
-      };
-      console.log(newOrderAttributesObject);
-
-      let formElement = document.querySelector('#order_new_prints_upload_input_file_form');
-      let formData = new FormData(formElement);
-
-      formData.append("newOrderAttributesObject", newOrderAttributesObject);
-    });
-
     $.ajax({
-      type: "POST",
-      url: "/new_order",
-      processData: false,
-      contentType: false,
-      data: formData,
-      success: function () {
-        console.log('Success!');
+      type: "GET",
+      url: "/orders",
+      success: (data) => {
+        console.log(data);
       }
     })
-  }
+  };
 </script>
 
 </html>

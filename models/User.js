@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt-nodejs");
 
+// Database Configuration
+const mongoURI = require("../config/database/database").mongoURI;
+// Create mongo connection
+const conn = mongoose.createConnection(mongoURI);
+
 // Create Schema
 const UserSchema = new Schema({
   username: {
@@ -29,4 +34,4 @@ UserSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-module.exports = User = mongoose.model("users", UserSchema);
+module.exports = User = conn.model("users", UserSchema);

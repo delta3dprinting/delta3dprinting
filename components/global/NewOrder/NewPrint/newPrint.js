@@ -19,7 +19,7 @@ const addOrderNewPrintForm = () => {
       orderNewPrintModalHeader,
       orderNewPrintModalFooter
     );
-    testFunction();
+    addNewOrderOrderButtonEventListener();
     constructSelectMaterialObjectArray();
     constructOrderNewPrintForm(selectMaterialObjectArray);
   } else {

@@ -1,9 +1,17 @@
+/* ===================================== INITIALISATION ===================================== */
+
 const express = require("express");
-const path = require("path");
 const mongoose = require("mongoose");
+
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
+const methodOverride = require("method-override");
+
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+
 const session = require("express-session");
 const passport = require("passport");
 const keys = require("./config/key/key");
@@ -12,26 +20,46 @@ const app = express();
 
 const port = process.env.PORT || 80;
 
+app.listen(port, () => {
+  console.log(`Server is running at port ${port}`);
+});
+
+/* ======================================= MIDDLEWARE ======================================= */
+
 // Body Parser Middleware (Get Information from HTML Forms)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(methodOverride("_method"));
 
 // Other Express Applications
 app.use(morgan("dev")); // Log Every Request to the Console
 app.use(cookieParser()); // Read Cookies (for Authentication)
 
-// Database Configuration
-const db = require("./config/database/database").mongoURI;
-// Connect to MongoDB
-mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+/* ================================= DATABASE CONFIGURATION ================================= */
 
-// Passport Configuration
+// Database URI
+const mongoURI = require("./config/database/database").mongoURI;
+
+// Create Mongo Connection
+const conn = mongoose.createConnection(mongoURI);
+
+conn.once("open", () => {
+  console.log("Connected to MongoDB");
+});
+
+const storage = new GridFsStorage({
+  url: mongoURI,
+  file: (req, file) => {
+    return {
+      filename: file.originalname,
+      metadata: {}
+    };
+  }
+});
+const upload = multer({ storage });
+
+/* ================================= PASSPORT CONFIGURATION ================================= */
+
 require("./config/passport/passport")(passport); // pass passport for configuration
 
 // Required for Passport
@@ -45,10 +73,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // Persistent Logan Sessions
 
-// Routing
+/* ======================================== ROUTING ========================================= */
+
 require("./routes/users/users")(app, passport); // Users
 require("./routes/profile/profile")(app, passport); // Profile
+require("./routes/prints/prints")(app, passport, upload, conn);
 
-app.listen(port, () => {
-  console.log(`Server is running at port ${port}`);
-});
+/* ========================================================================================== */

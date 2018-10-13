@@ -1,6 +1,4 @@
 const path = require("path");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 
 // Load User Model
 const User = require("../../models/User");
@@ -13,13 +11,6 @@ module.exports = (app, passport) => {
   // @access  Public
   app.get("/testform", unrestrictedPages, (req, res) => {
     res.sendFile(path.join(__dirname, "../../views/testform.html"));
-  });
-
-  app.post("/new_order", upload.single("testfile"), (req, res) => {
-    console.log("Received");
-    console.log(req.body);
-    console.log(req.file);
-    res.send("Success!");
   });
 
   // @route   GET /login-status
