@@ -1,7 +1,7 @@
 const orderNewPrintId = "order_new_print";
 const orderNewPrintModalHeader = "New Order";
 const orderNewPrintModalFooter =
-  "<div id='order_new_print_modal_footer_body' class='modal_footer_body'>" +
+  "<div id='order_new_print_footer_body' class='modal_footer_body'>" +
   "<div id='order_new_print_order_body' class='order_new_print_button_body'>" +
   "<div id='order_new_print_order_text' class='order_new_print_button_text'>Order</div>" +
   "</div>" +
@@ -44,8 +44,4 @@ const constructOrderNewPrintForm = obj => {
   constructUploadModelForm(obj);
   constructSelectMaterialForm(obj);
   constructChooseOptionsForm(obj);
-  orderNewPrintPointer.insertAdjacentHTML(
-    "beforeend",
-    orderNewPrintModalFooter
-  );
 };

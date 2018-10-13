@@ -24,9 +24,13 @@
   top: calc(90vh - 16vmin);
   height: 16vmin;
   width: 80vw;
+  justify-content: center;
+  transition: top 1s ease;
 }
 
-#order_new_print_modal_footer_body {
+#order_new_print_footer_body {
+  width: 75vw;
+  display: flex;
   justify-content: space-around;
 }
 
@@ -69,4 +73,5 @@
   font-family: "Russo One", sans-serif;
   font-size: 4vmin;
   color: rgb(245, 245, 245);
+  text-align: center;
 }
