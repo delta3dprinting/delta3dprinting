@@ -1,5 +1,7 @@
 const signupId = "signup";
 
+// Modal Header
+const signupModalHeader = "Register";
 // Create the Signup Form HTML
 const signupModalHTML =
   "<div id='modal_signup_form_body' class='modal_account_form_body'>" +
@@ -22,15 +24,18 @@ const signupModalHTML =
   "</div>" +
   "<button class='form_submit_button'>Signup</button>" +
   "</form>" +
+  "</div>";
+
+// Modal Footer
+const signupModalFooter =
   "<div id='modal_signup_login_statement_body' class='modal_account_statement_body'>" +
   "<div id='modal_signup_login_statement_text_one' class='modal_signup_login_statement_text modal_account_statement_text'>Login</div>" +
   "<div id='modal_signup_login_statement_text_two' class='modal_signup_login_statement_text modal_account_statement_text'>if you are already a member</div>" +
-  "</div>" +
   "</div>";
 
 // Create a Signup Modal
 const constructSignupModal = () => {
-  addModal(signupId);
+  addModal(signupId, signupModalHeader, signupModalFooter);
   modalBodyPointer.insertAdjacentHTML("beforeend", signupModalHTML);
   document
     .querySelector("#modal_signup_login_statement_text_one")

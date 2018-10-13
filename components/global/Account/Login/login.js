@@ -1,5 +1,7 @@
 const loginId = "login";
 
+// Modal Header
+const loginModalHeader = "Login";
 // Create the Login Form HTML
 const loginModalHTML =
   "<div id='modal_login_form_body' class='modal_account_form_body'>" +
@@ -14,15 +16,17 @@ const loginModalHTML =
   "</div>" +
   "<button class='form_submit_button'>Login</button>" +
   "</form>" +
+  "</div>";
+// Modal Footer
+const loginModalFooter =
   "<div id='modal_login_signup_statement_body' class='modal_account_statement_body'>" +
   "<div id='modal_login_signup_statement_text_one' class='modal_login_signup_statement_text modal_account_statement_text'>Signup</div>" +
   "<div id='modal_login_signup_statement_text_two' class='modal_login_signup_statement_text modal_account_statement_text'>if you are new</div>" +
-  "</div>" +
   "</div>";
 
 // Create a Login Modal
 const constructLoginModal = () => {
-  addModal(loginId);
+  addModal(loginId, loginModalHeader, loginModalFooter);
   modalBodyPointer.insertAdjacentHTML("beforeend", loginModalHTML);
   document
     .querySelector("#modal_login_signup_statement_text_one")

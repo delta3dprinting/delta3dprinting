@@ -1,3 +1,5 @@
+/* ======================================= MODAL ======================================= */
+/* ------------------------------------ MODAL MAIN ------------------------------------- */
 #login_modal {
   height: 35vh;
   width: 80vw;
@@ -5,7 +7,30 @@
   left: 10vw;
   background-color: rgb(100, 10, 10, 0.95);
 }
-
+/* ----------------------------------- MODAL HEADER ------------------------------------ */
+#login_modal_header_body {
+  top: 35vh;
+  width: 80vw;
+}
+/* ------------------------------------ MODAL BODY ------------------------------------- */
+#login_modal_body {
+  top: 10vmin;
+  min-height: calc(35vh - 18vmin);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 4vmin 8vmin 4vmin;
+}
+/* ----------------------------------- MODAL FOOTER ------------------------------------ */
+#login_modal_footer_body {
+  top: calc(70vh - 8vmin);
+  height: 8vmin;
+  width: 80vw;
+  padding: 0 3vmin 0 0;
+  justify-content: flex-end;
+}
+/* =================================== LOGIN CONTENT =================================== */
 #modal_login_signup_statement_text_one {
   margin: 0 1vmin 0 0;
   color: rgb(80, 150, 255);

@@ -34,14 +34,11 @@
 }
 
 .modal_account_statement_body {
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  margin: 5vmin 0 0 0;
 }
 
 .modal_account_statement_text {
   font-family: "Open Sans", sans-serif;
   font-size: 3.5vmin;
-  color: rgb(240, 240, 240);
+  color: rgb(50, 50, 50);
 }
