@@ -10,10 +10,12 @@
 }
 
 #order_new_print_modal_header_body {
+  top: 10vh;
   width: 80vw;
 }
 
 #order_new_print_modal_body {
+  top: 10vh;
   padding: 12vmin 4vmin 18vmin 4vmin;
   width: 100%;
 }
