@@ -34,6 +34,21 @@
   color: rgb(50, 50, 50);
 }
 
+.order_new_prints_option_input_number {
+  width: 20vmin;
+  border-radius: 1vmin;
+  height: 7vmin;
+  padding: 0vmin 3vmin 0vmin 3vmin;
+  display: flex;
+  align-items: center;
+  outline: none;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  background-color: rgb(240, 240, 240);
+  color: rgb(50, 50, 50);
+  text-align: right;
+}
+
 .order_new_prints_option_input_select_option {
   width: 30vmin;
   border-radius: 1vmin;

@@ -195,21 +195,31 @@
   <!-- ---------------------------------------------------- PROFILE ---------------------------------------------------- -->
   <script src="../components/local/Profile/profile.js"></script>
   <link rel="stylesheet" href="../components/local/Profile/profile.css">
-  <!-- Dashboard -->
+  <!-- DASHBOARD -->
   <script src="../components/local/Profile/Dashboard/dashboard.js"></script>
   <link rel="stylesheet" href="../components/local/Profile/Dashboard/dashboard.css">
-  <!-- Orders -->
+  <!-- ORDERS -->
   <script src="../components/local/Profile/Orders/orders.js"></script>
   <link rel="stylesheet" href="../components/local/Profile/Orders/orders.css">
   <!-- Orders Prints -->
   <script src="../components/local/Profile/Orders/Prints/prints.js"></script>
-  <!-- Buttons -->
+  <link rel="stylesheet" href="../components/local/Profile/Orders/Prints/prints.css">
+  <!-- Orders Prints Buttons -->
   <script src="../components/local/Profile/Orders/Prints/Buttons/buttons.js"></script>
   <link rel="stylesheet" href="../components/local/Profile/Orders/Prints/Buttons/buttons.css">
+  <!-- Orders Prints Summary -->
+  <script src="../components/local/Profile/Orders/Prints/OrdersSummary/ordersSummary.js"></script>
+  <link rel="stylesheet" href="../components/local/Profile/Orders/Prints/OrdersSummary/ordersSummary.css">
+  <!-- Orders Prints List -->
+  <script src="../components/local/Profile/Orders/Prints/OrdersSummary/OrdersList/ordersList.js"></script>
+  <link rel="stylesheet" href="../components/local/Profile/Orders/Prints/OrdersSummary/OrdersList/ordersList.css">
+  <!-- Orders Prints Filter -->
+  <script src="../components/local/Profile/Orders/Prints/OrdersSummary/OrdersFilter/ordersFilter.js"></script>
+  <link rel="stylesheet" href="../components/local/Profile/Orders/Prints/OrdersSummary/OrdersFilter/ordersFilter.css">
   <!-- Orders Marketplace -->
   <script src="../components/local/Profile/Orders/Marketplace/marketplace.js"></script>
-  <!-- Settings -->
-  <script src="../components/local/Profile/Settings/settings.js"></script>
+  <!-- SETTINGS -->
+  <script src="../components/local/Profile/Settings/settings.js"></script><!--  -->
   <!-- =================================================== EXTERNAL ==================================================== -->
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Chivo|Open+Sans|Raleway|Russo+One" rel="stylesheet">
@@ -222,28 +232,5 @@
 <body>
   <div id="root"></div>
 </body>
-
-<script>
-  const testFunction = () => {
-    document.querySelector('#order_new_print_order_body').addEventListener('click', () => {
-      console.log('Submit Initiated');
-
-      const newOrderAttributesObject = {
-        materialGroup: selectedSelectMaterialMaterialGroupId,
-        process: selectedSelectMaterialProcessId,
-        material: selectedSelectMaterialMaterialId,
-        quality: document.querySelector('#order_new_prints_quality_option_input_select').value,
-        strength: document.querySelector('#order_new_prints_strength_option_input_select').value,
-        color: document.querySelector('#order_new_prints_color_option_input_select').value
-      };
-      console.log(newOrderAttributesObject);
-
-      let formElement = document.querySelector('#order_new_prints_upload_input_file_form');
-      let formData = new FormData(formElement);
-
-      formData.append("newOrderAttributesObject", newOrderAttributesObject);
-    });
-  }
-</script>
 
 </html>

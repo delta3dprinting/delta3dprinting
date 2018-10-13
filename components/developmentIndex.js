@@ -48,7 +48,7 @@ const isUserLoggedIn = (pointer, callback) => {
 
   const checkIfUserIsAuthenticated = new Promise((resolve, reject) => {
     setTimeout(() => {
-      loginStatus = false;
+      loginStatus = true;
       resolve();
     }, 500);
   });
@@ -72,6 +72,9 @@ const addNewOrderOrderButtonEventListener = () => {
         materialGroup: selectedSelectMaterialMaterialGroupId,
         process: selectedSelectMaterialProcessId,
         material: selectedSelectMaterialMaterialId,
+        quantity: document.querySelector(
+          "#order_new_prints_quantity_option_input_number"
+        ).value,
         quality: document.querySelector(
           "#order_new_prints_quality_option_input_select"
         ).value,

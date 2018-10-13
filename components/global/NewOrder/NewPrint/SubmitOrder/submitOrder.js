@@ -8,6 +8,9 @@ const addNewOrderOrderButtonEventListener = () => {
         materialGroup: selectedSelectMaterialMaterialGroupId,
         process: selectedSelectMaterialProcessId,
         material: selectedSelectMaterialMaterialId,
+        quantity: document.querySelector(
+          "#order_new_prints_quantity_option_input_number"
+        ).value,
         quality: document.querySelector(
           "#order_new_prints_quality_option_input_select"
         ).value,
@@ -45,6 +48,7 @@ const addNewOrderOrderButtonEventListener = () => {
         success: data => {
           // Success Screen
           newOrderSubmitSuccess();
+          loadProfileOrdersPrintsOrdersListTableContents();
         }
       });
     });

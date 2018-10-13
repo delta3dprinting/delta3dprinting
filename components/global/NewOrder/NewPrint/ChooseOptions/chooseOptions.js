@@ -5,7 +5,15 @@ const constructChooseOptionsForm = obj => {
     "<div id='order_new_prints_step_3_header_body' class='order_new_prints_steps_header_body'>" +
     "<div id='order_new_prints_step_3_header_text' class='order_new_prints_steps_header_text'>Step 3: Choose Options</div>" +
     "</div>" +
-    "<div id='order_new_prints_strength_option_body' class='order_new_prints_option_body'>" +
+    "<div id='order_new_prints_quantity_option_body' class='order_new_prints_option_body'>" +
+    "<div id='order_new_prints_quantity_option_header_body' class='order_new_prints_option_header_body'>" +
+    "<div id='order_new_prints_quantity_option_header_text' class='order_new_prints_option_header_text'>Quantity</div>" +
+    "</div>" +
+    "<div id='order_new_prints_quantity_option_input_body' class='order_new_prints_option_input_body'>" +
+    "<input type='number' name='Quantity' id='order_new_prints_quantity_option_input_number' class='order_new_prints_option_input_number' min='1' value='1'>" +
+    "</div>" +
+    "</div>" +
+    "<div id='order_new_prints_quality_option_body' class='order_new_prints_option_body'>" +
     "<div id='order_new_prints_quality_option_header_body' class='order_new_prints_option_header_body'>" +
     "<div id='order_new_prints_quality_option_header_text' class='order_new_prints_option_header_text'>Quality</div>" +
     "</div>" +

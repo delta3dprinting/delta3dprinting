@@ -1,4 +1,4 @@
-const profileOrdersButtonsInit = () => {
+const profileOrdersPrintsButtonsInit = () => {
   addProfileOrdersPrintsButtonBody();
   addProfileOrdersPrintsNewOrderButton();
 };

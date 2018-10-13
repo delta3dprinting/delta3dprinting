@@ -7,7 +7,8 @@ const profileOrdersPrintsName = "Prints";
 const profileOrdersPrintsMethod = () => {
   console.log("Profile Orders Prints");
   addProfileOrdersPrintsBody();
-  profileOrdersButtonsInit();
+  profileOrdersPrintsButtonsInit();
+  profileOrdersPrintsOrdersSummaryInit();
 };
 
 // Contruct Profile Orders Prints Object
