@@ -5,6 +5,8 @@
   width: 80vw;
   top: 10vh;
   left: 10vw;
+  justify-content: center;
+  transition: height 1s ease;
 }
 
 #order_new_print_modal_header_body {

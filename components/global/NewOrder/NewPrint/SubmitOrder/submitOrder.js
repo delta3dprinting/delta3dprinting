@@ -36,6 +36,8 @@ const addNewOrderOrderButtonEventListener = () => {
         "#order_new_print_modal"
       ).innerHTML = loaderElement;
 
+      document.querySelector("#order_new_print_modal").style.height = "30vh";
+
       /* Submit New Order Attributes */
       $.ajax({
         type: "POST",
@@ -45,7 +47,32 @@ const addNewOrderOrderButtonEventListener = () => {
         data: formData,
         success: function(data) {
           console.log(data);
+          newOrderSubmitSuccess();
         }
       });
     });
+};
+
+/* Success HTML */
+const newOrderSubmitSuccess = () => {
+  const newOrderSubmitSuccessHTML =
+    "<div id='new_order_submit_success_body'>" +
+    "<div id='new_order_submit_success_text'>" +
+    "Successfully Submitted a New Order" +
+    "</div>" +
+    "</div>" +
+    "<div class='new_order_submit_success_button_body'>" +
+    "<div class='new_order_submit_success_button_text'>" +
+    "Ok" +
+    "</div>" +
+    "</div>" +
+    "<div class='new_order_submit_success_button_body'>" +
+    "<div class='new_order_submit_success_button_text'>" +
+    "Submit New Order" +
+    "</div>" +
+    "</div>";
+
+  document.querySelector(
+    "#order_new_print_modal"
+  ).innerHTML = newOrderSubmitSuccessHTML;
 };
