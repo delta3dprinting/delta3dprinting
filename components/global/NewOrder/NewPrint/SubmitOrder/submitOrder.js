@@ -48,6 +48,13 @@ const addNewOrderOrderButtonEventListener = () => {
         }
       });
     });
+  /* Cancel Order Button */
+  document
+    .querySelector("#order_new_print_cancel_body")
+    .addEventListener("click", () => {
+      removeModal();
+      removeBackdrop();
+    });
 };
 
 /* Create Loading Intermediary */
@@ -109,6 +116,7 @@ const newOrderSubmitSuccess = () => {
     .addEventListener("click", () => {
       removeModal();
       removeBackdrop();
+      addOrderNewPrintForm();
     });
   // Close Button
   document
@@ -116,6 +124,5 @@ const newOrderSubmitSuccess = () => {
     .addEventListener("click", () => {
       removeModal();
       removeBackdrop();
-      addOrderNewPrintForm();
     });
 };
