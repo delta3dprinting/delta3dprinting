@@ -19,6 +19,7 @@ module.exports = (app, passport, upload, conn) => {
     restrictedPages,
     (req, res) => {
       console.log("Received");
+      console.log("req.body");
       // Create the New Order Properties Object
       const orderOptionsObject = {
         ownerId: req.user._id,

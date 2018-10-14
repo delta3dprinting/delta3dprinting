@@ -54,7 +54,13 @@ const addNewOrderOrderButtonEventListener = () => {
         success: data => {
           // Success Screen
           newOrderSubmitSuccess();
-          loadProfileOrdersPrintsOrdersListTableContents();
+          if (
+            document.querySelector(
+              "#profile_orders_prints_orders_list_table_content_main_body"
+            )
+          ) {
+            loadProfileOrdersPrintsOrdersListTableContents();
+          }
         }
       });
     });
