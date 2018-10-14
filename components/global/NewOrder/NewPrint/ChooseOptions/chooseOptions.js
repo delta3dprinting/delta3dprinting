@@ -37,6 +37,30 @@ const constructChooseOptionsForm = obj => {
     "<select name='Color' id='order_new_prints_color_option_input_select' class='order_new_prints_option_input_select'></select>" +
     "</div>" +
     "</div>" +
+    "<div id='order_new_prints_delivery_option_body' class='order_new_prints_option_body'>" +
+    "<div id='order_new_prints_delivery_option_header_body' class='order_new_prints_option_header_body'>" +
+    "<div id='order_new_prints_delivery_option_header_text' class='order_new_prints_option_header_text'>Pricing</div>" +
+    "</div>" +
+    "<div id='order_new_prints_pricing_option_input_body' class='order_new_prints_option_input_body'>" +
+    "<select name='Pricing' id='order_new_prints_pricing_option_input_select' class='order_new_prints_option_input_select'>" +
+    "<option value='Basic' id='order_new_prints_basic_pricing_option_input_select_option' class='order_new_prints_option_input_select_option' selected>Basic (1-5 days)</option>" +
+    "<option value='Priority' id='order_new_prints_priority_pricing_option_input_select_option' class='order_new_prints_option_input_select_option'>Priority (1-3 days)</option>" +
+    "<option value='Urgent' id='order_new_prints_urgent_pricing_option_input_select_option' class='order_new_prints_option_input_select_option'>Urgent (1 day)</option>" +
+    "</select>" +
+    "</div>" +
+    "</div>" +
+    "<div id='order_new_prints_delivery_option_body' class='order_new_prints_option_body'>" +
+    "<div id='order_new_prints_delivery_option_header_body' class='order_new_prints_option_header_body'>" +
+    "<div id='order_new_prints_delivery_option_header_text' class='order_new_prints_option_header_text'>Delivery</div>" +
+    "</div>" +
+    "<div id='order_new_prints_delivery_option_input_body' class='order_new_prints_option_input_body'>" +
+    "<select name='Delivery' id='order_new_prints_delivery_option_input_select' class='order_new_prints_option_input_select'>" +
+    "<option value='Pickup' id='order_new_prints_pickup_delivery_option_input_select_option' class='order_new_prints_option_input_select_option' selected>Pickup (Free)</option>" +
+    "<option value='Tracked' id='order_new_prints_tracked_delivery_option_input_select_option' class='order_new_prints_option_input_select_option'>Tracked (+$7.50)</option>" +
+    "<option value='Courier' id='order_new_prints_courier_delivery_option_input_select_option' class='order_new_prints_option_input_select_option'>Courier (+$8.50)</option>" +
+    "</select>" +
+    "</div>" +
+    "</div>" +
     "</div>";
 
   orderNewPrintPointer.insertAdjacentHTML("beforeend", chooseOptionsFormHTML);

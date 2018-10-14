@@ -28,6 +28,7 @@ module.exports = (app, passport, upload, conn) => {
         materialGroup: req.body.materialGroup,
         process: req.body.process,
         material: req.body.material,
+        quantity: req.body.quantity,
         quality: req.body.quality,
         strength: req.body.strength,
         color: req.body.color
@@ -57,9 +58,12 @@ module.exports = (app, passport, upload, conn) => {
         materialGroup,
         process,
         material,
+        quantity,
         quality,
         strength,
-        color
+        color,
+        pricing,
+        delivery
       ) {
         this.orderId = orderId;
         this.filename = filename;
@@ -67,9 +71,12 @@ module.exports = (app, passport, upload, conn) => {
         this.materialGroup = materialGroup;
         this.process = process;
         this.material = material;
+        this.quantity = quantity;
         this.quality = quality;
         this.strength = strength;
         this.color = color;
+        this.pricing = pricing;
+        this.delivery = delivery;
       }
     }
     const ordersObjectArray = [];
@@ -85,9 +92,12 @@ module.exports = (app, passport, upload, conn) => {
             doc.metadata.materialGroup,
             doc.metadata.process,
             doc.metadata.material,
+            doc.metadata.quantity,
             doc.metadata.quality,
             doc.metadata.strength,
-            doc.metadata.color
+            doc.metadata.color,
+            doc.metadata.pricing,
+            doc.metadata.delivery
           )
         );
       })

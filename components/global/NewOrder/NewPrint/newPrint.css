@@ -5,7 +5,6 @@
   width: 80vw;
   top: 10vh;
   left: 10vw;
-  justify-content: center;
   transition: height 1s ease;
 }
 
@@ -15,7 +14,6 @@
 }
 
 #order_new_print_modal_body {
-  top: 10vh;
   padding: 12vmin 4vmin 18vmin 4vmin;
   width: 100%;
 }
