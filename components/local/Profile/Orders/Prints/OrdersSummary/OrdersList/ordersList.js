@@ -30,7 +30,7 @@ const addProfileOrdersPrintsOrdersListTableHeader = () => {
     "<th id='profile_orders_prints_orders_list_order_number_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_order_number_content'>Order No.</th>" +
     "<th id='profile_orders_prints_orders_list_file_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_file_content'>File</th>" +
     "<th id='profile_orders_prints_orders_list_status_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_status_content'>Status</th>" +
-    "<th id='profile_orders_prints_orders_list_updated_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_update_content'>Updated</th>" +
+    "<th id='profile_orders_prints_orders_list_last_update_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_update_content'>Last Update</th>" +
     "<th id='profile_orders_prints_orders_list_quantity_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_quantity_content'>Quantity</th>" +
     "<th id='profile_orders_prints_orders_list_deadline_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_deadline_content'>Deadline</th>" +
     "<th id='profile_orders_prints_orders_list_print_setting_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_print_setting_content'>Print Setting</th>" +
@@ -85,12 +85,26 @@ const addProfileOrdersPrintsOrdersListTableContents = objArr => {
     const profileOrdersPrintsOrdersListTableContent =
       "<tr class='profile_orders_prints_orders_list_table_row'>" +
       "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_order_number_content'>Order No.</td>" +
-      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_file_content'>File</td>" +
-      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_status_content'>Status</td>" +
-      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_update_content'>Updated</td>" +
-      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_quantity_content'>Quantity</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_file_content'>" +
+      ele.filename +
+      "</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_status_content'>" +
+      ele.orderStatus +
+      "</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_update_content'>Last Update</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_quantity_content'>" +
+      ele.producedQuantity +
+      "/" +
+      ele.orderedQuantity +
+      "</td>" +
       "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_deadline_content'>Deadline</td>" +
-      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_print_setting_content'>Print Setting</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_print_setting_content'>" +
+      ele.quality +
+      ", " +
+      ele.strength +
+      ", " +
+      ele.delivery +
+      "</td>" +
       "</tr>";
     document
       .querySelector("#profile_orders_prints_orders_list_table_content_body")

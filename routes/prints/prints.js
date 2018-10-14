@@ -19,7 +19,6 @@ module.exports = (app, passport, upload, conn) => {
     restrictedPages,
     (req, res) => {
       console.log("Received");
-      console.log("req.body");
       // Create the New Order Properties Object
       const orderOptionsObject = {
         ownerId: req.user._id,
@@ -28,7 +27,8 @@ module.exports = (app, passport, upload, conn) => {
         materialGroup: req.body.materialGroup,
         process: req.body.process,
         material: req.body.material,
-        quantity: req.body.quantity,
+        orderedQuantity: req.body.orderedQuantity,
+        producedQuantity: req.body.producedQuantity,
         quality: req.body.quality,
         strength: req.body.strength,
         color: req.body.color,
@@ -60,7 +60,8 @@ module.exports = (app, passport, upload, conn) => {
         materialGroup,
         process,
         material,
-        quantity,
+        orderedQuantity,
+        producedQuantity,
         quality,
         strength,
         color,
@@ -73,7 +74,8 @@ module.exports = (app, passport, upload, conn) => {
         this.materialGroup = materialGroup;
         this.process = process;
         this.material = material;
-        this.quantity = quantity;
+        this.orderedQuantity = orderedQuantity;
+        this.producedQuantity = producedQuantity;
         this.quality = quality;
         this.strength = strength;
         this.color = color;
@@ -94,7 +96,8 @@ module.exports = (app, passport, upload, conn) => {
             doc.metadata.materialGroup,
             doc.metadata.process,
             doc.metadata.material,
-            doc.metadata.quantity,
+            doc.metadata.orderedQuantity,
+            doc.metadata.producedQuantity,
             doc.metadata.quality,
             doc.metadata.strength,
             doc.metadata.color,

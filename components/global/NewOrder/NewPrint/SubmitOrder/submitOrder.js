@@ -8,7 +8,7 @@ const addNewOrderOrderButtonEventListener = () => {
         materialGroup: selectedSelectMaterialMaterialGroupId,
         process: selectedSelectMaterialProcessId,
         material: selectedSelectMaterialMaterialId,
-        quantity: document.querySelector(
+        orderedQuantity: document.querySelector(
           "#order_new_prints_quantity_option_input_number"
         ).value,
         quality: document.querySelector(
@@ -37,6 +37,7 @@ const addNewOrderOrderButtonEventListener = () => {
       /* Assign New Order Attributes to FormData */
       formData.append("type", "print");
       formData.append("orderStatus", "Requesting Quote");
+      formData.append("producedQuantity", 0);
       for (let key in newOrderAttributesObject) {
         formData.append(key, newOrderAttributesObject[key]);
       }
