@@ -19,7 +19,6 @@ module.exports = (app, passport, upload, conn) => {
     restrictedPages,
     (req, res) => {
       console.log("Received");
-
       // Create the New Order Properties Object
       const orderOptionsObject = {
         ownerId: req.user._id,
@@ -31,7 +30,9 @@ module.exports = (app, passport, upload, conn) => {
         quantity: req.body.quantity,
         quality: req.body.quality,
         strength: req.body.strength,
-        color: req.body.color
+        color: req.body.color,
+        pricing: req.body.pricing,
+        delivery: req.body.delivery
       };
 
       // Update the Metadata object with the New Order Properties

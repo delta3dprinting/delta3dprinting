@@ -14,6 +14,7 @@
 }
 
 #order_new_print_modal_body {
+  min-height: 100%;
   padding: 12vmin 4vmin 18vmin 4vmin;
   width: 100%;
 }

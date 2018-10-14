@@ -20,7 +20,7 @@ const addNewOrderOrderButtonEventListener = () => {
         color: document.querySelector(
           "#order_new_prints_color_option_input_select"
         ).value,
-        color: document.querySelector(
+        pricing: document.querySelector(
           "#order_new_prints_pricing_option_input_select"
         ).value,
         delivery: document.querySelector(

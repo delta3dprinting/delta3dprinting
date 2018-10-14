@@ -1,9 +1,17 @@
+.loader_element_body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .loader_element {
   border: 3vmin solid #f3f3f3;
   border-radius: 50%;
   border-top: 3vmin solid rgb(170, 10, 10);
-  width: 20vmin;
-  height: 20vmin;
+  width: 15vmin;
+  height: 15vmin;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
