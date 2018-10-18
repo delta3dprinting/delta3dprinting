@@ -274,6 +274,7 @@
         );
         formData.push(new FormData(formElement));
         // Order Attribute Input
+        const fileId;
         const fileName = document.querySelector(
           "#order_new_print_parts_part_" + i + "_upload_model_option_input_file"
         ).files[0].name;
@@ -295,6 +296,7 @@
         ).value;
         partObjectArray.push(
           new OrderNewPrintPartObject(
+            fileId,
             fileName,
             materialGroup,
             process,
@@ -323,25 +325,27 @@
     // Pre Submit
     newOrderSubmitLoading();
 
-    // Submit
-    for (i = 0; i <= orderNewPrintPartNumber; i++) {
-      if (orderNewPrintDeletedPart.indexOf(i) == -1) {
-        $.ajax({
-          type: "POST",
-          url: "/orderNewPrint/saveFile",
-          async: false,
-          processData: false,
-          contentType: false,
-          data: formData[i],
-          success: data => {
-            console.log(data);
-          }
-        });
+    setTimeout(() => {
+      // Submit
+      for (i = 0; i <= orderNewPrintPartNumber; i++) {
+        if (orderNewPrintDeletedPart.indexOf(i) == -1) {
+          $.ajax({
+            type: "POST",
+            url: "/orderNewPrint/saveFile",
+            async: false,
+            processData: false,
+            contentType: false,
+            data: formData[i],
+            success: data => {
+              partObjectArray[i].fileId = data;
+            }
+          });
+        }
       }
-    }
-    console.log("Submitted");
-    // Post Submit
-    newOrderSubmitSuccess();
+      console.log("Submitted");
+      // Post Submit
+      newOrderSubmitSuccess();
+    }, 0);
   };
 </script>
 

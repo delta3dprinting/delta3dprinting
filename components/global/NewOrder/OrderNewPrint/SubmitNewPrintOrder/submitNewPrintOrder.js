@@ -74,6 +74,7 @@ const newOrderSubmitSuccess = () => {
 
 class OrderNewPrintPartObject {
   constructor(
+    fileId,
     fileName,
     materialGroup,
     process,
@@ -84,6 +85,7 @@ class OrderNewPrintPartObject {
     strength,
     color
   ) {
+    this.fileId = fileId;
     this.fileName = fileName;
     this.materialGroup = materialGroup;
     this.process = process;
