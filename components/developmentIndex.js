@@ -60,59 +60,91 @@ const isUserLoggedIn = (pointer, callback) => {
 };
 
 /* ==================================== SUBMIT NEW ORDER ==================================== */
-/* ------------------------------- ADD BUTTON EVENT LISTENERS ------------------------------- */
+/* ====================================== INITIALISATION ======================================= */
 
-const addNewOrderOrderButtonEventListener = () => {
-  /* Submit Order Button */
-  document
-    .querySelector("#order_new_print_order_body")
-    .addEventListener("click", () => {
-      /* Collect Input Values and Create New Order Attributes Object */
-      const newOrderAttributesObject = {
-        materialGroup: selectedSelectMaterialMaterialGroupId,
-        process: selectedSelectMaterialProcessId,
-        material: selectedSelectMaterialMaterialId,
-        quantity: document.querySelector(
-          "#order_new_prints_quantity_option_input_number"
-        ).value,
-        quality: document.querySelector(
-          "#order_new_prints_quality_option_input_select"
-        ).value,
-        strength: document.querySelector(
-          "#order_new_prints_strength_option_input_select"
-        ).value,
-        color: document.querySelector(
-          "#order_new_prints_color_option_input_select"
-        ).value
-      };
+const submitNewPrintOrder = () => {
+  // Validate Inputs
 
-      /* Collect Uploaded File */
-      let formElement = document.querySelector(
-        "#order_new_prints_upload_input_file_form"
+  // Collect Inputs
+  let partObjectArray = [];
+  let formData = [];
+  for (i = 0; i <= orderNewPrintPartNumber; i++) {
+    if (orderNewPrintDeletedPart.indexOf(i) == -1) {
+      // Collect File Input
+      const formElement = document.querySelector(
+        "#order_new_print_parts_part_" + i + "_upload_model_input_body"
       );
-      let formData = new FormData(formElement);
+      formData.push(new FormData(formElement));
+      // Order Attribute Input
+      const fileName = document.querySelector(
+        "#order_new_print_parts_part_" + i + "_upload_model_option_input_file"
+      ).files[0].name;
+      const materialGroup = orderNewPrintPartSelectedMaterialGroupArrayName[i];
+      const process = orderNewPrintPartSelectedProcessArrayName[i];
+      const material = orderNewPrintPartSelectedMaterialArrayName[i];
+      const orderQuantity = document.querySelector(
+        "#order_new_print_parts_part_" + i + "_quantity_option_input"
+      ).value;
+      const producedQuantity = 0;
+      const quality = document.querySelector(
+        "#order_new_print_parts_part_" + i + "_quality_option_input"
+      ).value;
+      const strength = document.querySelector(
+        "#order_new_print_parts_part_" + i + "_strength_option_input"
+      ).value;
+      const color = document.querySelector(
+        "#order_new_print_parts_part_" + i + "_color_option_input"
+      ).value;
+      partObjectArray.push(
+        new OrderNewPrintPartObject(
+          fileName,
+          materialGroup,
+          process,
+          material,
+          orderQuantity,
+          producedQuantity,
+          quality,
+          strength,
+          color
+        )
+      );
+    }
+  }
+  const orderObject = {
+    partObjectArray: partObjectArray,
+    pricing: document.querySelector(
+      "#order_new_print_pricing_option_input_select"
+    ).value,
+    delivery: document.querySelector("#order_new_print_delivery_option_input")
+      .value,
+    additionalNote: document.querySelector(
+      "#order_new_print_additional_note_option_input"
+    ).value
+  };
 
-      /* Assign New Order Attributes to FormData */
-      formData.append("type", "print");
-      formData.append("orderStatus", "Requesting Quote");
-      for (let key in newOrderAttributesObject) {
-        formData.append(key, newOrderAttributesObject[key]);
-      }
+  // Pre Submit
+  newOrderSubmitLoading();
 
-      newOrderSubmitLoading();
-
-      /* Submit New Order Attributes */
-      setTimeout(() => {
-        newOrderSubmitSuccess();
-      }, 2000);
-    });
-  /* Cancel Order Button */
-  document
-    .querySelector("#order_new_print_cancel_body")
-    .addEventListener("click", () => {
-      removeModal();
-      removeBackdrop();
-    });
+  // Submit
+  /*   for (i = 0; i <= orderNewPrintPartNumber; i++) {
+    if (orderNewPrintDeletedPart.indexOf(i) == -1) {
+      $.ajax({
+        type: "POST",
+        url: "/orderNewPrint/saveFile",
+        async: false,
+        processData: false,
+        contentType: false,
+        data: formData[i],
+        success: data => {
+          console.log(data);
+        }
+      });
+    }
+  } */
+  setTimeout(() => {
+    // Post Submit
+    newOrderSubmitSuccess();
+  }, 2000);
 };
 
 /* Create Loading Intermediary */
@@ -174,7 +206,7 @@ const newOrderSubmitSuccess = () => {
     .addEventListener("click", () => {
       removeModal();
       removeBackdrop();
-      addOrderNewPrintForm();
+      orderNewPrint();
     });
   // Close Button
   document
@@ -184,3 +216,31 @@ const newOrderSubmitSuccess = () => {
       removeBackdrop();
     });
 };
+
+/* ================================= CLASS OBJECT CONSTRUCTOR ================================== */
+
+class OrderNewPrintPartObject {
+  constructor(
+    fileName,
+    materialGroup,
+    process,
+    material,
+    orderQuantity,
+    producedQuantity,
+    quality,
+    strength,
+    color
+  ) {
+    this.fileName = fileName;
+    this.materialGroup = materialGroup;
+    this.process = process;
+    this.material = material;
+    this.orderQuantity = orderQuantity;
+    this.producedQuantity = producedQuantity;
+    this.quality = quality;
+    this.strength = strength;
+    this.color = color;
+  }
+}
+
+/* ============================================================================================= */

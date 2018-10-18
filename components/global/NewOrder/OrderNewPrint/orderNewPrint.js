@@ -13,19 +13,23 @@ let orderNewPrintPartSelectedMaterialArrayName;
 /* ====================================== INITIALISATION ======================================= */
 
 const orderNewPrint = () => {
-  orderNewPrintPartNumber = -1;
-  orderNewPrintDeletedPart = [];
-  orderNewPrintSelectedPart = 0;
-  orderNewPrintPartSelectedMaterialGroupArrayId = [];
-  orderNewPrintPartSelectedMaterialGroupArrayName = [];
-  orderNewPrintPartSelectedProcessArrayId = [];
-  orderNewPrintPartSelectedProcessArrayName = [];
-  orderNewPrintPartSelectedMaterialArrayId = [];
-  orderNewPrintPartSelectedMaterialArrayName = [];
-  addOrderNewPrintModal();
-  addOrderNewPrintForm();
-  addOrderNewPrintParts();
-  addOrderNewPrintGlobalOptionsForm();
+  if (loginStatus) {
+    orderNewPrintPartNumber = -1;
+    orderNewPrintDeletedPart = [];
+    orderNewPrintSelectedPart = 0;
+    orderNewPrintPartSelectedMaterialGroupArrayId = [];
+    orderNewPrintPartSelectedMaterialGroupArrayName = [];
+    orderNewPrintPartSelectedProcessArrayId = [];
+    orderNewPrintPartSelectedProcessArrayName = [];
+    orderNewPrintPartSelectedMaterialArrayId = [];
+    orderNewPrintPartSelectedMaterialArrayName = [];
+    addOrderNewPrintModal();
+    addOrderNewPrintForm();
+    addOrderNewPrintParts();
+    addOrderNewPrintGlobalOptionsForm();
+  } else {
+    constructLoginModal();
+  }
 };
 
 /* =========================================== MODAL =========================================== */

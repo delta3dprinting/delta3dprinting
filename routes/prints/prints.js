@@ -141,6 +141,8 @@ module.exports = (app, passport, upload, conn) => {
     upload.single("uploadModel"),
     restrictedPages,
     (req, res) => {
+      console.log(req.file);
+      console.log(req.user);
       // Create the New Order Properties Object
       const fileAdditionalInfo = {
         ownerId: req.user._id,
