@@ -64,7 +64,20 @@ const isUserLoggedIn = (pointer, callback) => {
 
 const submitNewPrintOrder = () => {
   // Validate Inputs
-
+  // Check if At least one file is Uploaded
+  if (orderNewPrintDeletedPart.length == orderNewPrintPartNumber + 1) {
+    document.querySelector("#order_new_print_parts_error_handler").innerHTML =
+      "Must upload at least one file";
+    return;
+  } else {
+    document.querySelector("#order_new_print_parts_error_handler").innerHTML =
+      "";
+  }
+  if (orderNewPrintSelectedPart != null) {
+    if (!validateUploadModelInput(orderNewPrintSelectedPart)) {
+      return;
+    }
+  }
   // Collect Inputs
   let partObjectArray = [];
   let formData = [];

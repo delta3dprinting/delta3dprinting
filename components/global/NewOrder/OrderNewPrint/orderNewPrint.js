@@ -16,7 +16,7 @@ const orderNewPrint = () => {
   if (loginStatus) {
     orderNewPrintPartNumber = -1;
     orderNewPrintDeletedPart = [];
-    orderNewPrintSelectedPart = 0;
+    orderNewPrintSelectedPart = null;
     orderNewPrintPartSelectedMaterialGroupArrayId = [];
     orderNewPrintPartSelectedMaterialGroupArrayName = [];
     orderNewPrintPartSelectedProcessArrayId = [];

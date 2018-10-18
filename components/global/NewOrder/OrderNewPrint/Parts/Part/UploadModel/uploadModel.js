@@ -87,17 +87,6 @@ const addOrderNewPrintPartUploadModelInputChange = partNumber => {
 /* ================================ VALIDATE UPLOAD MODEL INPUT ================================ */
 
 const validateUploadModelInput = partNumber => {
-  // Check if The Input Field is not Deleted
-  if (
-    !document.querySelector(
-      "#order_new_print_parts_part_" +
-        partNumber +
-        "_upload_model_option_input_file"
-    )
-  ) {
-    return "partDeleted";
-  }
-
   const uploadedFile = document.querySelector(
     "#order_new_print_parts_part_" +
       partNumber +

@@ -1,17 +1,21 @@
 /* ====================================== INITIALISATION ======================================= */
 
 const addOrderNewPrintPart = () => {
-  if (orderNewPrintPartNumber >= 0) {
+  if (orderNewPrintSelectedPart != null) {
     if (!validateUploadModelInput(orderNewPrintSelectedPart)) {
       return;
-    } else if (
-      validateUploadModelInput(orderNewPrintSelectedPart) == "partDeleted"
-    ) {
     } else {
       addOrderNewPrintPartDeselect();
     }
   }
   orderNewPrintPartNumber++;
+  if (orderNewPrintDeletedPart.length == orderNewPrintPartNumber + 1) {
+    document.querySelector("#order_new_print_parts_error_handler").innerHTML =
+      "Must upload at least one file";
+  } else {
+    document.querySelector("#order_new_print_parts_error_handler").innerHTML =
+      "";
+  }
   orderNewPrintSelectedPart = orderNewPrintPartNumber;
   addOrderNewPrintPartStructure(orderNewPrintPartNumber);
 };
@@ -99,6 +103,9 @@ const addOrderNewPrintPartsDeletePartButton = partNumber => {
       "#order_new_print_parts_delete_part_" + partNumber + "_button"
     )
     .addEventListener("click", () => {
+      if (orderNewPrintSelectedPart == partNumber) {
+        orderNewPrintSelectedPart = null;
+      }
       // Remove/Delete Part
       const parent = document.querySelector("#order_new_print_parts_form_body");
       const child = document.querySelector(
@@ -113,14 +120,17 @@ const addOrderNewPrintPartsDeletePartButton = partNumber => {
 /* ================================= SELECT AND DESELECT PART ================================== */
 
 const addOrderNewPrintPartSelect = partNumber => {
-  if (!validateUploadModelInput(orderNewPrintSelectedPart)) {
-    return;
+  if (orderNewPrintSelectedPart != null) {
+    if (!validateUploadModelInput(orderNewPrintSelectedPart)) {
+      return;
+    }
   }
 
   if (orderNewPrintSelectedPart == partNumber) {
     document
       .querySelector("#order_new_print_parts_part_" + partNumber + "_form_body")
       .classList.toggle("order_new_print_parts_part_body_close");
+    orderNewPrintSelectedPart = null;
     return;
   }
 
@@ -134,6 +144,10 @@ const addOrderNewPrintPartSelect = partNumber => {
 };
 
 const addOrderNewPrintPartDeselect = () => {
+  if (orderNewPrintSelectedPart == null) {
+    return;
+  }
+
   document
     .querySelector(
       "#order_new_print_parts_part_" + orderNewPrintSelectedPart + "_form_body"
