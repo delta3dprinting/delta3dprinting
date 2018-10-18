@@ -245,4 +245,104 @@
   <div id="root"></div>
 </body>
 
+<script>
+  const submitNewPrintOrder = () => {
+    // Validate Inputs
+    // Check if At least one file is Uploaded
+    if (orderNewPrintDeletedPart.length == orderNewPrintPartNumber + 1) {
+      document.querySelector("#order_new_print_parts_error_handler").innerHTML =
+        "Must upload at least one file";
+      return;
+    } else {
+      document.querySelector("#order_new_print_parts_error_handler").innerHTML =
+        "";
+    }
+    if (orderNewPrintSelectedPart != null) {
+      if (!validateUploadModelInput(orderNewPrintSelectedPart)) {
+        return;
+      }
+    }
+
+    // Collect Inputs
+    let partObjectArray = [];
+    let formData = [];
+    for (i = 0; i <= orderNewPrintPartNumber; i++) {
+      if (orderNewPrintDeletedPart.indexOf(i) == -1) {
+        // Collect File Input
+        const formElement = document.querySelector(
+          "#order_new_print_parts_part_" + i + "_upload_model_input_body"
+        );
+        formData.push(new FormData(formElement));
+        // Order Attribute Input
+        const fileName = document.querySelector(
+          "#order_new_print_parts_part_" + i + "_upload_model_option_input_file"
+        ).files[0].name;
+        const materialGroup = orderNewPrintPartSelectedMaterialGroupArrayName[i];
+        const process = orderNewPrintPartSelectedProcessArrayName[i];
+        const material = orderNewPrintPartSelectedMaterialArrayName[i];
+        const orderQuantity = document.querySelector(
+          "#order_new_print_parts_part_" + i + "_quantity_option_input"
+        ).value;
+        const producedQuantity = 0;
+        const quality = document.querySelector(
+          "#order_new_print_parts_part_" + i + "_quality_option_input"
+        ).value;
+        const strength = document.querySelector(
+          "#order_new_print_parts_part_" + i + "_strength_option_input"
+        ).value;
+        const color = document.querySelector(
+          "#order_new_print_parts_part_" + i + "_color_option_input"
+        ).value;
+        partObjectArray.push(
+          new OrderNewPrintPartObject(
+            fileName,
+            materialGroup,
+            process,
+            material,
+            orderQuantity,
+            producedQuantity,
+            quality,
+            strength,
+            color
+          )
+        );
+      }
+    }
+    const orderObject = {
+      partObjectArray: partObjectArray,
+      pricing: document.querySelector(
+        "#order_new_print_pricing_option_input_select"
+      ).value,
+      delivery: document.querySelector("#order_new_print_delivery_option_input")
+        .value,
+      additionalNote: document.querySelector(
+        "#order_new_print_additional_note_option_input"
+      ).value
+    };
+
+    // Pre Submit
+    newOrderSubmitLoading();
+
+    // Submit
+    for (i = 0; i <= orderNewPrintPartNumber; i++) {
+      if (orderNewPrintDeletedPart.indexOf(i) == -1) {
+        $.ajax({
+          type: "POST",
+          url: "/orderNewPrint/saveFile",
+          async: false,
+          processData: false,
+          contentType: false,
+          data: formData[i],
+          success: data => {
+            console.log(data);
+          }
+        });
+      }
+    }
+    console.log("Submitted");
+    // Post Submit
+    newOrderSubmitSuccess();
+  };
+</script>
+
 </html>
