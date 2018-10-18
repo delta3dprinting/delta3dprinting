@@ -26,7 +26,6 @@ const addProfileOrdersPrintsNewOrderButton = () => {
   document
     .querySelector("#profile_orders_prints_new_order_button_body")
     .addEventListener("click", () => {
-      console.log("Add New Order");
-      addOrderNewPrintForm();
+      orderNewPrint();
     });
 };

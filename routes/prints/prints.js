@@ -132,6 +132,32 @@ module.exports = (app, passport, upload, conn) => {
       readstream.pipe(res);
     });
   });
+
+  // @route   POST /orderNewPrint/saveFile
+  // @desc
+  // @access  Private
+  app.post(
+    "/orderNewPrint/saveFile",
+    upload.single("uploadModel"),
+    restrictedPages,
+    (req, res) => {
+      // Create the New Order Properties Object
+      const fileAdditionalInfo = {
+        ownerId: req.user._id,
+        fileType: "Order New Print"
+      };
+
+      // Update the Metadata object with the New Order Properties
+      gfs.files.findOneAndUpdate(
+        { filename: req.file.filename },
+        { $set: { metadata: fileAdditionalInfo } },
+        (err, doc) => {
+          if (err) return console.log(err);
+          res.send(doc);
+        }
+      );
+    }
+  );
 };
 
 // Route middleware to make sure a user is logged in

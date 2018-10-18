@@ -70,3 +70,8 @@
   align-items: center;
   overflow: scroll;
 }
+
+.profile_orders_prints_orders_list_table_content_text {
+  font-family: "Chivo", sans-serif;
+  font-size: 3vmin;
+}

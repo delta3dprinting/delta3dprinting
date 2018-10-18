@@ -1,3 +1,18 @@
 #order_new_prints_step_1_body {
-  display: block;
+  display: flex;
+  flex-direction: column;
+}
+
+#order_new_prints_upload_input_file_form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6vmin 0 0 0;
+}
+
+#order_new_prints_upload_input_file {
+  font-family: "Chivo", sans-serif;
+  font-size: 3.5vmin;
+  width: 80%;
 }

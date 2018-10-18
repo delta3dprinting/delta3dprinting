@@ -1,0 +1,30 @@
+#order_new_print_parts_add_part_body {
+  height: 12vmin;
+  display: flex;
+  align-items: center;
+}
+
+#order_new_print_parts_add_part_button {
+  height: 7vmin;
+  padding: 0 4vmin 0 4vmin;
+  background-color: rgba(220, 220, 220, 0.2);
+  display: flex;
+  align-items: center;
+  border-style: dashed;
+  border-color: rgba(10, 80, 10, 0.8);
+  border-radius: 3.5vmin;
+  border-width: 0.5vmin;
+  box-shadow: 0 0 1.5vmin 0.1vmin rgba(100, 100, 100, 0.3);
+}
+
+#order_new_print_parts_add_part_button:active {
+  background-color: rgba(170, 10, 10, 0.03);
+  box-shadow: none;
+}
+
+#order_new_print_parts_add_part_button_text {
+  color: rgba(10, 80, 10, 0.8);
+  font-family: "Chivo";
+  font-size: 3vmin;
+  font-weight: 600;
+}
