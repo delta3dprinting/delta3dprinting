@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
 
+// Load PrintOrder Model
+const PrintOrder = require("../../models/PrintOrder");
+
 module.exports = (app, passport, upload, conn) => {
   let gfs;
 
@@ -153,12 +156,52 @@ module.exports = (app, passport, upload, conn) => {
         { $set: { metadata: fileAdditionalInfo } },
         (err, doc) => {
           if (err) return console.log(err);
-          console.log(doc.value._id);
-          res.send(doc);
+          res.send(doc.value._id);
         }
       );
     }
   );
+
+  // @route   POST /orderNewPrint/createNewOrder
+  // @desc
+  // @access  Private
+  app.post("/orderNewPrint/createNewOrder", restrictedPages, (req, res) => {
+    const orderNewPrint = new PrintOrder();
+
+    PrintOrder.countDocuments((err, count) => {
+      orderNewPrint.orderNumber = count + 1;
+    }).then(() => {
+      // Set Variables
+      orderNewPrint.ownerId = req.user._id;
+      orderNewPrint.creationDate = Date.now();
+      orderNewPrint.orderStatus = "Awaiting Quote";
+      orderNewPrint.lastUpdateDate = Date.now();
+      for (i = 0; i < req.body.partObjectArray.length; i++) {
+        orderNewPrint.parts[i] = {
+          fileId: req.body.partObjectArray[i].fileId,
+          fileName: req.body.partObjectArray[i].fileName,
+          materialGroup: req.body.partObjectArray[i].materialGroup,
+          process: req.body.partObjectArray[i].process,
+          material: req.body.partObjectArray[i].material,
+          orderQuantity: req.body.partObjectArray[i].orderQuantity,
+          producedQuantity: req.body.partObjectArray[i].producedQuantity,
+          quality: req.body.partObjectArray[i].quality,
+          strength: req.body.partObjectArray[i].strength,
+          color: req.body.partObjectArray[i].color
+        };
+      }
+      orderNewPrint.comments = [];
+      orderNewPrint.pricing = req.body.pricing;
+      orderNewPrint.delivery = req.body.delivery;
+      orderNewPrint.ownerNote = req.body.additionalNote;
+      orderNewPrint.deadline = "";
+      orderNewPrint.attachments = [];
+
+      orderNewPrint.save();
+
+      res.send("Success");
+    });
+  });
 };
 
 // Route middleware to make sure a user is logged in

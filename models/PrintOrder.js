@@ -11,62 +11,51 @@ const conn = mongoose.createConnection(mongoURI);
 const PrintOrderSchema = new Schema({
   ownerId: {
     type: Schema.Types.ObjectId,
-    ref: "users",
-    required: true
+    ref: "users"
   },
   orderNumber: {
-    type: Number,
-    required: true
+    type: Number
+  },
+  creationDate: {
+    type: Date
   },
   orderStatus: {
-    type: String,
-    required: true
+    type: String
   },
   lastUpdateDate: {
-    type: Date,
-    required: true
+    type: Date
   },
   parts: [
     {
       fileId: {
-        type: String,
-        required: true
+        type: String
       },
       fileName: {
-        type: String,
-        required: true
+        type: String
       },
       materialGroup: {
-        type: String,
-        required: true
+        type: String
       },
       process: {
-        type: String,
-        required: true
+        type: String
       },
       material: {
-        type: String,
-        required: true
+        type: String
       },
       orderQuantity: {
-        type: Number,
-        required: true
+        type: Number
       },
       producedQuantity: {
-        type: Number,
-        required: true
+        type: Number
       },
       quality: {
-        type: String,
-        required: true
+        type: String
       },
       strength: {
-        type: String,
-        required: true
+        type: String
       },
       color: {
-        type: String,
-        required: true
+        type: String
       }
     }
   ],
@@ -74,16 +63,13 @@ const PrintOrderSchema = new Schema({
     {
       userId: {
         type: Schema.Types.ObjectId,
-        ref: "users",
-        required: true
+        ref: "users"
       },
       userName: {
-        type: String,
-        required: true
+        type: String
       },
       text: {
-        type: String,
-        required: true
+        type: String
       },
       createdDate: {
         type: Date,
@@ -92,25 +78,30 @@ const PrintOrderSchema = new Schema({
     }
   ],
   pricing: {
-    type: String,
-    required: true
+    type: String
   },
   delivery: {
-    type: String,
-    required: true
+    type: String
   },
   ownerNote: {
     type: String
   },
+  price: {
+    type: Number
+  },
+  paymentStatus: {
+    type: String
+  },
+  deadline: {
+    type: Date
+  },
   attachments: [
     {
       fileId: {
-        type: String,
-        required: true
+        type: String
       },
       fileName: {
-        type: String,
-        required: true
+        type: String
       }
     }
   ]
