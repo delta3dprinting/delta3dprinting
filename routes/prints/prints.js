@@ -13,107 +13,6 @@ module.exports = (app, passport, upload, conn) => {
     gfs.collection("fs");
   });
 
-  // @route   POST /new_order
-  // @desc    Create a New Order and Store Order Details and File
-  // @access  Private
-  app.post(
-    "/new_order",
-    upload.single("order_new_print_3d_model"),
-    restrictedPages,
-    (req, res) => {
-      console.log("Received");
-      // Create the New Order Properties Object
-      const orderOptionsObject = {
-        ownerId: req.user._id,
-        orderStatus: req.body.orderStatus,
-        orderType: req.body.type,
-        materialGroup: req.body.materialGroup,
-        process: req.body.process,
-        material: req.body.material,
-        orderedQuantity: req.body.orderedQuantity,
-        producedQuantity: req.body.producedQuantity,
-        quality: req.body.quality,
-        strength: req.body.strength,
-        color: req.body.color,
-        pricing: req.body.pricing,
-        delivery: req.body.delivery
-      };
-
-      // Update the Metadata object with the New Order Properties
-      gfs.files.findOneAndUpdate(
-        { filename: req.file.filename },
-        { $set: { metadata: orderOptionsObject } },
-        (err, doc) => {
-          if (err) return console.log("Error");
-          res.send("Success!");
-        }
-      );
-    }
-  );
-
-  // @route   GET /orders
-  // @desc    Fetch The Orders in a form of Object based on User
-  // @access  Private
-  app.get("/orders", (req, res) => {
-    class OrderObject {
-      constructor(
-        orderId,
-        filename,
-        orderStatus,
-        materialGroup,
-        process,
-        material,
-        orderedQuantity,
-        producedQuantity,
-        quality,
-        strength,
-        color,
-        pricing,
-        delivery
-      ) {
-        this.orderId = orderId;
-        this.filename = filename;
-        this.orderStatus = orderStatus;
-        this.materialGroup = materialGroup;
-        this.process = process;
-        this.material = material;
-        this.orderedQuantity = orderedQuantity;
-        this.producedQuantity = producedQuantity;
-        this.quality = quality;
-        this.strength = strength;
-        this.color = color;
-        this.pricing = pricing;
-        this.delivery = delivery;
-      }
-    }
-    const ordersObjectArray = [];
-    const testObject = gfs.files.find({ "metadata.ownerId": req.user._id });
-
-    testObject
-      .forEach((doc, err) => {
-        ordersObjectArray.push(
-          new OrderObject(
-            doc._id,
-            doc.filename,
-            doc.metadata.orderStatus,
-            doc.metadata.materialGroup,
-            doc.metadata.process,
-            doc.metadata.material,
-            doc.metadata.orderedQuantity,
-            doc.metadata.producedQuantity,
-            doc.metadata.quality,
-            doc.metadata.strength,
-            doc.metadata.color,
-            doc.metadata.pricing,
-            doc.metadata.delivery
-          )
-        );
-      })
-      .then(() => {
-        res.send(ordersObjectArray);
-      });
-  });
-
   // @route   GET /orders/:filename
   // @desc    Download the STL File
   // @access  Private
@@ -171,11 +70,22 @@ module.exports = (app, passport, upload, conn) => {
     PrintOrder.countDocuments((err, count) => {
       orderNewPrint.orderNumber = count + 1;
     }).then(() => {
+      let today = new Date();
+      let dd = today.getDate();
+      let mm = today.getMonth() + 1; //January is 0!
+      let yyyy = today.getFullYear();
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+      today = dd + "/" + mm + "/" + yyyy;
       // Set Variables
       orderNewPrint.ownerId = req.user._id;
-      orderNewPrint.creationDate = Date.now();
+      orderNewPrint.creationDate = today;
       orderNewPrint.orderStatus = "Awaiting Quote";
-      orderNewPrint.lastUpdateDate = Date.now();
+      orderNewPrint.lastUpdateDate = today;
       for (i = 0; i < req.body.partObjectArray.length; i++) {
         orderNewPrint.parts[i] = {
           fileId: req.body.partObjectArray[i].fileId,
@@ -200,6 +110,15 @@ module.exports = (app, passport, upload, conn) => {
       orderNewPrint.save();
 
       res.send("Success");
+    });
+  });
+
+  // @route   GET /orders
+  // @desc    Fetch The Orders in a form of Object based on User
+  // @access  Private
+  app.get("/orders", (req, res) => {
+    PrintOrder.find({ ownerId: req.user._id }, (err, docs) => {
+      res.send(docs);
     });
   });
 };

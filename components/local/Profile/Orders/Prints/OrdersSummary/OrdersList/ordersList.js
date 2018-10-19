@@ -56,3 +56,79 @@ const addProfileOrdersPrintsOrdersListContentBody = () => {
       profileOrdersPrintsOrdersListContentBodyHTML
     );
 };
+
+const loadProfileOrdersPrintsOrdersListTableContents = () => {
+  document.querySelector(
+    "#profile_orders_prints_orders_list_table_content_main_body"
+  ).innerHTML = loaderElement;
+  $.ajax({
+    type: "GET",
+    url: "/orders",
+    success: data => {
+      addProfileOrdersPrintsOrdersListTableContents(data);
+    }
+  });
+};
+
+const addProfileOrdersPrintsOrdersListTableContents = objArr => {
+  // Table Body
+  const profileOrdersPrintsOrdersListTableBodyHTML =
+    "<table class='profile_orders_prints_orders_list_table'>" +
+    "<tbody id='profile_orders_prints_orders_list_table_content_body'></tbody>" +
+    "</table>";
+  document.querySelector(
+    "#profile_orders_prints_orders_list_table_content_main_body"
+  ).innerHTML = profileOrdersPrintsOrdersListTableBodyHTML;
+  // Populate the Table with Contents
+  objArr.forEach(ele => {
+    let totalOrderedQuantity = 0;
+    let totalProducedQuantity = 0;
+    let deadline = "";
+
+    for (i = 0; i < ele.parts.length; i++) {
+      totalOrderedQuantity += Number(ele.parts[i].orderQuantity);
+      totalProducedQuantity += Number(ele.parts[i].producedQuantity);
+    }
+
+    if (!ele.deadline) {
+      deadline = "---";
+    } else {
+      deadline = ele.deadline;
+    }
+
+    const profileOrdersPrintsOrdersListTableContent =
+      "<tr class='profile_orders_prints_orders_list_table_row'>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_order_number_content'>" +
+      ele.orderNumber +
+      "</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_creation_date_content'>" +
+      ele.creationDate +
+      "</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_status_content'>" +
+      ele.orderStatus +
+      "</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_update_content'>" +
+      ele.lastUpdateDate +
+      "</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_quantity_content'>" +
+      totalProducedQuantity +
+      "/" +
+      totalOrderedQuantity +
+      "</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_deadline_content'>" +
+      deadline +
+      "</td>" +
+      "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_print_setting_content'>" +
+      ele.pricing +
+      ", " +
+      ele.delivery +
+      "</td>" +
+      "</tr>";
+    document
+      .querySelector("#profile_orders_prints_orders_list_table_content_body")
+      .insertAdjacentHTML(
+        "beforeend",
+        profileOrdersPrintsOrdersListTableContent
+      );
+  });
+};

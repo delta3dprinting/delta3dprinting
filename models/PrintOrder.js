@@ -17,13 +17,13 @@ const PrintOrderSchema = new Schema({
     type: Number
   },
   creationDate: {
-    type: Date
+    type: String
   },
   orderStatus: {
     type: String
   },
   lastUpdateDate: {
-    type: Date
+    type: String
   },
   parts: [
     {
