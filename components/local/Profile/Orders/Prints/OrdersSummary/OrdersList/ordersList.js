@@ -97,7 +97,9 @@ const addProfileOrdersPrintsOrdersListTableContents = objArr => {
     }
 
     const profileOrdersPrintsOrdersListTableContent =
-      "<tr class='profile_orders_prints_orders_list_table_row'>" +
+      "<tr id='profile_orders_prints_order_number_" +
+      ele.orderNumber +
+      "' class='profile_orders_prints_orders_list_table_row'>" +
       "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_order_number_content'>" +
       ele.orderNumber +
       "</td>" +
