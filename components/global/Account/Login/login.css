@@ -1,22 +1,22 @@
 /* ======================================= MODAL ======================================= */
 /* ------------------------------------ MODAL MAIN ------------------------------------- */
 #login_modal {
-  height: 40vh;
+  height: 50vh;
   width: 80vw;
-  top: 30vh;
+  top: 25vh;
   left: 10vw;
   background-color: rgb(100, 10, 10);
   overflow: hidden;
 }
 /* ----------------------------------- MODAL HEADER ------------------------------------ */
 #login_modal_header_body {
-  top: 30vh;
+  top: 25vh;
   width: 80vw;
 }
 /* ------------------------------------ MODAL BODY ------------------------------------- */
 #login_modal_body {
   top: 10vmin;
-  min-height: calc(40vh - 18vmin);
+  min-height: calc(50vh - 18vmin);
   width: 100%;
   display: flex;
   justify-content: center;

@@ -55,6 +55,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgb(240, 240, 240);
 }
 
 @media only screen and (min-width: 600px) {

@@ -1,22 +1,22 @@
 /* ======================================= MODAL ======================================= */
 /* ------------------------------------ MODAL MAIN ------------------------------------- */
 #signup_modal {
-  height: 60vh;
+  height: 70vh;
   width: 80vw;
-  top: 20vh;
+  top: 15vh;
   left: 10vw;
-  background-color: rgb(100, 10, 10, 1);
+  background-color: rgb(100, 10, 10);
   overflow: hidden;
 }
 /* ----------------------------------- MODAL HEADER ------------------------------------ */
 #signup_modal_header_body {
-  top: 20vh;
+  top: 15vh;
   width: 80vw;
 }
 /* ------------------------------------ MODAL BODY ------------------------------------- */
 #signup_modal_body {
   top: 10vmin;
-  min-height: calc(60vh - 18vmin);
+  min-height: calc(70vh - 18vmin);
   width: 100%;
   display: flex;
   justify-content: center;
