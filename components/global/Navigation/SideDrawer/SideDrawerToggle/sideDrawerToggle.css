@@ -1,12 +1,12 @@
 #side_drawer_toggle {
+  /* Screen Size Dependant */
   width: 10vmin;
   height: 10vmin;
-  margin: 0;
-  border: 0;
   padding: 1vmin;
-  border-style: solid;
   border-width: 0.5vmin;
   border-radius: 2vmin;
+  /* Constant */
+  border-style: solid;
   border-color: rgb(170, 10, 10);
   display: flex;
   flex-flow: column;
@@ -15,12 +15,26 @@
 }
 
 .drawer {
-  width: 80%;
+  /* Screen Size Dependant */
   height: 0.8vmin;
-  margin: 0;
-  padding: 0;
-  border: 0;
   border-radius: 1vmin;
+  /* Constant */
+  width: 80%;
   background-color: rgb(242, 242, 242);
   z-index: 1;
+}
+
+@media only screen and (min-width: 600px) {
+  #side_drawer_toggle {
+    width: 7vmin;
+    height: 7vmin;
+    padding: 0.6vmin;
+    border-width: 0.5vmin;
+    border-radius: 1.2vmin;
+  }
+
+  .drawer {
+    height: 0.5vmin;
+    border-radius: 0.25vmin;
+  }
 }

@@ -18,9 +18,9 @@
 }
 
 .service_title_text {
+  font-size: 8vmin;
   text-align: center;
   font-family: "Russo One", sans-serif;
-  font-size: 8vmin;
   color: rgb(140, 10, 10);
 }
 
@@ -34,9 +34,9 @@
 }
 
 .service_summary_quote_text {
+  font-size: 5vmin;
   text-align: center;
   font-family: "Russo One", sans-serif;
-  font-size: 5vmin;
   color: rgb(120, 120, 120);
 }
 
@@ -49,16 +49,16 @@
 }
 
 .service_button {
-  z-index: 1;
   height: 9vmin;
+  border-radius: 4.5vmin;
+  box-shadow: 0 1vmin 1.5vmin 0 rgba(76, 18, 31, 0.35);
+  padding: 0 4vmin 0 4vmin;
+  z-index: 1;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   background-color: rgb(255, 75, 90);
-  border-radius: 4.5vmin;
-  box-shadow: 0 1vmin 1.5vmin 0 rgba(76, 18, 31, 0.35);
-  padding: 0 5vmin 0 5vmin;
 }
 
 .service_button:hover {
@@ -71,27 +71,27 @@
 }
 
 .service_button_text {
+  font-size: 3.5vmin;
   text-align: center;
   font-family: "Chivo", sans-serif;
-  font-size: 3.5vmin;
   color: white;
   font-weight: 500;
 }
 
 .service_description_body {
+  padding: 6vmin 0 0 0;
   max-width: 80%;
   height: 35%;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 6vmin 0 0 0;
 }
 
 .service_description_text {
+  font-size: 4vmin;
   text-align: justify;
   font-family: "Open Sans", sans-serif;
-  font-size: 4vmin;
   font-weight: 800;
   color: rgb(70, 70, 70);
 }
@@ -105,25 +105,64 @@
 }
 
 .temp_modal_title {
+  font-size: 6vmin;
+  padding: 0 10vmin 0 10vmin;
   height: 30%;
   text-align: center;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 10vmin 0 10vmin;
   font-family: "Russo One", sans-serif;
-  font-size: 6vmin;
 }
 
 .temp_modal_content {
+  font-size: 4vmin;
+  padding: 14vmin 10vmin 0 10vmin;
   height: 70%;
   text-align: center;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 14vmin 10vmin 0 10vmin;
   font-family: "Chivo", sans-serif;
-  font-size: 4vmin;
+}
+
+@media only screen and (min-width: 600px) {
+  .service_title_text {
+    font-size: 5vmin;
+  }
+
+  .service_summary_quote_text {
+    font-size: 3vmin;
+  }
+
+  .service_button {
+    height: 5vmin;
+    border-radius: 2.5vmin;
+    box-shadow: 0 0.5vmin 1vmin 0 rgba(76, 18, 31, 0.35);
+    padding: 0 2vmin 0 2vmin;
+  }
+
+  .service_button_text {
+    font-size: 2vmin;
+  }
+
+  .service_description_body {
+    padding: 4vmin 10vmin 0 10vmin;
+  }
+
+  .service_description_text {
+    font-size: 2.5vmin;
+  }
+
+  .temp_modal_title {
+    font-size: 3vmin;
+    padding: 5vmin 0 5vmin 0;
+  }
+
+  .temp_modal_content {
+    font-size: 2vmin;
+    padding: 5vmin 0 5vmin 0;
+  }
 }

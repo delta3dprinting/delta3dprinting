@@ -28,3 +28,21 @@
   font-size: 3vmin;
   font-weight: 600;
 }
+
+@media only screen and (min-width: 600px) {
+  #order_new_print_parts_add_part_body {
+    height: 7vmin;
+  }
+
+  #order_new_print_parts_add_part_button {
+    height: 3.8vmin;
+    padding: 0 2.2vmin 0 2.2vmin;
+    border-radius: 2vmin;
+    border-width: 0.3vmin;
+    box-shadow: 0 0 1vmin 0.06vmin rgba(100, 100, 100, 0.3);
+  }
+
+  #order_new_print_parts_add_part_button_text {
+    font-size: 1.8vmin;
+  }
+}

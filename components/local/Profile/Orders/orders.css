@@ -1,6 +1,3 @@
-#profile_orders_body {
-}
-
 #profile_orders_navigation_tabs_body {
   height: 8vmin;
   display: flex;
@@ -27,4 +24,14 @@
 #profile_orders_components_body {
   display: flex;
   flex-direction: column;
+}
+
+@media only screen and (min-width: 600px) {
+  #profile_orders_navigation_tabs_body {
+    height: 4.5vmin;
+  }
+
+  .profile_orders_navigation_tab_text {
+    font-size: 1.8vmin;
+  }
 }

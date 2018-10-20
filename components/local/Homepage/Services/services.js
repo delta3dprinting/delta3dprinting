@@ -109,13 +109,13 @@ const selectTab = (id, objArr) => {
   document.querySelector("#" + id + "_contents_body").style.zIndex = "1";
   if (selectedTabIndex === 0) {
     document.querySelector("#" + id + "_tab").style.borderRadius =
-      "0 7.5vmin 0 0";
+      "0 1vmin 0 0";
   } else if (selectedTabIndex === objArr.length - 1) {
     document.querySelector("#" + id + "_tab").style.borderRadius =
-      "7.5vmin 0 0 0";
+      "1vmin 0 0 0";
   } else {
     document.querySelector("#" + id + "_tab").style.borderRadius =
-      "7.5vmin 7.5vmin 0 0";
+      "1vmin 1vmin 0 0";
   }
   // CSS Adjacent Tabs
   const leftAdjacentTabIndex = selectedTabIndex - 1;
@@ -126,20 +126,20 @@ const selectTab = (id, objArr) => {
     rightAdjacentTabId = objArr[rightAdjacentTabIndex].id;
     document.querySelector(
       "#" + rightAdjacentTabId + "_tab"
-    ).style.borderRadius = "0 0 0 7.5vmin";
+    ).style.borderRadius = "0 0 0 1vmin";
   } else if (selectedTabIndex === objArr.length - 1) {
     leftAdjacentTabId = objArr[leftAdjacentTabIndex].id;
     document.querySelector(
       "#" + leftAdjacentTabId + "_tab"
-    ).style.borderRadius = "0 0 7.5vmin 0";
+    ).style.borderRadius = "0 0 1vmin 0";
   } else {
     rightAdjacentTabId = objArr[rightAdjacentTabIndex].id;
     leftAdjacentTabId = objArr[leftAdjacentTabIndex].id;
     document.querySelector(
       "#" + rightAdjacentTabId + "_tab"
-    ).style.borderRadius = "0 0 0 7.5vmin";
+    ).style.borderRadius = "0 0 0 1vmin";
     document.querySelector(
       "#" + leftAdjacentTabId + "_tab"
-    ).style.borderRadius = "0 0 7.5vmin 0";
+    ).style.borderRadius = "0 0 1vmin 0";
   }
 };

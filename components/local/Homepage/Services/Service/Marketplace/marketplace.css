@@ -1,6 +1,18 @@
 #marketplace_modal {
-  top: 40vh;
-  left: 10vw;
-  height: 20vh;
-  width: 80vw;
+  top: 30vh;
+  left: 15vw;
+  height: 40vh;
+  width: 70vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 600px) {
+  #marketplace_modal {
+    top: 20vh;
+    left: 30vw;
+    height: 60vh;
+    width: 40vw;
+  }
 }

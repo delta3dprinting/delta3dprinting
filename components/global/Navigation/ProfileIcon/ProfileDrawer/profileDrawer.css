@@ -1,9 +1,11 @@
 #profile_drawer_body {
-  position: fixed;
+  /* Screen Size Dependant */
   width: 30vmin;
-  height: 80vmin; /* Test Height */
   top: 12vmin;
+  border-radius: 0 0 0 1vmin;
   right: 0;
+  /* Constant */
+  position: fixed;
   z-index: 100;
   background-color: rgb(240, 240, 240);
   box-sizing: border-box;
@@ -13,11 +15,23 @@
   flex-flow: column;
   justify-content: space-around;
   align-items: center;
-  border-radius: 0 0 0 3vmin;
 }
 
 .profile_drawer_element {
   font-family: "Russo One", sans-serif;
   font-size: 5vmin;
   color: rgb(50, 50, 50);
+}
+
+@media only screen and (min-width: 600px) {
+  #profile_drawer_body {
+    /* Screen Size Dependant */
+    width: 18vmin;
+    top: 7vmin;
+    border-radius: 0 0 0 0.6vmin;
+  }
+
+  .profile_drawer_element {
+    font-size: 3vmin;
+  }
 }

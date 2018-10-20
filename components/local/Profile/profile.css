@@ -1,6 +1,5 @@
 #profile_body {
   width: 100%;
-  min-height: 80vh;
   display: flex;
   flex-direction: column;
   background-color: rgb(245, 245, 245);
@@ -27,4 +26,14 @@
   font-size: 3.5vmin;
   color: white;
   font-weight: 800;
+}
+
+@media only screen and (min-width: 600px) {
+  #profile_navigation_tabs_body {
+    height: 4.5vmin;
+  }
+
+  .profile_navigation_tab_text {
+    font-size: 1.8vmin;
+  }
 }

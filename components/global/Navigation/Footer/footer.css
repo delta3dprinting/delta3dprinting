@@ -34,3 +34,25 @@
   font-size: 2.8vmin;
   margin: 0 1vmin 0 1vmin;
 }
+
+@media only screen and (min-width: 600px) {
+  #footer {
+    top: 7vmin;
+    padding: 4vmin 2.8vmin 4vmin 2.8vmin;
+  }
+
+  .footer_category_text {
+    font-size: 1.8vmin;
+    margin: 0 1vmin 0 1vmin;
+    height: 2.5vmin;
+  }
+
+  .footer_content_body {
+    height: 5vmin;
+  }
+
+  .footer_content_text {
+    font-size: 1.8vmin;
+    margin: 0 0.6vmin 0 0.6vmin;
+  }
+}

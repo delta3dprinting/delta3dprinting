@@ -27,3 +27,17 @@
 .order_new_print_parts_part_process_selection_text_selected {
   color: rgb(245, 245, 245);
 }
+
+@media only screen and (min-width: 600px) {
+  .order_new_print_parts_part_process_selection_body {
+    height: 4.5vmin;
+    width: 12vmin;
+    margin: 2.2vmin;
+    border-width: 0.2vmin;
+    border-radius: 0.6vmin;
+  }
+
+  .order_new_print_parts_part_process_selection_text {
+    font-size: 2vmin;
+  }
+}

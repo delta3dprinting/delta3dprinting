@@ -1,4 +1,5 @@
 #profile_icon_body {
+  /* Screen Size Dependant */
   height: 8vmin;
   width: 8vmin;
   background-color: rgb(245, 245, 245);
@@ -17,4 +18,13 @@
   height: 70%;
   width: 70%;
   z-index: 0;
+}
+
+@media only screen and (min-width: 600px) {
+  #profile_icon_body {
+    height: 5vmin;
+    width: 5vmin;
+    border-radius: 2.5vmin;
+    border-width: 0.3vmin;
+  }
 }

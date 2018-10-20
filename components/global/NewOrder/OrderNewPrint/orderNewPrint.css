@@ -108,3 +108,83 @@
   font-size: 3.5vmin;
   font-weight: 700;
 }
+
+@media only screen and (min-width: 600px) {
+  /* ==================================== ORDER NEW PRINT MODAL ==================================== */
+
+  #order_new_print_modal {
+    height: 80vh;
+    width: 50vw;
+    top: 10vh;
+    left: 25vw;
+  }
+
+  #order_new_print_modal_header_body {
+    top: 10vh;
+    width: 50vw;
+  }
+
+  #order_new_print_modal_body {
+    padding: 6vmin 0 0 0;
+  }
+
+  #order_new_print_modal_footer_body {
+    top: calc(90vh - 9vmin);
+    height: 9vmin;
+    width: 50vw;
+  }
+
+  #order_new_print_footer_body {
+    width: 30vw;
+  }
+
+  /* ==================================== ORDER NEW PRINT MAIN ===================================== */
+
+  #order_new_print_form_body {
+    padding: 1.2vmin 1.2vmin 9vmin 1.2vmin;
+  }
+
+  /* ======================================== INPUT FIELDS ========================================= */
+
+  .order_new_print_option_input_field {
+    margin: 2.2vmin 0 2.2vmin 0;
+  }
+
+  .order_new_print_option_input_field_header_body {
+    width: 18vw;
+    padding: 0 3vmin 0 0;
+  }
+
+  .order_new_print_option_input_field_header_text {
+    font-size: 2.2vmin;
+  }
+
+  .order_new_print_option_input_body {
+    width: 22vw;
+    padding: 0 3vmin 0 0;
+  }
+
+  .order_new_print_option_input_select {
+    height: 4vmin;
+    padding: 0.5vmin;
+    border-radius: 0.4vmin;
+    border-width: 0.2vmin;
+    font-size: 2vmin;
+  }
+
+  .order_new_print_form_header_body {
+    margin: 1.5vmin 0 1.5vmin 0;
+  }
+
+  .order_new_print_form_header_text {
+    font-size: 2.8vmin;
+  }
+
+  .order_new_print_option_input_textarea {
+    min-height: 12.5vmin;
+    padding: 0.25vmin;
+    border-radius: 0.4vmin;
+    border-width: 0.2vmin;
+    font-size: 2vmin;
+  }
+}

@@ -1,7 +1,10 @@
 #side_drawer {
-  position: fixed;
+  /* Screen Size Dependant */
   width: 35vmin;
   top: 12vmin;
+  border-radius: 0 0 3vmin 0;
+  /* Constant */
+  position: fixed;
   left: 0;
   z-index: 100;
   background-color: rgb(240, 240, 240);
@@ -12,5 +15,12 @@
   flex-flow: column;
   justify-content: space-around;
   align-items: center;
-  border-radius: 0 0 3vmin 0;
+}
+
+@media only screen and (min-width: 600px) {
+  #side_drawer {
+    width: 18vmin;
+    top: 7vmin;
+    border-radius: 0 0 0.6vmin 0;
+  }
 }

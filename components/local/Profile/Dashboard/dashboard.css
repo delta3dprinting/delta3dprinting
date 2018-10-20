@@ -18,3 +18,15 @@
   font-family: "Russo One", sans-serif;
   font-size: 8vmin;
 }
+
+@media only screen and (min-width: 600px) {
+  #profile_dashboard_header {
+    height: 12vmin;
+  }
+
+  #profile_dashboard_header_text {
+    height: 7vmin;
+    padding: 0 0 0 2.8vmin;
+    font-size: 4.5vmin;
+  }
+}

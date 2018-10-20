@@ -18,3 +18,10 @@
   align-items: flex-start;
   justify-content: space-evenly;
 }
+
+@media only screen and (min-width: 600px) {
+  .order_new_print_parts_part_select_material_input_field_header_text {
+    font-size: 2.2vmin;
+    margin: 1.2vmin 0 1.2vmin 1.2vmin;
+  }
+}

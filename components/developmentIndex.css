@@ -9,12 +9,8 @@ html {
 }
 
 #root {
-  min-width: 100vw;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 body {
@@ -24,11 +20,20 @@ body {
 }
 
 #body {
+  /* Screen Size Dependant */
+  top: 12vmin;
   min-width: 100%;
+  height: 100%;
+  /* Constant */
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  top: 12vmin;
+}
+
+@media only screen and (min-width: 600px) {
+  #body {
+    top: 7vmin;
+  }
 }
