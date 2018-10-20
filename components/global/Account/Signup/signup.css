@@ -25,7 +25,7 @@
 }
 /* ----------------------------------- MODAL FOOTER ------------------------------------ */
 #signup_modal_footer_body {
-  top: calc(80vh - 8vmin);
+  top: calc(85vh - 8vmin);
   height: 8vmin;
   width: 80vw;
   padding: 0 3vmin 0 0;

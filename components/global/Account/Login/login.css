@@ -25,7 +25,7 @@
 }
 /* ----------------------------------- MODAL FOOTER ------------------------------------ */
 #login_modal_footer_body {
-  top: calc(70vh - 8vmin);
+  top: calc(75vh - 8vmin);
   height: 8vmin;
   width: 80vw;
   padding: 0 3vmin 0 0;
