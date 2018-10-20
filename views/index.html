@@ -143,6 +143,8 @@
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/NewOrder/OrderNewPrint/Parts/Part/SelectMaterial/Plastic/SLA/sla.js"></script>
   <!-- Metal -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/NewOrder/OrderNewPrint/Parts/Part/SelectMaterial/Metal/metal.js"></script>
+  <!-- ------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
+  <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/orderDetails.js"></script>
   <!-- =============================================== LOCAL COMPONENTS ================================================ -->
   <!-- --------------------------------------------------- HOMEPAGE ---------------------------------------------------- -->
   <script src="https://rawgit.com/delta3dprinting/delta3dprinting/master/components/local/Homepage/homepage.js"></script>
@@ -245,11 +247,41 @@
   <div id="root"></div>
 </body>
 
+<style>
+  /* MODAL */
+  #awaiting_quote_modal {
+    height: 90vh;
+    width: 90vw;
+    top: 5vh;
+    left: 5vw;
+  }
+
+  #awaiting_quote_modal_header_body {
+    width: 90vw;
+    top: 5vh;
+  }
+
+  #awaiting_quote_modal_body {
+    top: calc(10vmin);
+    height: calc(90vh - 20vmin);
+  }
+
+  #awaiting_quote_modal_footer_body {
+    height: 10vmin;
+    width: 90vw;
+    top: calc(95vh - 10vmin);
+  }
+</style>
+
 <script>
   /* INITIALISATION */
   const awaitingQuoteInit = order => {
-    console.log(order);
+    addModal(awaitingQuoteModalId, awaitingQuoteModalHeader);
   };
+
+  /* MODAL */
+  const awaitingQuoteModalId = 'awaiting_quote';
+  const awaitingQuoteModalHeader = 'Order Details'
 </script>
 
 </html>
