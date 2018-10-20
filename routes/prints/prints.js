@@ -121,6 +121,19 @@ module.exports = (app, passport, upload, conn) => {
       res.send(docs);
     });
   });
+
+  // @route   GET /order
+  // @desc    Fetch an order based on order number
+  // @access  Private
+  app.post("/order", (req, res) => {
+    console.log(req.body);
+    PrintOrder.findOne(
+      { ownerId: req.user._id, orderNumber: req.body.orderNumber },
+      (err, docs) => {
+        res.send(docs);
+      }
+    );
+  });
 };
 
 // Route middleware to make sure a user is logged in
