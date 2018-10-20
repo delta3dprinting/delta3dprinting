@@ -1,26 +1,27 @@
 /* ======================================= MODAL ======================================= */
 /* ------------------------------------ MODAL MAIN ------------------------------------- */
 #login_modal {
-  height: 35vh;
+  height: 40vh;
   width: 80vw;
-  top: 35vh;
+  top: 30vh;
   left: 10vw;
   background-color: rgb(100, 10, 10, 0.95);
+  overflow: hidden;
 }
 /* ----------------------------------- MODAL HEADER ------------------------------------ */
 #login_modal_header_body {
-  top: 35vh;
+  top: 30vh;
   width: 80vw;
 }
 /* ------------------------------------ MODAL BODY ------------------------------------- */
 #login_modal_body {
   top: 10vmin;
-  min-height: calc(35vh - 18vmin);
+  min-height: calc(40vh - 18vmin);
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 4vmin 8vmin 4vmin;
+  padding: 0 4vmin 0vmin 4vmin;
 }
 /* ----------------------------------- MODAL FOOTER ------------------------------------ */
 #login_modal_footer_body {
@@ -36,4 +37,37 @@
   color: rgb(80, 150, 255);
   font-weight: bolder;
   cursor: pointer;
+}
+
+@media only screen and (min-width: 600px) {
+  /* ======================================= MODAL ======================================= */
+  /* ------------------------------------ MODAL MAIN ------------------------------------- */
+  #login_modal {
+    height: 40vh;
+    width: 35vw;
+    top: 30vh;
+    left: 32.5vw;
+  }
+  /* ----------------------------------- MODAL HEADER ------------------------------------ */
+  #login_modal_header_body {
+    top: 30vh;
+    width: 35vw;
+  }
+  /* ------------------------------------ MODAL BODY ------------------------------------- */
+  #login_modal_body {
+    top: 6vmin;
+    min-height: calc(40vh - 10.5vmin);
+    padding: 0 4vmin 0 4vmin;
+  }
+  /* ----------------------------------- MODAL FOOTER ------------------------------------ */
+  #login_modal_footer_body {
+    top: calc(70vh - 4.5vmin);
+    height: 4.5vmin;
+    width: 35vw;
+    padding: 0 5vmin 0 0;
+  }
+  /* =================================== LOGIN CONTENT =================================== */
+  #modal_login_signup_statement_text_one {
+    margin: 0 1vmin 0 0;
+  }
 }

@@ -30,6 +30,9 @@ const modellingServiceObject = new serviceObject(
 );
 
 // 3D Modelling Service Modal
+// Modal Header
+const modellingServiceModalHeader = "3D Modelling Service";
+
 const modellingServiceModalBodyHTML =
   "<div id='modelling_service_modal_body' class='service_modal_body'></div>";
 
@@ -43,7 +46,7 @@ const modellingServiceModalContentsHTML =
   modellingServiceTempModalTitleHTML + modellingServiceTempModalContentHTML;
 
 const modellingServiceButtonClicked = () => {
-  addModal("modelling_service");
+  addModal("modelling_service", modellingServiceModalHeader);
   modalBodyPointer.insertAdjacentHTML(
     "beforeend",
     modellingServiceModalBodyHTML

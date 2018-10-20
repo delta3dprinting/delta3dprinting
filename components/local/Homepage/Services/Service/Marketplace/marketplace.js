@@ -30,6 +30,8 @@ const marketplaceObject = new serviceObject(
 );
 
 // Marketplace Modal
+const marketplaceModalHeader = "Marketplace";
+
 const marketplaceModalBodyHTML =
   "<div id='marketplace_modal_body' class='service_modal_body'></div>";
 
@@ -43,7 +45,7 @@ const marketplaceModalContentsHTML =
   marketplaceTempModalTitleHTML + marketplaceTempModalContentHTML;
 
 const marketplaceButtonClicked = () => {
-  addModal("marketplace");
+  addModal("marketplace", marketplaceModalHeader);
   modalBodyPointer.insertAdjacentHTML("beforeend", marketplaceModalBodyHTML);
   document
     .querySelector("#marketplace_modal_body")

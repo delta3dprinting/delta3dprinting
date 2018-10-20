@@ -43,7 +43,7 @@
 
   .footer_category_text {
     font-size: 1.8vmin;
-    margin: 0 1vmin 0 1vmin;
+    margin: 0 1vmin 3vmin 1vmin;
     height: 2.5vmin;
   }
 
@@ -53,6 +53,6 @@
 
   .footer_content_text {
     font-size: 1.8vmin;
-    margin: 0 0.6vmin 0 0.6vmin;
+    margin: 0 1vmin 0 1vmin;
   }
 }

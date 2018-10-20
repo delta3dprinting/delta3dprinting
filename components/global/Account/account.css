@@ -16,6 +16,7 @@
   margin: 2.5vmin 0 2.5vmin 0;
   font-weight: 700;
   color: rgb(240, 240, 240);
+  font-size: 3.5vmin;
 }
 
 .modal_account_input_field {
@@ -41,4 +42,43 @@
   font-family: "Open Sans", sans-serif;
   font-size: 3.5vmin;
   color: rgb(50, 50, 50);
+}
+
+.form_submit_button {
+  height: 7vmin;
+  border-radius: 1vmin;
+  padding: 0 1.5vmin 0 1.5vmin;
+  margin: 4vmin 0 0 0;
+  font-size: 3vmin;
+  font-family: "Chivo", sans-serif;
+  font-weight: 550;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 600px) {
+  .modal_account_input_field_title {
+    margin: 1.3vmin 0 1.3vmin 0;
+    font-size: 2vmin;
+  }
+
+  .modal_account_input_field {
+    margin: 1.3vmin 0 1.3vmin 0;
+    border-radius: 1.2vmin;
+    height: 3.8vmin;
+    padding: 0.6vmin 1.7vmin 0.6vmin 1.7vmin;
+  }
+
+  .modal_account_statement_text {
+    font-size: 2vmin;
+  }
+
+  .form_submit_button {
+    height: 3.8vmin;
+    border-radius: 0.6vmin;
+    padding: 0 0.8vmin 0 0.8vmin;
+    margin: 2.2vmin 0 0 0;
+    font-size: 1.7vmin;
+  }
 }
