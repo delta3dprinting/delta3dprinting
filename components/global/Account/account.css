@@ -25,6 +25,7 @@
   height: 7vmin;
   width: 100%;
   padding: 1vmin 3vmin 1vmin 3vmin;
+  font-size: 3.5vmin;
   display: flex;
   align-items: center;
   outline: none;
@@ -69,6 +70,7 @@
     border-radius: 1.2vmin;
     height: 3.8vmin;
     padding: 0.6vmin 1.7vmin 0.6vmin 1.7vmin;
+    font-size: 1.8vmin;
   }
 
   .modal_account_statement_text {
