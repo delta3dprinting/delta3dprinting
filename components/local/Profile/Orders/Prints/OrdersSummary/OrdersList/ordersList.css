@@ -62,7 +62,6 @@
 
 #profile_orders_prints_orders_list_table_content_main_body {
   min-height: 20vmin;
-  max-height: calc(60vh - 20vmin);
   width: 100%;
   display: flex;
   flex-direction: column;
