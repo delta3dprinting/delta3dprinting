@@ -99,7 +99,6 @@
 
   #profile_orders_prints_orders_list_table_content_main_body {
     min-height: 12vmin;
-    max-height: calc(60vh - 12vmin);
   }
 
   .profile_orders_prints_orders_list_table_content_text {
