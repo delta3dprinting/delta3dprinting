@@ -9,6 +9,11 @@
   overflow: hidden;
 }
 
+#marketplace_modal_header_body {
+  top: 30vh;
+  width: 70vw;
+}
+
 #marketplace_modal_footer_body {
   display: none;
 }

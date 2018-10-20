@@ -132,5 +132,10 @@ const addProfileOrdersPrintsOrdersListTableContents = objArr => {
         "beforeend",
         profileOrdersPrintsOrdersListTableContent
       );
+    document
+      .querySelector("#profile_orders_prints_order_number_" + ele.orderNumber)
+      .addEventListener("click", () => {
+        viewOrderDetails(ele.orderNumber);
+      });
   });
 };

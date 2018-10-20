@@ -9,6 +9,11 @@
   overflow: hidden;
 }
 
+#modelling_service_modal_header_body {
+  top: 30vh;
+  width: 70vw;
+}
+
 #modelling_service_modal_footer_body {
   display: none;
 }
