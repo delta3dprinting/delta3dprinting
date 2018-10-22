@@ -251,4 +251,18 @@
   <div id="root"></div>
 </body>
 
+<script>
+  /* INITIALISATION */
+  const awaitingQuoteInit = order => {
+    const orderStatusId = constructOrderStatusId(order.orderStatus);
+    addModal(
+      orderStatusId,
+      orderDetailsModalHeader,
+      awaitingQuoteOrderDetailsModalFooter
+    );
+    constructHTMLStructure(orderStatusId);
+    awaitingQuoteOrderStatusDescriptionBody(order, orderStatusId);
+  };
+</script>
+
 </html>

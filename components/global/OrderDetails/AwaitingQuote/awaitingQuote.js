@@ -1,15 +1,3 @@
-/* INITIALISATION */
-const awaitingQuoteInit = order => {
-  const orderStatusId = constructOrderStatusId(order.orderStatus);
-  addModal(
-    orderStatusId,
-    orderDetailsModalHeader,
-    awaitingQuoteOrderDetailsModalFooter
-  );
-  constructHTMLStructure(orderStatusId);
-  awaitingQuoteOrderStatusDescriptionBody(order, orderStatusId);
-};
-
 const awaitingQuoteOrderDetailsModalFooter = "<div></div>";
 
 /* Construct Order Status Description Body */
