@@ -1,0 +1,79 @@
+.order_details_main_body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background-color: rgb(245, 245, 245);
+  overflow-y: scroll;
+}
+
+.order_details_body {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(255, 230, 230);
+  border-radius: 1vmin;
+  margin: 2.2vmin 0 0 0;
+  padding: 2vmin;
+}
+
+#order_status_tabs_body {
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 1vmin;
+  background-color: rgb(235, 235, 235);
+}
+
+.order_status_tab_body {
+  height: 14vmin;
+  width: calc(100% / 3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2.8vmin 0 2.8vmin;
+  border-radius: 1vmin;
+}
+
+.order_status_tab_text {
+  font-family: "Chivo", sans-serif;
+  text-align: center;
+  font-size: 3.4vmin;
+  color: rgb(50, 50, 50);
+}
+
+.order_status_tab_body_selected {
+  background-color: rgb(200, 40, 40);
+}
+
+.order_status_tab_text_selected {
+  color: rgb(245, 245, 245);
+  font-weight: 700;
+}
+
+#order_status_description_heading_body {
+  display: flex;
+  align-items: center;
+  padding: 5vmin 0 5vmin 0;
+}
+
+#order_status_description_heading_text {
+  font-family: "Russo One", sans-serif;
+  font-size: 5vmin;
+  text-align: center;
+  color: rgb(170, 10, 10);
+}
+
+#order_status_description_details_body {
+  display: flex;
+  align-items: center;
+  padding: 0 2vmin 0 2vmin;
+}
+
+#order_status_description_details_text {
+  font-family: "Open Sans", sans-serif;
+  font-size: 3.5vmin;
+  text-align: justify;
+  color: rgb(80, 80, 80);
+}
