@@ -201,3 +201,14 @@ const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
       .insertAdjacentHTML("beforeend", orderDetailsPartDetailsHTML);
   });
 };
+
+/* ORDER DETAILS ATTACHMENTS */
+const constructOrderDetailsAttachments = (order, orderStatusId) => {
+  const orderDetailsAttachmentsStructureHTML =
+    "<div class='order_details_attachments_header'>Attachments:</div>" +
+    "<div id='order_details_add_attachment_body'></div>" +
+    "<div id='order_details_attachments_body'></div>";
+  document
+    .querySelector("#" + orderStatusId + "_order_details_attached_files_body")
+    .insertAdjacentHTML("beforeend", orderDetailsAttachmentsStructureHTML);
+};

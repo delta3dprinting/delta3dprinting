@@ -252,7 +252,14 @@
 </body>
 
 <style>
-
+  .order_details_attachment_header {
+    height: 10vmin;
+    width: 100%;
+    padding: 1vmin 0 0 0;
+    font-family: "Russo One", sans-serif;
+    color: rgb(170, 10, 10);
+    font-size: 5vmin;
+  }
 </style>
 
 <script>
@@ -267,7 +274,10 @@
     constructHTMLStructure(orderStatusId);
     awaitingQuoteOrderStatusDescriptionBody(order, orderStatusId);
     constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
+    constructOrderDetailsAttachments(order, orderStatusId)
   };
+
+
 </script>
 
 </html>
