@@ -12,8 +12,8 @@
 }
 
 #awaiting_quote_modal_body {
-  top: calc(10vmin);
-  min-height: calc(90vh - 20vmin);
+  padding: 10vmin 0 10vmin 0;
+  min-height: 90vh;
 }
 
 #awaiting_quote_modal_footer_body {
