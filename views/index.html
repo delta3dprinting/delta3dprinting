@@ -252,13 +252,26 @@
 </body>
 
 <style>
-  .order_details_attachment_header {
+  .order_details_attachments_header {
     height: 10vmin;
     width: 100%;
     padding: 1vmin 0 0 0;
     font-family: "Russo One", sans-serif;
     color: rgb(170, 10, 10);
     font-size: 5vmin;
+  }
+
+  .order_details_comments_header {
+    height: 10vmin;
+    width: 100%;
+    padding: 1vmin 0 0 0;
+    font-family: "Russo One", sans-serif;
+    color: rgb(170, 10, 10);
+    font-size: 5vmin;
+  }
+
+  .order_details_comments_body {
+    height: 100vmin;
   }
 </style>
 
@@ -275,9 +288,18 @@
     awaitingQuoteOrderStatusDescriptionBody(order, orderStatusId);
     constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
     constructOrderDetailsAttachments(order, orderStatusId)
+    constructOrderDetailsComments(order, orderStatusId);
   };
 
-
+  const constructOrderDetailsComments = (order, orderStatusId) => {
+    const orderDetailsCommentsStructureHTML =
+      "<div class='order_details_comments_header'>Comments:</div>" +
+      "<div id='order_details_add_comment_body'></div>" +
+      "<div id='order_details_comments_body'></div> ";
+    document
+      .querySelector("#" + orderStatusId + "_order_details_comments_body")
+      .insertAdjacentHTML("beforeend", orderDetailsCommentsStructureHTML);
+  };
 </script>
 
 </html>
