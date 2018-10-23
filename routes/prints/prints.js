@@ -68,6 +68,9 @@ module.exports = (app, passport, upload, conn) => {
     const orderNewPrint = new PrintOrder();
 
     PrintOrder.countDocuments((err, count) => {
+      if (err) {
+        return console.log(err);
+      }
       orderNewPrint.orderNumber = count + 1;
     }).then(() => {
       let today = new Date();
@@ -116,7 +119,7 @@ module.exports = (app, passport, upload, conn) => {
   // @route   GET /orders
   // @desc    Fetch The Orders in a form of Object based on User
   // @access  Private
-  app.get("/orders", (req, res) => {
+  app.get("/orders", restrictedPages, (req, res) => {
     PrintOrder.find({ ownerId: req.user._id }, (err, docs) => {
       res.send(docs);
     });
@@ -125,14 +128,34 @@ module.exports = (app, passport, upload, conn) => {
   // @route   GET /order
   // @desc    Fetch an order based on order number
   // @access  Private
-  app.post("/order", (req, res) => {
-    console.log(req.body);
+  app.post("/order", restrictedPages, (req, res) => {
     PrintOrder.findOne(
       { ownerId: req.user._id, orderNumber: req.body.orderNumber },
       (err, docs) => {
         res.send(docs);
       }
     );
+  });
+
+  // @route   POST /order/comment
+  // @desc    Fetch an order based on order number
+  // @access  Private
+  app.post("/order/comment", restrictedPages, (req, res) => {
+    PrintOrder.findOne({
+      ownerId: req.body.order.ownerId,
+      orderNumber: req.body.order.orderNumber
+    }).then(order => {
+      const newComment = {
+        userId: req.user._id,
+        text: req.body.comment
+      };
+
+      order.comments.push(newComment);
+
+      order.save().then(order => {
+        res.send(order);
+      });
+    });
   });
 };
 

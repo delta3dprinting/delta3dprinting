@@ -212,3 +212,54 @@ const constructOrderDetailsAttachments = (order, orderStatusId) => {
     .querySelector("#" + orderStatusId + "_order_details_attached_files_body")
     .insertAdjacentHTML("beforeend", orderDetailsAttachmentsStructureHTML);
 };
+
+/* Comments */
+const constructOrderDetailsComments = (order, orderStatusId) => {
+  const orderDetailsCommentsStructureHTML =
+    "<div class='order_details_comments_header'>Comments:</div>" +
+    "<div id='order_details_add_comment_body'>" +
+    "<textarea id='order_details_add_comment_input'></textarea>" +
+    "<div id='order_details_add_comment_post_button_body'>" +
+    "<div id='order_details_add_comment_post_button'>Post</div>" +
+    "</div>" +
+    "</div>" +
+    "<div id='order_details_comments_body'></div> ";
+
+  document
+    .querySelector("#" + orderStatusId + "_order_details_comments_body")
+    .insertAdjacentHTML("beforeend", orderDetailsCommentsStructureHTML);
+
+  loadOrderDetailsComments(order);
+
+  document
+    .querySelector("#order_details_add_comment_post_button")
+    .addEventListener("click", () => {
+      postOrderDetailsComments(order);
+    });
+};
+
+const postOrderDetailsComments = order => {
+  const comment = document.querySelector("#order_details_add_comment_input")
+    .value;
+  if (!comment) {
+    return;
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "/order/comment",
+    contentType: "application/json",
+    data: JSON.stringify({ order: order, comment: comment }),
+    success: data => {
+      loadOrderDetailsComments(data);
+    },
+    dataType: "json"
+  });
+};
+
+const loadOrderDetailsComments = order => {
+  document.querySelector("#order_details_comments_body").innerHTML = "";
+  order.comments.forEach(ele => {
+    console.log(ele);
+  });
+};

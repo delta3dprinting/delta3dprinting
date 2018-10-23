@@ -20,3 +20,7 @@
   width: 90vw;
   top: calc(95vh - 10vmin);
 }
+
+#awaiting_quote_body {
+  padding: 10vmin 0 12vmin 0;
+}
