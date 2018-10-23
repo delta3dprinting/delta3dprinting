@@ -166,3 +166,38 @@ const orderStatusDescriptionBodyHeader = (orderStatus, orderStatusId) => {
     .querySelector("#" + orderStatusId + "_order_status_description_body")
     .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyHeaderHTML);
 };
+
+/* PARTS OPTIONS */
+const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
+  const orderDetailsOrderOptionsHeaderHTML =
+    "<div class='order_details_order_options_header'>Parts:</div>";
+  document
+    .querySelector("#" + orderStatusId + "_order_options_details_body")
+    .insertAdjacentHTML("beforeend", orderDetailsOrderOptionsHeaderHTML);
+  order.parts.forEach(ele => {
+    const orderDetailsPartDetailsHTML =
+      "<div class='order_details_part_details_body'>" +
+      "<div class='order_details_part_details_file_name_body'>" +
+      "<div class='order_details_part_details_file_name_content'>" +
+      ele.fileName +
+      "</div>" +
+      "</div>" +
+      "<div class='order_details_part_details_quantity_body'>" +
+      "<div class='order_details_part_details_quantity_header'>Quantity:</div>" +
+      "<div class='order_details_part_details_quantity_content'>" +
+      ele.producedQuantity +
+      "/" +
+      ele.orderQuantity +
+      "</div>" +
+      "</div>" +
+      "<div class='order_details_part_details_price_body'>" +
+      "<div class='order_details_part_details_price_header'>Price:</div>" +
+      "<div class='order_details_part_details_price_content'>Pending</div>" +
+      "</div>" +
+      "</div>";
+
+    document
+      .querySelector("#" + orderStatusId + "_order_options_details_body")
+      .insertAdjacentHTML("beforeend", orderDetailsPartDetailsHTML);
+  });
+};

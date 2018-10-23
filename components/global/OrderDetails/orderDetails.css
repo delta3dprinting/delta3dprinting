@@ -77,3 +77,95 @@
   text-align: justify;
   color: rgb(80, 80, 80);
 }
+
+/* Order Details Pats Options */
+
+.order_details_order_options_header {
+  height: 10vmin;
+  width: 100%;
+  padding: 1vmin 0 0 0;
+  font-family: "Russo One", sans-serif;
+  color: rgb(170, 10, 10);
+  font-size: 5vmin;
+}
+
+.order_details_part_details_body {
+  width: 100%;
+  display: flex;
+  background-color: rgb(255, 250, 250);
+}
+
+.order_details_part_details_file_name_body {
+  height: 14vmin;
+  width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.2vmin solid rgb(235, 235, 235);
+  padding: 2vmin 1vmin 2vmin 1vmin;
+}
+
+.order_details_part_details_file_name_content {
+  font-family: "Chivo", sans-serif;
+  font-size: 3.5vmin;
+  font-weight: 700;
+  color: rgb(170, 10, 10);
+}
+
+.order_details_part_details_quantity_body {
+  height: 14vmin;
+  width: 22.5%;
+  display: flex;
+  flex-direction: column;
+  border: 0.2vmin solid rgb(235, 235, 235);
+  padding: 2vmin 1vmin 2vmin 1vmin;
+}
+
+.order_details_part_details_price_body {
+  height: 14vmin;
+  width: 22.5%;
+  display: flex;
+  flex-direction: column;
+  border: 0.2vmin solid rgb(235, 235, 235);
+  padding: 2vmin 1vmin 2vmin 1vmin;
+}
+
+.order_details_part_details_quantity_header {
+  height: 6vmin;
+  display: flex;
+  align-items: flex-start;
+  font-family: "Chivo", sans-serif;
+  font-size: 3.5vmin;
+  color: rgb(100, 100, 100);
+}
+
+.order_details_part_details_quantity_content {
+  height: 5vmin;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-family: "Chivo", sans-serif;
+  font-size: 3.5vmin;
+  color: rgb(50, 50, 50);
+}
+
+.order_details_part_details_price_header {
+  height: 5vmin;
+  display: flex;
+  align-items: flex-start;
+  font-family: "Chivo", sans-serif;
+  font-size: 3.5vmin;
+  color: rgb(100, 100, 100);
+}
+
+.order_details_part_details_price_content {
+  height: 5vmin;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-family: "Chivo", sans-serif;
+  font-size: 3.5vmin;
+  color: rgb(50, 50, 50);
+}
