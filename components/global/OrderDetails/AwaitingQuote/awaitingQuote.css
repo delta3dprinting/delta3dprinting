@@ -13,7 +13,7 @@
 
 #awaiting_quote_modal_body {
   top: calc(10vmin);
-  height: calc(90vh - 20vmin);
+  min-height: calc(90vh - 20vmin);
 }
 
 #awaiting_quote_modal_footer_body {
