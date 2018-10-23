@@ -251,6 +251,89 @@
   <div id="root"></div>
 </body>
 
+<style>
+  .order_details_part_details_body {
+    width: 100%;
+    display: flex;
+    background-color: rgb(255, 250, 250);
+  }
+
+  .order_details_part_details_file_name_body {
+    height: 14vmin;
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.2vmin solid rgb(235, 235, 235);
+    padding: 2vmin 1vmin 2vmin 1vmin;
+  }
+
+  .order_details_part_details_file_name_content {
+    font-family: 'Chivo', sans-serif;
+    font-size: 3.5vmin;
+    font-weight: 700;
+    color: rgb(170, 10, 10);
+  }
+
+  .order_details_part_details_quantity_body {
+    height: 14vmin;
+    width: 22.5%;
+    display: flex;
+    flex-direction: column;
+    border: 0.2vmin solid rgb(235, 235, 235);
+    padding: 2vmin 1vmin 2vmin 1vmin;
+  }
+
+  .order_details_part_details_price_body {
+    height: 14vmin;
+    width: 22.5%;
+    display: flex;
+    flex-direction: column;
+    border: 0.2vmin solid rgb(235, 235, 235);
+    padding: 2vmin 1vmin 2vmin 1vmin;
+  }
+
+  .order_details_part_details_quantity_header {
+    height: 6vmin;
+    display: flex;
+    align-items: flex-start;
+    font-family: 'Chivo', sans-serif;
+    font-size: 3.5vmin;
+    color: rgb(100, 100, 100);
+  }
+
+  .order_details_part_details_quantity_content {
+    height: 5vmin;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-family: 'Chivo', sans-serif;
+    font-size: 3.5vmin;
+    color: rgb(50, 50, 50);
+  }
+
+  .order_details_part_details_price_header {
+    height: 5vmin;
+    display: flex;
+    align-items: flex-start;
+    font-family: 'Chivo', sans-serif;
+    font-size: 3.5vmin;
+    color: rgb(100, 100, 100);
+  }
+
+  .order_details_part_details_price_content {
+    height: 5vmin;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-family: 'Chivo', sans-serif;
+    font-size: 3.5vmin;
+    color: rgb(50, 50, 50);
+  }
+</style>
+
 <script>
   /* INITIALISATION */
   const awaitingQuoteInit = order => {
@@ -262,7 +345,33 @@
     );
     constructHTMLStructure(orderStatusId);
     awaitingQuoteOrderStatusDescriptionBody(order, orderStatusId);
+    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
   };
+
+  const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
+    order.parts.forEach(ele => {
+      const orderDetailsPartDetailsHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_part_details_file_name_body'>" +
+        "<div class='order_details_part_details_file_name_content'>" + ele.fileName + "</div>" +
+        "</div>" +
+        "<div class='order_details_part_details_quantity_body'>" +
+        "<div class='order_details_part_details_quantity_header'>Quantity:</div>" +
+        "<div class='order_details_part_details_quantity_content'>" +
+        ele.producedQuantity +
+        "/" +
+        ele.orderQuantity +
+        "</div>" +
+        "</div>" +
+        "<div class='order_details_part_details_price_body'>" +
+        "<div class='order_details_part_details_price_header'>Price:</div>" +
+        "<div class='order_details_part_details_price_content'>Pending</div>" +
+        "</div>" +
+        "</div>";
+
+      document.querySelector('#' + orderStatusId + '_order_options_details_body').insertAdjacentHTML('beforeend', orderDetailsPartDetailsHTML)
+    });
+  }
 </script>
 
 </html>
