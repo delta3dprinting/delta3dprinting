@@ -2,6 +2,8 @@ const LocalStrategy = require("passport-local").Strategy;
 
 // Load User Model
 const User = require("../../models/User");
+// Load User Profile
+const UserProfile = require("../../models/UserProfile");
 
 module.exports = passport => {
   /* ====================================== PASSPORT SESSION SETUP ====================================== */
@@ -63,6 +65,19 @@ module.exports = passport => {
               // Save the user
               newUser.save(err => {
                 if (err) throw err;
+
+                let newUserProfile = new UserProfile();
+
+                newUserProfile.firstName = req.body.firstName;
+                newUserProfile.lastName = req.body.lastName;
+                newUserProfile.shippingAddress.streetNumber =
+                  req.body.streetNumber;
+                newUserProfile.shippingAddress.streetName = req.body.streetName;
+                newUserProfile.shippingAddress.suburb = req.body.suburb;
+                newUserProfile.shippingAddress.city = req.body.city;
+                newUserProfile.shippingAddress.postcode = req.body.postcode;
+                newUserProfile.shippingAddress.country = req.body.country;
+
                 return done(null, newUser);
               });
             }

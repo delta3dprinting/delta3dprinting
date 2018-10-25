@@ -1,22 +1,21 @@
 /* ======================================= MODAL ======================================= */
 /* ------------------------------------ MODAL MAIN ------------------------------------- */
 #login_modal {
-  height: 50vh;
-  width: 80vw;
-  top: 25vh;
-  left: 10vw;
+  height: 40vh;
+  width: 90vw;
+  top: 30vh;
+  left: 5vw;
   background-color: rgb(100, 10, 10);
   overflow: hidden;
 }
 /* ----------------------------------- MODAL HEADER ------------------------------------ */
 #login_modal_header_body {
-  top: 25vh;
-  width: 80vw;
+  top: 30vh;
+  width: 90vw;
 }
 /* ------------------------------------ MODAL BODY ------------------------------------- */
 #login_modal_body {
-  top: 10vmin;
-  min-height: calc(50vh - 18vmin);
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -25,9 +24,9 @@
 }
 /* ----------------------------------- MODAL FOOTER ------------------------------------ */
 #login_modal_footer_body {
-  top: calc(75vh - 8vmin);
+  top: calc(70vh - 8vmin);
   height: 8vmin;
-  width: 80vw;
+  width: 90vw;
   padding: 0 3vmin 0 0;
   justify-content: flex-end;
 }

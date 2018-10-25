@@ -14,17 +14,34 @@ const UserProfileSchema = new Schema({
     ref: "users",
     required: true
   },
-  firstname: {
+  firstName: {
     type: String
   },
-  middlenames: {
+  middleNames: {
     type: String
   },
-  lastname: {
+  lastName: {
     type: String
   },
   shippingAddress: {
-    type: String
+    streetNumber: {
+      type: String
+    },
+    streetName: {
+      type: String
+    },
+    suburb: {
+      type: String
+    },
+    city: {
+      type: String
+    },
+    postcode: {
+      type: String
+    },
+    country: {
+      type: String
+    }
   }
 });
 

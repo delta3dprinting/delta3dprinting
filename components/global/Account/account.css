@@ -1,29 +1,43 @@
 .modal_account_form_body {
-  height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 12vmin 4vmin 12vmin 4vmin;
 }
 
 .modal_account_form {
-  width: 85%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.modal_account_input_field_title {
+.modal_account_input_field {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal_account_input_field_header {
+  width: 30%;
   font-family: "Chivo", sans-serif;
-  margin: 2.5vmin 0 2.5vmin 0;
+  margin: 1vmin 0 1vmin 0;
   font-weight: 700;
   color: rgb(240, 240, 240);
   font-size: 3.5vmin;
 }
 
-.modal_account_input_field {
-  margin: 2.5vmin 0 2.5vmin 0;
-  border-radius: 2vmin;
+.modal_account_input_body {
+  width: 65%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal_account_input {
   height: 7vmin;
   width: 100%;
+  margin: 2.5vmin 0 2.5vmin 0;
+  border-radius: 2vmin;
   padding: 1vmin 3vmin 1vmin 3vmin;
   font-size: 3.5vmin;
   display: flex;
@@ -45,27 +59,38 @@
   color: rgb(50, 50, 50);
 }
 
+.form_submit_button_body {
+  height: 10vmin;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .form_submit_button {
-  height: 7vmin;
+  height: 8vmin;
   border-radius: 1vmin;
-  padding: 0 1.5vmin 0 1.5vmin;
+  border-color: rgb(255, 60, 60);
+  padding: 0 8vmin 0 8vmin;
   margin: 4vmin 0 0 0;
-  font-size: 3vmin;
+  font-size: 4vmin;
   font-family: "Chivo", sans-serif;
-  font-weight: 550;
+  font-weight: 700;
+  letter-spacing: 1vmin;
+  color: rgb(240, 240, 240);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(255, 60, 60);
 }
 
 @media only screen and (min-width: 600px) {
-  .modal_account_input_field_title {
+  .modal_account_input_field_header {
     margin: 1.3vmin 0 1.3vmin 0;
     font-size: 2vmin;
   }
 
-  .modal_account_input_field {
+  .modal_account_input {
     margin: 1.3vmin 0 1.3vmin 0;
     border-radius: 1.2vmin;
     height: 3.8vmin;

@@ -6,15 +6,21 @@ const loginModalHeader = "Login";
 const loginModalHTML =
   "<div id='modal_login_form_body' class='modal_account_form_body'>" +
   "<form id='modal_login_form' class='modal_account_form' action='/users/login' method='POST' onsubmit=''>" +
-  "<div id='modal_login_email_field_body' class='modal_login_input_field_body modal_account_input_field_body'>" +
-  "<div id='modal_login_email_field_title' class='modal_login_input_field_title modal_account_input_field_title'>Email</div>" +
-  "<input type='email' name='email' id='modal_login_email_field' class='modal_login_input_field modal_account_input_field'>" +
+  "<div class='modal_login_input_field modal_account_input_field'>" +
+  "<div class='modal_login_input_field_header modal_account_input_field_header'>Email</div>" +
+  "<div class='modal_login_input_body modal_account_input_body'>" +
+  "<input type='email' name='email' id='modal_login_email_input' class='modal_login_input modal_account_input'>" +
   "</div>" +
-  "<div id='modal_login_password_field_body' class='modal_login_input_field_body modal_account_input_field_body'>" +
-  "<div id='modal_login_password_field_title' class='modal_login_input_field_title modal_account_input_field_title'>Password</div>" +
-  "<input type='password' name='password' id='modal_login_password_field' class='modal_login_input_field modal_account_input_field'>" +
   "</div>" +
-  "<button class='form_submit_button'>Login</button>" +
+  "<div class='modal_login_input_field modal_account_input_field'>" +
+  "<div id='modal_login_password_input_field_header' class='modal_login_input_field_header modal_account_input_field_header'>Password</div>" +
+  "<div id='modal_login_password_input_body' class='modal_login_input_body modal_account_input_body'>" +
+  "<input type='password' name='password' id='modal_login_password_input' class='modal_login_input modal_account_input'>" +
+  "</div>" +
+  "</div>" +
+  "<div class='form_submit_button_body'>" +
+  "<button class='form_submit_button'>LOGIN</button>" +
+  "</div>" +
   "</form>" +
   "</div>";
 // Modal Footer
