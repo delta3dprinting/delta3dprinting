@@ -2,17 +2,39 @@
 const UserProfile = require("../../models/UserProfile");
 
 module.exports = (app, passport) => {
-  // @route   GET profile/test
-  // @desc    Tests post route
-  // @access  Public
-  app.get("/test", (req, res) => res.json({ msg: "Profile Works" }));
+  // @route   GET /profile
+  // @desc    Get Profile Details
+  // @access  Private
+  app.get("/profile", restrictedPages, (req, res) => {
+    UserProfile.findOne({ ownerId: req.user._id }, (err, profile) => {
+      res.send(profile);
+    });
+  });
 
-  // @route   POST profile/save
+  // @route   POST /profile/save
   // @desc    Save Profile Changes
   // @access  Private
   app.post("/profile/save", restrictedPages, (req, res) => {
-    console.log(req.body);
-    res.send("Success!");
+    UserProfile.findOne({ ownerId: req.user._id }).then(profile => {
+      // Update Profile Values
+      for (component in req.body) {
+        if (component == "shippingAddress") {
+          for (component in req.body.shippingAddress) {
+            profile.shippingAddress[component] =
+              req.body.shippingAddress[component];
+          }
+        } else {
+          profile[component] = req.body[component];
+        }
+      }
+      profile.save((err, profile) => {
+        if (err) throw err;
+
+        console.log(profile);
+
+        res.send("success");
+      });
+    });
   });
 };
 

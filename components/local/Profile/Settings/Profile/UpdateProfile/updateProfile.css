@@ -41,7 +41,7 @@
   color: rgb(170, 10, 10);
 }
 
-.profile_settings_profile_save_changes_success_message {
+#profile_settings_profile_save_changes_success_message {
   font-family: "Open Sans", sans-serif;
   font-size: 3vmin;
   color: rgb(15, 170, 10);
