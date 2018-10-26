@@ -20,6 +20,7 @@ const profileSettingsProfileInit = () => {
   constructProfileSettingsProfileStructure();
   profileSettingsProfileBasicInformationInit();
   profileSettingsProfileAddressInit();
+  profileSettingsProfileUpdateProfileInit();
 };
 
 // Construct the structure for settings: profile
@@ -27,6 +28,8 @@ const constructProfileSettingsProfileStructure = () => {
   const profileSettingsProfileStructureHTML =
     "<div id='profile_settings_profile_body'>" +
     "<div id='profile_settings_profile_basic_information_body' class='profile_settings_edit_profile_body'></div>" +
+    "<div id='profile_settings_profile_shipping_address_body' class='profile_settings_edit_profile_body'></div>" +
+    "<div id='profile_settings_profile_button_body'></div>" +
     "</div>";
 
   document.querySelector(

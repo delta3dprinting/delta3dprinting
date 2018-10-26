@@ -55,19 +55,19 @@ module.exports = passport => {
               // Create the user
               let newUser = new User();
 
+              // Set user credentials
               newUser.username = req.body.username;
               newUser.email = email;
               newUser.password = newUser.generateHash(password);
 
-              // Set user credentials
-              console.log(newUser);
-
               // Save the user
-              newUser.save(err => {
+              newUser.save((err, user) => {
                 if (err) throw err;
 
+                // Create user profile
                 let newUserProfile = new UserProfile();
-
+                // Set user profile values
+                newUserProfile.ownerId = user._id;
                 newUserProfile.firstName = req.body.firstName;
                 newUserProfile.lastName = req.body.lastName;
                 newUserProfile.shippingAddress.streetNumber =
@@ -77,6 +77,10 @@ module.exports = passport => {
                 newUserProfile.shippingAddress.city = req.body.city;
                 newUserProfile.shippingAddress.postcode = req.body.postcode;
                 newUserProfile.shippingAddress.country = req.body.country;
+                // Save user profile
+                newUserProfile.save(err => {
+                  if (err) throw err;
+                });
 
                 return done(null, newUser);
               });

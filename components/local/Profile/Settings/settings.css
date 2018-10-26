@@ -32,3 +32,14 @@
 .profile_settings_tab_text_selected {
   color: rgb(170, 10, 10);
 }
+
+@media only screen and (min-width: 600px) {
+  .profile_settings_tab_body {
+    height: 4.5vmin;
+    width: 20%;
+  }
+
+  .profile_settings_tab_text {
+    font-size: 1.8vmin;
+  }
+}

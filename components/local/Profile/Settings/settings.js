@@ -5,6 +5,7 @@ let profileSettingsObject;
 const profileSettingsId = "settings";
 const profileSettingsName = "Settings";
 const profileSettingsMethod = () => {
+  selectedProfileSettingsTabName = undefined;
   constructProfileSettingsStructure();
   constructProfileSettingsComponentObjectArray();
   constructProfileSettingsTabs(profileSettingsComponentObjectArray);

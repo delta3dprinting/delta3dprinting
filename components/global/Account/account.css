@@ -70,7 +70,7 @@
 .form_submit_button {
   height: 8vmin;
   border-radius: 1vmin;
-  border-color: rgb(255, 60, 60);
+  border-color: rgb(255, 75, 90);
   padding: 0 8vmin 0 8vmin;
   margin: 4vmin 0 0 0;
   font-size: 4vmin;
@@ -81,10 +81,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(255, 60, 60);
+  background-color: rgb(255, 75, 90);
 }
 
 @media only screen and (min-width: 600px) {
+  .modal_account_form_body {
+    padding: 8vmin 4vmin 8vmin 4vmin;
+  }
+
   .modal_account_input_field_header {
     margin: 1.3vmin 0 1.3vmin 0;
     font-size: 2vmin;

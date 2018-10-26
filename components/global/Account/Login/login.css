@@ -54,14 +54,13 @@
   }
   /* ------------------------------------ MODAL BODY ------------------------------------- */
   #login_modal_body {
-    top: 6vmin;
     min-height: calc(40vh - 10.5vmin);
     padding: 0 4vmin 0 4vmin;
   }
   /* ----------------------------------- MODAL FOOTER ------------------------------------ */
   #login_modal_footer_body {
-    top: calc(70vh - 4.5vmin);
-    height: 4.5vmin;
+    top: calc(70vh - 6vmin);
+    height: 6vmin;
     width: 35vw;
     padding: 0 5vmin 0 0;
   }

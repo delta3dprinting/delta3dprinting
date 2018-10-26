@@ -33,18 +33,21 @@ const constructProfileSettingsProfileBasicInformationForm = () => {
     "<div class='profile_settings_edit_profile_input_body'>" +
     "<input type='text' id='profile_settings_edit_profile_first_name_input' class='profile_settings_edit_profile_input'>" +
     "</div>" +
+    "<div id='profile_settings_edit_profile_first_name_input_field_error_body' class='profile_settings_edit_profile_input_field_error_body'></div>" +
     "</div>" +
     "<div class='profile_settings_edit_profile_input_field'>" +
     "<div class='profile_settings_edit_profile_input_field_header'>Middle Name(s)</div>" +
     "<div class='profile_settings_edit_profile_input_body'>" +
     "<input type='text' id='profile_settings_edit_profile_middle_names_input' class='profile_settings_edit_profile_input'>" +
     "</div>" +
+    "<div id='profile_settings_edit_profile_middle_names_input_field_error_body' class='profile_settings_edit_profile_input_field_error_body'></div>" +
     "</div>" +
     "<div class='profile_settings_edit_profile_input_field'>" +
     "<div class='profile_settings_edit_profile_input_field_header'>Last Name</div>" +
     "<div class='profile_settings_edit_profile_input_body'>" +
     "<input type='text' id='profile_settings_edit_profile_last_name_input' class='profile_settings_edit_profile_input'>" +
     "</div>" +
+    "<div id='profile_settings_edit_profile_last_name_input_field_error_body' class='profile_settings_edit_profile_input_field_error_body'></div>" +
     "</div>" +
     "</div>";
   // Insert HTML

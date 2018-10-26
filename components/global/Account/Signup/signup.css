@@ -119,26 +119,20 @@
   /* ======================================= MODAL ======================================= */
   /* ------------------------------------ MODAL MAIN ------------------------------------- */
   #signup_modal {
-    height: 55vh;
+    height: 90vh;
     width: 35vw;
-    top: 22.5vh;
+    top: 5vh;
     left: 32.5vw;
   }
   /* ----------------------------------- MODAL HEADER ------------------------------------ */
   #signup_modal_header_body {
-    top: 22.5vh;
+    top: 5vh;
     width: 35vw;
-  }
-  /* ------------------------------------ MODAL BODY ------------------------------------- */
-  #signup_modal_body {
-    top: 6vmin;
-    min-height: calc(55vh - 10.5vmin);
-    padding: 0 4vmin 0 4vmin;
   }
   /* ----------------------------------- MODAL FOOTER ------------------------------------ */
   #signup_modal_footer_body {
-    top: calc(77.5vh - 4.5vmin);
-    height: 4.5vmin;
+    top: calc(95vh - 6vmin);
+    height: 6vmin;
     width: 35vw;
     padding: 0 5vmin 0 0;
   }
