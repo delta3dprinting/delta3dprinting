@@ -166,6 +166,7 @@ module.exports = (app, passport, upload, conn) => {
   // @access  Private
   app.get("/order/comments", restrictedPages, (req, res) => {
     console.log(req.body);
+    res.send("Success!");
   });
 };
 

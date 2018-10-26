@@ -229,11 +229,44 @@ const constructOrderDetailsComments = (order, orderStatusId) => {
     .querySelector("#" + orderStatusId + "_order_details_comments_body")
     .insertAdjacentHTML("beforeend", orderDetailsCommentsStructureHTML);
 
-  loadOrderDetailsComments(order);
+  loadOrderDetailsComments(order.ownerId, order.orderNumber);
 
   document
     .querySelector("#order_details_add_comment_post_button")
     .addEventListener("click", () => {
       postOrderDetailsComments(order);
     });
+};
+
+const postOrderDetailsComments = order => {
+  const comment = document.querySelector("#order_details_add_comment_input")
+    .value;
+  if (!comment) {
+    return;
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "/order/comment",
+    contentType: "application/json",
+    data: JSON.stringify({ order: order, comment: comment }),
+    success: data => {
+      loadOrderDetailsComments(data.orderOwnerId, data.orderOrderNumber);
+    },
+    dataType: "json"
+  });
+};
+
+const loadOrderDetailsComments = (ownerId, orderNumber) => {
+  document.querySelector("#order_details_comments_body").innerHTML = "";
+
+  $.ajax({
+    type: "GET",
+    url: "/order/comments",
+    contentType: "application/json",
+    data: JSON.stringify({ ownerId: ownerId, orderNumber: orderNumber }),
+    success: data => {
+      populateOrderDetailsComments(data);
+    }
+  });
 };
