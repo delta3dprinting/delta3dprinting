@@ -58,16 +58,22 @@ const addProfileOrdersPrintsOrdersListContentBody = () => {
 };
 
 const loadProfileOrdersPrintsOrdersListTableContents = () => {
-  document.querySelector(
-    "#profile_orders_prints_orders_list_table_content_main_body"
-  ).innerHTML = loaderElement;
-  $.ajax({
-    type: "GET",
-    url: "/orders",
-    success: data => {
-      addProfileOrdersPrintsOrdersListTableContents(data);
-    }
-  });
+  if (
+    document.querySelector(
+      "#profile_orders_prints_orders_list_table_content_main_body"
+    )
+  ) {
+    document.querySelector(
+      "#profile_orders_prints_orders_list_table_content_main_body"
+    ).innerHTML = loaderElement;
+    $.ajax({
+      type: "GET",
+      url: "/orders",
+      success: data => {
+        addProfileOrdersPrintsOrdersListTableContents(data);
+      }
+    });
+  }
 };
 
 const addProfileOrdersPrintsOrdersListTableContents = objArr => {

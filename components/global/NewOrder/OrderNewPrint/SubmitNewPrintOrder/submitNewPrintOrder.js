@@ -106,6 +106,7 @@ const submitNewPrintOrder = () => {
       success: data => {
         // Post Submit
         newOrderSubmitSuccess();
+        loadProfileOrdersPrintsOrdersListTableContents();
       }
     });
   }, 0);
