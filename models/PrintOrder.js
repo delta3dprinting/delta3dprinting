@@ -65,9 +65,6 @@ const PrintOrderSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "users"
       },
-      userName: {
-        type: String
-      },
       text: {
         type: String
       },

@@ -237,29 +237,3 @@ const constructOrderDetailsComments = (order, orderStatusId) => {
       postOrderDetailsComments(order);
     });
 };
-
-const postOrderDetailsComments = order => {
-  const comment = document.querySelector("#order_details_add_comment_input")
-    .value;
-  if (!comment) {
-    return;
-  }
-
-  $.ajax({
-    type: "POST",
-    url: "/order/comment",
-    contentType: "application/json",
-    data: JSON.stringify({ order: order, comment: comment }),
-    success: data => {
-      loadOrderDetailsComments(data);
-    },
-    dataType: "json"
-  });
-};
-
-const loadOrderDetailsComments = order => {
-  document.querySelector("#order_details_comments_body").innerHTML = "";
-  order.comments.forEach(ele => {
-    console.log(ele);
-  });
-};

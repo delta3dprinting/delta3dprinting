@@ -153,9 +153,19 @@ module.exports = (app, passport, upload, conn) => {
       order.comments.push(newComment);
 
       order.save().then(order => {
-        res.send(order);
+        res.send({
+          orderOwnerId: order.ownerId,
+          orderOrderNumber: order.orderNumber
+        });
       });
     });
+  });
+
+  // @route   GET /order/comments
+  // @desc    Fetch an order based on order number
+  // @access  Private
+  app.get("/order/comments", restrictedPages, (req, res) => {
+    console.log(req.body);
   });
 };
 
