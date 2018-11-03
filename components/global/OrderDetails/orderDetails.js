@@ -1,3 +1,5 @@
+/* ======================================= INITIALISATION ======================================= */
+
 const viewOrderDetails = orderNumber => {
   $.ajax({
     type: "POST",
@@ -34,7 +36,8 @@ const constructOrderStatusId = orderStatus => {
 /* MODAL */
 const orderDetailsModalHeader = "Order Details";
 
-/* HTML STRUCTURE */
+/* ======================================= HTML STRUCTURE ======================================= */
+
 const constructHTMLStructure = orderStatusId => {
   const htmlStructure =
     "<div id='" +
@@ -59,7 +62,8 @@ const constructHTMLStructure = orderStatusId => {
   ).innerHTML = htmlStructure;
 };
 
-// Construct Order Status Description Body Tabs
+/* =============================== ORDER STATUS DESCRIPTION BODY ================================ */
+
 const orderStatusDescriptionBodyTabs = (orderStatusId, delivery) => {
   const orderStatusDescriptionBodyTabsHTML =
     "<div id='order_status_tabs_body'>" +
@@ -169,7 +173,8 @@ const orderStatusDescriptionBodyHeader = (orderStatus, orderStatusId) => {
     .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyHeaderHTML);
 };
 
-/* PARTS OPTIONS */
+/* =================================== ORDER OPTIONS DETAILS ==================================== */
+
 const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
   const orderDetailsOrderOptionsHeaderHTML =
     "<div class='order_details_order_options_header'>Parts:</div>";
@@ -204,7 +209,8 @@ const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
   });
 };
 
-/* ORDER DETAILS ATTACHMENTS */
+/* ================================ ORDER DETAILS ATTACHED FILES ================================ */
+
 const constructOrderDetailsAttachments = (order, orderStatusId) => {
   const orderDetailsAttachmentsStructureHTML =
     "<div class='order_details_attachments_header'>Attachments:</div>" +
@@ -215,7 +221,8 @@ const constructOrderDetailsAttachments = (order, orderStatusId) => {
     .insertAdjacentHTML("beforeend", orderDetailsAttachmentsStructureHTML);
 };
 
-/* Comments */
+/* =================================== ORDER DETAILS COMMENTS =================================== */
+
 const constructOrderDetailsComments = (order, orderStatusId) => {
   const orderDetailsCommentsStructureHTML =
     "<div class='order_details_comments_header'>Comments:</div>" +
@@ -514,3 +521,5 @@ const addOrderDetailsComment = commentDetail => {
     .querySelector("#order_details_comments_body")
     .insertAdjacentHTML("beforeend", orderDetailsCommentHTML);
 };
+
+/* ============================================================================================== */

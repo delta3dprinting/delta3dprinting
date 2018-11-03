@@ -237,7 +237,27 @@
 </body>
 
 <style>
+  .order_details_awaiting_payment_instruction_body {
+    width: 90%;
+    display: flex;
+    margin: 1vmin 0 1vmin;
+  }
 
+  .order_details_awaiting_payment_instruction_number {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 3.2vmin;
+    color: rgb(60, 60, 60);
+  }
+
+  .order_details_awaiting_payment_instruction_text {
+    width: 90%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 3.2vmin;
+    color: rgb(60, 60, 60);
+  }
 </style>
 
 <script>
@@ -245,11 +265,12 @@
     const orderStatusId = constructOrderStatusId(order.orderStatus);
     constructOrderDetailsAwaitingPaymentModal(orderStatusId);
     constructHTMLStructure(orderStatusId);
-    /*     orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
-        orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId); */
+    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
+    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
     constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
     constructOrderDetailsAttachments(order, orderStatusId);
     constructOrderDetailsComments(order, orderStatusId);
+    awaitingPaymentDescriptionBodyDetails();
   }
 
   const constructOrderDetailsAwaitingPaymentModal = orderStatusId => {
@@ -266,7 +287,7 @@
     const orderDetailsAwaitingPaymentModalMobileWidth = 90;
     const orderDetailsAwaitingPaymentModalDesktopHeight = 90;
     const orderDetailsAwaitingPaymentModalDesktopWidth = 60;
-    const orderDetailsAwaitingPaymentModalFooterHeight = 8;
+    const orderDetailsAwaitingPaymentModalFooterHeight = 12;
     const orderDetailsAwaitingPaymentModalCSSObject = new modalCSSObject(
       orderDetailsAwaitingPaymentModalMobileHeight,
       orderDetailsAwaitingPaymentModalMobileWidth,
@@ -280,6 +301,50 @@
       orderDetailsAwaitingPaymentModalCSSObject
     );
   }
+
+  /* Construct Order Status Description Body */
+  const awaitingPaymentDescriptionBodyDetails = () => {
+    const details =
+      "Before we begin 3D printing, please proceed with the payment by following the instructions below:";
+    const instructionOne = "Using bank transfer, pay the specified amount of $100.00 to 12-3287-0320549-00";
+    const instructionTwo = "Include the order number (1) and your initials (CV) in the reference";
+    const instructionThree = "After making the payment, press 'Payed' to update your order status and notify us";
+
+    const orderStatusDescriptionBodyDetailsHTML =
+      "<div id='order_status_description_details_body'>" +
+      "<div id='order_status_description_details_text'>" +
+      details +
+      "</div>" +
+      "</div>" +
+      "<div class='order_details_awaiting_payment_instruction_body'>" +
+      "<div class='order_details_awaiting_payment_instruction_number'>" +
+      "1." +
+      "</div>" +
+      "<div class='order_details_awaiting_payment_instruction_text'>" +
+      instructionOne +
+      "</div>" +
+      "</div>" +
+      "<div class='order_details_awaiting_payment_instruction_body'>" +
+      "<div class='order_details_awaiting_payment_instruction_number'>" +
+      "2." +
+      "</div>" +
+      "<div class='order_details_awaiting_payment_instruction_text'>" +
+      instructionTwo +
+      "</div>" +
+      "</div>" +
+      "<div class='order_details_awaiting_payment_instruction_body'>" +
+      "<div class='order_details_awaiting_payment_instruction_number'>" +
+      "3." +
+      "</div>" +
+      "<div class='order_details_awaiting_payment_instruction_text'>" +
+      instructionThree +
+      "</div>" +
+      "</div>";
+
+    document
+      .querySelector("#awaiting_payment_order_status_description_body")
+      .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
+  };
 </script>
 
 </html>
