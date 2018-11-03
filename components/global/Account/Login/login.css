@@ -1,71 +1,15 @@
-/* ======================================= MODAL ======================================= */
-/* ------------------------------------ MODAL MAIN ------------------------------------- */
-#login_modal {
-  height: 40vh;
-  width: 90vw;
-  top: 30vh;
-  left: 5vw;
-  background-color: rgb(100, 10, 10);
-  overflow: hidden;
-}
-/* ----------------------------------- MODAL HEADER ------------------------------------ */
-#login_modal_header_body {
-  top: 30vh;
-  width: 90vw;
-}
-/* ------------------------------------ MODAL BODY ------------------------------------- */
 #login_modal_body {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  background-color: rgb(100, 10, 10);
+}
+
+#login_modal_footer_contents {
   align-items: center;
-  padding: 0 4vmin 0vmin 4vmin;
-}
-/* ----------------------------------- MODAL FOOTER ------------------------------------ */
-#login_modal_footer_body {
-  top: calc(70vh - 8vmin);
-  height: 8vmin;
-  width: 90vw;
-  padding: 0 3vmin 0 0;
   justify-content: flex-end;
-}
-/* =================================== LOGIN CONTENT =================================== */
-#modal_login_signup_statement_text_one {
-  margin: 0 1vmin 0 0;
-  color: rgb(80, 150, 255);
-  font-weight: bolder;
-  cursor: pointer;
+  padding: 0 2vmin 0 0;
 }
 
 @media only screen and (min-width: 600px) {
-  /* ======================================= MODAL ======================================= */
-  /* ------------------------------------ MODAL MAIN ------------------------------------- */
-  #login_modal {
-    height: 40vh;
-    width: 35vw;
-    top: 30vh;
-    left: 32.5vw;
-  }
-  /* ----------------------------------- MODAL HEADER ------------------------------------ */
-  #login_modal_header_body {
-    top: 30vh;
-    width: 35vw;
-  }
-  /* ------------------------------------ MODAL BODY ------------------------------------- */
-  #login_modal_body {
-    min-height: calc(40vh - 10.5vmin);
-    padding: 0 4vmin 0 4vmin;
-  }
-  /* ----------------------------------- MODAL FOOTER ------------------------------------ */
-  #login_modal_footer_body {
-    top: calc(70vh - 6vmin);
-    height: 6vmin;
-    width: 35vw;
-    padding: 0 5vmin 0 0;
-  }
-  /* =================================== LOGIN CONTENT =================================== */
-  #modal_login_signup_statement_text_one {
-    margin: 0 1vmin 0 0;
+  #login_modal_footer_contents {
+    padding: 0 1vmin 0 0;
   }
 }

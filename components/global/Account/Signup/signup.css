@@ -1,40 +1,14 @@
-/* ======================================= MODAL ======================================= */
-/* ------------------------------------ MODAL MAIN ------------------------------------- */
-#signup_modal {
-  height: 90vh;
-  width: 90vw;
-  top: 5vh;
-  left: 5vw;
+#signup_modal_body {
   background-color: rgb(100, 10, 10);
 }
-/* ----------------------------------- MODAL HEADER ------------------------------------ */
-#signup_modal_header_body {
-  top: 5vh;
-  width: 90vw;
-}
-/* ------------------------------------ MODAL BODY ------------------------------------- */
-#signup_modal_body {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-/* ----------------------------------- MODAL FOOTER ------------------------------------ */
-#signup_modal_footer_body {
-  top: calc(95vh - 8vmin);
-  height: 8vmin;
-  width: 90vw;
-  padding: 0 3vmin 0 0;
+
+#signup_modal_footer_contents {
+  align-items: center;
   justify-content: flex-end;
+  padding: 0 2vmin 0 0;
 }
 
 /* ================================== SIGNUP CONTENT =================================== */
-#modal_signup_login_statement_text_one {
-  margin: 0 1vmin 0 0;
-  color: rgb(80, 150, 255);
-  font-weight: bolder;
-  cursor: pointer;
-}
 /* --- PASSWORD --- */
 
 #modal_signup_password_input_field_header {
@@ -116,28 +90,7 @@
 }
 
 @media only screen and (min-width: 600px) {
-  /* ======================================= MODAL ======================================= */
-  /* ------------------------------------ MODAL MAIN ------------------------------------- */
-  #signup_modal {
-    height: 90vh;
-    width: 35vw;
-    top: 5vh;
-    left: 32.5vw;
-  }
-  /* ----------------------------------- MODAL HEADER ------------------------------------ */
-  #signup_modal_header_body {
-    top: 5vh;
-    width: 35vw;
-  }
-  /* ----------------------------------- MODAL FOOTER ------------------------------------ */
-  #signup_modal_footer_body {
-    top: calc(95vh - 6vmin);
-    height: 6vmin;
-    width: 35vw;
-    padding: 0 5vmin 0 0;
-  }
-  /* ================================== SIGNUP CONTENT =================================== */
-  #modal_signup_login_statement_text_one {
-    margin: 0 1vmin 0 0;
+  #signup_modal_footer_contents {
+    padding: 0 1vmin 0 0;
   }
 }

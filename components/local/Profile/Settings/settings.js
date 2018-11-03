@@ -1,23 +1,9 @@
-// Profile settings object
-let profileSettingsObject;
-
-// Profile settings object properties
-const profileSettingsId = "settings";
-const profileSettingsName = "Settings";
-const profileSettingsMethod = () => {
+const profileSettingsInit = () => {
+  document.querySelector("#profile_contents_body").innerHTML = "";
   selectedProfileSettingsTabName = undefined;
   constructProfileSettingsStructure();
   constructProfileSettingsComponentObjectArray();
   constructProfileSettingsTabs(profileSettingsComponentObjectArray);
-};
-
-// Contruct profile setting object
-const contructProfileSettingsObject = () => {
-  profileSettingsObject = new profileComponentObject(
-    profileSettingsId,
-    profileSettingsName,
-    profileSettingsMethod
-  );
 };
 
 // Create the structure for profile settings
@@ -30,7 +16,7 @@ const constructProfileSettingsStructure = () => {
     "</div>";
   // Insert HTML
   document.querySelector(
-    "#profile_components_body"
+    "#profile_contents_body"
   ).innerHTML = profileSettingsStructureHTML;
 };
 

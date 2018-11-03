@@ -34,28 +34,46 @@ const orderNewPrint = () => {
 
 /* =========================================== MODAL =========================================== */
 
+// ELEMENTS
+const orderNewPrintModalId = "order_new_print";
+const orderNewPrintModalHeader = "Order New Print";
+const orderNewPrintModalFooter =
+  "<div id='order_new_print_order_button' class='order_new_print_footer_button'>" +
+  "<div id='order_new_print_order_button_text' class='order_new_print_footer_button_text'>" +
+  "Order" +
+  "</div>" +
+  "</div>" +
+  "<div id='order_new_print_cancel_button' class='order_new_print_footer_button'>" +
+  "<div id='order_new_print_cancel_button_text' class='order_new_print_footer_button_text'>" +
+  "Cancel" +
+  "</div>" +
+  "</div>";
+let orderNewPrintModalElementObject;
+// CSS
+const orderNewPrintModalMobileHeight = 90;
+const orderNewPrintModalMobileWidth = 90;
+const orderNewPrintModalDesktopHeight = 90;
+const orderNewPrintModalDesktopWidth = 50;
+const orderNewPrintModalFooterHeight = 14;
+let orderNewPrintModalCSSObject;
+
 const addOrderNewPrintModal = () => {
-  const orderNewPrintModalId = "order_new_print";
-  const orderNewPrintModalHeader = "Order New Print";
-  const orderNewPrintModalFooter =
-    "<div id='order_new_print_footer_body' class='modal_footer_body'>" +
-    "<div id='order_new_print_order_button' class='order_new_print_footer_button'>" +
-    "<div id='order_new_print_order_button_text' class='order_new_print_footer_button_text'>" +
-    "Order" +
-    "</div>" +
-    "</div>" +
-    "<div id='order_new_print_cancel_button' class='order_new_print_footer_button'>" +
-    "<div id='order_new_print_cancel_button_text' class='order_new_print_footer_button_text'>" +
-    "Cancel" +
-    "</div>" +
-    "</div>" +
-    "</div>";
-  // Create the Modal
-  addModal(
+  orderNewPrintModalElementObject = new modalElementObject(
     orderNewPrintModalId,
     orderNewPrintModalHeader,
     orderNewPrintModalFooter
   );
+
+  orderNewPrintModalCSSObject = new modalCSSObject(
+    orderNewPrintModalMobileHeight,
+    orderNewPrintModalMobileWidth,
+    orderNewPrintModalDesktopHeight,
+    orderNewPrintModalDesktopWidth,
+    orderNewPrintModalFooterHeight
+  );
+
+  // Create the Modal
+  addModal(orderNewPrintModalElementObject, orderNewPrintModalCSSObject);
   // Add the Footer Buttons Event Listeners
   // Submit Order
   document
@@ -67,8 +85,8 @@ const addOrderNewPrintModal = () => {
   document
     .querySelector("#order_new_print_cancel_button")
     .addEventListener("click", () => {
-      removeModal();
-      removeBackdrop();
+      removeModal(orderNewPrintModalId);
+      removeBackdrop(orderNewPrintModalId);
     });
 };
 

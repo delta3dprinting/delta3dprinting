@@ -6,25 +6,11 @@ const User = require("../../models/User");
 let loginStatus;
 
 module.exports = (app, passport) => {
-  // @route   GET /testform
-  // @desc    Test Form Values
-  // @access  Public
-  app.get("/testform", unrestrictedPages, (req, res) => {
-    res.sendFile(path.join(__dirname, "../../views/testform.html"));
-  });
-
   // @route   GET /login-status
   // @desc    Get Login Status
   // @access  Public
-  app.get("/users/login-status", (req, res) => {
+  app.get("/users/login-status", unrestrictedPages, (req, res) => {
     res.send(loginStatus);
-  });
-
-  // @route   GET /
-  // @desc    Homepage
-  // @access  Public
-  app.get("/", unrestrictedPages, (req, res) => {
-    res.sendFile(path.join(__dirname, "../../views/index.html"));
   });
 
   // @route   GET users/test

@@ -1,168 +1,200 @@
-.service_body_content {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-color: rgb(245, 245, 245);
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.5s ease-in;
-}
+/* ===================================== TABS ===================================== */
 
-.service_title_body {
-  height: 25%;
-  max-width: 80%;
+.homepage_service_tab {
+  height: 14vmin;
+  width: calc(100% / 3);
   display: flex;
   align-items: center;
-  flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  z-index: 1;
 }
 
-.service_title_text {
-  font-size: 8vmin;
-  text-align: center;
+.homepage_service_tab_deselected {
+  background-color: rgb(220, 220, 220);
+}
+
+.homepage_service_tab_selected {
+  background-color: rgb(245, 245, 245);
+}
+
+.homepage_service_tab_text {
   font-family: "Russo One", sans-serif;
+  font-size: 5vmin;
+  color: rgb(170, 10, 10);
+  transition: opacity 0.5s ease;
+}
+
+.homepage_service_tab_text_deselected {
+  opacity: 0.3;
+}
+
+.homepage_service_tab_text_selected {
+  opacity: 1;
+}
+
+#homepage_3d_printing_tab:hover > #homepage_3d_printing_tab_text {
+  opacity: 1;
+}
+
+#homepage_3d_modelling_tab:hover > #homepage_3d_modelling_tab_text {
+  opacity: 1;
+}
+
+#homepage_marketplace_tab:hover > #homepage_marketplace_tab_text {
+  opacity: 1;
+}
+
+/* =================================== CONTENTS =================================== */
+
+.homepage_service_content {
+  height: 126vmin;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 10vmin 0 10vmin;
+  transition: opacity 0.5s ease;
+}
+
+.homepage_service_content_deselected {
+  opacity: 0;
+  z-index: 0;
+}
+
+.homepage_service_content_selected {
+  opacity: 1;
+  z-index: 1;
+}
+
+.homepage_service_content_header_body {
+  height: 25%;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.homepage_service_content_header {
+  height: 20vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Russo One", sans-serif;
+  text-align: center;
+  font-size: 8vmin;
+  font-weight: 500;
   color: rgb(140, 10, 10);
 }
 
-.service_summary_quote_body {
+.homepage_service_content_subtitle_body {
   height: 20%;
-  max-width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
-  flex-direction: column;
   justify-content: center;
 }
 
-.service_summary_quote_text {
-  font-size: 5vmin;
-  text-align: center;
+.homepage_service_content_subtitle {
   font-family: "Russo One", sans-serif;
-  color: rgb(120, 120, 120);
+  text-align: center;
+  font-size: 5vmin;
+  font-weight: 500;
+  color: rgb(160, 160, 160);
 }
 
-.service_button_body {
+.homepage_service_content_button_body {
   height: 20%;
+  width: 100%;
   display: flex;
   align-items: center;
-  flex-direction: column;
   justify-content: center;
 }
 
-.service_button {
+.homepage_service_content_button {
   height: 9vmin;
-  border-radius: 4.5vmin;
-  box-shadow: 0 1vmin 1.5vmin 0 rgba(76, 18, 31, 0.35);
-  padding: 0 4vmin 0 4vmin;
-  z-index: 1;
   display: flex;
   align-items: center;
-  flex-direction: column;
   justify-content: center;
   background-color: rgb(255, 75, 90);
-}
-
-.service_button:hover {
-  background-color: rgb(255, 50, 60);
-}
-
-.service_button:active {
-  background-color: rgb(255, 50, 60);
-  box-shadow: none;
-}
-
-.service_button_text {
+  padding: 0 6vmin 0 6vmin;
+  border-radius: 4.5vmin;
+  box-shadow: 0 1vmin 1.5vmin 0 rgb(180, 180, 180);
+  font-family: "Chivo", sans-serif;
   font-size: 3.5vmin;
-  text-align: center;
-  font-family: "Chivo", sans-serif;
-  color: white;
   font-weight: 500;
+  text-align: center;
+  color: rgb(245, 245, 245);
+  z-index: 1;
 }
 
-.service_description_body {
-  padding: 6vmin 0 0 0;
-  max-width: 80%;
+.homepage_service_content_button:hover {
+  background-color: rgb(255, 100, 115);
+}
+
+.homepage_service_content_button:active {
+  background-color: rgb(230, 50, 65);
+  box-shadow: 0 0 0 rgb(180, 180, 180);
+}
+
+.homepage_service_content_description_body {
   height: 35%;
+  width: 100%;
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.service_description_text {
-  font-size: 4vmin;
-  text-align: justify;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 800;
-  color: rgb(70, 70, 70);
-}
-
-.service_modal_body {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
+  padding: 6vmin 0 0 0;
 }
 
-.temp_modal_title {
-  font-size: 6vmin;
-  padding: 0 10vmin 0 10vmin;
-  height: 30%;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-end;
-  font-family: "Russo One", sans-serif;
-}
-
-.temp_modal_content {
+.homepage_service_content_description {
+  font-family: "Open Sans", sans-serif;
   font-size: 4vmin;
-  padding: 6vmin 10vmin 0 10vmin;
-  height: 70%;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-start;
-  font-family: "Chivo", sans-serif;
+  font-weight: 700;
+  text-align: justify;
+  color: rgb(80, 80, 80);
 }
+
+/* =================================== DESKTOP ==================================== */
 
 @media only screen and (min-width: 600px) {
-  .service_title_text {
-    font-size: 5vmin;
+  /* ===================================== TABS ===================================== */
+
+  .homepage_service_tab {
+    height: 7vmin;
   }
 
-  .service_summary_quote_text {
-    font-size: 3vmin;
-  }
-
-  .service_button {
-    height: 5vmin;
-    border-radius: 2.5vmin;
-    box-shadow: 0 0.5vmin 1vmin 0 rgba(76, 18, 31, 0.35);
-    padding: 0 2vmin 0 2vmin;
-  }
-
-  .service_button_text {
-    font-size: 2vmin;
-  }
-
-  .service_description_body {
-    padding: 4vmin 10vmin 0 10vmin;
-  }
-
-  .service_description_text {
+  .homepage_service_tab_text {
     font-size: 2.5vmin;
   }
 
-  .temp_modal_title {
-    font-size: 3vmin;
-    padding: 5vmin 0 5vmin 0;
+  /* =================================== CONTENTS =================================== */
+
+  .homepage_service_content {
+    height: 63vmin;
+    padding: 0 5vmin 0 5vmin;
   }
 
-  .temp_modal_content {
+  .homepage_service_content_header {
+    height: 10vmin;
+    font-size: 4vmin;
+  }
+
+  .homepage_service_content_subtitle {
+    font-size: 2.5vmin;
+  }
+
+  .homepage_service_content_button {
+    height: 4.5vmin;
+    padding: 0 3vmin 0 3vmin;
+    border-radius: 2.25vmin;
+    box-shadow: 0 0.5vmin 0.75vmin 0 rgb(180, 180, 180);
+    font-size: 1.75vmin;
+  }
+
+  .homepage_service_content_description_body {
+    padding: 3vmin 0 0 0;
+  }
+
+  .homepage_service_content_description {
     font-size: 2vmin;
-    padding: 5vmin 0 5vmin 0;
   }
 }

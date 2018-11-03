@@ -1,11 +1,20 @@
+const path = require("path");
+
 // Load User Profile Model
 const UserProfile = require("../../models/UserProfile");
 
 module.exports = (app, passport) => {
+  // @route   GET /Profile
+  // @desc    Get Profile HTML
+  // @access  Private
+  app.get("/Profile", restrictedPages, (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/profile.html"));
+  });
+
   // @route   GET /profile
   // @desc    Get Profile Details
   // @access  Private
-  app.get("/profile", restrictedPages, (req, res) => {
+  app.get("/Profile/profile-details", restrictedPages, (req, res) => {
     UserProfile.findOne({ ownerId: req.user._id }, (err, profile) => {
       res.send(profile);
     });
@@ -14,7 +23,7 @@ module.exports = (app, passport) => {
   // @route   POST /profile/save
   // @desc    Save Profile Changes
   // @access  Private
-  app.post("/profile/save", restrictedPages, (req, res) => {
+  app.post("/Profile/save-profile-details", restrictedPages, (req, res) => {
     UserProfile.findOne({ ownerId: req.user._id }).then(profile => {
       // Update Profile Values
       for (component in req.body) {

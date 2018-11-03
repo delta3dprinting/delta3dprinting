@@ -3,6 +3,8 @@ const Grid = require("gridfs-stream");
 
 // Load PrintOrder Model
 const PrintOrder = require("../../models/PrintOrder");
+// Load User Profile Model
+const UserProfile = require("../../models/UserProfile");
 
 module.exports = (app, passport, upload, conn) => {
   let gfs;
@@ -68,11 +70,10 @@ module.exports = (app, passport, upload, conn) => {
     const orderNewPrint = new PrintOrder();
 
     PrintOrder.countDocuments((err, count) => {
-      if (err) {
-        return console.log(err);
-      }
+      if (err) return console.log(err);
+
       orderNewPrint.orderNumber = count + 1;
-    }).then(() => {
+
       let today = new Date();
       let dd = today.getDate();
       let mm = today.getMonth() + 1; //January is 0!
@@ -140,14 +141,15 @@ module.exports = (app, passport, upload, conn) => {
   // @route   POST /order/comment
   // @desc    Fetch an order based on order number
   // @access  Private
-  app.post("/order/comment", restrictedPages, (req, res) => {
+  app.post("/Profile/order-comment", restrictedPages, (req, res) => {
     PrintOrder.findOne({
       ownerId: req.body.order.ownerId,
       orderNumber: req.body.order.orderNumber
     }).then(order => {
       const newComment = {
         userId: req.user._id,
-        text: req.body.comment
+        text: req.body.comment,
+        createdDate: new Date()
       };
 
       order.comments.push(newComment);
@@ -161,12 +163,74 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
-  // @route   GET /order/comments
+  // @route   POST /order/comments
   // @desc    Fetch an order based on order number
   // @access  Private
-  app.get("/order/comments", restrictedPages, (req, res) => {
-    console.log(req.body);
-    res.send("Success!");
+  app.post("/Profile/order-comments", restrictedPages, (req, res) => {
+    class CommentsDetailObject {
+      constructor(userName, comment, dateCreated, ownership) {
+        this.userName = userName;
+        this.comment = comment;
+        this.dateCreated = dateCreated;
+        this.ownership = ownership;
+      }
+    }
+
+    let commentsDetailObjectArray = [];
+
+    PrintOrder.findOne(
+      {
+        ownerId: req.body.ownerId,
+        orderNumber: req.body.orderNumber
+      },
+      (err, order) => {
+        if (err) throw err;
+
+        if (order.comments.length == 0) {
+          return res.send(commentsDetailObjectArray);
+        }
+
+        for (i = 0; i < order.comments.length; i++) {
+          const userId = order.comments[i].userId;
+          let userName;
+          const comment = order.comments[i].text;
+          const dateCreated = order.comments[i].createdDate;
+          let ownership;
+
+          UserProfile.findOne(
+            {
+              ownerId: userId
+            },
+            (err, profile) => {
+              if (err) throw err;
+
+              userName = profile.firstName;
+
+              const userId = req.user._id + "";
+              const commentOwnerId = profile.ownerId + "";
+
+              if (userId === commentOwnerId) {
+                ownership = true;
+              } else {
+                ownership = false;
+              }
+              commentsDetailObjectArray.push(
+                new CommentsDetailObject(
+                  userName,
+                  comment,
+                  dateCreated,
+                  ownership
+                )
+              );
+
+              if (commentsDetailObjectArray.length == order.comments.length) {
+                res.send(commentsDetailObjectArray);
+              }
+            }
+          );
+        }
+      }
+    );
   });
 };
 

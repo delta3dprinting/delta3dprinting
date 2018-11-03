@@ -43,7 +43,7 @@ const profileSettingsProfileUpdateInputFields = () => {
   // Get Profile Details
   $.ajax({
     type: "GET",
-    url: "/profile",
+    url: "/Profile/profile-details",
     success: data => {
       // Populate Input Fields
       profileSettingsProfilePopulateInputFields(data);

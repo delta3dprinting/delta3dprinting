@@ -75,6 +75,7 @@ app.use(passport.session()); // Persistent Logan Sessions
 
 /* ======================================== ROUTING ========================================= */
 
+require("./routes/general/general")(app, passport); // General
 require("./routes/users/users")(app, passport); // Users
 require("./routes/profile/profile")(app, passport); // Profile
 require("./routes/prints/prints")(app, passport, upload, conn);

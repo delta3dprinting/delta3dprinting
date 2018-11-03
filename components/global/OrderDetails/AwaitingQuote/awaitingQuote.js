@@ -1,11 +1,8 @@
-/* INITIALISATION */
+/* ======================================= INITIALISATION ======================================= */
+
 const awaitingQuoteInit = order => {
   const orderStatusId = constructOrderStatusId(order.orderStatus);
-  addModal(
-    orderStatusId,
-    orderDetailsModalHeader,
-    awaitingQuoteOrderDetailsModalFooter
-  );
+  constructOrderDetailsAwaitingQuoteModal(orderStatusId);
   constructHTMLStructure(orderStatusId);
   awaitingQuoteOrderStatusDescriptionBody(order, orderStatusId);
   constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
@@ -13,7 +10,39 @@ const awaitingQuoteInit = order => {
   constructOrderDetailsComments(order, orderStatusId);
 };
 
-const awaitingQuoteOrderDetailsModalFooter = "<div></div>";
+/* =========================================== MODAL ============================================ */
+
+const constructOrderDetailsAwaitingQuoteModal = orderStatusId => {
+  // ELEMENTS
+
+  const orderDetailsAwaitingQuoteModalHeader = orderDetailsModalHeader;
+  const orderDetailsAwaitingQuoteModalFooter = "<div></div>";
+  const orderDetailsAwaitingQuoteModalElementObject = new modalElementObject(
+    orderStatusId,
+    orderDetailsAwaitingQuoteModalHeader,
+    orderDetailsAwaitingQuoteModalFooter
+  );
+  // CSS
+  const orderDetailsAwaitingQuoteModalMobileHeight = 90;
+  const orderDetailsAwaitingQuoteModalMobileWidth = 90;
+  const orderDetailsAwaitingQuoteModalDesktopHeight = 90;
+  const orderDetailsAwaitingQuoteModalDesktopWidth = 60;
+  const orderDetailsAwaitingQuoteModalFooterHeight = 8;
+  const orderDetailsAwaitingQuoteModalCSSObject = new modalCSSObject(
+    orderDetailsAwaitingQuoteModalMobileHeight,
+    orderDetailsAwaitingQuoteModalMobileWidth,
+    orderDetailsAwaitingQuoteModalDesktopHeight,
+    orderDetailsAwaitingQuoteModalDesktopWidth,
+    orderDetailsAwaitingQuoteModalFooterHeight
+  );
+
+  addModal(
+    orderDetailsAwaitingQuoteModalElementObject,
+    orderDetailsAwaitingQuoteModalCSSObject
+  );
+};
+
+/* ============================================================================================== */
 
 /* Construct Order Status Description Body */
 const awaitingQuoteOrderStatusDescriptionBody = (order, orderStatusId) => {

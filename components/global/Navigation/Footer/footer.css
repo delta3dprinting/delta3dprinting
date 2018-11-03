@@ -1,58 +1,201 @@
 #footer {
+  width: 100%;
   position: relative;
+  top: 10vmin;
   display: flex;
   justify-content: space-between;
+  padding: 4vmin 2vmin 4vmin 2vmin;
   background-color: rgb(220, 220, 220);
-  width: 100%;
-  max-width: 100%;
-  z-index: 80;
-  top: 12vmin;
-  padding: 6vmin 3vmin 6vmin 3vmin;
+  z-index: 10;
 }
 
-.footer_category_body {
+.footer_divider {
+  width: calc(100% / 3);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  padding: 0 2vmin 0 2vmin;
 }
 
-.footer_category_text {
-  font-family: "Russo One", sans-serif;
-  font-size: 3vmin;
-  margin: 0 1vmin 0 1vmin;
+.footer_divider_header {
   height: 6vmin;
+  font-family: "Russo One", sans-serif;
+  font-size: 2.8vmin;
+  color: rgb(170, 10, 10);
 }
 
 .footer_content_body {
   height: 8vmin;
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
 
-.footer_content_text {
+.footer_content {
+  height: 7vmin;
+  display: flex;
+  align-items: center;
   font-family: "Chivo", sans-serif;
-  font-size: 2.8vmin;
-  margin: 0 1vmin 0 1vmin;
+  font-size: 3vmin;
+  color: rgb(50, 50, 50);
+  text-decoration: none;
+}
+
+.footer_content_underline {
+  height: 1vmin;
+  width: 0;
+  border-top-style: solid;
+  border-color: rgb(170, 10, 10);
+  border-width: 0;
+  border-radius: 0.4vmin;
+  transition: width 0.5s ease;
+}
+
+#footer_3d_printing_body:hover > #footer_3d_printing_underline {
+  width: 80%;
+  border-width: 0.4vmin;
+}
+
+#footer_3d_printing_body:hover > #footer_3d_printing {
+  font-weight: 600;
+  text-shadow: 0 0 7vmin rgb(170, 10, 10);
+}
+
+#footer_3d_modelling_body:hover > #footer_3d_modelling_underline {
+  width: 92%;
+  border-width: 0.4vmin;
+}
+
+#footer_3d_modelling_body:hover > #footer_3d_modelling {
+  font-weight: 600;
+  text-shadow: 0 0 7vmin rgb(170, 10, 10);
+}
+
+#footer_marketplace_body:hover > #footer_marketplace_underline {
+  width: 88%;
+  border-width: 0.4vmin;
+}
+
+#footer_marketplace_body:hover > #footer_marketplace {
+  font-weight: 600;
+  text-shadow: 0 0 7vmin rgb(170, 10, 10);
+}
+
+#footer_about_us_body:hover > #footer_about_us_underline {
+  width: 64%;
+  border-width: 0.4vmin;
+}
+
+#footer_about_us_body:hover > #footer_about_us {
+  font-weight: 600;
+  text-shadow: 0 0 7vmin rgb(170, 10, 10);
+}
+
+#footer_what_is_delta_3d_printing_body:hover
+  > #footer_what_is_delta_3d_printing_underline {
+  width: 92%;
+  border-width: 0.4vmin;
+}
+
+#footer_what_is_delta_3d_printing_body:hover
+  > #footer_what_is_delta_3d_printing {
+  font-weight: 600;
+  text-shadow: 0 0 7vmin rgb(170, 10, 10);
+}
+
+#footer_contact_us_body:hover > #footer_contact_us_underline {
+  width: 78%;
+  border-width: 0.4vmin;
+}
+
+#footer_contact_us_body:hover > #footer_contact_us {
+  font-weight: 600;
+  text-shadow: 0 0 7vmin rgb(170, 10, 10);
 }
 
 @media only screen and (min-width: 600px) {
   #footer {
-    top: 7vmin;
-    padding: 4vmin 2.8vmin 4vmin 2.8vmin;
+    top: 5vmin;
+    justify-content: flex-start;
+    padding: 2vmin 1vmin 2vmin 1vmin;
   }
 
-  .footer_category_text {
-    font-size: 1.8vmin;
-    margin: 0 1vmin 3vmin 1vmin;
-    height: 2.5vmin;
+  .footer_divider {
+    width: 20%;
+    padding: 0 1vmin 0 1vmin;
+  }
+
+  .footer_divider_header {
+    height: 3vmin;
+    font-size: 1.4vmin;
   }
 
   .footer_content_body {
-    height: 5vmin;
+    height: 4vmin;
   }
 
-  .footer_content_text {
-    font-size: 1.8vmin;
-    margin: 0 1vmin 0 1vmin;
+  .footer_content {
+    height: 3.5vmin;
+    font-size: 1.5vmin;
+  }
+
+  .footer_content_underline {
+    height: 0.5vmin;
+    border-width: 0;
+    border-radius: 0.2vmin;
+  }
+
+  #footer_3d_printing_body:hover > #footer_3d_printing_underline {
+    width: 32%;
+    border-width: 0.2vmin;
+  }
+
+  #footer_3d_printing_body:hover > #footer_3d_printing {
+    text-shadow: 0 0 3vmin rgb(170, 10, 10);
+  }
+
+  #footer_3d_modelling_body:hover > #footer_3d_modelling_underline {
+    width: 37%;
+    border-width: 0.2vmin;
+  }
+
+  #footer_3d_modelling_body:hover > #footer_3d_modelling {
+    text-shadow: 0 0 3vmin rgb(170, 10, 10);
+  }
+
+  #footer_marketplace_body:hover > #footer_marketplace_underline {
+    width: 36%;
+    border-width: 0.2vmin;
+  }
+
+  #footer_marketplace_body:hover > #footer_marketplace {
+    text-shadow: 0 0 3vmin rgb(170, 10, 10);
+  }
+
+  #footer_about_us_body:hover > #footer_about_us_underline {
+    width: 26%;
+    border-width: 0.2vmin;
+  }
+
+  #footer_about_us_body:hover > #footer_about_us {
+    text-shadow: 0 0 3vmin rgb(170, 10, 10);
+  }
+
+  #footer_what_is_delta_3d_printing_body:hover
+    > #footer_what_is_delta_3d_printing_underline {
+    width: 70%;
+    border-width: 0.2vmin;
+  }
+
+  #footer_what_is_delta_3d_printing_body:hover
+    > #footer_what_is_delta_3d_printing {
+    text-shadow: 0 0 3vmin rgb(170, 10, 10);
+  }
+
+  #footer_contact_us_body:hover > #footer_contact_us_underline {
+    width: 31%;
+    border-width: 0.2vmin;
+  }
+
+  #footer_contact_us_body:hover > #footer_contact_us {
+    text-shadow: 0 0 3vmin rgb(170, 10, 10);
   }
 }

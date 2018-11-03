@@ -5,7 +5,6 @@ let profileOrdersPrintsObject;
 const profileOrdersPrintsId = "prints";
 const profileOrdersPrintsName = "Prints";
 const profileOrdersPrintsMethod = () => {
-  console.log("Profile Orders Prints");
   addProfileOrdersPrintsBody();
   profileOrdersPrintsButtonsInit();
   profileOrdersPrintsOrdersSummaryInit();

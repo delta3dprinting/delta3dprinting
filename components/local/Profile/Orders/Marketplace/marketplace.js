@@ -4,9 +4,7 @@ let profileOrdersMarketplaceObject;
 // Profile Orders Marketplace Object Properties
 const profileOrdersMarketplaceId = "marketplace";
 const profileOrdersMarketplaceName = "Marketplace";
-const profileOrdersMarketplaceMethod = () => {
-  console.log("Profile Orders Marketplace");
-};
+const profileOrdersMarketplaceMethod = () => {};
 
 // Contruct Profile Orders Marketplace Object
 const contructProfileOrdersMarketplaceObject = () => {

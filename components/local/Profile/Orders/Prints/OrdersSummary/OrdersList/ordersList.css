@@ -67,7 +67,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .profile_orders_prints_orders_list_table_content_text {

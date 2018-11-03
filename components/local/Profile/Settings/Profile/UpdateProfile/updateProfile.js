@@ -243,11 +243,10 @@ const profileSettingsProfileSaveChangesSuccess = () => {
 const profileSettingsProfileSaveChangesSubmit = () => {
   $.ajax({
     type: "POST",
-    url: "/profile/save",
+    url: "/Profile/save-profile-details",
     data: JSON.stringify(profileSettingsProfileInputValuesObject),
     contentType: "application/json",
     success: data => {
-      console.log(data);
       profileSettingsProfileSaveChangesSuccess();
     }
   });

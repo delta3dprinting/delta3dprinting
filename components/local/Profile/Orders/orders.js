@@ -1,23 +1,10 @@
-// Profile Orders Object
-let profileOrdersObject;
+/* ======================================= INITIALISATION ======================================= */
 
-// Profile Orders Object Properties
-const profileOrdersId = "orders";
-const profileOrdersName = "Orders";
-const profileOrdersMethod = () => {
-  console.log("Profile Orders");
+const profileOrdersInit = () => {
+  document.querySelector("#profile_contents_body").innerHTML = "";
   addProfileOrdersBody();
   addProfileOrdersComponentsBody();
   contructProfileOrdersNavigation();
-};
-
-// Contruct Profile Orders Object
-const contructProfileOrdersObject = () => {
-  profileOrdersObject = new profileComponentObject(
-    profileOrdersId,
-    profileOrdersName,
-    profileOrdersMethod
-  );
 };
 
 // Add Orders Body
@@ -27,7 +14,7 @@ const addProfileOrdersBody = () => {
     "<div id='profile_orders_body' class='profile_component_body'></div>";
   // Insert HTML
   document
-    .querySelector("#profile_components_body")
+    .querySelector("#profile_contents_body")
     .insertAdjacentHTML("beforeend", profileOrdersBodyHTML);
 };
 
@@ -157,3 +144,5 @@ const deselectProfileOrdersNavigationTab = () => {
       "_profile_orders_navigation_tab_text"
   ).style.color = "white";
 };
+
+/* ============================================================================================== */

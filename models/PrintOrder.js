@@ -69,8 +69,7 @@ const PrintOrderSchema = new Schema({
         type: String
       },
       createdDate: {
-        type: Date,
-        default: Date.now
+        type: String
       }
     }
   ],

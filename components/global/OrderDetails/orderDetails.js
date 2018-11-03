@@ -247,7 +247,7 @@ const postOrderDetailsComments = order => {
 
   $.ajax({
     type: "POST",
-    url: "/order/comment",
+    url: "/Profile/order-comment",
     contentType: "application/json",
     data: JSON.stringify({ order: order, comment: comment }),
     success: data => {
@@ -258,15 +258,257 @@ const postOrderDetailsComments = order => {
 };
 
 const loadOrderDetailsComments = (ownerId, orderNumber) => {
+  loadLoader(document.querySelector("#order_details_comments_body")).then(
+    () => {
+      $.ajax({
+        type: "POST",
+        url: "/Profile/order-comments",
+        contentType: "application/json",
+        data: JSON.stringify({ ownerId: ownerId, orderNumber: orderNumber }),
+        success: data => {
+          populateOrderDetailsComments(data);
+        }
+      });
+    }
+  );
+};
+
+const orderDetailsDateFormatter = defaultDate => {
+  const dateArray = defaultDate.split(" ");
+  let day;
+  let month = [];
+  const date = dateArray[2];
+  const year = dateArray[3];
+  const timeArray = dateArray[4].split(":");
+  let hour = [];
+  const minute = timeArray[1];
+  const second = timeArray[2];
+  let period;
+
+  switch (dateArray[0]) {
+    case "Sun":
+      day = "Sunday";
+      break;
+    case "Mon":
+      day = "Monday";
+      break;
+    case "Tue":
+      day = "Tuesday";
+      break;
+    case "Wed":
+      day = "Wednesday";
+      break;
+    case "Thu":
+      day = "Thursday";
+      break;
+    case "Fri":
+      day = "Friday";
+      break;
+    case "Sat":
+      day = "Saturday";
+  }
+
+  switch (dateArray[1]) {
+    case "Jan":
+      month[0] = "January";
+      month[1] = "01";
+      break;
+    case "Feb":
+      month[0] = "February";
+      month[1] = "02";
+      break;
+    case "Mar":
+      month[0] = "March";
+      month[1] = "03";
+      break;
+    case "Apr":
+      month[0] = "April";
+      month[1] = "04";
+      break;
+    case "May":
+      month[0] = "May";
+      month[1] = "05";
+      break;
+    case "Jun":
+      month[0] = "June";
+      month[1] = "06";
+      break;
+    case "Jul":
+      month[0] = "July";
+      month[1] = "07";
+      break;
+    case "Aug":
+      month[0] = "August";
+      month[1] = "08";
+      break;
+    case "Sep":
+      month[0] = "September";
+      month[1] = "09";
+      break;
+    case "Oct":
+      month[0] = "October";
+      month[1] = "10";
+      break;
+    case "Nov":
+      month[0] = "November";
+      month[1] = "11";
+      break;
+    case "Dec":
+      month[0] = "December";
+      month[1] = "12";
+  }
+
+  if (timeArray[0] >= "12") {
+    if (timeArray[0] == "12") {
+      hour[0] = timeArray[0];
+    } else {
+      hour[0] = Number(timeArray[0]) - 12 + "";
+    }
+    period = "PM";
+  } else {
+    hour[0] = timeArray[0];
+    period = "AM";
+  }
+
+  hour[1] = timeArray[0];
+
+  const dateObject = {
+    day: day,
+    month: month,
+    date: date,
+    year: year,
+    hour: hour,
+    minute: minute,
+    second: second,
+    period: period,
+    fromNow: moment(
+      year +
+        "-" +
+        month[1] +
+        "-" +
+        date +
+        " " +
+        timeArray[0] +
+        ":" +
+        minute +
+        ":" +
+        second
+    ).fromNow()
+  };
+
+  return dateObject;
+};
+
+const orderDetailsCompareDates = (a, b) => {
+  if (a.date.year === b.date.year) {
+    if (a.date.month[1] === b.date.month[1]) {
+      if (a.date.date === b.date.date) {
+        if (a.date.hour[1] === b.date.hour[1]) {
+          if (a.date.minute === b.date.minute) {
+            if (a.date.second === b.date.second) {
+              return 0;
+            } else if (a.date.second > b.date.second) {
+              return -1;
+            } else if (a.date.second < b.date.second) {
+              return 1;
+            }
+          } else if (a.date.minute > b.date.minute) {
+            return -1;
+          } else if (a.date.minute < b.date.minute) {
+            return 1;
+          }
+        } else if (a.date.hour[1] > b.date.hour[1]) {
+          return -1;
+        } else if (a.date.hour[1] < b.date.hour[1]) {
+          return 1;
+        }
+      } else if (a.date.date > b.date.date) {
+        return -1;
+      } else if (a.date.date < b.date.date) {
+        return 1;
+      }
+    } else if (a.date.month[1] > b.date.month[1]) {
+      return -1;
+    } else if (a.date.month[1] < b.date.month[1]) {
+      return 1;
+    }
+  } else if (a.date.year > b.date.year) {
+    return -1;
+  } else if (a.date.year < b.date.year) {
+    return 1;
+  }
+};
+
+const populateOrderDetailsComments = data => {
   document.querySelector("#order_details_comments_body").innerHTML = "";
 
-  $.ajax({
-    type: "GET",
-    url: "/order/comments",
-    contentType: "application/json",
-    data: JSON.stringify({ ownerId: ownerId, orderNumber: orderNumber }),
-    success: data => {
-      populateOrderDetailsComments(data);
+  let commentsObjectArray = [];
+
+  class CommentObject {
+    constructor(userName, comment, date, ownership) {
+      this.userName = userName;
+      this.comment = comment;
+      this.date = date;
+      this.ownership = ownership;
     }
+  }
+  for (i = 0; i < data.length; i++) {
+    commentsObjectArray.push(
+      new CommentObject(
+        data[i].userName,
+        data[i].comment,
+        orderDetailsDateFormatter(data[i].dateCreated),
+        data[i].ownership
+      )
+    );
+  }
+  commentsObjectArray.sort(orderDetailsCompareDates);
+
+  commentsObjectArray.forEach(element => {
+    addOrderDetailsComment(element);
   });
+};
+
+const addOrderDetailsComment = commentDetail => {
+  let orderDetailsCommentHTML;
+  if (commentDetail.ownership) {
+    orderDetailsCommentHTML =
+      "<div class='order_details_comment_body'>" +
+      "<div class='order_details_comment'>" +
+      "<div class='order_details_comment_date'>" +
+      commentDetail.date.fromNow +
+      "</div>" +
+      "<div class='order_details_comment_text'>" +
+      commentDetail.comment +
+      "</div>" +
+      "</div>" +
+      "<div class='order_details_comment_author_details'>" +
+      "<div class='order_details_comment_author_profile_picture'></div>" +
+      "<div class='order_details_comment_author_profile_name'>" +
+      commentDetail.userName +
+      "</div>" +
+      "</div>" +
+      "</div>";
+  } else {
+    orderDetailsCommentHTML =
+      "<div class='order_details_comment_body'>" +
+      "<div class='order_details_comment_author_details'>" +
+      "<div class='order_details_comment_author_profile_picture'></div>" +
+      "<div class='order_details_comment_author_profile_name'>" +
+      commentDetail.userName +
+      "</div>" +
+      "</div>" +
+      "<div class='order_details_comment'>" +
+      "<div class='order_details_comment_date'>" +
+      commentDetail.date.fromNow +
+      "</div>" +
+      "<div class='order_details_comment_text'>" +
+      commentDetail.comment +
+      "</div>" +
+      "</div>" +
+      "</div>";
+  }
+  document
+    .querySelector("#order_details_comments_body")
+    .insertAdjacentHTML("beforeend", orderDetailsCommentHTML);
 };
