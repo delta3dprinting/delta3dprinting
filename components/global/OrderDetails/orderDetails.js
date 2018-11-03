@@ -12,8 +12,10 @@ const viewOrderDetails = orderNumber => {
         awaitingPaymentConfirmationInit(data);
       } else if (data.orderStatus == "Printing Order") {
         printingOrderInit(data);
-      } else if (data.orderStatus == "Ready for Delivery") {
-        readyForDeliveryInit(data);
+      } else if (data.orderStatus == "Ready for Pickup") {
+        readyForPickupInit(data);
+      } else if (data.orderStatus == "Ready for Shipping") {
+        readyForShippingInit(data);
       } else if (data.orderStatus == "Order Shipped") {
         orderShippedInit(data);
       } else if (data.orderStatus == "Order Completed") {
@@ -84,7 +86,7 @@ const orderStatusDescriptionBodyTabs = (orderStatusId, delivery) => {
     "</div>";
 
   document
-    .querySelector("#awaiting_quote_order_status_description_body")
+    .querySelector("#" + orderStatusId + "_order_status_description_body")
     .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyTabsHTML);
 
   if (delivery == "Pickup") {

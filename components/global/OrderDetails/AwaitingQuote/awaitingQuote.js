@@ -14,7 +14,6 @@ const awaitingQuoteInit = order => {
 
 const constructOrderDetailsAwaitingQuoteModal = orderStatusId => {
   // ELEMENTS
-
   const orderDetailsAwaitingQuoteModalHeader = orderDetailsModalHeader;
   const orderDetailsAwaitingQuoteModalFooter = "<div></div>";
   const orderDetailsAwaitingQuoteModalElementObject = new modalElementObject(
