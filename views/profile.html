@@ -245,8 +245,8 @@
     const orderStatusId = constructOrderStatusId(order.orderStatus);
     constructOrderDetailsAwaitingPaymentModal(orderStatusId);
     constructHTMLStructure(orderStatusId);
-    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
-    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
+    /*     orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
+        orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId); */
     constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
     constructOrderDetailsAttachments(order, orderStatusId);
     constructOrderDetailsComments(order, orderStatusId);
