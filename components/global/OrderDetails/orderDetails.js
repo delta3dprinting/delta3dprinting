@@ -175,38 +175,65 @@ const orderStatusDescriptionBodyHeader = (orderStatus, orderStatusId) => {
 
 /* =================================== ORDER OPTIONS DETAILS ==================================== */
 
+let orderDetailsTotalOrderPrice;
+
 const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
+  orderDetailsTotalOrderPrice = 0;
+
   const orderDetailsOrderOptionsHeaderHTML =
     "<div class='order_details_order_options_header'>Parts:</div>";
   document
     .querySelector("#" + orderStatusId + "_order_options_details_body")
     .insertAdjacentHTML("beforeend", orderDetailsOrderOptionsHeaderHTML);
-  order.parts.forEach(ele => {
-    const orderDetailsPartDetailsHTML =
-      "<div class='order_details_part_details_body'>" +
-      "<div class='order_details_part_details_file_name_body'>" +
-      "<div class='order_details_part_details_file_name_content'>" +
-      ele.fileName +
-      "</div>" +
-      "</div>" +
-      "<div class='order_details_part_details_quantity_body'>" +
-      "<div class='order_details_part_details_quantity_header'>Quantity:</div>" +
-      "<div class='order_details_part_details_quantity_content'>" +
-      ele.producedQuantity +
-      "/" +
-      ele.orderQuantity +
-      "</div>" +
-      "</div>" +
-      "<div class='order_details_part_details_price_body'>" +
-      "<div class='order_details_part_details_price_header'>Price:</div>" +
-      "<div class='order_details_part_details_price_content'>Pending</div>" +
-      "</div>" +
-      "</div>";
 
-    document
-      .querySelector("#" + orderStatusId + "_order_options_details_body")
-      .insertAdjacentHTML("beforeend", orderDetailsPartDetailsHTML);
-  });
+  for (i = 0; i < order.parts.length; i++) {
+    $.ajax({
+      type: "POST",
+      async: false,
+      url: "/order/price",
+      data: JSON.stringify({ fileId: order.parts[i].fileId }),
+      contentType: "application/json",
+      success: data => {
+        let partPrice;
+        if (data == "pending") {
+          partPrice = "pending";
+        } else {
+          partPrice = Number(
+            (Number(data) * Number(order.parts[i].orderQuantity)).toFixed(2)
+          );
+
+          orderDetailsTotalOrderPrice = orderDetailsTotalOrderPrice + partPrice;
+        }
+
+        const orderDetailsPartDetailsHTML =
+          "<div class='order_details_part_details_body'>" +
+          "<div class='order_details_part_details_file_name_body'>" +
+          "<div class='order_details_part_details_file_name_content'>" +
+          order.parts[i].fileName +
+          "</div>" +
+          "</div>" +
+          "<div class='order_details_part_details_quantity_body'>" +
+          "<div class='order_details_part_details_quantity_header'>Quantity:</div>" +
+          "<div class='order_details_part_details_quantity_content'>" +
+          order.parts[i].producedQuantity +
+          "/" +
+          order.parts[i].orderQuantity +
+          "</div>" +
+          "</div>" +
+          "<div class='order_details_part_details_price_body'>" +
+          "<div class='order_details_part_details_price_header'>Price:</div>" +
+          "<div class='order_details_part_details_price_content'>$" +
+          partPrice +
+          "</div>" +
+          "</div>" +
+          "</div>";
+
+        document
+          .querySelector("#" + orderStatusId + "_order_options_details_body")
+          .insertAdjacentHTML("beforeend", orderDetailsPartDetailsHTML);
+      }
+    });
+  }
 };
 
 /* ================================ ORDER DETAILS ATTACHED FILES ================================ */

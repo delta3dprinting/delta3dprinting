@@ -48,7 +48,8 @@ module.exports = (app, passport, upload, conn) => {
       // Create the New Order Properties Object
       const fileAdditionalInfo = {
         ownerId: req.user._id,
-        fileType: "Order New Print"
+        fileType: "Order New Print",
+        price: "pending"
       };
 
       // Update the Metadata object with the New Order Properties
@@ -231,6 +232,17 @@ module.exports = (app, passport, upload, conn) => {
         }
       }
     );
+  });
+
+  // @route   POST /order/price
+  // @desc    Fetch an order based on order number
+  // @access  Private
+  app.post("/order/price", restrictedPages, (req, res) => {
+    gfs.files.findOne({ _id: req.body.fileId }, (err, file) => {
+      if (err) return console.log("Error");
+
+      res.send(file.metadata.price);
+    });
   });
 };
 
