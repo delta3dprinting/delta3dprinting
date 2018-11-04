@@ -239,14 +239,55 @@ module.exports = (app, passport, upload, conn) => {
   // @access  Private
   app.post("/order/price", restrictedPages, (req, res) => {
     const id = mongoose.Types.ObjectId(req.body.fileId);
-    console.log(id);
+
     gfs.files.findOne({ _id: id }, (err, file) => {
       if (err) return console.log("Error");
 
       res.send(file.metadata.price);
     });
   });
+
+  /* =================================== UPDATE ORDER STATUS ==================================== */
+
+  // @route   POST /order/update-order-status
+  // @desc    Update Order Status
+  // @access  Private
+  app.post("/order/update-order-status", restrictedPages, (req, res) => {
+    if (req.body.orderStatus == "Awaiting Quote") {
+    } else if (req.body.orderStatus == "Awaiting Payment") {
+      updateOrderStatusAwaitingPayment(req, res);
+    } else if (req.body.orderStatus == "Awaiting Payment Confirmation") {
+    } else if (req.body.orderStatus == "Printing Order") {
+    } else if (req.body.orderStatus == "Ready for Pickup") {
+    } else if (req.body.orderStatus == "Ready for Shipping") {
+    } else if (req.body.orderStatus == "Order Shipped") {
+    } else if (req.body.orderStatus == "Order Completed") {
+    } else {
+      console.log("Order status could not be identified");
+      res.send("failed");
+    }
+  });
 };
+
+/* ========================================== FUNCTION ========================================== */
+
+const updateOrderStatusAwaitingPayment = (req, res) => {
+  const order = req.body;
+
+  PrintOrder.findOneAndUpdate(
+    { _id: order._id, ownerId: req.user._id },
+    { $set: { orderStatus: "Awaiting Payment Confirmation" } },
+    (err, order) => {
+      if (err) {
+        res.send("failed");
+      }
+
+      res.send("success");
+    }
+  );
+};
+
+/* ========================================= MIDDLEWARE ========================================= */
 
 // Route middleware to make sure a user is logged in
 const restrictedPages = (req, res, next) => {
@@ -260,3 +301,5 @@ const restrictedPages = (req, res, next) => {
     res.redirect("/");
   }
 };
+
+/* ============================================================================================== */

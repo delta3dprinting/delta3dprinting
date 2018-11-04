@@ -18,6 +18,34 @@
   margin: 2vmin 0 0 0;
 }
 
+.order_details_footer_button {
+  height: 10vmin;
+  width: 20vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 75, 90);
+  border-radius: 2vmin;
+  box-shadow: 0 1vmin 1.5vmin 0 rgb(180, 180, 180);
+}
+
+.order_details_footer_button:hover {
+  background-color: rgb(255, 100, 115);
+}
+
+.order_details_footer_button:active {
+  background-color: rgb(230, 50, 65);
+  box-shadow: 0 0 0 rgb(180, 180, 180);
+}
+
+.order_details_footer_button_text {
+  font-family: "Chivo", sans-serif;
+  font-size: 4vmin;
+  font-weight: 800;
+  text-align: center;
+  color: rgb(245, 245, 245);
+}
+
 .order_status_description_body {
   margin: 2vmin 0 0 0;
 }
@@ -301,12 +329,23 @@
     margin: 1vmin 0 0 0;
   }
 
+  .order_details_footer_button {
+    height: 5vmin;
+    width: 10vmin;
+    border-radius: 1vmin;
+    box-shadow: 0 0.5vmin 0.75vmin 0 rgb(180, 180, 180);
+  }
+
+  .order_details_footer_button_text {
+    font-size: 2vmin;
+  }
+
   .order_status_description_body {
     margin: 1vmin 0 0 0;
   }
 
   .order_details_comments_body {
-    margin: 0 0 1vmin 0;
+    margin: 1vmin 0 1vmin 0;
   }
 
   #order_status_tabs_body {
