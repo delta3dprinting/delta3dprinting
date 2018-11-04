@@ -194,11 +194,11 @@ const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
       data: JSON.stringify({ fileId: order.parts[i].fileId }),
       contentType: "application/json",
       success: data => {
-        let partPrice;
+        let partPriceLabel;
         if (data == "pending") {
-          partPrice = "Pending";
+          partPriceLabel = "Pending";
         } else {
-          partPrice = Number(
+          const partPrice = Number(
             (Number(data) * Number(order.parts[i].orderQuantity)).toFixed(2)
           );
 
