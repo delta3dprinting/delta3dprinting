@@ -26,7 +26,7 @@ const constructOrderDetailsAwaitingQuoteModal = orderStatusId => {
   const orderDetailsAwaitingQuoteModalMobileWidth = 90;
   const orderDetailsAwaitingQuoteModalDesktopHeight = 90;
   const orderDetailsAwaitingQuoteModalDesktopWidth = 60;
-  const orderDetailsAwaitingQuoteModalFooterHeight = 8;
+  const orderDetailsAwaitingQuoteModalFooterHeight = 14;
   const orderDetailsAwaitingQuoteModalCSSObject = new modalCSSObject(
     orderDetailsAwaitingQuoteModalMobileHeight,
     orderDetailsAwaitingQuoteModalMobileWidth,
@@ -41,9 +41,8 @@ const constructOrderDetailsAwaitingQuoteModal = orderStatusId => {
   );
 };
 
-/* ============================================================================================== */
+/* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
 
-/* Construct Order Status Description Body */
 const awaitingQuoteOrderStatusDescriptionBody = (order, orderStatusId) => {
   orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
   orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
@@ -65,3 +64,5 @@ const awaitingQuoteDescriptionBodyDetails = () => {
     .querySelector("#awaiting_quote_order_status_description_body")
     .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
 };
+
+/* ============================================================================================== */

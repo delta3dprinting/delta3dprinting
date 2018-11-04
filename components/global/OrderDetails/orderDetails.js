@@ -30,7 +30,7 @@ const viewOrderDetails = orderNumber => {
 };
 
 const constructOrderStatusId = orderStatus => {
-  return orderStatus.toLowerCase().replace(" ", "_");
+  return orderStatus.toLowerCase().replace(/ /g, "_");
 };
 
 /* MODAL */
