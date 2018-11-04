@@ -238,7 +238,9 @@ module.exports = (app, passport, upload, conn) => {
   // @desc    Fetch an order based on order number
   // @access  Private
   app.post("/order/price", restrictedPages, (req, res) => {
-    gfs.files.findOne({ _id: req.body.fileId }, (err, file) => {
+    const id = mongoose.Types.ObjectId(req.body.fileId);
+    console.log(id);
+    gfs.files.findOne({ _id: id }, (err, file) => {
       if (err) return console.log("Error");
 
       res.send(file.metadata.price);

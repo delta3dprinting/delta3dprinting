@@ -196,11 +196,13 @@ const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
       success: data => {
         let partPrice;
         if (data == "pending") {
-          partPrice = "pending";
+          partPrice = "Pending";
         } else {
-          partPrice = Number(
-            (Number(data) * Number(order.parts[i].orderQuantity)).toFixed(2)
-          );
+          partPrice =
+            "$" +
+            Number(
+              (Number(data) * Number(order.parts[i].orderQuantity)).toFixed(2)
+            );
 
           orderDetailsTotalOrderPrice = orderDetailsTotalOrderPrice + partPrice;
         }
@@ -222,7 +224,7 @@ const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
           "</div>" +
           "<div class='order_details_part_details_price_body'>" +
           "<div class='order_details_part_details_price_header'>Price:</div>" +
-          "<div class='order_details_part_details_price_content'>$" +
+          "<div class='order_details_part_details_price_content'>" +
           partPrice +
           "</div>" +
           "</div>" +
