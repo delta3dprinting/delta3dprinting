@@ -54,7 +54,7 @@ module.exports = (app, passport, upload, conn) => {
 
       // Update the Metadata object with the New Order Properties
       gfs.files.findOneAndUpdate(
-        { filename: req.file.filename },
+        { _id: req.file.id },
         { $set: { metadata: fileAdditionalInfo } },
         (err, doc) => {
           if (err) return console.log(err);
