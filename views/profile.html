@@ -269,6 +269,24 @@
       .insertAdjacentHTML("beforeend", profileOrdersPrintsOrdersListBodyHTML);
   };
 
+  /* ================================ TEST FUNCTIONS ================================ */
+
+  const testPaymentConfirmationDate = orderNumber => {
+    $.ajax({
+      type: "POST",
+      url: "/test/payment-confirmation-date",
+      data: JSON.stringify({ orderNumber: orderNumber }),
+      contentType: "application/json",
+      success: data => {
+        console.log(data);
+      }
+    });
+  };
+
+  /* ================================================================================ */
+</script>
+
+<script>
   /* ================================= ORDERS LIST ================================== */
 
   /* --------------------------------- CREATE TABLE --------------------------------- */
@@ -284,7 +302,7 @@
       "<th id='profile_orders_prints_orders_list_status_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_status_content'>Status</th>" +
       "<th id='profile_orders_prints_orders_list_last_update_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_update_content'>Last Update</th>" +
       "<th id='profile_orders_prints_orders_list_quantity_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_quantity_content'>Quantity</th>" +
-      "<th id='profile_orders_prints_orders_list_deadline_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_deadline_content'>Deadline</th>" +
+      "<th id='profile_orders_prints_orders_list_deadline_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_deadline_content'>Print Deadline</th>" +
       "<th id='profile_orders_prints_orders_list_print_setting_header' class='profile_orders_prints_orders_list_table_header profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_print_setting_content'>Print Setting</th>" +
       "</tr>" +
       "</thead>" +
@@ -348,10 +366,24 @@
         totalProducedQuantity += Number(ele.parts[i].producedQuantity);
       }
 
-      if (!ele.deadline) {
+      if (!ele.paymentConfirmationDate) {
         deadline = "---";
       } else {
-        deadline = ele.deadline;
+        const dateObject = dateFormatter(ele.paymentConfirmationDate);
+        let numberOfDays;
+        switch (ele.pricing) {
+          case "Basic":
+            numberOfDays = 5;
+            break;
+          case "Priority":
+            numberOfDays = 3;
+            break;
+          case "Urgent":
+            numberOfDays = 1;
+            break;
+        }
+        const deadlineDefaultFormat = moment(ele.paymentConfirmationDate).add(numberOfDays, 'd');
+        deadline = dayDateMonthYearFormat(deadlineDefaultFormat._d);
       }
 
       const creationDate = dayDateMonthYearFormat(ele.creationDate);
@@ -547,7 +579,7 @@
     return dayDateMonthYearString;
   };
 
-/* ============================================================================================== */
+  /* ============================================================================================== */
 
 </script>
 

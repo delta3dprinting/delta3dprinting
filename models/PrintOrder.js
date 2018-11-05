@@ -94,9 +94,6 @@ const PrintOrderSchema = new Schema({
   paymentStatus: {
     type: String
   },
-  deadline: {
-    type: Date
-  },
   attachments: [
     {
       fileId: {

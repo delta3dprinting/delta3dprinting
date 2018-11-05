@@ -15,6 +15,27 @@ module.exports = (app, passport, upload, conn) => {
     gfs.collection("fs");
   });
 
+  /* ======================================== FOR TESTING ========================================= */
+
+  // @route   GET /test/payment-confirmation-date
+  // @desc    Set the Order's Payment Confirmation Date for Testing
+  // @access  Private
+  app.post("/test/payment-confirmation-date", restrictedPages, (req, res) => {
+    PrintOrder.findOneAndUpdate(
+      {
+        orderNumber: req.body.orderNumber
+      },
+      { $set: { paymentConfirmationDate: new Date() } },
+      (err, order) => {
+        if (err) return res.send("failed");
+
+        res.send("success");
+      }
+    );
+  });
+
+  /* =============================== 3D PRINT ORDERS RELATED ROUTES =============================== */
+
   // @route   GET /orders/:filename
   // @desc    Download the STL File
   // @access  Private
@@ -102,7 +123,6 @@ module.exports = (app, passport, upload, conn) => {
       orderNewPrint.pricing = req.body.pricing;
       orderNewPrint.delivery = req.body.delivery;
       orderNewPrint.ownerNote = req.body.additionalNote;
-      orderNewPrint.deadline = "";
       orderNewPrint.attachments = [];
 
       orderNewPrint.save();

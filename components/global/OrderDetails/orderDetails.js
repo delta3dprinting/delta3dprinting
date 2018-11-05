@@ -106,8 +106,8 @@ const orderStatusDescriptionBodyTabs = (orderStatusId, delivery) => {
       "<div id='order_pickedup_order_status_tab_text' class='order_status_tab_text'>" +
       "Order Picked Up" +
       "</div>" +
-      "</div>";
-    "<div id='order_completed_order_status_tab_body' class='order_status_tab_body'>" +
+      "</div>" +
+      "<div id='order_completed_order_status_tab_body' class='order_status_tab_body'>" +
       "<div id='order_completed_order_status_tab_text' class='order_status_tab_text'>" +
       "Order Completed" +
       "</div>" +
