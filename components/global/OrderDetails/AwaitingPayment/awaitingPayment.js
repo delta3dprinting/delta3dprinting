@@ -16,7 +16,7 @@ const constructOrderDetailsAwaitingPaymentModal = (order, orderStatusId) => {
   // ELEMENTS
   const orderDetailsAwaitingPaymentModalHeader = orderDetailsModalHeader;
   const orderDetailsAwaitingPaymentModalFooter =
-    "<div id='awaiting_payment_footer_buttons_body' class='awaiting_payment_footer_buttons_body_close awaiting_payment_footer_buttons_body_open'>" +
+    "<div id='awaiting_payment_footer_buttons_body' class='order_details_footer_buttons_body awaiting_payment_footer_buttons_body_close awaiting_payment_footer_buttons_body_open'>" +
     "<div id='order_details_payed_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Payed</div>" +
     "</div>" +
@@ -24,7 +24,7 @@ const constructOrderDetailsAwaitingPaymentModal = (order, orderStatusId) => {
     "<div class='order_details_footer_button_text'>Cancel Order</div>" +
     "</div>" +
     "</div>" +
-    "<div id='awaiting_payment_pre_submit_contents_body' class='awaiting_payment_pre_submit_contents_body_close'>" +
+    "<div id='awaiting_payment_pre_submit_contents_body' class='order_details_footer_buttons_body awaiting_payment_pre_submit_contents_body_close'>" +
     "<div id='order_details_payed_confirm_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Confirm</div>" +
     "</div>" +

@@ -16,7 +16,7 @@ const constructOrderDetailsAwaitingQuoteModal = orderStatusId => {
   // ELEMENTS
   const orderDetailsAwaitingQuoteModalHeader = orderDetailsModalHeader;
   const orderDetailsAwaitingQuoteModalFooter =
-    "<div id='awaiting_quote_footer_buttons_body'>" +
+    "<div class='order_details_footer_buttons_body'>" +
     "<div class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Cancel Order</div>" +
     "</div>";

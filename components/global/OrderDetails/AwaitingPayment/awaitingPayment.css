@@ -5,10 +5,6 @@
 }
 
 #awaiting_payment_footer_buttons_body {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
   overflow: hidden;
   transition: all 0.5s ease;
 }

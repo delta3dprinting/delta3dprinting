@@ -19,8 +19,10 @@ const constructOrderDetailsAwaitingPaymentConfirmationModal = (
   // ELEMENTS
   const orderDetailsAwaitingPaymentConfirmationModalHeader = orderDetailsModalHeader;
   const orderDetailsAwaitingPaymentConfirmationModalFooter =
+    "<div class='order_details_footer_buttons_body'>" +
     "<div class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Request Refund</div>" +
+    "</div>" +
     "</div>";
   const orderDetailsAwaitingPaymentConfirmationModalElementObject = new modalElementObject(
     orderStatusId,

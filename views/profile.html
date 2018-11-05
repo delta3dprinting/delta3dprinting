@@ -244,12 +244,66 @@
 </body>
 
 <style>
-
+  .order_details_footer_buttons_body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
 </style>
 
 <script>
+  /* ======================================= INITIALISATION ======================================= */
 
+  const printingOrderInit = (order) => {
+    const orderStatusId = order.orderStatus.toLowerCase().replace(/ /g, "_");
+    constructOrderDetailsPrintingOrderModal(order, orderStatusId);
+    constructHTMLStructure(orderStatusId);
+    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
+    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
+    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
+    constructOrderDetailsAttachments(order, orderStatusId);
+    constructOrderDetailsComments(order, orderStatusId);
+  }
 
+  const constructOrderDetailsPrintingOrderModal = (
+    order,
+    orderStatusId
+  ) => {
+    // ELEMENTS
+    const orderDetailsPrintingOrderModalHeader = orderDetailsModalHeader;
+    const orderDetailsPrintingOrderModalFooter =
+      "<div class='order_details_footer_buttons_body'>" +
+      "<div class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>Request Refund</div>" +
+      "</div>" +
+      "</div>";
+    const orderDetailsPrintingOrderModalElementObject = new modalElementObject(
+      orderStatusId,
+      orderDetailsPrintingOrderModalHeader,
+      orderDetailsPrintingOrderModalFooter
+    );
+    // CSS
+    const orderDetailsPrintingOrderModalMobileHeight = 90;
+    const orderDetailsPrintingOrderModalMobileWidth = 90;
+    const orderDetailsPrintingOrderModalDesktopHeight = 90;
+    const orderDetailsPrintingOrderModalDesktopWidth = 60;
+    const orderDetailsPrintingOrderModalFooterHeight = 14;
+    const orderDetailsPrintingOrderModalCSSObject = new modalCSSObject(
+      orderDetailsPrintingOrderModalMobileHeight,
+      orderDetailsPrintingOrderModalMobileWidth,
+      orderDetailsPrintingOrderModalDesktopHeight,
+      orderDetailsPrintingOrderModalDesktopWidth,
+      orderDetailsPrintingOrderModalFooterHeight
+    );
+
+    addModal(
+      orderDetailsPrintingOrderModalElementObject,
+      orderDetailsPrintingOrderModalCSSObject
+    );
+  };
+  /* ============================================================================================== */
 </script>
 
 </html>
