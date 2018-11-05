@@ -12,6 +12,8 @@ const awaitingPaymentConfirmationInit = order => {
   awaitingPaymentConfirmationDescriptionBodyDetails();
 };
 
+/* =========================================== MODAL ============================================ */
+
 const constructOrderDetailsAwaitingPaymentConfirmationModal = (
   order,
   orderStatusId

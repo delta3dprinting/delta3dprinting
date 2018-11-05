@@ -18,6 +18,14 @@
   margin: 2vmin 0 0 0;
 }
 
+.order_details_footer_buttons_body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 .order_details_footer_button {
   height: 10vmin;
   width: 20vmin;

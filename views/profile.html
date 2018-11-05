@@ -267,6 +267,8 @@
     constructOrderDetailsComments(order, orderStatusId);
   }
 
+  /* =========================================== MODAL ============================================ */
+
   const constructOrderDetailsPrintingOrderModal = (
     order,
     orderStatusId
@@ -303,6 +305,24 @@
       orderDetailsPrintingOrderModalCSSObject
     );
   };
+
+  /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
+
+  const printingOrderDescriptionBodyDetails = () => {
+    const orderStatusDescriptionBodyDetailsHTML =
+      "<div id='order_status_description_details_body'>" +
+      "<div id='order_status_description_details_text'>" +
+      "Please wait while we verify your payment. We appreciate your patience!" +
+      "</div>" +
+      "</div>";
+
+    document
+      .querySelector(
+        "#printing_order_order_status_description_body"
+      )
+      .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
+  };
+
   /* ============================================================================================== */
 </script>
 

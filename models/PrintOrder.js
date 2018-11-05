@@ -25,6 +25,12 @@ const PrintOrderSchema = new Schema({
   lastUpdateDate: {
     type: String
   },
+  paymentConfirmationDate: {
+    type: String
+  },
+  orderDeliveryDate: {
+    type: String
+  },
   parts: [
     {
       fileId: {

@@ -312,7 +312,8 @@ const loadOrderDetailsComments = (ownerId, orderNumber) => {
 };
 
 const orderDetailsDateFormatter = defaultDate => {
-  const dateArray = defaultDate.split(" ");
+  const defaultDateString = defaultDate + "";
+  const dateArray = defaultDateString.split(" ");
   let day;
   let month = [];
   const date = dateArray[2];
