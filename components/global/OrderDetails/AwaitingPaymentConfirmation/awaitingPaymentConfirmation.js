@@ -55,8 +55,8 @@ const constructOrderDetailsAwaitingPaymentConfirmationModal = (
 
 const awaitingPaymentConfirmationDescriptionBodyDetails = () => {
   const orderStatusDescriptionBodyDetailsHTML =
-    "<div id='order_status_description_details_body'>" +
-    "<div id='order_status_description_details_text'>" +
+    "<div class='order_status_description_details_body'>" +
+    "<div class='order_status_description_details_text'>" +
     "Please wait while we verify your payment. We appreciate your patience!" +
     "</div>" +
     "</div>";

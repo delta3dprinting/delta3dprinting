@@ -58,8 +58,8 @@ const awaitingQuoteDescriptionBodyDetails = () => {
     "Please wait while we analyse and generate a quote for your order.";
 
   const orderStatusDescriptionBodyDetailsHTML =
-    "<div id='order_status_description_details_body'>" +
-    "<div id='order_status_description_details_text'>" +
+    "<div class='order_status_description_details_body'>" +
+    "<div class='order_status_description_details_text'>" +
     details +
     "</div>" +
     "</div>";

@@ -246,11 +246,163 @@
 </body>
 
 <style>
+  .order_status_description_details_body {
+    display: flex;
+    align-items: center;
+    padding: 0 2vmin 0 2vmin;
+    margin: 1vmin 0 1vmin 0;
+  }
 
+  .order_status_description_details_text {
+    font-family: "Open Sans", sans-serif;
+    font-size: 3.5vmin;
+    text-align: justify;
+    color: rgb(80, 80, 80);
+  }
+
+
+  @media only screen and (min-width: 600px) {
+    .order_status_description_details_body {
+      padding: 0 1vmin 0 1vmin;
+      margin: 0.5vmin 0 0.5vmin 0;
+    }
+
+    .order_status_description_details_text {
+      font-size: 1.75vmin;
+    }
+  }
 </style>
 
 <script>
+  /* ======================================= INITIALISATION ======================================= */
 
+  const printingOrderInit = order => {
+    const orderStatusId = order.orderStatus.toLowerCase().replace(/ /g, "_");
+    constructOrderDetailsPrintingOrderModal(order, orderStatusId);
+    constructHTMLStructure(orderStatusId);
+    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
+    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
+    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
+    constructOrderDetailsAttachments(order, orderStatusId);
+    constructOrderDetailsComments(order, orderStatusId);
+    printingOrderDescriptionBodyDetails(order);
+  };
+
+  /* =========================================== MODAL ============================================ */
+
+  const constructOrderDetailsPrintingOrderModal = (
+    order,
+    orderStatusId
+  ) => {
+    // ELEMENTS
+    const orderDetailsPrintingOrderModalHeader = orderDetailsModalHeader;
+    const orderDetailsPrintingOrderModalFooter =
+      "<div class='order_details_footer_buttons_body'>" +
+      "<div class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>Request Refund</div>" +
+      "</div>" +
+      "</div>";
+    const orderDetailsPrintingOrderModalElementObject = new modalElementObject(
+      orderStatusId,
+      orderDetailsPrintingOrderModalHeader,
+      orderDetailsPrintingOrderModalFooter
+    );
+    // CSS
+    const orderDetailsPrintingOrderModalMobileHeight = 90;
+    const orderDetailsPrintingOrderModalMobileWidth = 90;
+    const orderDetailsPrintingOrderModalDesktopHeight = 90;
+    const orderDetailsPrintingOrderModalDesktopWidth = 60;
+    const orderDetailsPrintingOrderModalFooterHeight = 14;
+    const orderDetailsPrintingOrderModalCSSObject = new modalCSSObject(
+      orderDetailsPrintingOrderModalMobileHeight,
+      orderDetailsPrintingOrderModalMobileWidth,
+      orderDetailsPrintingOrderModalDesktopHeight,
+      orderDetailsPrintingOrderModalDesktopWidth,
+      orderDetailsPrintingOrderModalFooterHeight
+    );
+
+    addModal(
+      orderDetailsPrintingOrderModalElementObject,
+      orderDetailsPrintingOrderModalCSSObject
+    );
+  };
+
+  /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
+
+  const printingOrderDescriptionBodyDetails = (order) => {
+    const orderStatusDescriptionBodyDetailsHTML =
+      "<div class='order_status_description_details_body'>" +
+      "<div class='order_status_description_details_text'>" +
+      "We are now printing your order!" +
+      "</div>" +
+      "</div>";
+
+    document
+      .querySelector(
+        "#printing_order_order_status_description_body"
+      )
+      .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
+
+    printingOrderEstimatedCompletionTime(order)
+  };
+
+  /* ================================= ESTIMATED COMPLETION TIME ================================== */
+
+  const printingOrderEstimatedCompletionTime = (order) => {
+    let deadline;
+    const dateObject = dateFormatter(order.paymentConfirmationDate);
+    let numberOfDays;
+    switch (order.pricing) {
+      case "Basic":
+        numberOfDays = 5;
+        break;
+      case "Priority":
+        numberOfDays = 3;
+        break;
+      case "Urgent":
+        numberOfDays = 1;
+        break;
+    }
+    deadline = moment(order.paymentConfirmationDate).add(
+      numberOfDays,
+      "d"
+    );
+    const currentDate = new Date();
+    const estimatedCompletionTimeDefault = moment(deadline).diff(currentDate, 'minutes');
+    const estimatedCompletionTimeDays = Math.floor(estimatedCompletionTimeDefault / (24 * 60));
+    const estimatedCompletionTimeHours = Math.floor((estimatedCompletionTimeDefault % (24 * 60)) / 60);
+    const estimatedCompletionTimeMinutes = estimatedCompletionTimeDefault % 60;
+    let estimatedCompletionTime;
+    if (estimatedCompletionTimeDefault > 0) {
+      if (estimatedCompletionTimeDays > 0) {
+        estimatedCompletionTime = estimatedCompletionTimeDays + " day(s) " + estimatedCompletionTimeHours + " hour(s) " + estimatedCompletionTimeMinutes + "  minute(s)";
+      } else if (estimatedCompletionTimeHours > 0) {
+        estimatedCompletionTime = estimatedCompletionTimeHours + " hour(s) " + estimatedCompletionTimeMinutes + " minute(s) ";
+      } else {
+        estimatedCompletionTime = estimatedCompletionTimeMinutes + " minute(s) ";
+      }
+    }
+
+    const orderStatusDescriptionBodyDetailsHTML =
+      "<div class='order_status_description_details_body'>" +
+      "<div class='order_status_description_details_text'>" +
+      "The estimated completion time is: " +
+      "</div>" +
+      "</div>" +
+      "<div class='order_status_description_details_body'>" +
+      "<div class='order_status_description_details_text'><strong>" +
+      estimatedCompletionTime +
+      "</strong></div>" +
+      "</div>";
+
+    document
+      .querySelector(
+        "#printing_order_order_status_description_body"
+      )
+      .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
+  }
+
+  /* ============================================================================================== */
 </script>
 
 <script>

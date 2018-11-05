@@ -103,8 +103,8 @@ const awaitingPaymentDescriptionBodyDetails = order => {
         "After making the payment, press 'Payed' to update your order's status and notify us";
 
       const orderStatusDescriptionBodyDetailsHTML =
-        "<div id='order_status_description_details_body'>" +
-        "<div id='order_status_description_details_text'>" +
+        "<div class='order_status_description_details_body'>" +
+        "<div class='order_status_description_details_text'>" +
         details +
         "</div>" +
         "</div>" +
