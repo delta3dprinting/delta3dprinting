@@ -113,10 +113,13 @@
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/orderDetails.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/orderDetails.css">
   <!-- Awaiting Quote -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingQuote/awaitingQuote.js"></script>
+  <!--   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingQuote/awaitingQuote.js"></script> -->
   <!-- Awaiting Payment -->
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingPayment/awaitingPayment.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingPayment/awaitingPayment.css">
+  <!-- Order Details: Awaiting Payment Confirmation -->
+  <script src="../components/global/OrderDetails/AwaitingPaymentConfirmation/awaitingPaymentConfirmation.js"></script>
+  <link rel="stylesheet" href="../components/global/OrderDetails/AwaitingPaymentConfirmation/awaitingPaymentConfirmation.css">
   <!-- =========================================== LOCAL: PROFILE =========================================== -->
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/profile.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/profile.css">
@@ -246,63 +249,73 @@
 <script>
   /* ======================================= INITIALISATION ======================================= */
 
-  const awaitingPaymentConfirmationInit = order => {
-    const orderStatusId = order.orderStatus.toLowerCase().replace(/ /g, "_");
-    constructOrderDetailsAwaitingPaymentConfirmationModal(order, orderStatusId);
+  const awaitingQuoteInit = order => {
+    const orderStatusId = constructOrderStatusId(order.orderStatus);
+    constructOrderDetailsAwaitingQuoteModal(orderStatusId);
     constructHTMLStructure(orderStatusId);
-    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
-    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
+    awaitingQuoteOrderStatusDescriptionBody(order, orderStatusId);
     constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
     constructOrderDetailsAttachments(order, orderStatusId);
     constructOrderDetailsComments(order, orderStatusId);
-    awaitingPaymentConfirmationDescriptionBodyDetails();
-  }
+  };
 
-  const constructOrderDetailsAwaitingPaymentConfirmationModal = (order, orderStatusId) => {
+  /* =========================================== MODAL ============================================ */
+
+  const constructOrderDetailsAwaitingQuoteModal = orderStatusId => {
     // ELEMENTS
-    const orderDetailsAwaitingPaymentConfirmationModalHeader = orderDetailsModalHeader;
-    const orderDetailsAwaitingPaymentConfirmationModalFooter = "<div></div>";
-    const orderDetailsAwaitingPaymentConfirmationModalElementObject = new modalElementObject(
+    const orderDetailsAwaitingQuoteModalHeader = orderDetailsModalHeader;
+    const orderDetailsAwaitingQuoteModalFooter = "<div></div>";
+    const orderDetailsAwaitingQuoteModalElementObject = new modalElementObject(
       orderStatusId,
-      orderDetailsAwaitingPaymentConfirmationModalHeader,
-      orderDetailsAwaitingPaymentConfirmationModalFooter
+      orderDetailsAwaitingQuoteModalHeader,
+      orderDetailsAwaitingQuoteModalFooter
     );
     // CSS
-    const orderDetailsAwaitingPaymentConfirmationModalMobileHeight = 90;
-    const orderDetailsAwaitingPaymentConfirmationModalMobileWidth = 90;
-    const orderDetailsAwaitingPaymentConfirmationModalDesktopHeight = 90;
-    const orderDetailsAwaitingPaymentConfirmationModalDesktopWidth = 60;
-    const orderDetailsAwaitingPaymentConfirmationModalFooterHeight = 14;
-    const orderDetailsAwaitingPaymentConfirmationModalCSSObject = new modalCSSObject(
-      orderDetailsAwaitingPaymentConfirmationModalMobileHeight,
-      orderDetailsAwaitingPaymentConfirmationModalMobileWidth,
-      orderDetailsAwaitingPaymentConfirmationModalDesktopHeight,
-      orderDetailsAwaitingPaymentConfirmationModalDesktopWidth,
-      orderDetailsAwaitingPaymentConfirmationModalFooterHeight
+    const orderDetailsAwaitingQuoteModalMobileHeight = 90;
+    const orderDetailsAwaitingQuoteModalMobileWidth = 90;
+    const orderDetailsAwaitingQuoteModalDesktopHeight = 90;
+    const orderDetailsAwaitingQuoteModalDesktopWidth = 60;
+    const orderDetailsAwaitingQuoteModalFooterHeight = 14;
+    const orderDetailsAwaitingQuoteModalCSSObject = new modalCSSObject(
+      orderDetailsAwaitingQuoteModalMobileHeight,
+      orderDetailsAwaitingQuoteModalMobileWidth,
+      orderDetailsAwaitingQuoteModalDesktopHeight,
+      orderDetailsAwaitingQuoteModalDesktopWidth,
+      orderDetailsAwaitingQuoteModalFooterHeight
     );
 
     addModal(
-      orderDetailsAwaitingPaymentConfirmationModalElementObject,
-      orderDetailsAwaitingPaymentConfirmationModalCSSObject
+      orderDetailsAwaitingQuoteModalElementObject,
+      orderDetailsAwaitingQuoteModalCSSObject
     );
   };
 
   /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
 
-  const awaitingPaymentConfirmationDescriptionBodyDetails = () => {
+  const awaitingQuoteOrderStatusDescriptionBody = (order, orderStatusId) => {
+    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
+    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
+    awaitingQuoteDescriptionBodyDetails();
+  };
+
+  const awaitingQuoteDescriptionBodyDetails = () => {
+    const details =
+      "Please wait while we analyse and generate a quote for your order.";
+
     const orderStatusDescriptionBodyDetailsHTML =
       "<div id='order_status_description_details_body'>" +
       "<div id='order_status_description_details_text'>" +
-      "Please wait while we verify your payment. We appreciate your patience!" +
+      details +
       "</div>" +
       "</div>";
 
     document
-      .querySelector("#awaiting_payment_confirmation_order_status_description_body")
+      .querySelector("#awaiting_quote_order_status_description_body")
       .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
   };
 
-  /* ============================================================================================== */
+/* ============================================================================================== */
+
 </script>
 
 </html>
