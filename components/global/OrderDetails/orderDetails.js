@@ -16,6 +16,8 @@ const viewOrderDetails = orderNumber => {
         printingOrderInit(data);
       } else if (data.orderStatus == "Ready for Pickup") {
         readyForPickupInit(data);
+      } else if (data.orderStatus == "Order Picked Up") {
+        orderPickedUpInit(data);
       } else if (data.orderStatus == "Ready for Shipping") {
         readyForShippingInit(data);
       } else if (data.orderStatus == "Order Shipped") {
@@ -100,7 +102,12 @@ const orderStatusDescriptionBodyTabs = (orderStatusId, delivery) => {
       "Ready for Pickup" +
       "</div>" +
       "</div>" +
-      "<div id='order_completed_order_status_tab_body' class='order_status_tab_body'>" +
+      "<div id='order_pickedup_order_status_tab_body' class='order_status_tab_body'>" +
+      "<div id='order_pickedup_order_status_tab_text' class='order_status_tab_text'>" +
+      "Order Picked Up" +
+      "</div>" +
+      "</div>";
+    "<div id='order_completed_order_status_tab_body' class='order_status_tab_body'>" +
       "<div id='order_completed_order_status_tab_text' class='order_status_tab_text'>" +
       "Order Completed" +
       "</div>" +
@@ -153,6 +160,8 @@ const orderStatusDescriptionBodyHeader = (orderStatus, orderStatusId) => {
     heading = "Awaiting Your Order's Completion";
   } else if (orderStatus == "Ready for Pickup") {
     heading = "Waiting for Pickup";
+  } else if (orderStatus == "Order Picked Up") {
+    heading = "You have Picked Up Your Order";
   } else if (orderStatus == "Ready for Shipping") {
     heading = "Wait while We Ship Your Order";
   } else if (orderStatus == "Order Shipped") {
