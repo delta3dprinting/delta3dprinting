@@ -113,13 +113,14 @@
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/orderDetails.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/orderDetails.css">
   <!-- Awaiting Quote -->
-  <!--   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingQuote/awaitingQuote.js"></script> -->
+  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingQuote/awaitingQuote.js"></script>
+  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingQuote/awaitingQuote.css">
   <!-- Awaiting Payment -->
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingPayment/awaitingPayment.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingPayment/awaitingPayment.css">
   <!-- Order Details: Awaiting Payment Confirmation -->
-  <script src="../components/global/OrderDetails/AwaitingPaymentConfirmation/awaitingPaymentConfirmation.js"></script>
-  <link rel="stylesheet" href="../components/global/OrderDetails/AwaitingPaymentConfirmation/awaitingPaymentConfirmation.css">
+  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingPaymentConfirmation/awaitingPaymentConfirmation.js"></script>
+  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/AwaitingPaymentConfirmation/awaitingPaymentConfirmation.css">
   <!-- =========================================== LOCAL: PROFILE =========================================== -->
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/profile.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/profile.css">
@@ -247,74 +248,7 @@
 </style>
 
 <script>
-  /* ======================================= INITIALISATION ======================================= */
 
-  const awaitingQuoteInit = order => {
-    const orderStatusId = constructOrderStatusId(order.orderStatus);
-    constructOrderDetailsAwaitingQuoteModal(orderStatusId);
-    constructHTMLStructure(orderStatusId);
-    awaitingQuoteOrderStatusDescriptionBody(order, orderStatusId);
-    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
-    constructOrderDetailsAttachments(order, orderStatusId);
-    constructOrderDetailsComments(order, orderStatusId);
-  };
-
-  /* =========================================== MODAL ============================================ */
-
-  const constructOrderDetailsAwaitingQuoteModal = orderStatusId => {
-    // ELEMENTS
-    const orderDetailsAwaitingQuoteModalHeader = orderDetailsModalHeader;
-    const orderDetailsAwaitingQuoteModalFooter = "<div></div>";
-    const orderDetailsAwaitingQuoteModalElementObject = new modalElementObject(
-      orderStatusId,
-      orderDetailsAwaitingQuoteModalHeader,
-      orderDetailsAwaitingQuoteModalFooter
-    );
-    // CSS
-    const orderDetailsAwaitingQuoteModalMobileHeight = 90;
-    const orderDetailsAwaitingQuoteModalMobileWidth = 90;
-    const orderDetailsAwaitingQuoteModalDesktopHeight = 90;
-    const orderDetailsAwaitingQuoteModalDesktopWidth = 60;
-    const orderDetailsAwaitingQuoteModalFooterHeight = 14;
-    const orderDetailsAwaitingQuoteModalCSSObject = new modalCSSObject(
-      orderDetailsAwaitingQuoteModalMobileHeight,
-      orderDetailsAwaitingQuoteModalMobileWidth,
-      orderDetailsAwaitingQuoteModalDesktopHeight,
-      orderDetailsAwaitingQuoteModalDesktopWidth,
-      orderDetailsAwaitingQuoteModalFooterHeight
-    );
-
-    addModal(
-      orderDetailsAwaitingQuoteModalElementObject,
-      orderDetailsAwaitingQuoteModalCSSObject
-    );
-  };
-
-  /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
-
-  const awaitingQuoteOrderStatusDescriptionBody = (order, orderStatusId) => {
-    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
-    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
-    awaitingQuoteDescriptionBodyDetails();
-  };
-
-  const awaitingQuoteDescriptionBodyDetails = () => {
-    const details =
-      "Please wait while we analyse and generate a quote for your order.";
-
-    const orderStatusDescriptionBodyDetailsHTML =
-      "<div id='order_status_description_details_body'>" +
-      "<div id='order_status_description_details_text'>" +
-      details +
-      "</div>" +
-      "</div>";
-
-    document
-      .querySelector("#awaiting_quote_order_status_description_body")
-      .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
-  };
-
-/* ============================================================================================== */
 
 </script>
 
