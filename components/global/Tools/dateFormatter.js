@@ -1,3 +1,5 @@
+/* ======================================== DATE OBJECT ========================================= */
+
 const dateFormatter = defaultDate => {
   const defaultDateString = defaultDate + "";
   const dateArray = defaultDateString.split(" ");
@@ -123,4 +125,17 @@ const dateFormatter = defaultDate => {
   };
 
   return dateObject;
+};
+
+/* =================================== DAY MONTH YEAR FORMAT ==================================== */
+
+const dayDateMonthYearFormat = defaultDate => {
+  const dateObject = dateFormatter(defaultDate);
+  const day = dateObject.day.slice(0, 3);
+  const date = dateObject.date;
+  const month = dateObject.month[0].slice(0, 3);
+  const year = dateObject.year;
+  const dayDateMonthYearString = day + ", " + date + " " + month + " " + year;
+
+  return dayDateMonthYearString;
 };

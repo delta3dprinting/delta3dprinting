@@ -49,7 +49,9 @@ module.exports = (app, passport, upload, conn) => {
       const fileAdditionalInfo = {
         ownerId: req.user._id,
         fileType: "Order New Print",
-        price: "pending"
+        price: "pending",
+        uploadDate: new Date(),
+        lastUsed: new Date()
       };
 
       // Update the Metadata object with the New Order Properties
@@ -75,22 +77,13 @@ module.exports = (app, passport, upload, conn) => {
 
       orderNewPrint.orderNumber = count + 1;
 
-      let today = new Date();
-      let dd = today.getDate();
-      let mm = today.getMonth() + 1; //January is 0!
-      let yyyy = today.getFullYear();
-      if (dd < 10) {
-        dd = "0" + dd;
-      }
-      if (mm < 10) {
-        mm = "0" + mm;
-      }
-      today = dd + "/" + mm + "/" + yyyy;
       // Set Variables
       orderNewPrint.ownerId = req.user._id;
-      orderNewPrint.creationDate = today;
+      orderNewPrint.creationDate = new Date();
       orderNewPrint.orderStatus = "Awaiting Quote";
-      orderNewPrint.lastUpdateDate = today;
+      orderNewPrint.lastUpdateDate = new Date();
+      orderNewPrint.paymentConfirmationDate = "";
+      orderNewPrint.orderDeliveryDate = "";
       for (i = 0; i < req.body.partObjectArray.length; i++) {
         orderNewPrint.parts[i] = {
           fileId: req.body.partObjectArray[i].fileId,
@@ -154,6 +147,7 @@ module.exports = (app, passport, upload, conn) => {
       };
 
       order.comments.push(newComment);
+      order.lastUpdateDate = new Date();
 
       order.save().then(order => {
         res.send({
@@ -276,7 +270,12 @@ const updateOrderStatusAwaitingPayment = (req, res) => {
 
   PrintOrder.findOneAndUpdate(
     { _id: order._id, ownerId: req.user._id },
-    { $set: { orderStatus: "Awaiting Payment Confirmation" } },
+    {
+      $set: {
+        orderStatus: "Awaiting Payment Confirmation",
+        lastUpdateDate: new Date()
+      }
+    },
     (err, order) => {
       if (err) {
         res.send("failed");
