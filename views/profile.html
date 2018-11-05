@@ -354,6 +354,9 @@
         deadline = ele.deadline;
       }
 
+      const creationDate = dayDateMonthYearFormat(ele.creationDate);
+      const lastUpdateDate = dayDateMonthYearFormat(ele.lastUpdateDate);
+
       const profileOrdersPrintsOrdersListTableContent =
         "<tr id='profile_orders_prints_order_number_" +
         ele.orderNumber +
@@ -362,13 +365,13 @@
         ele.orderNumber +
         "</td>" +
         "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_creation_date_content'>" +
-        ele.creationDate +
+        creationDate +
         "</td>" +
         "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_status_content'>" +
         ele.orderStatus +
         "</td>" +
         "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_update_content'>" +
-        ele.lastUpdateDate +
+        lastUpdateDate +
         "</td>" +
         "<td class='profile_orders_prints_orders_list_table_content_text profile_orders_prints_orders_list_table_content profile_orders_prints_orders_list_quantity_content'>" +
         totalProducedQuantity +
@@ -398,6 +401,7 @@
     });
   };
 
+  /* ============================================================================================== */
 </script>
 
 </html>
