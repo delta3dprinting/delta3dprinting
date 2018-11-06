@@ -20,6 +20,9 @@ const constructOrderDetailsReadyForPickupModal = (order, orderStatusId) => {
   const orderDetailsReadyForPickupModalFooter =
     "<div class='order_details_footer_buttons_body'>" +
     "<div class='order_details_footer_button'>" +
+    "<div class='order_details_footer_button_text'>Picked Up</div>" +
+    "</div>" +
+    "<div class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Request Refund</div>" +
     "</div>" +
     "</div>";
@@ -364,5 +367,7 @@ const collectAndValidateBookingFormInputs = () => {
 
   return bookingFormInputsValidity;
 };
+
+/* ================================== ORDER HAS BEEN PICKED UP ================================== */
 
 /* ============================================================================================== */

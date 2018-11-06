@@ -251,10 +251,110 @@
 </body>
 
 <style>
+  #order_picked_up_modal_footer_contents {
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
 
+  .order_details_footer_buttons_body {
+    overflow: hidden;
+    transition: all 0.5s ease;
+  }
+
+  .order_picked_up_footer_buttons_body_close {
+    height: 0;
+    opacity: 0;
+    z-index: 0;
+  }
+
+  .order_picked_up_footer_buttons_body_open {
+    height: 14vmin;
+    opacity: 1;
+    z-index: 1;
+  }
 </style>
 
 <script>
+  /* ======================================= INITIALISATION ======================================= */
+
+  const orderPickedUpInit = order => {
+    const orderStatusId = constructOrderStatusId(order.orderStatus);
+    constructOrderDetailsOrderPickedUpModal(orderStatusId);
+    constructHTMLStructure(orderStatusId);
+    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
+    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
+    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
+    constructOrderDetailsAttachments(order, orderStatusId);
+    constructOrderDetailsComments(order, orderStatusId);
+    orderPickedUpDescriptionBodyDetails(order);
+  };
+
+  /* =========================================== MODAL ============================================ */
+
+  const constructOrderDetailsOrderPickedUpModal = orderStatusId => {
+    // ELEMENTS
+    const orderDetailsOrderPickedUpModalHeader = orderDetailsModalHeader;
+    const orderDetailsOrderPickedUpModalFooter =
+      "<div id='order_picked_up_footer_buttons_body' class='order_details_footer_buttons_body order_picked_up_footer_buttons_body_close order_picked_up_footer_buttons_body_open'>" +
+      "<div class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>Complete Order</div>" +
+      "</div>" +
+      "<div class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>Request Refund</div>" +
+      "</div>" +
+      "</div>" +
+      "<div id='order_picked_up_complete_order_footer_buttons_body' class='order_details_footer_buttons_body order_picked_up_footer_buttons_body_close'>" +
+      "<div class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>Confirm</div>" +
+      "</div>" +
+      "<div class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>Cancel</div>" +
+      "</div>" +
+      "</div>";
+    const orderDetailsOrderPickedUpModalElementObject = new modalElementObject(
+      orderStatusId,
+      orderDetailsOrderPickedUpModalHeader,
+      orderDetailsOrderPickedUpModalFooter
+    );
+    // CSS
+    const orderDetailsOrderPickedUpModalMobileHeight = 90;
+    const orderDetailsOrderPickedUpModalMobileWidth = 90;
+    const orderDetailsOrderPickedUpModalDesktopHeight = 90;
+    const orderDetailsOrderPickedUpModalDesktopWidth = 60;
+    const orderDetailsOrderPickedUpModalFooterHeight = 14;
+    const orderDetailsOrderPickedUpModalCSSObject = new modalCSSObject(
+      orderDetailsOrderPickedUpModalMobileHeight,
+      orderDetailsOrderPickedUpModalMobileWidth,
+      orderDetailsOrderPickedUpModalDesktopHeight,
+      orderDetailsOrderPickedUpModalDesktopWidth,
+      orderDetailsOrderPickedUpModalFooterHeight
+    );
+
+    addModal(
+      orderDetailsOrderPickedUpModalElementObject,
+      orderDetailsOrderPickedUpModalCSSObject
+    );
+  };
+
+  /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
+
+  const orderPickedUpDescriptionBodyDetails = () => {
+    const details =
+      "Please wait while we analyse and generate a quote for your order.";
+
+    const orderStatusDescriptionBodyDetailsHTML =
+      "<div class='order_status_description_details_body'>" +
+      "<div class='order_status_description_details_text'>" +
+      details +
+      "</div>" +
+      "</div>";
+
+    document
+      .querySelector("#awaiting_quote_order_status_description_body")
+      .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
+  };
+
+/* ============================================================================================== */
 
 </script>
 
@@ -265,6 +365,18 @@
     $.ajax({
       type: "POST",
       url: "/test/payment-confirmation-date",
+      data: JSON.stringify({ orderNumber: orderNumber }),
+      contentType: "application/json",
+      success: data => {
+        console.log(data);
+      }
+    });
+  };
+
+  const testOrderDeliveryDate = orderNumber => {
+    $.ajax({
+      type: "POST",
+      url: "/test/order-delivery-date",
       data: JSON.stringify({ orderNumber: orderNumber }),
       contentType: "application/json",
       success: data => {

@@ -34,6 +34,23 @@ module.exports = (app, passport, upload, conn) => {
     );
   });
 
+  // @route   GET /test/order-delivery-date
+  // @desc    Set the Order's Delivery Date for Testing
+  // @access  Private
+  app.post("/test/order-delivery-date", restrictedPages, (req, res) => {
+    PrintOrder.findOneAndUpdate(
+      {
+        orderNumber: req.body.orderNumber
+      },
+      { $set: { orderDeliveryDate: new Date() } },
+      (err, order) => {
+        if (err) return res.send("failed");
+
+        res.send("success");
+      }
+    );
+  });
+
   /* =============================== 3D PRINT ORDERS RELATED ROUTES =============================== */
 
   // @route   GET /orders/:filename
@@ -271,7 +288,12 @@ module.exports = (app, passport, upload, conn) => {
         ownerId: req.user._id,
         orderNumber: req.body.orderNumber
       },
-      { $set: { pickupBookingSchedule: req.body.bookingFormInputsObject } },
+      {
+        $set: {
+          pickupBookingSchedule: req.body.bookingFormInputsObject,
+          lastUpdateDate: new Date()
+        }
+      },
       (err, order) => {
         if (err) {
           return res.send("Booking Failed");
@@ -293,6 +315,8 @@ module.exports = (app, passport, upload, conn) => {
     } else if (req.body.orderStatus == "Awaiting Payment Confirmation") {
     } else if (req.body.orderStatus == "Printing Order") {
     } else if (req.body.orderStatus == "Ready for Pickup") {
+      updateOrderStatusReadyForPickup(req, res);
+    } else if (req.body.orderStatus == "Order Picked Up") {
     } else if (req.body.orderStatus == "Ready for Shipping") {
     } else if (req.body.orderStatus == "Order Shipped") {
     } else if (req.body.orderStatus == "Order Completed") {
@@ -305,6 +329,8 @@ module.exports = (app, passport, upload, conn) => {
 
 /* ========================================== FUNCTION ========================================== */
 
+/* --------------------------- UPDATE ORDER STATUS: AWAITING PAYMENT ---------------------------- */
+
 const updateOrderStatusAwaitingPayment = (req, res) => {
   const order = req.body;
 
@@ -313,6 +339,30 @@ const updateOrderStatusAwaitingPayment = (req, res) => {
     {
       $set: {
         orderStatus: "Awaiting Payment Confirmation",
+        lastUpdateDate: new Date()
+      }
+    },
+    (err, order) => {
+      if (err) {
+        res.send("failed");
+      }
+
+      res.send("success");
+    }
+  );
+};
+
+/* --------------------------- UPDATE ORDER STATUS: READY FOR PICKUP ---------------------------- */
+
+const updateOrderStatusReadyForPickup = (req, res) => {
+  const order = req.body;
+
+  PrintOrder.findOneAndUpdate(
+    { _id: order._id, ownerId: req.user._id },
+    {
+      $set: {
+        orderStatus: "Order Picked Up",
+        orderDeliveryDate: new Date(),
         lastUpdateDate: new Date()
       }
     },
