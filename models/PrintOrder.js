@@ -31,6 +31,26 @@ const PrintOrderSchema = new Schema({
   orderDeliveryDate: {
     type: String
   },
+  pickupBookingSchedule: {
+    date: {
+      type: String
+    },
+    month: {
+      type: String
+    },
+    year: {
+      type: String
+    },
+    hour: {
+      type: String
+    },
+    minute: {
+      type: String
+    },
+    period: {
+      type: String
+    }
+  },
   parts: [
     {
       fileId: {

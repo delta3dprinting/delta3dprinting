@@ -105,6 +105,7 @@ module.exports = (app, passport, upload, conn) => {
       orderNewPrint.lastUpdateDate = new Date();
       orderNewPrint.paymentConfirmationDate = "";
       orderNewPrint.orderDeliveryDate = "";
+      orderNewPrint.pickupBookingSchedule = {};
       for (i = 0; i < req.body.partObjectArray.length; i++) {
         orderNewPrint.parts[i] = {
           fileId: req.body.partObjectArray[i].fileId,
@@ -259,6 +260,25 @@ module.exports = (app, passport, upload, conn) => {
 
       res.send(file.metadata.price);
     });
+  });
+
+  /* ==================================== BOOK A PICKUP TIME ==================================== */
+
+  app.post("/order/book-pickup", restrictedPages, (req, res) => {
+    console.log(req.body.bookingFormInputsObject);
+    PrintOrder.findOneAndUpdate(
+      {
+        ownerId: req.user._id,
+        orderNumber: req.body.orderNumber
+      },
+      { $set: { pickupBookingSchedule: req.body.bookingFormInputsObject } },
+      (err, order) => {
+        if (err) {
+          return res.send("Booking Failed");
+        }
+        res.send("Booking Success");
+      }
+    );
   });
 
   /* =================================== UPDATE ORDER STATUS ==================================== */
