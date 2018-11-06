@@ -9,7 +9,7 @@ const printingOrderInit = order => {
   constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
   constructOrderDetailsAttachments(order, orderStatusId);
   constructOrderDetailsComments(order, orderStatusId);
-  printingOrderDescriptionBodyDetails();
+  printingOrderDescriptionBodyDetails(order);
 };
 
 /* =========================================== MODAL ============================================ */
@@ -50,17 +50,93 @@ const constructOrderDetailsPrintingOrderModal = (order, orderStatusId) => {
 
 /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
 
-const printingOrderDescriptionBodyDetails = () => {
+const printingOrderDescriptionBodyDetails = order => {
   const orderStatusDescriptionBodyDetailsHTML =
-    "<div id='order_status_description_details_body'>" +
-    "<div id='order_status_description_details_text'>" +
-    "We are now printing your order! Expect your order to finish printing in:" +
+    "<div class='order_status_description_details_body'>" +
+    "<div class='order_status_description_details_text'>" +
+    "We are now printing your order!" +
     "</div>" +
+    "</div>" +
+    "<div class='order_status_description_details_body'>" +
+    "<div class='order_status_description_details_text'>" +
+    "The estimated printing time is: " +
+    "</div>" +
+    "</div>" +
+    "<div class='order_status_description_details_body'>" +
+    "<div id='order_status_description_details_estimated_printing_time_text' class='order_status_description_details_text'></div>" +
     "</div>";
 
   document
     .querySelector("#printing_order_order_status_description_body")
     .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
+
+  printingOrderEstimatedPrintingTime(order);
+
+  setInterval(() => {
+    printingOrderEstimatedPrintingTime(order);
+  }, 60000);
+
+  document
+    .querySelector("#printing_order_backdrop")
+    .addEventListener("click", () => {
+      clearInterval();
+    });
+};
+
+/* ================================= ESTIMATED COMPLETION TIME ================================== */
+
+const printingOrderEstimatedPrintingTime = order => {
+  let deadline;
+  const dateObject = dateFormatter(order.paymentConfirmationDate);
+  let numberOfDays;
+  switch (order.pricing) {
+    case "Basic":
+      numberOfDays = 5;
+      break;
+    case "Priority":
+      numberOfDays = 3;
+      break;
+    case "Urgent":
+      numberOfDays = 1;
+      break;
+  }
+  deadline = moment(order.paymentConfirmationDate).add(numberOfDays, "d");
+  const currentDate = new Date();
+  const estimatedPrintingTimeDefault = moment(deadline).diff(
+    currentDate,
+    "minutes"
+  );
+  const estimatedPrintingTimeDays = Math.floor(
+    estimatedPrintingTimeDefault / (24 * 60)
+  );
+  const estimatedPrintingTimeHours = Math.floor(
+    (estimatedPrintingTimeDefault % (24 * 60)) / 60
+  );
+  const estimatedPrintingTimeMinutes = estimatedPrintingTimeDefault % 60;
+  let estimatedPrintingTime;
+  if (estimatedPrintingTimeDefault > 0) {
+    if (estimatedPrintingTimeDays > 0) {
+      estimatedPrintingTime =
+        estimatedPrintingTimeDays +
+        " day(s) " +
+        estimatedPrintingTimeHours +
+        " hour(s) " +
+        estimatedPrintingTimeMinutes +
+        "  minute(s)";
+    } else if (estimatedPrintingTimeHours > 0) {
+      estimatedPrintingTime =
+        estimatedPrintingTimeHours +
+        " hour(s) " +
+        estimatedPrintingTimeMinutes +
+        " minute(s) ";
+    } else {
+      estimatedPrintingTime = estimatedPrintingTimeMinutes + " minute(s) ";
+    }
+  }
+
+  document.querySelector(
+    "#order_status_description_details_estimated_printing_time_text"
+  ).innerHTML = "<strong>" + estimatedPrintingTime + "</strong>";
 };
 
 /* ============================================================================================== */
