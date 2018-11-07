@@ -337,6 +337,7 @@ module.exports = (app, passport, upload, conn) => {
       updateOrderStatusOrderPickedUp(req, res);
     } else if (req.body.orderStatus == "Ready for Shipping") {
     } else if (req.body.orderStatus == "Order Shipped") {
+      updateOrderStatusOrderShipped(req, res);
     } else if (req.body.orderStatus == "Order Completed") {
     } else {
       console.log("Order status could not be identified");
@@ -353,7 +354,7 @@ const updateOrderStatusAwaitingPayment = (req, res) => {
   const order = req.body;
 
   PrintOrder.findOneAndUpdate(
-    { _id: order._id, ownerId: req.user._id },
+    { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
     {
       $set: {
         orderStatus: "Awaiting Payment Confirmation",
@@ -376,7 +377,7 @@ const updateOrderStatusReadyForPickup = (req, res) => {
   const order = req.body;
 
   PrintOrder.findOneAndUpdate(
-    { _id: order._id, ownerId: req.user._id },
+    { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
     {
       $set: {
         orderStatus: "Order Picked Up",
@@ -400,7 +401,31 @@ const updateOrderStatusOrderPickedUp = (req, res) => {
   const order = req.body;
 
   PrintOrder.findOneAndUpdate(
-    { _id: order._id, ownerId: req.user._id },
+    { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
+    {
+      $set: {
+        orderStatus: "Order Completed",
+        orderCompletionDate: new Date(),
+        lastUpdateDate: new Date()
+      }
+    },
+    (err, order) => {
+      if (err) throw err;
+
+      const orderNumber = order.orderNumber + "";
+
+      res.send(orderNumber);
+    }
+  );
+};
+
+/* --------------------------- UPDATE ORDER STATUS: ORDER SHIPPED UP ---------------------------- */
+
+const updateOrderStatusOrderShipped = (req, res) => {
+  const order = req.body;
+
+  PrintOrder.findOneAndUpdate(
+    { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
     {
       $set: {
         orderStatus: "Order Completed",
