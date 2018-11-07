@@ -31,6 +31,9 @@ const PrintOrderSchema = new Schema({
   orderDeliveryDate: {
     type: String
   },
+  orderCompletionDate: {
+    type: String
+  },
   pickupBookingSchedule: {
     date: {
       type: String

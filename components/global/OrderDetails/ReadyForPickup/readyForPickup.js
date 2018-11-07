@@ -18,12 +18,20 @@ const constructOrderDetailsReadyForPickupModal = (order, orderStatusId) => {
   // ELEMENTS
   const orderDetailsReadyForPickupModalHeader = orderDetailsModalHeader;
   const orderDetailsReadyForPickupModalFooter =
-    "<div class='order_details_footer_buttons_body'>" +
-    "<div class='order_details_footer_button'>" +
+    "<div id='ready_for_pickup_footer_buttons_body' class='order_details_footer_buttons_body ready_for_pickup_footer_buttons_body_close ready_for_pickup_footer_buttons_body_open'>" +
+    "<div id='ready_for_pickup_complete_order_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Picked Up</div>" +
     "</div>" +
     "<div class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Request Refund</div>" +
+    "</div>" +
+    "</div>" +
+    "<div id='ready_for_pickup_complete_order_footer_buttons_body' class='order_details_footer_buttons_body ready_for_pickup_footer_buttons_body_close'>" +
+    "<div id='order_details_order_picked_up_confirm_button' class='order_details_footer_button'>" +
+    "<div class='order_details_footer_button_text'>Confirm</div>" +
+    "</div>" +
+    "<div id='ready_for_pickup_cancel_footer_button' class='order_details_footer_button'>" +
+    "<div class='order_details_footer_button_text'>Cancel</div>" +
     "</div>" +
     "</div>";
   const orderDetailsReadyForPickupModalElementObject = new modalElementObject(
@@ -49,6 +57,23 @@ const constructOrderDetailsReadyForPickupModal = (order, orderStatusId) => {
     orderDetailsReadyForPickupModalElementObject,
     orderDetailsReadyForPickupModalCSSObject
   );
+
+  /* FOOTER BUTTON CLICK LISTENER */
+  document
+    .querySelector("#ready_for_pickup_complete_order_footer_button")
+    .addEventListener("click", () => {
+      readyForPickupCompleteOrderButton();
+    });
+  document
+    .querySelector("#ready_for_pickup_cancel_footer_button")
+    .addEventListener("click", () => {
+      readyForPickupCompleteOrderButton();
+    });
+  document
+    .querySelector("#order_details_order_picked_up_confirm_button")
+    .addEventListener("click", () => {
+      readyForPickupCompleteOrderConfirm(order, orderStatusId);
+    });
 };
 
 /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
@@ -369,5 +394,37 @@ const collectAndValidateBookingFormInputs = () => {
 };
 
 /* ================================== ORDER HAS BEEN PICKED UP ================================== */
+
+const readyForPickupCompleteOrderButton = () => {
+  // Set new CSS
+  document
+    .querySelector("#ready_for_pickup_footer_buttons_body")
+    .classList.toggle("ready_for_pickup_footer_buttons_body_open");
+
+  document
+    .querySelector("#ready_for_pickup_complete_order_footer_buttons_body")
+    .classList.toggle("ready_for_pickup_footer_buttons_body_open");
+};
+
+const readyForPickupCompleteOrderConfirm = (order, modalId) => {
+  loadLoader(document.querySelector("#ready_for_pickup_modal_body")).then(
+    () => {
+      $.ajax({
+        type: "POST",
+        url: "/order/update-order-status",
+        data: JSON.stringify(order),
+        contentType: "application/json",
+        success: data => {
+          removeModal(modalId);
+          removeBackdrop(modalId);
+          loadProfileOrdersPrintsOrdersListTableContents();
+          setTimeout(() => {
+            viewOrderDetails(data);
+          }, 500);
+        }
+      });
+    }
+  );
+};
 
 /* ============================================================================================== */

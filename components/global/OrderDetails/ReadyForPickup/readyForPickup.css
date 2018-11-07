@@ -1,3 +1,20 @@
+#ready_for_pickup_modal_footer_contents {
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.ready_for_pickup_footer_buttons_body_close {
+  height: 0;
+  opacity: 0;
+  z-index: 0;
+}
+
+.ready_for_pickup_footer_buttons_body_open {
+  height: 14vmin;
+  opacity: 1;
+  z-index: 1;
+}
+
 .order_details_ready_for_pickup_address_body {
   width: 75%;
   display: flex;
@@ -184,6 +201,12 @@
 /* ========================================= DESKTOP CSS ======================================== */
 
 @media only screen and (min-width: 600px) {
+  .ready_for_pickup_footer_buttons_body_open {
+    height: 7vmin;
+    opacity: 1;
+    z-index: 1;
+  }
+
   .order_details_ready_for_pickup_address_body {
     margin: 1vmin 0 1vmin 0;
   }

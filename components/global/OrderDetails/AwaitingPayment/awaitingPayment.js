@@ -165,6 +165,9 @@ const awaitingPaymentPayedConfirm = (order, modalId) => {
           removeModal(modalId);
           removeBackdrop(modalId);
           loadProfileOrdersPrintsOrdersListTableContents();
+          setTimeout(() => {
+            viewOrderDetails(data);
+          }, 500);
         }
       });
     }

@@ -51,6 +51,23 @@ module.exports = (app, passport, upload, conn) => {
     );
   });
 
+  // @route   GET /test/order-completion-date
+  // @desc    Set the Order's Completion Date for Testing
+  // @access  Private
+  app.post("/test/order-completion-date", restrictedPages, (req, res) => {
+    PrintOrder.findOneAndUpdate(
+      {
+        orderNumber: req.body.orderNumber
+      },
+      { $set: { orderCompletionDate: new Date() } },
+      (err, order) => {
+        if (err) return res.send("failed");
+
+        res.send("success");
+      }
+    );
+  });
+
   /* =============================== 3D PRINT ORDERS RELATED ROUTES =============================== */
 
   // @route   GET /orders/:filename
@@ -343,11 +360,9 @@ const updateOrderStatusAwaitingPayment = (req, res) => {
       }
     },
     (err, order) => {
-      if (err) {
-        res.send("failed");
-      }
+      if (err) throw err;
 
-      res.send("success");
+      res.send(order.orderNumber);
     }
   );
 };
@@ -367,11 +382,33 @@ const updateOrderStatusReadyForPickup = (req, res) => {
       }
     },
     (err, order) => {
-      if (err) {
-        res.send("failed");
-      }
+      if (err) throw err;
 
-      res.send("success");
+      const orderNumber = order.orderNumber + "";
+
+      res.send(orderNumber);
+    }
+  );
+};
+
+/* ---------------------------- UPDATE ORDER STATUS: ORDER PICKED UP ---------------------------- */
+
+const updateOrderStatusOrderPickedUp = (req, res) => {
+  const order = req.body;
+
+  PrintOrder.findOneAndUpdate(
+    { _id: order._id, ownerId: req.user._id },
+    {
+      $set: {
+        orderStatus: "Order Completed",
+        orderCompletionDate: new Date(),
+        lastUpdateDate: new Date()
+      }
+    },
+    (err, order) => {
+      if (err) throw err;
+
+      res.send(order.orderNumber);
     }
   );
 };
