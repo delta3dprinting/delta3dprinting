@@ -72,14 +72,14 @@ const printingOrderDescriptionBodyDetails = order => {
 
   printingOrderEstimatedPrintingTime(order);
 
-  setInterval(() => {
+  const timer = setInterval(() => {
     printingOrderEstimatedPrintingTime(order);
   }, 60000);
 
   document
     .querySelector("#printing_order_backdrop")
     .addEventListener("click", () => {
-      clearInterval();
+      clearInterval(timer);
     });
 };
 

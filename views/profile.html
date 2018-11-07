@@ -126,8 +126,11 @@
   <!-- Order Details: Printing Order -->
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/PrintingOrder/printingOrder.js"></script>
   <!-- Ready for Pickup -->
-  <!--   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/ReadyForPickup/readyForPickup.js"></script> -->
+  <!-- <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/ReadyForPickup/readyForPickup.js"></script> -->
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/ReadyForPickup/readyForPickup.css">
+  <!-- Order Details: Order Picked Up -->
+  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/OrderPickedUp/orderPickedUp.js"></script>
+  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/OrderPickedUp/orderPickedUp.css">
   <!-- =========================================== LOCAL: PROFILE =========================================== -->
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/profile.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/profile.css">
@@ -251,6 +254,11 @@
 </body>
 
 <style>
+  .order_details_footer_buttons_body {
+    overflow: hidden;
+    transition: all 0.5s ease;
+  }
+
   #ready_for_pickup_modal_footer_contents {
     flex-wrap: wrap;
     overflow: hidden;
@@ -271,8 +279,6 @@
   @media only screen and (min-width: 600px) {
     .ready_for_pickup_footer_buttons_body_open {
       height: 7vmin;
-      opacity: 1;
-      z-index: 1;
     }
   }
 </style>
@@ -708,196 +714,6 @@
   };
 
 /* ============================================================================================== */
-
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style>
-  #order_picked_up_modal_footer_contents {
-    flex-wrap: wrap;
-    overflow: hidden;
-  }
-
-  .order_details_footer_buttons_body {
-    overflow: hidden;
-    transition: all 0.5s ease;
-  }
-
-  .order_picked_up_footer_buttons_body_close {
-    height: 0;
-    opacity: 0;
-    z-index: 0;
-  }
-
-  .order_picked_up_footer_buttons_body_open {
-    height: 14vmin;
-    opacity: 1;
-    z-index: 1;
-  }
-
-  @media only screen and (min-width: 600px) {
-    .order_picked_up_footer_buttons_body_open {
-      height: 7vmin;
-      opacity: 1;
-      z-index: 1;
-    }
-  }
-</style>
-
-<script>
-  /* ======================================= INITIALISATION ======================================= */
-
-  const orderPickedUpInit = order => {
-    const orderStatusId = constructOrderStatusId(order.orderStatus);
-    constructOrderDetailsOrderPickedUpModal(order, orderStatusId);
-    constructHTMLStructure(orderStatusId);
-    orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
-    orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
-    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
-    constructOrderDetailsAttachments(order, orderStatusId);
-    constructOrderDetailsComments(order, orderStatusId);
-    orderPickedUpDescriptionBodyDetails(order);
-  };
-
-  /* =========================================== MODAL ============================================ */
-
-  const constructOrderDetailsOrderPickedUpModal = (order, orderStatusId) => {
-    // ELEMENTS
-    const orderDetailsOrderPickedUpModalHeader = orderDetailsModalHeader;
-    const orderDetailsOrderPickedUpModalFooter =
-      "<div id='order_picked_up_footer_buttons_body' class='order_details_footer_buttons_body order_picked_up_footer_buttons_body_close order_picked_up_footer_buttons_body_open'>" +
-      "<div id='order_picked_up_complete_order_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Complete Order</div>" +
-      "</div>" +
-      "<div class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Request Refund</div>" +
-      "</div>" +
-      "</div>" +
-      "<div id='order_picked_up_complete_order_footer_buttons_body' class='order_details_footer_buttons_body order_picked_up_footer_buttons_body_close'>" +
-      "<div id='order_details_order_completed_confirm_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Confirm</div>" +
-      "</div>" +
-      "<div id='order_picked_up_cancel_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Cancel</div>" +
-      "</div>" +
-      "</div>";
-    const orderDetailsOrderPickedUpModalElementObject = new modalElementObject(
-      orderStatusId,
-      orderDetailsOrderPickedUpModalHeader,
-      orderDetailsOrderPickedUpModalFooter
-    );
-    // CSS
-    const orderDetailsOrderPickedUpModalMobileHeight = 90;
-    const orderDetailsOrderPickedUpModalMobileWidth = 90;
-    const orderDetailsOrderPickedUpModalDesktopHeight = 90;
-    const orderDetailsOrderPickedUpModalDesktopWidth = 60;
-    const orderDetailsOrderPickedUpModalFooterHeight = 14;
-    const orderDetailsOrderPickedUpModalCSSObject = new modalCSSObject(
-      orderDetailsOrderPickedUpModalMobileHeight,
-      orderDetailsOrderPickedUpModalMobileWidth,
-      orderDetailsOrderPickedUpModalDesktopHeight,
-      orderDetailsOrderPickedUpModalDesktopWidth,
-      orderDetailsOrderPickedUpModalFooterHeight
-    );
-
-    addModal(
-      orderDetailsOrderPickedUpModalElementObject,
-      orderDetailsOrderPickedUpModalCSSObject
-    );
-
-    /* FOOTER BUTTON CLICK LISTENER */
-    document
-      .querySelector("#order_picked_up_complete_order_footer_button")
-      .addEventListener("click", () => {
-        orderPickedUpCompleteOrderButton();
-      });
-    document
-      .querySelector("#order_picked_up_cancel_footer_button")
-      .addEventListener("click", () => {
-        orderPickedUpCompleteOrderButton();
-      });
-    document
-      .querySelector("#order_details_order_completed_confirm_button")
-      .addEventListener("click", () => {
-        orderPickedUpCompleteOrderConfirm(order, orderStatusId);
-      });
-  };
-
-  /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
-
-  const orderPickedUpDescriptionBodyDetails = (order) => {
-    const details =
-      "Please wait while we analyse and generate a quote for your order.";
-
-    const orderStatusDescriptionBodyDetailsHTML =
-      "<div class='order_status_description_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      details +
-      "</div>" +
-      "</div>";
-
-    document
-      .querySelector("#order_picked_up_order_status_description_body")
-      .insertAdjacentHTML("beforeend", orderStatusDescriptionBodyDetailsHTML);
-  };
-
-  /* ======================================= COMPLETE ORDER ======================================= */
-
-  const orderPickedUpCompleteOrderButton = () => {
-    // Set new CSS
-    document
-      .querySelector("#order_picked_up_footer_buttons_body")
-      .classList.toggle("order_picked_up_footer_buttons_body_open");
-
-    document
-      .querySelector("#order_picked_up_complete_order_footer_buttons_body")
-      .classList.toggle("order_picked_up_footer_buttons_body_open");
-  };
-
-  const orderPickedUpCompleteOrderConfirm = (order, modalId) => {
-    loadLoader(document.querySelector("#order_picked_up_modal_body")).then(
-      () => {
-        $.ajax({
-          type: "POST",
-          url: "/order/update-order-status",
-          data: JSON.stringify(order),
-          contentType: "application/json",
-          success: data => {
-            removeModal(modalId);
-            removeBackdrop(modalId);
-            loadProfileOrdersPrintsOrdersListTableContents();
-            setTimeout(() => {
-              viewOrderDetails(data);
-            }, 500);
-          }
-        });
-      }
-    );
-  };
-
-  /* ============================================================================================== */
 
 </script>
 

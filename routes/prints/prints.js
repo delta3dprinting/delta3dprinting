@@ -334,6 +334,7 @@ module.exports = (app, passport, upload, conn) => {
     } else if (req.body.orderStatus == "Ready for Pickup") {
       updateOrderStatusReadyForPickup(req, res);
     } else if (req.body.orderStatus == "Order Picked Up") {
+      updateOrderStatusOrderPickedUp(req, res);
     } else if (req.body.orderStatus == "Ready for Shipping") {
     } else if (req.body.orderStatus == "Order Shipped") {
     } else if (req.body.orderStatus == "Order Completed") {
@@ -362,7 +363,9 @@ const updateOrderStatusAwaitingPayment = (req, res) => {
     (err, order) => {
       if (err) throw err;
 
-      res.send(order.orderNumber);
+      const orderNumber = order.orderNumber + "";
+
+      res.send(orderNumber);
     }
   );
 };
@@ -408,7 +411,9 @@ const updateOrderStatusOrderPickedUp = (req, res) => {
     (err, order) => {
       if (err) throw err;
 
-      res.send(order.orderNumber);
+      const orderNumber = order.orderNumber + "";
+
+      res.send(orderNumber);
     }
   );
 };
