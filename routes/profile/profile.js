@@ -8,7 +8,11 @@ module.exports = (app, passport) => {
   // @desc    Get Profile HTML
   // @access  Private
   app.get("/Profile", restrictedPages, (req, res) => {
-    res.sendFile(path.join(__dirname, "../../views/profile.html"));
+    if (req.user.accountType == "admin") {
+      res.sendFile(path.join(__dirname, "../../views/adminProfile.html"));
+    } else if (req.user.accountType == "normal") {
+      res.sendFile(path.join(__dirname, "../../views/profile.html"));
+    }
   });
 
   // @route   GET /profile

@@ -9,6 +9,10 @@ const conn = mongoose.createConnection(mongoURI);
 
 // Create Schema
 const UserSchema = new Schema({
+  accountType: {
+    type: String,
+    required: true
+  },
   username: {
     type: String,
     required: true

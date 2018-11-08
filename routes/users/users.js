@@ -3,14 +3,16 @@ const path = require("path");
 // Load User Model
 const User = require("../../models/User");
 
-let loginStatus;
-
 module.exports = (app, passport) => {
   // @route   GET /login-status
   // @desc    Get Login Status
   // @access  Public
-  app.get("/users/login-status", unrestrictedPages, (req, res) => {
-    res.send(loginStatus);
+  app.get("/users/login-status", (req, res) => {
+    if (req.isAuthenticated()) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
   });
 
   // @route   GET users/test
@@ -66,20 +68,9 @@ module.exports = (app, passport) => {
 const restrictedPages = (req, res, next) => {
   // If user is authenticated in the session, carry on
   if (req.isAuthenticated()) {
-    loginStatus = true;
     return next();
   } else {
-    loginStatus = false;
     // If they aren't redirect them to the homepage
     res.redirect("/");
   }
-};
-
-const unrestrictedPages = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    loginStatus = true;
-  } else {
-    loginStatus = false;
-  }
-  return next();
 };

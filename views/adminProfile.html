@@ -136,46 +136,9 @@
   <!-- Order Details: Order Shipped -->
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/OrderShipped/orderShipped.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/OrderShipped/orderShipped.css">
-  <!-- =========================================== LOCAL: PROFILE =========================================== -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/profile.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/profile.css">
-  <!-- ----------------------------------------- PROFIE: DASHBOARD ------------------------------------------ -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Dashboard/dashboard.js"></script>
-  <!-- Profile: Orders -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/orders.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/orders.css">
-  <!-- Profile: Orders: Prints -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/prints.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/prints.css">
-  <!-- Profile: Orders: Prints: Buttons -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/Buttons/buttons.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/Buttons/buttons.css">
-  <!-- Profile: Orders: Print: Order Summary -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/OrdersSummary/ordersSummary.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/OrdersSummary/ordersSummary.css">
-  <!-- Profile: Orders: Print: Order Summary: Order List -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/OrdersSummary/OrdersList/ordersList.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/OrdersSummary/OrdersList/ordersList.css">
-  <!-- Profile: Orders: Print: Order Summary: Order Filter -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/OrdersSummary/OrdersFilter/ordersFilter.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Prints/OrdersSummary/OrdersFilter/ordersFilter.css">
-  <!-- Profile: Orders: Marketplace -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Orders/Marketplace/marketplace.js"></script>
-  <!-- Profile: Settings -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/settings.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/settings.css">
-  <!-- Profile: Settings: Profile -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/Profile/profile.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/Profile/profile.css">
-  <!-- Profile: Settings: Profile: Basic Information -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/Profile/BasicInformation/basicInformation.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/Profile/BasicInformation/basicInformation.css">
-  <!-- Profile: Settings: Profile: Address -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/Profile/Address/address.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/Profile/Address/address.css">
-  <!-- Profile: Settings: Profile: Update Profile -->
-  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/Profile/UpdateProfile/updateProfile.js"></script>
-  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Profile/Settings/Profile/UpdateProfile/updateProfile.css">
+  <!-- =========================================== ADMIN: PROFILE =========================================== -->
+  <script src="../components/admin/Profile/profile.js"></script>
+  <link rel="stylesheet" href="../components/admin/Profile/profile.css">
 </head>
 
 <body>
@@ -208,19 +171,19 @@
 
   <!-- ===================================== MAIN BODY ===================================== -->
 
-  <div id="profile_body">
-    <div id="profile_navigation_tabs">
-      <div id="profile_dashboard_tab" class="profile_navigation_tab">
-        <div id="profile_dashboard_tab_text" class="profile_navigation_tab_text">Dashboard</div>
+  <div id="admin_profile_body">
+    <div id="admin_profile_navigation_tabs">
+      <div id="admin_profile_dashboard_tab" class="admin_profile_navigation_tab">
+        <div id="admin_profile_dashboard_tab_text" class="admin_profile_navigation_tab_text">Dashboard</div>
       </div>
-      <div id="profile_orders_tab" class="profile_navigation_tab">
-        <div id="profile_orders_tab_text" class="profile_navigation_tab_text">Orders</div>
+      <div id="admin_profile_orders_tab" class="admin_profile_navigation_tab">
+        <div id="admin_profile_orders_tab_text" class="admin_profile_navigation_tab_text">Orders</div>
       </div>
-      <div id="profile_settings_tab" class="profile_navigation_tab">
-        <div id="profile_settings_tab_text" class="profile_navigation_tab_text">Settings</div>
+      <div id="admin_profile_settings_tab" class="admin_profile_navigation_tab">
+        <div id="admin_profile_settings_tab_text" class="admin_profile_navigation_tab_text">Settings</div>
       </div>
     </div>
-    <div id="profile_contents_body"></div>
+    <div id="admin_profile_contents_body"></div>
   </div>
 
   <!-- ====================================== FOOTER ======================================= -->
@@ -258,46 +221,16 @@
   </div>
 </body>
 
+<style>
+
+</style>
+
 <script>
-  /* ================================ TEST FUNCTIONS ================================ */
 
-  const testPaymentConfirmationDate = orderNumber => {
-    $.ajax({
-      type: "POST",
-      url: "/test/payment-confirmation-date",
-      data: JSON.stringify({ orderNumber: orderNumber }),
-      contentType: "application/json",
-      success: data => {
-        console.log(data);
-      }
-    });
-  };
-
-  const testOrderDeliveryDate = orderNumber => {
-    $.ajax({
-      type: "POST",
-      url: "/test/order-delivery-date",
-      data: JSON.stringify({ orderNumber: orderNumber }),
-      contentType: "application/json",
-      success: data => {
-        console.log(data);
-      }
-    });
-  };
-
-  const testOrderCompletionDate = orderNumber => {
-    $.ajax({
-      type: "POST",
-      url: "/test/order-completion-date",
-      data: JSON.stringify({ orderNumber: orderNumber }),
-      contentType: "application/json",
-      success: data => {
-        console.log(data);
-      }
-    });
-  };
-
-  /* ================================================================================ */
 </script>
 
-</html>
+<script>
+  const adminProfileDashboardInit = () => { };
+  const adminProfileOrdersInit = () => { };
+  const adminProfileSettingsInit = () => { };
+</script>

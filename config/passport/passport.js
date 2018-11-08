@@ -56,6 +56,7 @@ module.exports = passport => {
               let newUser = new User();
 
               // Set user credentials
+              newUser.accountType = "normal";
               newUser.username = req.body.username;
               newUser.email = email;
               newUser.password = newUser.generateHash(password);
