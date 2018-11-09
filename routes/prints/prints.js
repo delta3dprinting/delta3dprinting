@@ -344,6 +344,100 @@ module.exports = (app, passport, upload, conn) => {
       res.send("failed");
     }
   });
+
+  /* ==================================== ADMIN: ORDER LIST ===================================== */
+
+  // @route   POST /admin/order
+  // @desc
+  // @access  Admin
+  app.get("/admin/order", adminRestrictedPages, (req, res) => {
+    PrintOrder.find({ orderNumber: req.body.orderNumber }, (err, order) => {
+      if (err) throw err;
+
+      res.send(order);
+    });
+  });
+
+  // @route   POST /admin/orders/awaiting-quote
+  // @desc
+  // @access  Admin
+  app.get("/admin/orders/awaiting-quote", adminRestrictedPages, (req, res) => {
+    PrintOrder.find({ orderStatus: "Awaiting Quote" }, (err, orders) => {
+      if (err) throw err;
+
+      res.send(orders);
+    });
+  });
+
+  // @route   POST /admin/orders/awaiting-payment-confirmation
+  // @desc
+  // @access  Admin
+  app.get(
+    "/admin/orders/awaiting-payment-confirmation",
+    adminRestrictedPages,
+    (req, res) => {
+      PrintOrder.find(
+        { orderStatus: "Awaiting Payment Confirmation" },
+        (err, orders) => {
+          if (err) throw err;
+
+          res.send(orders);
+        }
+      );
+    }
+  );
+
+  // @route   POST /admin/orders/printing-order
+  // @desc
+  // @access  Admin
+  app.get("/admin/orders/printing-order", adminRestrictedPages, (req, res) => {
+    PrintOrder.find({ orderStatus: "Printing Order" }, (err, orders) => {
+      if (err) throw err;
+
+      res.send(orders);
+    });
+  });
+
+  // @route   POST /admin/orders/ready-for-pickup
+  // @desc
+  // @access  Admin
+  app.get(
+    "/admin/orders/ready-for-pickup",
+    adminRestrictedPages,
+    (req, res) => {
+      PrintOrder.find({ orderStatus: "Ready for Pickup" }, (err, orders) => {
+        if (err) throw err;
+
+        res.send(orders);
+      });
+    }
+  );
+
+  // @route   POST /admin/orders/ready-for-shipping
+  // @desc
+  // @access  Admin
+  app.get(
+    "/admin/orders/ready-for-shipping",
+    adminRestrictedPages,
+    (req, res) => {
+      PrintOrder.find({ orderStatus: "Ready for Shipping" }, (err, orders) => {
+        if (err) throw err;
+
+        res.send(orders);
+      });
+    }
+  );
+
+  // @route   POST /admin/orders/
+  // @desc
+  // @access  Admin
+  app.get("/admin/orders", adminRestrictedPages, (req, res) => {
+    PrintOrder.find((err, orders) => {
+      if (err) throw err;
+
+      res.send(orders);
+    });
+  });
 };
 
 /* ========================================== FUNCTION ========================================== */
@@ -454,6 +548,14 @@ const restrictedPages = (req, res, next) => {
   } else {
     loginStatus = false;
     // If they aren't redirect them to the homepage
+    res.redirect("/");
+  }
+};
+
+const adminRestrictedPages = (req, res, next) => {
+  if (req.isAuthenticated() && req.user.accountType == "admin") {
+    return next();
+  } else {
     res.redirect("/");
   }
 };

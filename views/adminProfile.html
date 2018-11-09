@@ -142,6 +142,11 @@
   <!-- ----------------------------------------------- ORDERS ----------------------------------------------- -->
   <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/Profile/Orders/orders.js"></script>
   <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/Profile/Orders/orders.css">
+  <!-- ----------------------------------------------- PRINTS ----------------------------------------------- -->
+  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/Profile/Orders/Prints/prints.js"></script>
+  <link rel="stylesheet" href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/Profile/Orders/Prints/prints.css">
+  <!-- -------------------------------------------- MARKETPLACE --------------------------------------------- -->
+  <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/Profile/Orders/Marketplace/marketplace.js"></script>
 </head>
 
 <body>
@@ -229,48 +234,11 @@
 </style>
 
 <script>
-  // Profile Orders Prints Object
-  let adminProfileOrdersPrintsObject;
 
-  // Profile Orders Prints Object Properties
-  const adminProfileOrdersPrintsId = "prints";
-  const adminProfileOrdersPrintsName = "Prints";
-  const adminProfileOrdersPrintsInit = () => {
-    console.log('Prints')
-  };
-
-  // Contruct Profile Orders Prints Object
-  const contructAdminProfileOrdersPrintsObject = () => {
-    adminProfileOrdersPrintsObject = new adminProfileOrdersComponentObject(
-      adminProfileOrdersPrintsId,
-      adminProfileOrdersPrintsName,
-      adminProfileOrdersPrintsInit
-    );
-  };
 </script>
 
 <script>
   const adminProfileDashboardInit = () => { };
   const adminProfileSettingsInit = () => { };
-</script>
-
-<script>
-  // Profile Orders Marketplace Object
-  let adminProfileOrdersMarketplaceObject;
-
-  // Profile Orders Marketplace Object Properties
-  const adminProfileOrdersMarketplaceId = "marketplace";
-  const adminProfileOrdersMarketplaceName = "Marketplace";
-  const adminProfileOrdersMarketplaceInit = () => {
-    console.log('Marketplace')
-  };
-
-  // Contruct Profile Orders Marketplace Object
-  const contructAdminProfileOrdersMarketplaceObject = () => {
-    adminProfileOrdersMarketplaceObject = new adminProfileOrdersComponentObject(
-      adminProfileOrdersMarketplaceId,
-      adminProfileOrdersMarketplaceName,
-      adminProfileOrdersMarketplaceInit
-    );
-  };
+  const viewAdminProfileOrdersPrintsOrderDetails = orderNumber => {};
 </script>
