@@ -350,15 +350,15 @@ module.exports = (app, passport, upload, conn) => {
   // @route   POST /admin/order
   // @desc
   // @access  Admin
-  app.get("/admin/order", adminRestrictedPages, (req, res) => {
-    PrintOrder.find({ orderNumber: req.body.orderNumber }, (err, order) => {
+  app.post("/admin/order", adminRestrictedPages, (req, res) => {
+    PrintOrder.findOne({ orderNumber: req.body.orderNumber }, (err, order) => {
       if (err) throw err;
 
       res.send(order);
     });
   });
 
-  // @route   POST /admin/orders/awaiting-quote
+  // @route   GET /admin/orders/awaiting-quote
   // @desc
   // @access  Admin
   app.get("/admin/orders/awaiting-quote", adminRestrictedPages, (req, res) => {
@@ -369,7 +369,7 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
-  // @route   POST /admin/orders/awaiting-payment-confirmation
+  // @route   GET /admin/orders/awaiting-payment-confirmation
   // @desc
   // @access  Admin
   app.get(
@@ -387,7 +387,7 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
-  // @route   POST /admin/orders/printing-order
+  // @route   GET /admin/orders/printing-order
   // @desc
   // @access  Admin
   app.get("/admin/orders/printing-order", adminRestrictedPages, (req, res) => {
@@ -398,7 +398,7 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
-  // @route   POST /admin/orders/ready-for-pickup
+  // @route   GET /admin/orders/ready-for-pickup
   // @desc
   // @access  Admin
   app.get(
@@ -413,7 +413,7 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
-  // @route   POST /admin/orders/ready-for-shipping
+  // @route   GET /admin/orders/ready-for-shipping
   // @desc
   // @access  Admin
   app.get(
@@ -428,7 +428,7 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
-  // @route   POST /admin/orders/
+  // @route   GET /admin/orders/
   // @desc
   // @access  Admin
   app.get("/admin/orders", adminRestrictedPages, (req, res) => {

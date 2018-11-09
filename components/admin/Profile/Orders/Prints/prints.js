@@ -172,7 +172,9 @@ const addAdminProfileOrdersPrintsOrderList = (orders, id) => {
     const lastUpdateDate = dateFormatter(ele.lastUpdateDate).fromNow;
 
     const adminProfileOrdersPrintsOrdersListTableContent =
-      "<tr id='admin_profile_orders_prints_order_number_" +
+      "<tr id='admin_profile_orders_prints_" +
+      id +
+      "_order_number_" +
       ele.orderNumber +
       "' class='admin_profile_orders_prints_orders_list_table_row'>" +
       "<td class='admin_profile_orders_prints_orders_list_table_content_text admin_profile_orders_prints_orders_list_table_content admin_profile_orders_prints_orders_list_order_number_content'>" +
@@ -211,7 +213,10 @@ const addAdminProfileOrdersPrintsOrderList = (orders, id) => {
       );
     document
       .querySelector(
-        "#admin_profile_orders_prints_order_number_" + ele.orderNumber
+        "#admin_profile_orders_prints_" +
+          id +
+          "_order_number_" +
+          ele.orderNumber
       )
       .addEventListener("click", () => {
         viewAdminProfileOrdersPrintsOrderDetails(ele.orderNumber);
