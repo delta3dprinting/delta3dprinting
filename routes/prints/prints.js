@@ -73,8 +73,9 @@ module.exports = (app, passport, upload, conn) => {
   // @route   GET /orders/:filename
   // @desc    Download the STL File
   // @access  Private
-  app.get("/orders/:filename", (req, res) => {
-    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+  app.get("/orders/:fileId", (req, res) => {
+    const id = mongoose.Types.ObjectId(req.params.fileId);
+    gfs.files.findOne({ _id: id }, (err, file) => {
       // Check if file
       if (!file || file.length === 0) {
         return res.status(404).json({
@@ -85,7 +86,7 @@ module.exports = (app, passport, upload, conn) => {
       const readstream = gfs.createReadStream(file.filename);
       res.setHeader(
         "Content-disposition",
-        "attachment; filename=" + req.params.filename
+        "attachment; filename=" + file.filename
       );
       res.setHeader("Content-type", "application/octet-stream");
       readstream.pipe(res);
@@ -428,7 +429,7 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
-  // @route   GET /admin/orders/
+  // @route   GET /admin/orders
   // @desc
   // @access  Admin
   app.get("/admin/orders", adminRestrictedPages, (req, res) => {
@@ -438,20 +439,80 @@ module.exports = (app, passport, upload, conn) => {
       res.send(orders);
     });
   });
+
+  // @route   POST /admin/file-details
+  // @desc    Get File Details
+  // @access  Admin
+  app.post("/admin/file-details", adminRestrictedPages, (req, res) => {
+    const id = mongoose.Types.ObjectId(req.body.fileId);
+
+    gfs.files.findOne({ _id: id }, (err, file) => {
+      if (err) throw err;
+
+      if (!file) return res.send("No File Found");
+
+      res.send(file);
+    });
+  });
+
+  // @route   POST /admin/part/set-price
+  // @desc    Set Part's Price
+  // @access  Admin
+  app.post("/admin/part/set-price", adminRestrictedPages, (req, res) => {
+    const id = mongoose.Types.ObjectId(req.body.fileId);
+
+    gfs.files.findOneAndUpdate(
+      { _id: id },
+      { $set: { "metadata.price": req.body.partPrice } },
+      (err, doc) => {
+        if (err) throw err;
+
+        res.send(doc);
+      }
+    );
+  });
+
+  // @route   POST /admin/order/update-order-status
+  // @desc    Update Order Status
+  // @access  Private
+  app.post(
+    "/admin/order/update-order-status",
+    adminRestrictedPages,
+    (req, res) => {
+      if (req.body.orderStatus == "Awaiting Quote") {
+        updateOrderStatusAwaitingQuote(req, res);
+      } else if (req.body.orderStatus == "Awaiting Payment") {
+        updateOrderStatusAwaitingPayment(req, res);
+      } else if (req.body.orderStatus == "Awaiting Payment Confirmation") {
+      } else if (req.body.orderStatus == "Printing Order") {
+      } else if (req.body.orderStatus == "Ready for Pickup") {
+        updateOrderStatusReadyForPickup(req, res);
+      } else if (req.body.orderStatus == "Order Picked Up") {
+        updateOrderStatusOrderPickedUp(req, res);
+      } else if (req.body.orderStatus == "Ready for Shipping") {
+      } else if (req.body.orderStatus == "Order Shipped") {
+        updateOrderStatusOrderShipped(req, res);
+      } else if (req.body.orderStatus == "Order Completed") {
+      } else {
+        console.log("Order status could not be identified");
+        res.send("failed");
+      }
+    }
+  );
 };
 
 /* ========================================== FUNCTION ========================================== */
 
-/* --------------------------- UPDATE ORDER STATUS: AWAITING PAYMENT ---------------------------- */
+/* ---------------------------- UPDATE ORDER STATUS: AWAITING QUOTE ----------------------------- */
 
-const updateOrderStatusAwaitingPayment = (req, res) => {
+const updateOrderStatusAwaitingQuote = (req, res) => {
   const order = req.body;
 
   PrintOrder.findOneAndUpdate(
-    { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
+    { _id: order._id, orderNumber: order.orderNumber },
     {
       $set: {
-        orderStatus: "Awaiting Payment Confirmation",
+        orderStatus: "Awaiting Payment",
         lastUpdateDate: new Date()
       }
     },
@@ -463,6 +524,48 @@ const updateOrderStatusAwaitingPayment = (req, res) => {
       res.send(orderNumber);
     }
   );
+};
+
+/* --------------------------- UPDATE ORDER STATUS: AWAITING PAYMENT ---------------------------- */
+
+const updateOrderStatusAwaitingPayment = (req, res) => {
+  const order = req.body;
+
+  if (req.user.accountType == "admin") {
+    PrintOrder.findOneAndUpdate(
+      { _id: order._id, orderNumber: order.orderNumber },
+      {
+        $set: {
+          orderStatus: "Awaiting Payment Confirmation",
+          lastUpdateDate: new Date()
+        }
+      },
+      (err, order) => {
+        if (err) throw err;
+
+        const orderNumber = order.orderNumber + "";
+
+        res.send(orderNumber);
+      }
+    );
+  } else {
+    PrintOrder.findOneAndUpdate(
+      { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
+      {
+        $set: {
+          orderStatus: "Awaiting Payment Confirmation",
+          lastUpdateDate: new Date()
+        }
+      },
+      (err, order) => {
+        if (err) throw err;
+
+        const orderNumber = order.orderNumber + "";
+
+        res.send(orderNumber);
+      }
+    );
+  }
 };
 
 /* --------------------------- UPDATE ORDER STATUS: READY FOR PICKUP ---------------------------- */
