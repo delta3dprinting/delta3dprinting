@@ -39,3 +39,13 @@
 .admin_profile_orders_navigation_tab_text_selected {
   color: rgb(170, 10, 10);
 }
+
+@media only screen and (min-width: 600px) {
+  .admin_profile_orders_navigation_tab {
+    height: 4vmin;
+  }
+
+  .admin_profile_orders_navigation_tab_text {
+    font-size: 1.75vmin;
+  }
+}

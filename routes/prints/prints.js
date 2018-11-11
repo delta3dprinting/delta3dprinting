@@ -484,6 +484,7 @@ module.exports = (app, passport, upload, conn) => {
       } else if (req.body.orderStatus == "Awaiting Payment") {
         updateOrderStatusAwaitingPayment(req, res);
       } else if (req.body.orderStatus == "Awaiting Payment Confirmation") {
+        updateOrderStatusAwaitingPaymentConfirmation(req, res);
       } else if (req.body.orderStatus == "Printing Order") {
       } else if (req.body.orderStatus == "Ready for Pickup") {
         updateOrderStatusReadyForPickup(req, res);
@@ -499,6 +500,53 @@ module.exports = (app, passport, upload, conn) => {
       }
     }
   );
+
+  // @route   POST /order/owner-details
+  // @desc    Update Order Status
+  // @access  Private
+  app.post("/order/owner-details", restrictedPages, (req, res) => {
+    const order = req.body;
+    const id = mongoose.Types.ObjectId(order.ownerId);
+
+    if (req.user.accountType != "admin") {
+      if (req.user._id != id) {
+        console.log("Incorrect User");
+        return res.send("failed");
+      }
+    }
+
+    UserProfile.findOne({ ownerId: id }, (err, user) => {
+      if (err) throw err;
+
+      if (!user) {
+        console.log("No User Found");
+        res.send("failed");
+        return;
+      }
+
+      res.send(user);
+    });
+  });
+
+  // @route   POST /order/part/file-details
+  // @desc    Update Order Status
+  // @access  Private
+  app.post("/order/part/file-details", restrictedPages, (req, res) => {
+    const part = req.body;
+    const id = mongoose.Types.ObjectId(part.fileId);
+
+    gfs.files.findOne({ _id: id }, (err, file) => {
+      if (err) throw err;
+
+      if (!file) {
+        console.log("No User Found");
+        res.send("failed");
+        return;
+      }
+
+      res.send(file);
+    });
+  });
 };
 
 /* ========================================== FUNCTION ========================================== */
@@ -530,42 +578,67 @@ const updateOrderStatusAwaitingQuote = (req, res) => {
 
 const updateOrderStatusAwaitingPayment = (req, res) => {
   const order = req.body;
-
+  let query;
   if (req.user.accountType == "admin") {
-    PrintOrder.findOneAndUpdate(
-      { _id: order._id, orderNumber: order.orderNumber },
-      {
-        $set: {
-          orderStatus: "Awaiting Payment Confirmation",
-          lastUpdateDate: new Date()
-        }
-      },
-      (err, order) => {
-        if (err) throw err;
-
-        const orderNumber = order.orderNumber + "";
-
-        res.send(orderNumber);
-      }
-    );
+    query = { _id: order._id, orderNumber: order.orderNumber };
   } else {
-    PrintOrder.findOneAndUpdate(
-      { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
-      {
-        $set: {
-          orderStatus: "Awaiting Payment Confirmation",
-          lastUpdateDate: new Date()
-        }
-      },
-      (err, order) => {
-        if (err) throw err;
-
-        const orderNumber = order.orderNumber + "";
-
-        res.send(orderNumber);
-      }
-    );
+    query = {
+      _id: order._id,
+      orderNumber: order.orderNumber,
+      ownerId: req.user._id
+    };
   }
+
+  PrintOrder.findOneAndUpdate(
+    query,
+    {
+      $set: {
+        orderStatus: "Awaiting Payment Confirmation",
+        lastUpdateDate: new Date()
+      }
+    },
+    (err, order) => {
+      if (err) throw err;
+
+      const orderNumber = order.orderNumber + "";
+
+      res.send(orderNumber);
+    }
+  );
+};
+
+/* ------------------------------- AWAITING PAYMENT CONFIRMATION -------------------------------- */
+
+const updateOrderStatusAwaitingPaymentConfirmation = (req, res) => {
+  const order = req.body;
+  let query;
+  if (req.user.accountType == "admin") {
+    query = { _id: order._id, orderNumber: order.orderNumber };
+  } else {
+    query = {
+      _id: order._id,
+      orderNumber: order.orderNumber,
+      ownerId: req.user._id
+    };
+  }
+
+  PrintOrder.findOneAndUpdate(
+    query,
+    {
+      $set: {
+        orderStatus: "Printing Order",
+        paymentConfirmationDate: new Date(),
+        lastUpdateDate: new Date()
+      }
+    },
+    (err, order) => {
+      if (err) throw err;
+
+      const orderNumber = order.orderNumber + "";
+
+      res.send(orderNumber);
+    }
+  );
 };
 
 /* --------------------------- UPDATE ORDER STATUS: READY FOR PICKUP ---------------------------- */

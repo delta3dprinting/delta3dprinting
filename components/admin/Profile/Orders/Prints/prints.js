@@ -126,7 +126,7 @@ const addAdminProfileOrdersPrintsOrderList = (orders, id) => {
   const profileOrdersPrintsOrdersListTableBodyHTML =
     "<table class='admin_profile_orders_prints_" +
     id +
-    "_list_table'>" +
+    "_list_table admin_profile_orders_prints_orders_list_table'>" +
     "<tbody id='admin_profile_orders_prints_" +
     id +
     "_list_table_content_body'></tbody>" +
