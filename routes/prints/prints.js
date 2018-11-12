@@ -472,6 +472,50 @@ module.exports = (app, passport, upload, conn) => {
     );
   });
 
+  // @route   POST /admin/part/update-produced-quantity
+  // @desc    Update Produced Quantity
+  // @access  Admin
+  app.post(
+    "/admin/part/update-produced-quantity",
+    adminRestrictedPages,
+    (req, res) => {
+      const producedQuantity = req.body.producedQuantity;
+      const orderId = req.body.orderId;
+      const partId = req.body.partId;
+
+      const findPartIndex = element => {
+        return element._id == partId;
+      };
+
+      PrintOrder.findById(orderId, (err, order) => {
+        if (err) {
+          console.log(err);
+          res.send("failed");
+          return;
+        }
+
+        if (!order) {
+          console.log("No order found");
+          res.send("failed");
+          return;
+        }
+
+        const partIndex = order.parts.findIndex(findPartIndex);
+
+        order.parts[partIndex].producedQuantity = producedQuantity;
+
+        order.save((err, order) => {
+          if (err) {
+            console.log("Failed to Save");
+            res.send("failed");
+            return;
+          }
+          res.send(order);
+        });
+      });
+    }
+  );
+
   // @route   POST /admin/order/update-order-status
   // @desc    Update Order Status
   // @access  Private
@@ -486,6 +530,7 @@ module.exports = (app, passport, upload, conn) => {
       } else if (req.body.orderStatus == "Awaiting Payment Confirmation") {
         updateOrderStatusAwaitingPaymentConfirmation(req, res);
       } else if (req.body.orderStatus == "Printing Order") {
+        updateOrderStatusPrintingOrder(req, res);
       } else if (req.body.orderStatus == "Ready for Pickup") {
         updateOrderStatusReadyForPickup(req, res);
       } else if (req.body.orderStatus == "Order Picked Up") {
@@ -502,7 +547,7 @@ module.exports = (app, passport, upload, conn) => {
   );
 
   // @route   POST /order/owner-details
-  // @desc    Update Order Status
+  // @desc    Fetch Order's Owner Details
   // @access  Private
   app.post("/order/owner-details", restrictedPages, (req, res) => {
     const order = req.body;
@@ -529,7 +574,7 @@ module.exports = (app, passport, upload, conn) => {
   });
 
   // @route   POST /order/part/file-details
-  // @desc    Update Order Status
+  // @desc    Fetch File Details
   // @access  Private
   app.post("/order/part/file-details", restrictedPages, (req, res) => {
     const part = req.body;
@@ -633,6 +678,40 @@ const updateOrderStatusAwaitingPaymentConfirmation = (req, res) => {
     },
     (err, order) => {
       if (err) throw err;
+
+      const orderNumber = order.orderNumber + "";
+
+      res.send(orderNumber);
+    }
+  );
+};
+
+/* ---------------------------- UPDATE ORDER STATUS: PRINTING ORDER ----------------------------- */
+
+const updateOrderStatusPrintingOrder = (req, res) => {
+  const order = req.body;
+  let orderStatus;
+
+  if (order.delivery == "Pickup") {
+    orderStatus = "Ready for Pickup";
+  } else {
+    orderStatus = "Ready for Shipping";
+  }
+
+  PrintOrder.findByIdAndUpdate(
+    order._id,
+    {
+      $set: {
+        orderStatus: orderStatus,
+        lastUpdateDate: new Date()
+      }
+    },
+    (err, order) => {
+      if (err) {
+        console.log("Failed to update order");
+        res.send("failed");
+        return;
+      }
 
       const orderNumber = order.orderNumber + "";
 
