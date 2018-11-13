@@ -27,13 +27,13 @@ const profileDrawerToggle = () => {
 /* ================================== PROFILE DRAWER CONTENTS =================================== */
 
 const addProfileDrawerContents = () => {
-  loginStatus.then(loginStatus => {
-    if (loginStatus) {
+  loginStatus
+    .then(() => {
       addProfileDrawerUserContents();
-    } else {
+    })
+    .catch(() => {
       addProfileDrawerVisitorContents();
-    }
-  });
+    });
 };
 
 /* ============================================================================================== */
