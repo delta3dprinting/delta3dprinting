@@ -3,6 +3,7 @@
 const homepageServiceInit = () => {
   selectHomepageServiceTab(homepageServiceTabIdsArray[0]);
   addHomepageServiceTabsClickListener();
+  homepage3DPrintingServiceInit();
   homepage3DModellingServiceInit();
 };
 

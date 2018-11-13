@@ -492,24 +492,4 @@
       </div>
     </div>
   </body>
-
-  <script>
-    /* ======================================== GET A QUOTE ======================================== */
-
-    const homepageServicesPrintingGetAQuote = () => {
-      document
-        .querySelector("#homepage_3d_printing_content_button")
-        .addEventListener("click", () => {
-          loginStatus
-            .then(() => {
-              orderNewPrint();
-            })
-            .catch(() => {
-              constructLoginModal();
-            });
-        });
-    };
-
-    /* ============================================================================================= */
-  </script>
 </html>
