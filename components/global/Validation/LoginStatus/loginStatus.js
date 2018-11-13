@@ -3,7 +3,11 @@ const loginStatus = new Promise((resolve, reject) => {
   $.ajax({
     url: "/users/login-status",
     success: data => {
-      data ? resolve() : reject();
+      if (data) {
+        resolve();
+      } else {
+        reject();
+      }
     }
   });
 });

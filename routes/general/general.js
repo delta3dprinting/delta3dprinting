@@ -8,25 +8,32 @@ module.exports = (app, passport) => {
     res.sendFile(path.join(__dirname, "../../views/homepage.html"));
   });
 
-  // @route   GET /About
+  // @route   GET /about
   // @desc    Route User to the About Page
   // @access  Public
   app.get("/about", (req, res) => {
     res.sendFile(path.join(__dirname, "../../views/about.html"));
   });
 
-  // @route   GET /About
-  // @desc    Route User to the About Page
+  // @route   GET /about/team
+  // @desc    Route User to the About: Team Page
   // @access  Public
   app.get("/about/team", (req, res) => {
     res.sendFile(path.join(__dirname, "../../views/aboutTeam.html"));
   });
 
-  // @route   GET /About
-  // @desc    Route User to the About Page
+  // @route   GET /about/partners
+  // @desc    Route User to the About: Partners Page
   // @access  Public
   app.get("/about/partners", (req, res) => {
     res.sendFile(path.join(__dirname, "../../views/aboutPartners.html"));
+  });
+
+  // @route   GET /partnership
+  // @desc    Route User to the Partnership Page
+  // @access  Public
+  app.get("/partnership", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/partnership.html"));
   });
 };
 
