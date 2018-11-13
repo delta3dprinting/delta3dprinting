@@ -21,7 +21,7 @@ const viewAdminProfileOrdersPrintsOrderDetails = orderNumber => {
       } else if (data.orderStatus == "Ready for Shipping") {
         adminReadyForShippingInit(data);
       } else if (data.orderStatus == "Order Shipped") {
-        adminOrderShippedInit(data);
+        orderShippedInit(data);
       } else if (data.orderStatus == "Order Completed") {
         adminOrderCompletedInit(data);
       } else {

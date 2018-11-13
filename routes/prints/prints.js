@@ -516,6 +516,40 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
+  // @route   POST /admin/order/update-tracking-number
+  // @desc    Update Tracking Number
+  // @access  Admin
+  app.post(
+    "/admin/order/update-tracking-number",
+    adminRestrictedPages,
+    (req, res) => {
+      const id = mongoose.Types.ObjectId(req.body.orderId);
+
+      PrintOrder.findByIdAndUpdate(
+        id,
+        {
+          $set: { trackingNumber: req.body.trackingNumber }
+        },
+        (err, order) => {
+          if (err) {
+            console.log("Error found");
+            res.send("failed");
+            return;
+          }
+
+          if (!order) {
+            console.log("No order found");
+            res.send("failed");
+            return;
+          }
+
+          console.log(order);
+          res.send("success");
+        }
+      );
+    }
+  );
+
   // @route   POST /admin/order/update-order-status
   // @desc    Update Order Status
   // @access  Private
@@ -536,9 +570,9 @@ module.exports = (app, passport, upload, conn) => {
       } else if (req.body.orderStatus == "Order Picked Up") {
         updateOrderStatusOrderPickedUp(req, res);
       } else if (req.body.orderStatus == "Ready for Shipping") {
+        updateOrderStatusReadyForShipping(req, res);
       } else if (req.body.orderStatus == "Order Shipped") {
         updateOrderStatusOrderShipped(req, res);
-      } else if (req.body.orderStatus == "Order Completed") {
       } else {
         console.log("Order status could not be identified");
         res.send("failed");
@@ -760,6 +794,34 @@ const updateOrderStatusOrderPickedUp = (req, res) => {
     },
     (err, order) => {
       if (err) throw err;
+
+      const orderNumber = order.orderNumber + "";
+
+      res.send(orderNumber);
+    }
+  );
+};
+
+/* -------------------------- UPDATE ORDER STATUS: READY FOR SHIPPING --------------------------- */
+
+const updateOrderStatusReadyForShipping = (req, res) => {
+  const order = req.body;
+
+  PrintOrder.findByIdAndUpdate(
+    order._id,
+    {
+      $set: {
+        orderStatus: "Order Shipped",
+        orderDeliveryDate: new Date(),
+        lastUpdateDate: new Date()
+      }
+    },
+    (err, order) => {
+      if (err) {
+        console.log("Failed to update order");
+        res.send("failed");
+        return;
+      }
 
       const orderNumber = order.orderNumber + "";
 

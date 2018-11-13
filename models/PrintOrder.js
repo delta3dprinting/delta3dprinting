@@ -108,6 +108,9 @@ const PrintOrderSchema = new Schema({
   delivery: {
     type: String
   },
+  trackingNumber: {
+    type: Array
+  },
   ownerNote: {
     type: String
   },
