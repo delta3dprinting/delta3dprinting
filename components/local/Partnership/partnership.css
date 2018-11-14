@@ -47,12 +47,11 @@
 }
 
 #partnership_main_header_body {
-  height: 24vmin;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 6vmin;
+  padding: 12vmin 8vmin;
 }
 
 #partnership_main_header_text {
@@ -60,6 +59,7 @@
   font-size: 7vmin;
   color: rgb(170, 10, 10);
   letter-spacing: 0.3vmin;
+  text-align: center;
 }
 
 #partnership_opening_description_body {
