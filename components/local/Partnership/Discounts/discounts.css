@@ -1,0 +1,111 @@
+.partnership_table_body_one {
+  width: 100%;
+  padding: 6vmin 12vmin 6vmin 6vmin;
+}
+
+.partnership_table_body_two {
+  width: 100%;
+  padding: 6vmin 6vmin 6vmin 12vmin;
+}
+
+.partnership_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.partnership_table_row_header {
+  background-color: rgb(170, 10, 10);
+}
+
+.partnership_table_header_one {
+  width: 70%;
+  padding: 2vmin;
+  border-style: solid;
+  border-width: 0.4vmin;
+  border-color: rgb(200, 200, 200);
+  font-family: "Chivo", sans-serif;
+  font-size: 3.8vmin;
+  font-weight: bold;
+  color: rgb(255, 250, 250);
+}
+
+.partnership_table_header_two {
+  width: 30%;
+  padding: 2vmin;
+  border-style: solid;
+  border-width: 0.4vmin;
+  border-color: rgb(200, 200, 200);
+  background-color: rgb(170, 10, 10);
+  font-family: "Chivo", sans-serif;
+  font-size: 3.8vmin;
+  font-weight: bold;
+  color: rgb(255, 250, 250);
+}
+
+.partnership_table_row_one {
+  background-color: rgb(255, 220, 220);
+}
+
+.partnership_table_row_two {
+  background-color: rgb(255, 250, 250);
+}
+
+.partnership_table_column_one {
+  width: 70%;
+  padding: 2vmin;
+  border-style: solid;
+  border-width: 0.4vmin;
+  border-color: rgb(200, 200, 200);
+  font-family: "Open Sans", sans-serif;
+  font-size: 3.6vmin;
+  text-align: center;
+  color: rgb(20, 20, 20);
+}
+
+.partnership_table_column_two {
+  width: 30%;
+  padding: 2vmin;
+  border-style: solid;
+  border-width: 0.4vmin;
+  border-color: rgb(200, 200, 200);
+  font-family: "Open Sans", sans-serif;
+  font-size: 3.6vmin;
+  text-align: center;
+  color: rgb(20, 20, 20);
+}
+
+@media only screen and (min-width: 600px) {
+  .partnership_table_body_one {
+    width: 60%;
+    padding: 3vmin 6vmin 3vmin 3vmin;
+  }
+
+  .partnership_table_body_two {
+    width: 60%;
+    padding: 3vmin 3vmin 3vmin 6vmin;
+  }
+
+  .partnership_table_header_one {
+    padding: 1vmin;
+    border-width: 0.2vmin;
+    font-size: 1.9vmin;
+  }
+
+  .partnership_table_header_two {
+    padding: 1vmin;
+    border-width: 0.2vmin;
+    font-size: 1.9vmin;
+  }
+
+  .partnership_table_column_one {
+    padding: 1vmin;
+    border-width: 0.2vmin;
+    font-size: 1.8vmin;
+  }
+
+  .partnership_table_column_two {
+    padding: 1vmin;
+    border-width: 0.2vmin;
+    font-size: 1.8vmin;
+  }
+}
