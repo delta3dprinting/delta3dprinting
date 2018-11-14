@@ -79,7 +79,7 @@
   letter-spacing: 0.2vmin;
 }
 
-.partnership_benefit_body_one {
+.partnership_body_one {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -88,7 +88,7 @@
   background-color: rgb(255, 250, 250);
 }
 
-.partnership_benefit_header_body_one {
+.partnership_header_body_one {
   width: 100%;
   display: flex;
   align-items: center;
@@ -96,14 +96,14 @@
   padding: 6vmin;
 }
 
-.partnership_benefit_header_text_one {
+.partnership_header_text_one {
   font-family: "Russo One", sans-serif;
   font-size: 5.6vmin;
   color: rgb(120, 10, 10);
   letter-spacing: 0.2vmin;
 }
 
-.partnership_benefit_description_body_one {
+.partnership_description_body_one {
   width: 100%;
   display: flex;
   align-items: center;
@@ -111,7 +111,7 @@
   padding: 6vmin 12vmin 6vmin 6vmin;
 }
 
-.partnership_benefit_description_text_one {
+.partnership_description_text_one {
   font-family: "Open Sans", sans-serif;
   font-size: 3.6vmin;
   font-weight: bold;
@@ -120,7 +120,7 @@
   letter-spacing: 0.1vmin;
 }
 
-.partnership_benefit_body_two {
+.partnership_body_two {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -129,7 +129,7 @@
   background-color: rgb(255, 220, 220);
 }
 
-.partnership_benefit_header_body_two {
+.partnership_header_body_two {
   width: 100%;
   display: flex;
   align-items: center;
@@ -137,14 +137,14 @@
   padding: 6vmin;
 }
 
-.partnership_benefit_header_text_two {
+.partnership_header_text_two {
   font-family: "Russo One", sans-serif;
   font-size: 5.6vmin;
   color: rgb(50, 50, 50);
   letter-spacing: 0.2vmin;
 }
 
-.partnership_benefit_description_body_two {
+.partnership_description_body_two {
   width: 100%;
   display: flex;
   align-items: center;
@@ -152,7 +152,7 @@
   padding: 6vmin 6vmin 6vmin 12vmin;
 }
 
-.partnership_benefit_description_text_two {
+.partnership_description_text_two {
   font-family: "Open Sans", sans-serif;
   font-size: 3.6vmin;
   font-weight: bold;
@@ -161,7 +161,7 @@
   letter-spacing: 0.1vmin;
 }
 
-.partnership_benefit_details_button_body_two {
+.partnership_details_button_body_two {
   width: 100%;
   display: flex;
   align-items: center;
@@ -282,59 +282,59 @@
     letter-spacing: 0.1vmin;
   }
 
-  .partnership_benefit_body_one {
+  .partnership_body_one {
     padding: 5vmin 5vmin 5vmin 10vmin;
   }
 
-  .partnership_benefit_header_body_one {
+  .partnership_header_body_one {
     width: 60%;
     padding: 3vmin;
   }
 
-  .partnership_benefit_header_text_one {
+  .partnership_header_text_one {
     font-size: 2.8vmin;
     letter-spacing: 0.1vmin;
   }
 
-  .partnership_benefit_description_body_one {
+  .partnership_description_body_one {
     width: 60%;
     padding: 3vmin 6vmin 3vmin 3vmin;
   }
 
-  .partnership_benefit_description_text_one {
+  .partnership_description_text_one {
     font-size: 1.8vmin;
     letter-spacing: 0.05vmin;
   }
 
-  .partnership_benefit_body_two {
+  .partnership_body_two {
     padding: 5vmin 10vmin 5vmin 5vmin;
     justify-content: flex-end;
   }
 
-  .partnership_benefit_header_body_two {
+  .partnership_header_body_two {
     width: 60%;
     padding: 3vmin;
     justify-content: flex-end;
   }
 
-  .partnership_benefit_header_text_two {
+  .partnership_header_text_two {
     width: 60%;
     font-size: 2.8vmin;
     letter-spacing: 0.1vmin;
     text-align: right;
   }
 
-  .partnership_benefit_description_body_two {
+  .partnership_description_body_two {
     width: 60%;
     padding: 3vmin 3vmin 3vmin 6vmin;
   }
 
-  .partnership_benefit_description_text_two {
+  .partnership_description_text_two {
     font-size: 1.8vmin;
     letter-spacing: 0.05vmin;
   }
 
-  .partnership_benefit_details_button_body_two {
+  .partnership_details_button_body_two {
     width: 60%;
     margin: 3vmin 3vmin 3vmin 6vmin;
   }
