@@ -126,8 +126,6 @@
     />
 
     <!-- ------------------------ BECOME A PARTNER ------------------------ -->
-
-    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/local/Partnership/BecomeAPartner/becomeAPartner.js"></script>
   </head>
 
   <body>
@@ -162,8 +160,9 @@
 
     <div id="navigation_drawer" class="navigation_drawer_close">
       <a href="/" class="navigation_link">Home</a>
-      <a href="/Services" class="navigation_link">Services</a>
-      <a href="/Pricing" class="navigation_link">Pricing</a>
+      <a href="/services" class="navigation_link">Services</a>
+      <a href="/pricing" class="navigation_link">Pricing</a>
+      <a href="/partnership" class="navigation_link">Partnership</a>
     </div>
 
     <!-- ========================= PROFILE DRAWER ========================= -->
@@ -232,7 +231,10 @@
             </p>
           </div>
           <div class="partnership_details_button_body_one">
-            <div class="partnership_button">
+            <div
+              id="new_partners_request_partnership_partnership_button"
+              class="partnership_button"
+            >
               <div class="partnership_button_text">Request partnership</div>
             </div>
           </div>
@@ -249,7 +251,10 @@
             </p>
           </div>
           <div class="partnership_details_button_body_one">
-            <div class="partnership_button">
+            <div
+              id="apply_for_partnership_partnership_button"
+              class="partnership_button"
+            >
               <div class="partnership_button_text">Apply for partnership</div>
             </div>
           </div>
@@ -281,7 +286,10 @@
             </p>
           </div>
           <div class="partnership_details_button_body_two">
-            <div class="partnership_button">
+            <div
+              id="returning_partners_request_partnership_partnership_button"
+              class="partnership_button"
+            >
               <div class="partnership_button_text">Request partnership</div>
             </div>
           </div>
@@ -310,7 +318,10 @@
             </p>
           </div>
           <div class="partnership_details_button_body_one">
-            <div class="partnership_button">
+            <div
+              id="see_calculation_partnership_button"
+              class="partnership_button"
+            >
               <div class="partnership_button_text">See Example Calculation</div>
             </div>
           </div>
@@ -327,7 +338,10 @@
           id="footer_3d_printing_body"
           class="footer_content_body footer_services_content_body"
         >
-          <a href="/3D-Printing" id="footer_3d_printing" class="footer_content"
+          <a
+            href="/services/3d-printing"
+            id="footer_3d_printing"
+            class="footer_content"
             >3D Printing</a
           >
           <div
@@ -340,7 +354,7 @@
           class="footer_content_body footer_services_content_body"
         >
           <a
-            href="/3D-Modelling"
+            href="/services/3d-modelling"
             id="footer_3d_modelling"
             class="footer_content"
             >3D Modelling</a
@@ -354,7 +368,10 @@
           id="footer_marketplace_body"
           class="footer_content_body footer_services_content_body"
         >
-          <a href="/Marketplace" id="footer_marketplace" class="footer_content"
+          <a
+            href="/services/marketplace"
+            id="footer_marketplace"
+            class="footer_content"
             >Marketplace</a
           >
           <div
@@ -367,10 +384,10 @@
         <p class="footer_divider_header">Resources</p>
       </div>
       <div class="footer_divider">
-        <p class="footer_divider_header">Company</p>
+        <p class="footer_divider_header">Delta 3D Printing</p>
         <div
           id="footer_about_us_body"
-          class="footer_content_body footer_about_content_body"
+          class="footer_content_body footer_about_us_content_body"
         >
           <a href="/about" id="footer_about_us" class="footer_content">About</a>
           <div
@@ -380,9 +397,9 @@
         </div>
         <div
           id="footer_contact_us_body"
-          class="footer_content_body footer_about_content_body"
+          class="footer_content_body footer_about_us_content_body"
         >
-          <a href="/Contact-Us" id="footer_contact_us" class="footer_content"
+          <a href="/contact-us" id="footer_contact_us" class="footer_content"
             >Contact Us</a
           >
           <div
@@ -390,7 +407,167 @@
             class="footer_content_underline"
           ></div>
         </div>
+        <div
+          id="footer_contact_us_body"
+          class="footer_content_body footer_about_content_body"
+        >
+          <a href="/partnership" id="footer_contact_us" class="footer_content"
+            >Partnership Program</a
+          >
+          <div class="footer_content_underline"></div>
+        </div>
       </div>
     </div>
   </body>
+
+  <style>
+    #temporary_partnership_button_handler_modal_body {
+      overflow: hidden;
+    }
+
+    #temporary_partnership_button_handler_modal_contents_body {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      flex-direction: column;
+    }
+
+    .temporary_partnership_button_handler_modal_content_body {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4vmin;
+    }
+
+    .temporary_partnership_button_handler_modal_content_text {
+      font-family: "Open Sans", sans-serif;
+      font-size: 4vmin;
+      color: rgb(60, 60, 60);
+    }
+
+    @media only screen and (min-width: 600px) {
+      .temporary_partnership_button_handler_modal_content_body {
+        padding: 2vmin;
+      }
+
+      .temporary_partnership_button_handler_modal_content_text {
+        font-size: 2vmin;
+      }
+    }
+  </style>
+
+  <script>
+    /* ======================================= INITIALISATION ======================================= */
+
+    window.onload = () => {
+      globalInit();
+
+      document
+        .querySelector("#new_partners_request_partnership_partnership_button")
+        .addEventListener("click", () => {
+          temporaryPartnershipButtonHandler();
+        });
+
+      document
+        .querySelector("#apply_for_partnership_partnership_button")
+        .addEventListener("click", () => {
+          temporaryPartnershipButtonHandler();
+        });
+
+      document
+        .querySelector(
+          "#returning_partners_request_partnership_partnership_button"
+        )
+        .addEventListener("click", () => {
+          temporaryPartnershipButtonHandler();
+        });
+
+      document
+        .querySelector("#see_calculation_partnership_button")
+        .addEventListener("click", () => {
+          temporaryPartnershipButtonHandler();
+        });
+    };
+
+    /* ============================ TEMPORARY PARTNERSHIP BUTTON HANDLER ============================ */
+
+    const temporaryPartnershipButtonHandler = () => {
+      contructTemporaryPartnershipButtonHandlerModal();
+    };
+
+    /* =========================================== MODAL ============================================ */
+
+    /* -------------------------------------- MODAL PROPERTIES -------------------------------------- */
+
+    // ELEMENTS
+    const temporaryPartnershipButtonHandlerModalId =
+      "temporary_partnership_button_handler";
+    const temporaryPartnershipButtonHandlerModalHeader = "***Temporary***";
+    const temporaryPartnershipButtonHandlerModalFooter = "";
+    let temporaryPartnershipButtonHandlerModalElementObject;
+    // CSS
+    const temporaryPartnershipButtonHandlerModalMobileHeight = 70;
+    const temporaryPartnershipButtonHandlerModalMobileWidth = 70;
+    const temporaryPartnershipButtonHandlerModalDesktopHeight = 50;
+    const temporaryPartnershipButtonHandlerModalDesktopWidth = 50;
+    const temporaryPartnershipButtonHandlerModalFooterHeight = 0;
+    let temporaryPartnershipButtonHandlerModalCSSObject;
+
+    const contructTemporaryPartnershipButtonHandlerModalProperties = () => {
+      temporaryPartnershipButtonHandlerModalElementObject = new modalElementObject(
+        temporaryPartnershipButtonHandlerModalId,
+        temporaryPartnershipButtonHandlerModalHeader,
+        temporaryPartnershipButtonHandlerModalFooter
+      );
+
+      temporaryPartnershipButtonHandlerModalCSSObject = new modalCSSObject(
+        temporaryPartnershipButtonHandlerModalMobileHeight,
+        temporaryPartnershipButtonHandlerModalMobileWidth,
+        temporaryPartnershipButtonHandlerModalDesktopHeight,
+        temporaryPartnershipButtonHandlerModalDesktopWidth,
+        temporaryPartnershipButtonHandlerModalFooterHeight
+      );
+    };
+
+    const contructTemporaryPartnershipButtonHandlerModal = () => {
+      contructTemporaryPartnershipButtonHandlerModalProperties();
+      addModal(
+        temporaryPartnershipButtonHandlerModalElementObject,
+        temporaryPartnershipButtonHandlerModalCSSObject
+      );
+      addTemporaryPartnershipButtonHandlerModalContents();
+    };
+
+    /* ======================================= MODAL CONTENTS ======================================= */
+
+    const addTemporaryPartnershipButtonHandlerModalContents = () => {
+      const temporaryPartnershipButtonHandlerModalContentsHTML =
+        "<div id='temporary_partnership_button_handler_modal_contents_body'>" +
+        "<div class='temporary_partnership_button_handler_modal_content_body'>" +
+        "<div class='temporary_partnership_button_handler_modal_content_text'>" +
+        "We are currently developing this section of the website, we apologise for any inconvenience." +
+        "</div>" +
+        "</div>" +
+        "<div class='temporary_partnership_button_handler_modal_content_body'>" +
+        "<div class='temporary_partnership_button_handler_modal_content_text'>" +
+        "Temporarily, if you are interested with the Partnership Program (or if you have questions), send us an email at founder.delta3dprinting@gmail.com." +
+        "</div>" +
+        "</div>" +
+        "<div class='temporary_partnership_button_handler_modal_content_body'>" +
+        "<div class='temporary_partnership_button_handler_modal_content_text'>" +
+        "In the email, feel free to include key details and information. We'll quickly get back to you as soon as we process your email." +
+        "</div>" +
+        "</div>" +
+        "</div>";
+
+      document.querySelector(
+        "#temporary_partnership_button_handler_modal_body"
+      ).innerHTML = temporaryPartnershipButtonHandlerModalContentsHTML;
+    };
+
+    /* ============================================================================================== */
+  </script>
 </html>

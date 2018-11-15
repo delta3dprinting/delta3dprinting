@@ -28,10 +28,10 @@ const profileDrawerToggle = () => {
 
 const addProfileDrawerContents = () => {
   loginStatus
-    .then(() => {
+    .then(res => {
       addProfileDrawerUserContents();
     })
-    .catch(() => {
+    .catch(err => {
       addProfileDrawerVisitorContents();
     });
 };

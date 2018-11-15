@@ -51,6 +51,13 @@ module.exports = (app, passport) => {
       path.join(__dirname, "../../views/partnershipBecomeAPartner.html")
     );
   });
+
+  // @route   GET /partnership/become-a-partner
+  // @desc    Route User to the Services Page
+  // @access  Public
+  app.get("/services", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/services.html"));
+  });
 };
 
 // Route middleware to make sure a user is logged in
