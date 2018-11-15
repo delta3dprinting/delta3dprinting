@@ -52,11 +52,32 @@ module.exports = (app, passport) => {
     );
   });
 
-  // @route   GET /partnership/become-a-partner
+  // @route   GET /services
   // @desc    Route User to the Services Page
   // @access  Public
   app.get("/services", (req, res) => {
     res.sendFile(path.join(__dirname, "../../views/services.html"));
+  });
+
+  // @route   GET /services
+  // @desc    Route User to the Services Page
+  // @access  Public
+  app.get("/services/3d-printing", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/services3dPrinting.html"));
+  });
+
+  // @route   GET /services
+  // @desc    Route User to the Services Page
+  // @access  Public
+  app.get("/services/3d-modelling", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/services3dModelling.html"));
+  });
+
+  // @route   GET /services
+  // @desc    Route User to the Services Page
+  // @access  Public
+  app.get("/services/marketplace", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/servicesMarketplace.html"));
   });
 };
 
