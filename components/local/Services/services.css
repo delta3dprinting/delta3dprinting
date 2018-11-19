@@ -185,6 +185,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 1vmin;
+  padding: 2vmin;
   background-color: rgb(255, 75, 90);
   box-shadow: 0 0.5vmin 1vmin 0 rgb(180, 180, 180);
 }
@@ -280,6 +281,81 @@
 .services_steps_button_text {
   font-family: "Chivo", sans-serif;
   font-size: 3vmin;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.2vmin;
+  color: rgb(255, 250, 250);
+  text-decoration: none;
+}
+
+.service_sub_content_body_one {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 4vmin;
+}
+
+.service_sub_header_body_one {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4vmin 8vmin 4vmin 4vmin;
+}
+
+.service_sub_header_text_one {
+  font-family: "Russo One", sans-serif;
+  font-size: 4vmin;
+  font-weight: bold;
+  color: rgb(120, 10, 10);
+  letter-spacing: 0.2vmin;
+}
+
+.service_sub_description_body_one {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4vmin 8vmin 4vmin 8vmin;
+}
+
+.service_sub_description_text_one {
+  font-family: "Open Sans", sans-serif;
+  font-size: 3.2vmin;
+  font-weight: bold;
+  text-align: justify;
+  color: rgb(80, 10, 10);
+  letter-spacing: 0.1vmin;
+}
+
+.services_sub_button_body_one {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vmin 8vmin 4vmin 4vmin;
+}
+
+.services_sub_button {
+  height: 10vmin;
+  width: 40vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1vmin;
+  padding: 2vmin;
+  background-color: rgb(255, 75, 90);
+  box-shadow: 0 0.5vmin 1vmin 0 rgb(180, 180, 180);
+}
+
+.services_sub_button_text {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Chivo", sans-serif;
+  font-size: 3.6vmin;
   font-weight: bold;
   text-align: center;
   letter-spacing: 0.2vmin;
@@ -392,6 +468,7 @@
     height: 5vmin;
     width: 20vmin;
     border-radius: 0.5vmin;
+    padding: 1vmin;
     box-shadow: 0 0.25vmin 0.5vmin 0 rgb(180, 180, 180);
   }
 
@@ -437,6 +514,46 @@
 
   .services_steps_button_text {
     font-size: 1.5vmin;
+    letter-spacing: 0.1vmin;
+  }
+
+  .service_sub_content_body_one {
+    width: 60%;
+    padding: 2vmin;
+  }
+
+  .service_sub_header_body_one {
+    padding: 2vmin 4vmin 2vmin 2vmin;
+  }
+
+  .service_sub_header_text_one {
+    font-size: 2vmin;
+    letter-spacing: 0.1vmin;
+  }
+
+  .service_sub_description_body_one {
+    padding: 2vmin 4vmin 2vmin 4vmin;
+  }
+
+  .service_sub_description_text_one {
+    font-size: 1.6vmin;
+    letter-spacing: 0.05vmin;
+  }
+
+  .services_sub_button_body_one {
+    padding: 2vmin 4vmin 2vmin 2vmin;
+  }
+
+  .services_sub_button {
+    height: 5vmin;
+    width: 20vmin;
+    border-radius: 0.5vmin;
+    padding: 1vmin;
+    box-shadow: 0 0.25vmin 0.5vmin 0 rgb(180, 180, 180);
+  }
+
+  .services_sub_button_text {
+    font-size: 1.8vmin;
     letter-spacing: 0.1vmin;
   }
 }
