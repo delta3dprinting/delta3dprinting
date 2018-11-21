@@ -86,6 +86,13 @@ module.exports = (app, passport) => {
   app.get("/pricing", (req, res) => {
     res.sendFile(path.join(__dirname, "../../views/pricing.html"));
   });
+
+  // @route   GET /pricing/3d-modelling
+  // @desc    Route User to the Pricing Page
+  // @access  Public
+  app.get("/pricing/3d-modelling", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/pricing3DModelling.html"));
+  });
 };
 
 // Route middleware to make sure a user is logged in
