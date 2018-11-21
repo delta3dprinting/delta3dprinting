@@ -79,6 +79,13 @@ module.exports = (app, passport) => {
   app.get("/services/marketplace", (req, res) => {
     res.sendFile(path.join(__dirname, "../../views/servicesMarketplace.html"));
   });
+
+  // @route   GET /pricing
+  // @desc    Route User to the Pricing Page
+  // @access  Public
+  app.get("/pricing", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../views/pricing.html"));
+  });
 };
 
 // Route middleware to make sure a user is logged in
