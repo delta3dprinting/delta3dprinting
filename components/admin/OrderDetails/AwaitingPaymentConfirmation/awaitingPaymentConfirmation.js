@@ -219,11 +219,11 @@ const adminAwaitingPaymentConfirmationOrderPriceCalculation = (
     pricingDetails = "Pricing: Basic (0% x $" + totalPartsPrice + ")";
     pricingPrice = totalPartsPrice * 0;
   } else if (order.pricing == "Priority") {
-    pricingDetails = "Pricing: Priority (15% x $" + totalPartsPrice + ")";
-    pricingPrice = totalPartsPrice * 0.15;
+    pricingDetails = "Pricing: Priority (25% x $" + totalPartsPrice + ")";
+    pricingPrice = totalPartsPrice * 0.25;
   } else if (order.pricing == "Urgent") {
-    pricingDetails = "Pricing: Urgent (30% x $" + totalPartsPrice + ")";
-    pricingPrice = totalPartsPrice * 0.3;
+    pricingDetails = "Pricing: Urgent (50% x $" + totalPartsPrice + ")";
+    pricingPrice = totalPartsPrice * 0.5;
   }
 
   const adminAwaitingPaymentConfirmationOrderPricingHTML =

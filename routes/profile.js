@@ -1,7 +1,7 @@
 const path = require("path");
 
 // Load User Profile Model
-const UserProfile = require("../../models/UserProfile");
+const UserProfile = require("../models/UserProfile");
 
 module.exports = (app, passport) => {
   // @route   GET /Profile
@@ -9,9 +9,9 @@ module.exports = (app, passport) => {
   // @access  Private
   app.get("/Profile", restrictedPages, (req, res) => {
     if (req.user.accountType == "admin") {
-      res.sendFile(path.join(__dirname, "../../views/adminProfile.html"));
+      res.sendFile(path.join(__dirname, "../views/adminProfile.html"));
     } else if (req.user.accountType == "normal") {
-      res.sendFile(path.join(__dirname, "../../views/profile.html"));
+      res.sendFile(path.join(__dirname, "../views/profile.html"));
     }
   });
 

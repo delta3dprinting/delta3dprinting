@@ -1,7 +1,7 @@
 const path = require("path");
 
 // Load User Model
-const User = require("../../models/User");
+const User = require("../models/User");
 
 module.exports = (app, passport) => {
   // @route   GET /login-status

@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
 
 // Load PrintOrder Model
-const PrintOrder = require("../../models/PrintOrder");
+const PrintOrder = require("../models/PrintOrder");
 // Load User Profile Model
-const UserProfile = require("../../models/UserProfile");
+const UserProfile = require("../models/UserProfile");
 
 module.exports = (app, passport, upload, conn) => {
   let gfs;

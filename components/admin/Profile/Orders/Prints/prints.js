@@ -21,6 +21,7 @@ const contructAdminProfileOrdersPrintsObject = () => {
 const adminProfileOrdersPrintsInit = () => {
   constructAdminProfileOrdersPrintsBaseHTML();
   loadAdminProfileOrdersPrintsOrderList();
+  adminProfileOrdersPrintsDiscountInit();
 };
 
 /* ==================================== CREATE THE BASE HTML ==================================== */

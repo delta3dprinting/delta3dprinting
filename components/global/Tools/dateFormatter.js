@@ -127,7 +127,7 @@ const dateFormatter = defaultDate => {
   return dateObject;
 };
 
-/* =================================== DAY MONTH YEAR FORMAT ==================================== */
+/* =================================== DAY DATE MONTH YEAR FORMAT ==================================== */
 
 const dayDateMonthYearFormat = defaultDate => {
   const dateObject = dateFormatter(defaultDate);

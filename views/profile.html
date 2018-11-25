@@ -492,9 +492,20 @@
   <script>
     /* =================================== ORDER OPTIONS DETAILS ==================================== */
 
+    let orderDetailsTotalPartPrice;
+    let orderDetailsOrderPricingPrice;
+    let orderDetailsPreDiscountTotal;
+    let orderDetailsTotalDiscount;
+    let orderDetailsPostDiscountTotal;
+    let orderDetailsDeliveryPrice;
     let orderDetailsTotalOrderPrice;
 
     const constructOrderDetailsOrderOptionsDetails = (order, orderStatusId) => {
+      orderDetailsTotalPartPrice = 0;
+      orderDetailsOrderPricingPrice = 0;
+      orderDetailsPreDiscountTotal = 0;
+      orderDetailsTotalDiscount = 0;
+      orderDetailsPostDiscountTotal = 0;
       orderDetailsTotalOrderPrice = 0;
 
       const orderDetailsOrderOptionsHeaderHTML =
@@ -519,8 +530,8 @@
                 (Number(data) * Number(order.parts[i].orderQuantity)).toFixed(2)
               );
 
-              orderDetailsTotalOrderPrice =
-                orderDetailsTotalOrderPrice + partPrice;
+              orderDetailsTotalPartPrice =
+                orderDetailsTotalPartPrice + partPrice;
 
               partPriceLabel = "$" + partPrice;
             }
@@ -556,8 +567,555 @@
           }
         });
       }
+
+      /* ------------------------------ UPDATE VARIABLES ------------------------------ */
+
+      orderDetailsTotalOrderPrice = orderDetailsTotalPartPrice;
+
+      /* -------------------------------- ADD PRICING --------------------------------- */
+
+      orderDetailsOrderOptionsPricing(
+        order,
+        orderStatusId,
+        orderDetailsTotalPartPrice
+      );
+    };
+
+    /* ============================= PRICING OPTION PRICE ============================= */
+
+    const orderDetailsOrderOptionsPricing = (
+      order,
+      orderStatusId,
+      totalPartPrice
+    ) => {
+      let orderPricing;
+      let orderPricingPrice;
+
+      /* ----------------------------- SET VARIABLE VALUES ---------------------------- */
+
+      if (order.pricing === "Basic") {
+        orderPricing = "Basic";
+        orderDetailsOrderPricingPrice = totalPartPrice * 0;
+      } else if (order.pricing === "Priority") {
+        orderPricing = "Priority";
+        orderDetailsOrderPricingPrice = totalPartPrice * 0.25;
+      } else if (order.pricing === "Urgent") {
+        orderPricing = "Urgent";
+        orderDetailsOrderPricingPrice = totalPartPrice * 0.5;
+      }
+
+      if (order.orderStatus === "Awaiting Quote") {
+        orderPricingPrice = "Pending";
+      } else {
+        orderPricingPrice = "$" + orderDetailsOrderPricingPrice;
+      }
+
+      /* ------------------------------ CREATE THE HTML ------------------------------- */
+
+      const orderDetailsOrderOptionsPricingHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_pricing_type_body'>" +
+        "<div class='order_details_pricing_header'>Pricing:</div>" +
+        "<div class='order_details_pricing_content'>" +
+        orderPricing +
+        "</div>" +
+        "</div>" +
+        "<div class='order_details_pricing_price_body'>" +
+        "<div class='order_details_pricing_header'>Price:</div>" +
+        "<div class='order_details_pricing_content'>" +
+        orderPricingPrice +
+        "</div>" +
+        "</div>" +
+        "</div>";
+
+      /* ------------------------ INSERT THE HTML ONTO THE PAGE ----------------------- */
+
+      document
+        .querySelector("#" + orderStatusId + "_order_options_details_body")
+        .insertAdjacentHTML("beforeend", orderDetailsOrderOptionsPricingHTML);
+
+      /* ------------------------------ UPDATE VARIABLES ------------------------------ */
+
+      orderDetailsTotalOrderPrice =
+        orderDetailsTotalOrderPrice + orderDetailsOrderPricingPrice;
+
+      orderDetailsPreDiscountTotal = orderDetailsTotalOrderPrice;
+
+      /* ----------------------------- PRE-DISCOUNT TOTAL ----------------------------- */
+
+      let preDiscountTotal;
+      let preDiscountTotalPartsPrice;
+      let preDiscountPricingPrice;
+
+      if (order.orderStatus === "Awaiting Quote") {
+        preDiscountTotal = "Pending";
+        preDiscountTotalPartsPrice = "Pending";
+        preDiscountPricingPrice = "Pending";
+      } else {
+        preDiscountTotal = "$" + orderDetailsPreDiscountTotal;
+        preDiscountTotalPartsPrice = "$" + totalPartPrice;
+        preDiscountPricingPrice = "$" + orderDetailsOrderPricingPrice;
+      }
+
+      // Create the Pre-Discount Total HTML
+      const orderDetailsOrderPreDiscountTotalHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_order_total_body'>" +
+        "<div class='order_details_order_total_header'>Pre-Discount Calculation:</div>" +
+        "<div class='order_details_order_total_content'>" +
+        preDiscountTotalPartsPrice +
+        " + " +
+        preDiscountPricingPrice +
+        "</div>" +
+        "</div>" +
+        "<div class='order_details_order_total_price_body'>" +
+        "<div class='order_details_order_total_price_header'>Total:</div>" +
+        "<div class='order_details_order_total_price_content'>" +
+        preDiscountTotal +
+        "</div>" +
+        "</div>" +
+        "</div>";
+
+      // Insert the Pre-Discount Total HTML
+      document
+        .querySelector("#" + orderStatusId + "_order_options_details_body")
+        .insertAdjacentHTML("beforeend", orderDetailsOrderPreDiscountTotalHTML);
+
+      /* ------------------------------ ADD DISCOUNT ---------------------------------- */
+
+      orderDetailsOrderDiscount(
+        order,
+        orderStatusId,
+        orderDetailsPreDiscountTotal
+      );
+    };
+
+    /* ================================ ORDER DISCOUNT ================================ */
+
+    const orderDetailsOrderDiscount = (
+      order,
+      orderStatusId,
+      totalPreDiscountOrderPrice
+    ) => {
+      /* ------------------------------- DISCOUNT HEADER ------------------------------ */
+
+      // Create the Discount Header HTML
+      const orderDetailsOrderDiscountHeaderHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_pricing_header_body'>" +
+        "<div class='order_details_pricing_header_text'>Discount</div>" +
+        "</div>" +
+        "</div>";
+
+      // Insert Discount Header
+      document
+        .querySelector("#" + orderStatusId + "_order_options_details_body")
+        .insertAdjacentHTML("beforeend", orderDetailsOrderDiscountHeaderHTML);
+
+      /* --------------------------------- DISCOUNTS ---------------------------------- */
+
+      let totalDiscountPercentage = 0;
+      let totalDiscountPrice;
+
+      // Check if any discount is provided
+      if (totalDiscountPercentage) {
+        if (order.orderStatus === "Awaiting Quote") {
+          totalDiscountPrice = "Pending";
+        } else {
+          totalDiscountPrice = "$" + orderDetailsTotalDiscount;
+        }
+      } else {
+        totalDiscountPrice = "$0";
+      }
+
+      /* ------------------------------- DISCOUNT TOTAL ------------------------------- */
+
+      // Create the Discount Total HTML
+      const orderDetailsOrderDiscountTotalHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_pricing_discount_name_body'>" +
+        "<div class='order_details_pricing_discount_header'>Discount:</div>" +
+        "<div class='order_details_pricing_discount_content'>Total</div>" +
+        "</div>" +
+        "<div class='order_details_pricing_discount_percent_body'>" +
+        "<div class='order_details_pricing_discount_header'>Percent:</div>" +
+        "<div class='order_details_pricing_discount_content'>" +
+        totalDiscountPercentage +
+        "</div>" +
+        "</div>" +
+        "<div class='order_details_pricing_discount_value_body'>" +
+        "<div class='order_details_pricing_discount_header'>Value:</div>" +
+        "<div class='order_details_pricing_discount_content'>" +
+        totalDiscountPrice +
+        "</div>" +
+        "</div>" +
+        "</div>";
+
+      // Insert Discount Total
+      document
+        .querySelector("#" + orderStatusId + "_order_options_details_body")
+        .insertAdjacentHTML("beforeend", orderDetailsOrderDiscountTotalHTML);
+
+      /* ------------------------------ UPDATE VARIABLES ------------------------------ */
+
+      // Total Order Price
+      orderDetailsTotalOrderPrice =
+        totalPreDiscountOrderPrice - orderDetailsTotalDiscount;
+      // Total Post Discount Price
+      orderDetailsPostDiscountTotal = orderDetailsTotalOrderPrice;
+
+      /* ---------------------------- POST-DISCOUNT TOTAL ----------------------------- */
+
+      let postDiscountTotal;
+      let preDiscountTotal;
+      let totalDiscount;
+
+      if (order.orderStatus === "Awaiting Quote") {
+        postDiscountTotal = "Pending";
+        preDiscountTotal = "Pending";
+        if (totalDiscountPercentage) {
+          totalDiscount = "Pending";
+        } else {
+          totalDiscount = "$0";
+        }
+      } else {
+        postDiscountTotal = "$" + orderDetailsPostDiscountTotal;
+        preDiscountTotal = "$" + totalPreDiscountOrderPrice;
+        totalDiscount = "$" + orderDetailsTotalDiscount;
+      }
+
+      // Create the Post-Discount Total HTML
+      const orderDetailsOrderPostDiscountTotalHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_order_total_body'>" +
+        "<div class='order_details_order_total_header'>Post-Discount Calculation:</div>" +
+        "<div class='order_details_order_total_content'>" +
+        preDiscountTotal +
+        " - " +
+        totalDiscount +
+        "</div>" +
+        "</div>" +
+        "<div class='order_details_order_total_price_body'>" +
+        "<div class='order_details_order_total_price_header'>Total:</div>" +
+        "<div class='order_details_order_total_price_content'>" +
+        postDiscountTotal +
+        "</div>" +
+        "</div>" +
+        "</div>";
+
+      // Insert the Post-Discount Total HTML
+      document
+        .querySelector("#" + orderStatusId + "_order_options_details_body")
+        .insertAdjacentHTML(
+          "beforeend",
+          orderDetailsOrderPostDiscountTotalHTML
+        );
+
+      /* -------------------------------- ADD DELIVERY -------------------------------- */
+
+      orderDetailsOrderDelivery(order, orderStatusId);
+    };
+
+    /* ================================ ORDER DELIVERY ================================ */
+
+    const orderDetailsOrderDelivery = (order, orderStatusId) => {
+      /* --------------------------------- VARIABLES ---------------------------------- */
+
+      const delivery = order.delivery;
+      let deliveryPrice;
+
+      /* ----------------------------- SET DELIVERY PRICE ----------------------------- */
+
+      if (delivery === "Pickup") {
+        deliveryPrice = 0;
+      } else if (delivery === "Tracking") {
+        deliveryPrice = 7;
+      } else if (delivery === "Courier") {
+        deliveryPrice = 8.5;
+      }
+
+      /* ------------------------------ DELIVERY HEADER ------------------------------- */
+
+      // Create the Delivery Header HTML
+      const orderDetailsOrderDeliveryHeaderHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_pricing_header_body'>" +
+        "<div class='order_details_pricing_header_text'>Delivery</div>" +
+        "</div>" +
+        "</div>";
+
+      // Insert Delivery Header
+      document
+        .querySelector("#" + orderStatusId + "_order_options_details_body")
+        .insertAdjacentHTML("beforeend", orderDetailsOrderDeliveryHeaderHTML);
+
+      /* ---------------------------------- DELIVERY ---------------------------------- */
+
+      // Create the Delivery HTML
+      const orderDetailsOrderDeliveryHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_pricing_type_body'>" +
+        "<div class='order_details_pricing_header'>Delivery:</div>" +
+        "<div class='order_details_pricing_content'>" +
+        delivery +
+        "</div>" +
+        "</div>" +
+        "<div class='order_details_pricing_price_body'>" +
+        "<div class='order_details_pricing_header'>Price:</div>" +
+        "<div class='order_details_pricing_content'>$" +
+        deliveryPrice +
+        "</div>" +
+        "</div>" +
+        "</div>";
+
+      // Insert Delivery
+      document
+        .querySelector("#" + orderStatusId + "_order_options_details_body")
+        .insertAdjacentHTML("beforeend", orderDetailsOrderDeliveryHTML);
+
+      /* ------------------------------ UPDATE VARIABLES ------------------------------ */
+
+      orderDetailsDeliveryPrice = deliveryPrice;
+      orderDetailsTotalOrderPrice = orderDetailsTotalOrderPrice + deliveryPrice;
+
+      /* -------------------------------- ORDER TOTAL --------------------------------- */
+
+      let postDiscountTotal;
+      let totalOrderPrice;
+
+      if (order.orderStatus === "Awaiting Quote") {
+        postDiscountTotal = "Pending";
+        totalOrderPrice = "Pending";
+      } else {
+        postDiscountTotal = "$" + orderDetailsPostDiscountTotal;
+        totalOrderPrice = "$" + (orderDetailsPostDiscountTotal + deliveryPrice);
+      }
+
+      // Create the Post-Discount Total HTML
+      const orderDetailsOrderPostDiscountTotalHTML =
+        "<div class='order_details_part_details_body'>" +
+        "<div class='order_details_order_total_body'>" +
+        "<div class='order_details_order_total_header'>Order Price:</div>" +
+        "<div class='order_details_order_total_content'>" +
+        postDiscountTotal +
+        " + $" +
+        deliveryPrice +
+        "</div>" +
+        "</div>" +
+        "<div class='order_details_order_total_price_body'>" +
+        "<div class='order_details_order_total_price_header'>Total:</div>" +
+        "<div class='order_details_order_total_price_content'>" +
+        totalOrderPrice +
+        "</div>" +
+        "</div>" +
+        "</div>";
+
+      // Insert the Post-Discount Total HTML
+      document
+        .querySelector("#" + orderStatusId + "_order_options_details_body")
+        .insertAdjacentHTML(
+          "beforeend",
+          orderDetailsOrderPostDiscountTotalHTML
+        );
     };
   </script>
+
+  <style>
+    /* ------------------------------- SUB-TOTAL/TOTAL -------------------------------- */
+
+    .order_details_order_total_body {
+      width: 77.5%;
+      display: flex;
+      flex-wrap: wrap;
+      border-style: solid;
+      border-width: 0.2vmin;
+      border-color: rgb(235, 235, 235);
+      padding: 0 4vmin;
+      background-color: rgb(255, 255, 255);
+    }
+
+    .order_details_order_total_price_body {
+      width: 22.5%;
+      display: flex;
+      flex-wrap: wrap;
+      border-style: solid;
+      border-width: 0.2vmin;
+      border-color: rgb(235, 235, 235);
+      padding: 0 1vmin;
+      background-color: rgb(255, 255, 255);
+    }
+
+    .order_details_order_total_header {
+      height: 7vmin;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0 0 0.4vmin 0;
+      font-family: "Chivo", sans-serif;
+      font-size: 3.5vmin;
+      font-weight: bold;
+      color: rgb(170, 10, 10);
+    }
+
+    .order_details_order_total_price_header {
+      height: 7vmin;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0 0 0.4vmin 0;
+      font-family: "Chivo", sans-serif;
+      font-size: 3.5vmin;
+      font-weight: bold;
+      color: rgb(170, 10, 10);
+    }
+
+    .order_details_order_total_content {
+      height: 7vmin;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 0.4vmin 0 0 0;
+      font-family: "Chivo", sans-serif;
+      font-size: 3.5vmin;
+      color: rgb(50, 50, 50);
+    }
+
+    .order_details_order_total_price_content {
+      height: 7vmin;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 0.4vmin 0 0 0;
+      font-family: "Chivo", sans-serif;
+      font-size: 3.5vmin;
+      color: rgb(50, 50, 50);
+    }
+
+    /* ----------------------------- PARTS PRICING HEADER ----------------------------- */
+
+    .order_details_pricing_type_body {
+      width: 77.5%;
+      display: flex;
+      flex-wrap: wrap;
+      border-style: solid;
+      border-width: 0.2vmin;
+      border-color: rgb(235, 235, 235);
+      padding: 0 4vmin;
+    }
+
+    .order_details_pricing_header {
+      height: 7vmin;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0 0 0.4vmin 0;
+      font-family: "Chivo", sans-serif;
+      font-size: 3.5vmin;
+      color: rgb(100, 100, 100);
+    }
+
+    .order_details_pricing_content {
+      height: 7vmin;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 0.4vmin 0 0 0;
+      font-family: "Chivo", sans-serif;
+      font-size: 3.5vmin;
+      color: rgb(50, 50, 50);
+    }
+
+    .order_details_pricing_price_body {
+      width: 22.5%;
+      display: flex;
+      flex-wrap: wrap;
+      border-style: solid;
+      border-width: 0.2vmin;
+      border-color: rgb(235, 235, 235);
+      padding: 0 1vmin;
+    }
+
+    .order_details_pricing_header_body {
+      height: 10vmin;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      border-style: solid;
+      border-width: 0.2vmin;
+      border-color: rgb(235, 235, 235);
+      padding: 0 6vmin;
+    }
+
+    .order_details_pricing_header_text {
+      font-family: "Chivo", sans-serif;
+      font-size: 4vmin;
+      font-weight: bold;
+      color: rgb(170, 10, 10);
+      letter-spacing: 0.2vmin;
+    }
+
+    /* ----------------------------------- DISCOUNT ----------------------------------- */
+
+    .order_details_pricing_discount_name_body {
+      width: 55%;
+      display: flex;
+      flex-wrap: wrap;
+      border-style: solid;
+      border-width: 0.2vmin;
+      border-color: rgb(235, 235, 235);
+      padding: 0 4vmin;
+    }
+
+    .order_details_pricing_discount_percent_body {
+      width: 22.5%;
+      display: flex;
+      flex-wrap: wrap;
+      border-style: solid;
+      border-width: 0.2vmin;
+      border-color: rgb(235, 235, 235);
+      padding: 0 1vmin;
+    }
+
+    .order_details_pricing_discount_value_body {
+      width: 22.5%;
+      display: flex;
+      flex-wrap: wrap;
+      border-style: solid;
+      border-width: 0.2vmin;
+      border-color: rgb(235, 235, 235);
+      padding: 0 1vmin;
+    }
+
+    .order_details_pricing_discount_header {
+      height: 7vmin;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0 0 0.4vmin 0;
+      font-family: "Chivo", sans-serif;
+      font-size: 3.5vmin;
+      color: rgb(100, 100, 100);
+    }
+
+    .order_details_pricing_discount_content {
+      height: 7vmin;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 0.4vmin 0 0 0;
+      font-family: "Chivo", sans-serif;
+      font-size: 3.5vmin;
+      color: rgb(50, 50, 50);
+    }
+  </style>
 
   <script>
     /* ================================ TEST FUNCTIONS ================================ */
