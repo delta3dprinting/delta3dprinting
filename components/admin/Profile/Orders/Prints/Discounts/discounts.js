@@ -30,7 +30,7 @@ const constructAdminProfileOrdersPrintsDiscountBaseHTML = () => {
     "</div>" +
     "<div class='admin_profile_orders_prints_discount_add_discount_input_field_body'>" +
     "<div class='admin_profile_orders_prints_discount_add_discount_input_field_header_body'>" +
-    "<div class='admin_profile_orders_prints_discount_add_discount_input_field_header_text'>Rate (in %)</div>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_field_header_text'>Rate</div>" +
     "</div>" +
     "<div class='admin_profile_orders_prints_discount_add_discount_input_body'>" +
     "<input type='text' id='admin_profile_orders_prints_discount_discount_rate_input' class='admin_profile_orders_prints_discount_add_discount_input_text'>" +
@@ -46,6 +46,22 @@ const constructAdminProfileOrdersPrintsDiscountBaseHTML = () => {
     "<option value='limited'>Limited</option>" +
     "<option value='unlimited'>Unlimited</option>" +
     "</select>" +
+    "</div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_field_body'>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_field_header_body'>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_field_header_text'>Min Order Value</div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_body'>" +
+    "<input type='number' id='admin_profile_orders_prints_discount_discount_min_order_value_input' class='admin_profile_orders_prints_discount_add_discount_input_text'>" +
+    "</div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_field_body'>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_field_header_body'>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_field_header_text'>Max Order Value</div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_discount_add_discount_input_body'>" +
+    "<input type='number' id='admin_profile_orders_prints_discount_discount_max_order_value_input' class='admin_profile_orders_prints_discount_add_discount_input_text'>" +
     "</div>" +
     "</div>" +
     "<div class='admin_profile_orders_prints_discount_add_discount_input_field_body admin_profile_orders_prints_discount_add_discount_date_input_field_body'>" +
@@ -125,6 +141,8 @@ const adminProfileOrdersPrintsAddNewDiscount = () => {
     newDiscount.code,
     newDiscount.rate,
     newDiscount.type,
+    newDiscount.minOrderValue,
+    newDiscount.maxOrderValue,
     newDiscount.startDate,
     newDiscount.endDate
   );
@@ -144,6 +162,12 @@ const adminProfileOrdersPrintsCollectNewDiscount = () => {
   ).value;
   const type = document.querySelector(
     "#admin_profile_orders_prints_discount_discount_type_input"
+  ).value;
+  const minOrderValue = document.querySelector(
+    "#admin_profile_orders_prints_discount_discount_min_order_value_input"
+  ).value;
+  const maxOrderValue = document.querySelector(
+    "#admin_profile_orders_prints_discount_discount_max_order_value_input"
   ).value;
   const startDate = document.querySelector(
     "#admin_profile_orders_prints_discount_discount_start_date_input"
@@ -167,14 +191,29 @@ const adminProfileOrdersPrintsCollectNewDiscount = () => {
   const endYear = document.querySelector(
     "#admin_profile_orders_prints_discount_discount_end_year_input"
   ).value;
-  const startDateFormatted = new Date(startYear, startMonth - 1, startDate);
-  const endDateFormatted = new Date(endYear, endMonth - 1, endDate);
+
+  let startDateFormatted;
+  let endDateFormatted;
+
+  if (!startDate || !startMonth || !startYear) {
+    startDateFormatted = "";
+  } else {
+    startDateFormatted = new Date(startYear, startMonth - 1, startDate);
+  }
+
+  if (!endDate || !endMonth || !endYear) {
+    endDateFormatted = "";
+  } else {
+    endDateFormatted = new Date(endYear, endMonth - 1, endDate);
+  }
 
   return {
     name,
     code,
     rate,
     type,
+    minOrderValue,
+    maxOrderValue,
     startDate: startDateFormatted,
     endDate: endDateFormatted
   };
@@ -187,13 +226,24 @@ const adminProfileOrdersPrintsSubmitNewDiscount = (
   code,
   rate,
   type,
+  minOrderValue,
+  maxOrderValue,
   startDate,
   endDate
 ) => {
   $.ajax({
     type: "POST",
     url: "/discount/create",
-    data: { name, code, rate, type, startDate, endDate },
+    data: {
+      name,
+      code,
+      rate,
+      type,
+      minOrderValue,
+      maxOrderValue,
+      startDate,
+      endDate
+    },
     success: data => {
       if (data === "success") {
         adminProfileOrdersPrintsListDiscounts();
@@ -252,9 +302,16 @@ const adminProfileOrdersPrintsCollectDiscounts = () => {
 
 const adminProfileOrdersPrintsDisplayDiscount = discount => {
   // Format the Start and End Date
-  const startDate = dayDateMonthYearFormat(discount.startDate);
+  let startDate;
   let endDate;
-  if (discount.endDate === "Invalid Date") {
+
+  if (discount.startDate === "") {
+    startDate = "";
+  } else {
+    startDate = dayDateMonthYearFormat(discount.startDate);
+  }
+
+  if (discount.endDate === "") {
     endDate = "";
   } else {
     endDate = dayDateMonthYearFormat(discount.endDate);
@@ -300,6 +357,26 @@ const adminProfileOrdersPrintsDisplayDiscount = discount => {
     "<div class='admin_profile_orders_prints_discount_discount_input_body'>" +
     "<div class='admin_profile_orders_prints_discount_discount_input_text'>" +
     discount.type +
+    "</div>" +
+    "</div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_discount_discount_field_body'>" +
+    "<div class='admin_profile_orders_prints_discount_discount_field_header_body'>" +
+    "<div class='admin_profile_orders_prints_discount_discount_field_header_text'>Min Order Value</div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_discount_discount_input_body'>" +
+    "<div class='admin_profile_orders_prints_discount_discount_input_text'>" +
+    discount.minOrderValue +
+    "</div>" +
+    "</div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_discount_discount_field_body'>" +
+    "<div class='admin_profile_orders_prints_discount_discount_field_header_body'>" +
+    "<div class='admin_profile_orders_prints_discount_discount_field_header_text'>Max Order Value</div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_discount_discount_input_body'>" +
+    "<div class='admin_profile_orders_prints_discount_discount_input_text'>" +
+    discount.maxOrderValue +
     "</div>" +
     "</div>" +
     "</div>" +
