@@ -126,6 +126,8 @@ module.exports = (app, passport, upload, conn) => {
   // @desc
   // @access  Private
   app.post("/orderNewPrint/createNewOrder", restrictedPages, (req, res) => {
+    console.log(req.body);
+
     const orderNewPrint = new PrintOrder();
 
     PrintOrder.countDocuments((err, count) => {
@@ -155,6 +157,7 @@ module.exports = (app, passport, upload, conn) => {
           color: req.body.partObjectArray[i].color
         };
       }
+      orderNewPrint.discounts = req.body.discountObjectArray;
       orderNewPrint.comments = [];
       orderNewPrint.pricing = req.body.pricing;
       orderNewPrint.delivery = req.body.delivery;

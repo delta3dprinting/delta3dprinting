@@ -101,6 +101,7 @@ const orderNewPrintCollectInput = () => {
 
   orderNewPrintOrderObject = {
     partObjectArray: orderNewPrintPartObjectArray,
+    discountObjectArray: discountObjectArray,
     pricing: document.querySelector(
       "#order_new_print_pricing_option_input_select"
     ).value,

@@ -34,7 +34,7 @@ const PrintOrderSchema = new Schema({
   orderCompletionDate: {
     type: String
   },
-  discount: [
+  discounts: [
     {
       name: {
         type: String
