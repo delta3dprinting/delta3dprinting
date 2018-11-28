@@ -1014,11 +1014,78 @@
 
       /* --------------------------------- DISCOUNTS ---------------------------------- */
 
-      let totalDiscountPercentage = 0;
-      let totalDiscountPrice;
+      let totalDiscountRate = 0;
+      let totalDiscountPrice = 0;
+
+      for (i = 0; i < order.discounts.length; i++) {
+        const minOrderValue = Number(order.discounts[i].minOrderValue);
+        let discountCalculation = "";
+        let discountPercentage = "";
+        let discountPrice = "";
+
+        if (minOrderValue != 0) {
+          if (minOrderValue > totalPreDiscountOrderPrice) {
+            continue;
+          }
+
+          discountCalculation =
+            "(" +
+            totalPreDiscountOrderPrice +
+            " - " +
+            minOrderValue +
+            ") x " +
+            order.discounts[i].rate;
+
+          discountPercentage = Number(order.discounts[i].rate) * 100 + "%";
+
+          discountPrice =
+            (Number(totalPreDiscountOrderPrice) - minOrderValue) *
+            Number(order.discounts[i].rate);
+        } else {
+          discountCalculation =
+            totalPreDiscountOrderPrice + " x " + order.discounts[i].rate;
+
+          discountPercentage = Number(order.discounts[i].rate) * 100 + "%";
+
+          discountPrice =
+            Number(totalPreDiscountOrderPrice) *
+            Number(order.discounts[i].rate);
+        }
+
+        orderDetailsTotalDiscount = totalDiscountPrice + discountPrice;
+        totalDiscountRate = totalDiscountRate + Number(order.discounts[i].rate);
+
+        // Create the Discount HTML
+        const orderDetailsOrderDiscountHTML =
+          "<div class='order_details_part_details_body'>" +
+          "<div class='order_details_pricing_discount_name_body'>" +
+          "<div class='order_details_pricing_discount_header'>Discount:</div>" +
+          "<div class='order_details_pricing_discount_content'>" +
+          discountCalculation +
+          "</div>" +
+          "</div>" +
+          "<div class='order_details_pricing_discount_percent_body'>" +
+          "<div class='order_details_pricing_discount_header'>Percent:</div>" +
+          "<div class='order_details_pricing_discount_content'>" +
+          discountPercentage +
+          "</div>" +
+          "</div>" +
+          "<div class='order_details_pricing_discount_value_body'>" +
+          "<div class='order_details_pricing_discount_header'>Value:</div>" +
+          "<div class='order_details_pricing_discount_content'>$" +
+          discountPrice +
+          "</div>" +
+          "</div>" +
+          "</div>";
+
+        // Insert Discount
+        document
+          .querySelector("#" + orderStatusId + "_order_options_details_body")
+          .insertAdjacentHTML("beforeend", orderDetailsOrderDiscountHTML);
+      }
 
       // Check if any discount is provided
-      if (totalDiscountPercentage) {
+      if (totalDiscountRate) {
         if (order.orderStatus === "Awaiting Quote") {
           totalDiscountPrice = "Pending";
         } else {
@@ -1039,9 +1106,7 @@
         "</div>" +
         "<div class='order_details_pricing_discount_percent_body'>" +
         "<div class='order_details_pricing_discount_header'>Percent:</div>" +
-        "<div class='order_details_pricing_discount_content'>" +
-        totalDiscountPercentage +
-        "</div>" +
+        "<div class='order_details_pricing_discount_content'></div>" +
         "</div>" +
         "<div class='order_details_pricing_discount_value_body'>" +
         "<div class='order_details_pricing_discount_header'>Value:</div>" +
@@ -1073,7 +1138,7 @@
       if (order.orderStatus === "Awaiting Quote") {
         postDiscountTotal = "Pending";
         preDiscountTotal = "Pending";
-        if (totalDiscountPercentage) {
+        if (totalDiscountRate) {
           totalDiscount = "Pending";
         } else {
           totalDiscount = "$0";
