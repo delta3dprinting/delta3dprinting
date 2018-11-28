@@ -2,11 +2,14 @@
 
 const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
+const moment = require("moment");
 
 /* ========================================= MODELS ========================================= */
 
 // Discount Model
 const Discount = require("../models/Discount");
+// Profile Model
+const UserProfile = require("../models/UserProfile");
 // Print Order Model
 const PrintOrder = require("../models/PrintOrder");
 
@@ -129,25 +132,44 @@ module.exports = (app, passport, conn) => {
   /* ==================================== GET DISCOUNTS ===================================== */
 
   // @route   POST /discounts/order
-  // @desc    Get Discounts
+  // @desc    Post Discounts
   // @access  Admin
   app.post("/discounts/order", restrictedPages, (req, res) => {
-    const user = req.user;
+    let profileObject = {};
+    let orderObjectArray = [];
     let discountObjectArray = [];
 
-    if (user.accountType === "normal") {
-      discountObjectArray.push(normalDiscount());
-    } else if (user.accountType === "partner") {
-      if (user.email === "") {
-        discountObjectArray.push(gettingLostDiscount(user._id));
-      } else {
-        discountObjectArray.push(partnerDiscount(user._id));
-      }
-    } else if (user.accountType === "student") {
-      discountObjectArray.push(studentDiscount());
-    }
+    UserProfile.find({ ownerId: req.user._id }, (err, profile) => {
+      if (err) console.log("error found when fetching profile");
 
-    return res.send(discountObjectArray);
+      if (!profile) console.log("no profile found");
+
+      profileObject = profile;
+
+      PrintOrder.find({ ownerId: req.user._id }, (err, orders) => {
+        if (err) console.log("error found when fetching orders");
+
+        if (!orders) console.log("no order found");
+
+        orderObjectArray = orders;
+
+        Discount.find({}, (err, discounts) => {
+          if (err) console.log("error found when fetching discounts");
+
+          if (!discounts) console.log("no discount found");
+
+          discountObjectArray = discounts;
+
+          getDiscounts(
+            res,
+            req.user,
+            profileObject,
+            orderObjectArray,
+            discountObjectArray
+          );
+        });
+      });
+    });
   });
 };
 
@@ -156,45 +178,84 @@ module.exports = (app, passport, conn) => {
 /* ------------------------------------ DISCOUNT OBJECT ------------------------------------- */
 
 class DiscountObject {
-  constructor(name, code, rate) {
+  constructor(
+    name,
+    code,
+    rate,
+    minOrderValue,
+    maxOrderValue,
+    startDate,
+    endDate
+  ) {
     this.name = name;
     this.code = code;
     this.rate = rate;
-    this.minOrderValue = this.minOrderValue;
-    this.maxOrderValue = this.maxOrderValue;
-    this.startDate = this.startDate;
-    this.endDate = this.endDate;
+    this.minOrderValue = minOrderValue;
+    this.maxOrderValue = maxOrderValue;
+    this.startDate = startDate;
+    this.endDate = endDate;
   }
 }
 
 /* ======================================== FUNCTION ======================================== */
 
+/* -------------------------------------- GET DISCOUNT -------------------------------------- */
+
+const getDiscountByDiscountCode = (discounts, discountCode) => {
+  const rawDiscount = discounts.find(
+    discount => discount.code === discountCode
+  );
+
+  discount = new DiscountObject(
+    rawDiscount.name,
+    rawDiscount.code,
+    rawDiscount.rate,
+    rawDiscount.minOrderValue,
+    rawDiscount.maxOrderValue,
+    rawDiscount.startDate,
+    rawDiscount.endDate
+  );
+
+  return discount;
+};
+
 /* ------------------------------------- GET DISCOUNTS -------------------------------------- */
 
-const getDiscount = code => {
-  Discount.findOne({ code }, (err, discount) => {
-    if (err) return "error when fetching a discount";
+const getDiscounts = (res, user, profile, orders, discounts) => {
+  let discountObjectArray = [];
 
-    if (!discount) return "no discount found";
+  if (user.accountType === "normal") {
+    discountObjectArray = [
+      ...discountObjectArray,
+      ...normalDiscount(discounts)
+    ];
+  } else if (user.accountType === "partner") {
+    if (user.email === "") {
+      discountObjectArray = [
+        ...discountObjectArray,
+        ...gettingLostDiscount(discounts, orders)
+      ];
+    } else {
+      discountObjectArray = [
+        ...discountObjectArray,
+        ...partnerDiscount(discounts, orders)
+      ];
+    }
+  } else if (user.accountType === "student") {
+    discountObjectArray = [...discountObjectArray, ...studentDiscount()];
+  }
 
-    return new DiscountObject(
-      discount.name,
-      discount.code,
-      discount.rate,
-      discount.minOrderValue,
-      discount.maxOrderValue,
-      discount.startDate,
-      discount.endDate
-    );
-  });
+  res.send(discountObjectArray);
 };
 
 /* --------------------------------- PERSONALISED DISCOUNTS --------------------------------- */
 
-const gettingLostDiscount = partnerId => {
+const gettingLostDiscount = (discounts, orders) => {
   let totalPartnerDiscountRate = 0;
-  const discountObjectArray = [...partnerDiscount(partnerId)];
-  const customDiscountObjectArray = [getDiscount("40%gettinglostdiscount")];
+  const discountObjectArray = [...partnerDiscount(discounts, orders)];
+  const customDiscountObjectArray = [
+    getDiscountByDiscountCode(discounts, "40%gettinglostdiscount")
+  ];
 
   discountObjectArray.forEach(discountObject => {
     const rate = Number(discountObject.rate);
@@ -211,73 +272,81 @@ const gettingLostDiscount = partnerId => {
 
 /* ------------------------------------ NORMAL DISCOUNTS ------------------------------------ */
 
-const normalDiscount = () => {
+const normalDiscount = discounts => {
   let discountObjectArray = [];
 
-  discountObjectArray.push(overHundredDollarDiscount());
+  discountObjectArray.push(overHundredDollarDiscount(discounts));
 
   return discountObjectArray;
 };
 
-const overHundredDollarDiscount = () => {
+const overHundredDollarDiscount = discounts => {
   const discountCode = "20%over$100discount";
 
-  return getDiscount(discountCode);
+  return getDiscountByDiscountCode(discounts, discountCode);
 };
 
 /* ----------------------------------- STUDENT DISCOUNTS ------------------------------------ */
 
-const studentDiscount = () => {
+const studentDiscount = discounts => {
   let discountObjectArray = [];
 
-  discountObjectArray.push(studentDefaultDiscount());
+  discountObjectArray.push(studentDefaultDiscount(discounts));
 
   return discountObjectArray;
 };
 
-const studentDefaultDiscount = () => {
+const studentDefaultDiscount = discounts => {
   const discountCode = "20%studentdiscount";
 
-  return getDiscount(discountCode);
+  return getDiscountByDiscountCode(discounts, discountCode);
 };
 
 /* ----------------------------------- PARTNER DISCOUNTS ------------------------------------ */
 
-const partnerDiscount = partnerId => {
+const partnerDiscount = (discounts, orders) => {
   let discountObjectArray = [];
 
-  discountObjectArray.push(partnerDefaultDiscount());
+  // Default 15% Partner Discount
+  discountObjectArray.push(partnerDefaultDiscount(discounts));
 
+  // Monthly Partner Discount
   const previousMonthCumulativeOrderValue = partnerPreviousMonthCumulativeOrderValue(
-    partnerId
+    orders
   );
 
   if (previousMonthCumulativeOrderValue >= 2000) {
     discountObjectArray.push(
-      partnerMonthlyDiscount(previousMonthCumulativeOrderValue)
+      partnerMonthlyDiscount(discounts, previousMonthCumulativeOrderValue)
     );
   }
 
+  // Weekly Partner Discount
   const previousWeekCumulativeOrderValue = partnerPreviousWeekCumulativeOrderValue(
-    partnerId
+    orders
   );
 
   if (previousWeekCumulativeOrderValue >= 1000) {
     discountObjectArray.push(
-      partnerWeeklyDiscount(previousWeekCumulativeOrderValue)
+      partnerWeeklyDiscount(discounts, previousWeekCumulativeOrderValue)
     );
   }
 
   return discountObjectArray;
 };
 
+// Default 15% Partner Discount
 const partnerDefaultDiscount = () => {
   const discountCode = "15%partnerdiscount";
 
-  return getDiscount(discountCode);
+  return getDiscountByDiscountCode(discounts, discountCode);
 };
 
-const partnerMonthlyDiscount = previousMonthCumulativeOrderValue => {
+// Monthly Partner Discount
+const partnerMonthlyDiscount = (
+  discounts,
+  previousMonthCumulativeOrderValue
+) => {
   let discountCode;
 
   if (
@@ -299,14 +368,44 @@ const partnerMonthlyDiscount = previousMonthCumulativeOrderValue => {
     discountCode = "20%partnermonthlydiscount";
   }
 
-  return getDiscount(discountCode);
+  return getDiscountByDiscountCode(discounts, discountCode);
+};
+// Calculate Previous Month's Cumulative Order Value
+const partnerPreviousMonthCumulativeOrderValue = orders => {
+  let previousMonthCumulativeOrderValue = 0;
+  const startDateOfPreviousMonth = moment()
+    .startOf("month")
+    .subtract(1, "days")
+    .startOf("month")._d;
+
+  const endDateOfPreviousMonth = moment()
+    .startOf("month")
+    .subtract(1, "days")._d;
+
+  for (i = 0; i < orders.length; i++) {
+    if (orders[i].orderStatus != "Order Completed") {
+      return;
+    }
+
+    if (
+      !isDateWithinRange(
+        orders[i].orderCompletionDate,
+        startDateOfPreviousMonth,
+        endDateOfPreviousMonth
+      )
+    ) {
+      return;
+    }
+
+    previousMonthCumulativeOrderValue =
+      previousMonthCumulativeOrderValue + Number(orders[i].price);
+  }
+
+  return previousMonthCumulativeOrderValue;
 };
 
-const partnerPreviousMonthCumulativeOrderValue = partnerId => {
-  return 2500;
-};
-
-const partnerWeeklyDiscount = previousWeekCumulativeOrderValue => {
+// Weekly Partner Discount
+const partnerWeeklyDiscount = (discounts, previousWeekCumulativeOrderValue) => {
   let discountCode;
 
   if (
@@ -318,11 +417,72 @@ const partnerWeeklyDiscount = previousWeekCumulativeOrderValue => {
     discountCode = "15%partnerweeklydiscount";
   }
 
-  return getDiscount(discountCode);
+  return getDiscountByDiscountCode(discounts, discountCode);
+};
+// Calculate Previous Week's Cumulative Order Value
+const partnerPreviousWeekCumulativeOrderValue = orders => {
+  let previousWeekCumulativeOrderValue = 0;
+  const startDateOfPreviousWeek = moment()
+    .subtract(7, "days")
+    .startOf("week")
+    .add(1, "days")._d;
+
+  const endDateOfPreviousWeek = moment().startOf("week")._d;
+
+  for (i = 0; i < orders.length; i++) {
+    if (orders[i].orderStatus != "Order Completed") {
+      return;
+    }
+
+    if (
+      !isDateWithinRange(
+        orders[i].orderCompletionDate,
+        startDateOfPreviousWeek,
+        endDateOfPreviousWeek
+      )
+    ) {
+      return;
+    }
+
+    previousWeekCumulativeOrderValue =
+      previousWeekCumulativeOrderValue + Number(orders[i].price);
+  }
+
+  return previousWeekCumulativeOrderValue;
 };
 
-const partnerPreviousWeekCumulativeOrderValue = partnerId => {
-  return 1500;
+/* ----------------------------- CHECK IF DATE IS WITHIN RANGE ------------------------------ */
+
+const isDateWithinRange = (date, startDate, endDate) => {
+  const dateObject = dateFormatter(date);
+  const momentDate = moment([
+    Number(dateObject.year),
+    Number(dateObject.month[1]),
+    Number(dateObject.date)
+  ]);
+  const startDateObject = dateFormatter(startDate);
+  const momentStartDate = moment([
+    Number(startDateObject.year),
+    Number(startDateObject.month[1]),
+    Number(startDateObject.date)
+  ]);
+  const endDateObject = dateFormatter(endDate);
+  const momentEndDate = moment([
+    Number(endDateObject.year),
+    Number(endDateObject.month[1]),
+    Number(endDateObject.date)
+  ]);
+
+  // Positive means date is over the start date
+  const startDateDifference = momentDate.diff(momentStartDate, "days");
+  // Positive means date is under the end date
+  const endDateDifference = momentEndDate.diff(momentDate, "days");
+
+  if (startDateDifference >= 0 && endDateDifference >= 0) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 /* -------------------------------- EVENT/HOLIDAY DISCOUNTS --------------------------------- */
@@ -377,6 +537,135 @@ const discountAttributeValidator = (
   } else {
     return true;
   }
+};
+
+/* ======================================== DATE OBJECT ========================================= */
+
+const dateFormatter = defaultDate => {
+  const defaultDateString = defaultDate + "";
+  const dateArray = defaultDateString.split(" ");
+  let day;
+  let month = [];
+  const date = dateArray[2];
+  const year = dateArray[3];
+  const timeArray = dateArray[4].split(":");
+  let hour = [];
+  const minute = timeArray[1];
+  const second = timeArray[2];
+  let period;
+
+  switch (dateArray[0]) {
+    case "Sun":
+      day = "Sunday";
+      break;
+    case "Mon":
+      day = "Monday";
+      break;
+    case "Tue":
+      day = "Tuesday";
+      break;
+    case "Wed":
+      day = "Wednesday";
+      break;
+    case "Thu":
+      day = "Thursday";
+      break;
+    case "Fri":
+      day = "Friday";
+      break;
+    case "Sat":
+      day = "Saturday";
+  }
+
+  switch (dateArray[1]) {
+    case "Jan":
+      month[0] = "January";
+      month[1] = "01";
+      break;
+    case "Feb":
+      month[0] = "February";
+      month[1] = "02";
+      break;
+    case "Mar":
+      month[0] = "March";
+      month[1] = "03";
+      break;
+    case "Apr":
+      month[0] = "April";
+      month[1] = "04";
+      break;
+    case "May":
+      month[0] = "May";
+      month[1] = "05";
+      break;
+    case "Jun":
+      month[0] = "June";
+      month[1] = "06";
+      break;
+    case "Jul":
+      month[0] = "July";
+      month[1] = "07";
+      break;
+    case "Aug":
+      month[0] = "August";
+      month[1] = "08";
+      break;
+    case "Sep":
+      month[0] = "September";
+      month[1] = "09";
+      break;
+    case "Oct":
+      month[0] = "October";
+      month[1] = "10";
+      break;
+    case "Nov":
+      month[0] = "November";
+      month[1] = "11";
+      break;
+    case "Dec":
+      month[0] = "December";
+      month[1] = "12";
+  }
+
+  if (timeArray[0] >= "12") {
+    if (timeArray[0] == "12") {
+      hour[0] = timeArray[0];
+    } else {
+      hour[0] = Number(timeArray[0]) - 12 + "";
+    }
+    period = "PM";
+  } else {
+    hour[0] = timeArray[0];
+    period = "AM";
+  }
+
+  hour[1] = timeArray[0];
+
+  const dateObject = {
+    day: day,
+    month: month,
+    date: date,
+    year: year,
+    hour: hour,
+    minute: minute,
+    second: second,
+    period: period,
+    fromNow: moment(
+      year +
+        "-" +
+        month[1] +
+        "-" +
+        date +
+        " " +
+        timeArray[0] +
+        ":" +
+        minute +
+        ":" +
+        second
+    ).fromNow()
+  };
+
+  return dateObject;
 };
 
 /* ======================================= MIDDLEWARE ======================================= */

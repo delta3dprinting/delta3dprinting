@@ -34,6 +34,31 @@ const PrintOrderSchema = new Schema({
   orderCompletionDate: {
     type: String
   },
+  discount: [
+    {
+      name: {
+        type: String
+      },
+      code: {
+        type: String
+      },
+      rate: {
+        type: String
+      },
+      minOrderValue: {
+        type: String
+      },
+      maxOrderValue: {
+        type: String
+      },
+      startDate: {
+        type: String
+      },
+      endDate: {
+        type: String
+      }
+    }
+  ],
   pickupBookingSchedule: {
     date: {
       type: String
