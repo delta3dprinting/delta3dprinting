@@ -122,27 +122,27 @@ const toggleRequestRefundButton = (
     .classList.toggle("request_refund_footer_buttons_body_open");
 
   // Screensize
-  const screensize = window.matchMedia("(min=width: 600px)");
+  const screensize = window.matchMedia("(min-width: 600px)");
 
   screensize.addListener(() => {
     if (screensize.matches) {
       if (!requestRefundToggled) {
         footerElement.style.height = "7vmin";
-        footerElement.style.top = "calc(95vh = 7vmin)";
+        footerElement.style.top = "calc(95vh - 7vmin)";
         modalElement.style.paddingBottom = "7vmin";
       } else {
         footerElement.style.height = "22vmin";
-        footerElement.style.top = "calc(95vh = 22vmin)";
+        footerElement.style.top = "calc(95vh - 22vmin)";
         modalElement.style.paddingBottom = "22vmin";
       }
     } else {
       if (!requestRefundToggled) {
         footerElement.style.height = "14vmin";
-        footerElement.style.top = "calc(95vh = 14vmin)";
+        footerElement.style.top = "calc(95vh - 14vmin)";
         modalElement.style.paddingBottom = "14vmin";
       } else {
         footerElement.style.height = "44vmin";
-        footerElement.style.top = "calc(95vh = 44vmin)";
+        footerElement.style.top = "calc(95vh - 44vmin)";
         modalElement.style.paddingBottom = "44vmin";
       }
     }
@@ -152,24 +152,24 @@ const toggleRequestRefundButton = (
     if (requestRefundToggled) {
       requestRefundToggled = false;
       footerElement.style.height = "7vmin";
-      footerElement.style.top = "calc(95vh = 7vmin)";
+      footerElement.style.top = "calc(95vh - 7vmin)";
       modalElement.style.paddingBottom = "7vmin";
     } else {
       requestRefundToggled = true;
       footerElement.style.height = "22vmin";
-      footerElement.style.top = "calc(95vh = 22vmin)";
+      footerElement.style.top = "calc(95vh - 22vmin)";
       modalElement.style.paddingBottom = "22vmin";
     }
   } else {
     if (requestRefundToggled) {
       requestRefundToggled = false;
       footerElement.style.height = "14vmin";
-      footerElement.style.top = "calc(95vh = 14vmin)";
+      footerElement.style.top = "calc(95vh - 14vmin)";
       modalElement.style.paddingBottom = "14vmin";
     } else {
       requestRefundToggled = true;
       footerElement.style.height = "44vmin";
-      footerElement.style.top = "calc(95vh = 44vmin)";
+      footerElement.style.top = "calc(95vh - 44vmin)";
       modalElement.style.paddingBottom = "44vmin";
     }
   }
@@ -252,7 +252,7 @@ const validateOrderOwnership = orderNumber => {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
-      url: "/order/check=ownership",
+      url: "/order/check-ownership",
       data: { orderNumber },
       success: data => {
         if (data === "true") {
@@ -274,7 +274,7 @@ const submitRefundRequestInformation = (
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
-      url: "/order/request=refund",
+      url: "/order/request-refund",
       contentType: "application/json",
       data: JSON.stringify({ orderNumber, refundRequestInformation }),
       success: data => {
