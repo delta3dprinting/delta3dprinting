@@ -27,7 +27,7 @@ const profileDrawerToggle = () => {
 /* ================================== PROFILE DRAWER CONTENTS =================================== */
 
 const addProfileDrawerContents = () => {
-  loginStatus
+  loginStatus()
     .then(res => {
       addProfileDrawerUserContents();
     })
