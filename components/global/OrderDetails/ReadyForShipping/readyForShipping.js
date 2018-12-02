@@ -46,6 +46,12 @@ const constructOrderDetailsReadyForShippingModal = orderStatusId => {
     orderDetailsReadyForShippingModalElementObject,
     orderDetailsReadyForShippingModalCSSObject
   );
+
+  /* ------------------------------------ ADD REQUEST REFUND ------------------------------------ */
+
+  const orderNumber = order.orderNumber;
+
+  orderDetailsRequestRefundInit(orderNumber, orderStatusId);
 };
 
 /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */

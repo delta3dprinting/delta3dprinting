@@ -1,0 +1,113 @@
+.order_details_request_refund_input_field {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 4vmin;
+}
+
+.order_details_request_refund_input_header_body {
+  width: 30%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 2vmin;
+}
+
+.order_details_request_refund_input_header {
+  font-family: "Chivo", sans-serif;
+  font-size: 3.6vmin;
+  font-weight: bold;
+  color: rgb(170, 10, 10);
+}
+
+.order_details_request_refund_input_body {
+  width: 70%;
+  display: flex;
+  padding: 2vmin;
+}
+
+.order_details_request_refund_input_textarea {
+  height: 18vmin;
+  width: 100%;
+  overflow: hidden;
+  padding: 0.5vmin;
+  background-color: rgb(255, 250, 250);
+  border: solid;
+  border-color: rgb(180, 180, 180);
+  border-radius: 0.7vmin;
+  border-width: 0.35vmin;
+  box-shadow: 0 0 1vmin 0.05vmin rgb(200, 200, 200);
+  color: rgb(120, 120, 120);
+  font-family: "Open Sans", sans-serif;
+  font-size: 3.5vmin;
+  font-weight: 700;
+}
+
+.order_details_request_refund_error_body {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 2vmin;
+}
+
+.order_details_request_refund_error {
+  font-family: "Chivo", sans-serif;
+  font-size: 2.4vmin;
+  color: rgb(200, 10, 10);
+}
+
+.request_refund_footer_buttons_body_close {
+  height: 0;
+  opacity: 0;
+  z-index: 0;
+}
+
+.request_refund_footer_buttons_body_open {
+  height: 44vmin;
+  opacity: 1;
+  z-index: 1;
+}
+
+#order_details_request_refund_form_body {
+  height: 30vmin;
+  width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+  .order_details_request_refund_input_field {
+    padding: 2vmin;
+  }
+
+  .order_details_request_refund_input_header_body {
+    padding: 1vmin;
+  }
+
+  .order_details_request_refund_input_header {
+    font-size: 1.8vmin;
+  }
+
+  .order_details_request_refund_input_body {
+    padding: 1vmin;
+  }
+
+  .order_details_request_refund_input_textarea {
+    height: 9vmin;
+    padding: 0.25vmin;
+    border-radius: 0.35vmin;
+    border-width: 0.175vmin;
+    box-shadow: 0 0 0.5vmin 0.025vmin rgb(200, 200, 200);
+    font-size: 1.75vmin;
+  }
+
+  .order_details_request_refund_error_body {
+    padding: 0 1vmin;
+  }
+
+  .order_details_request_refund_error {
+    font-size: 1.2vmin;
+  }
+
+  #order_details_request_refund_form_body {
+    height: 15vmin;
+  }
+}

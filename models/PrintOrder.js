@@ -127,6 +127,11 @@ const PrintOrderSchema = new Schema({
       }
     }
   ],
+  requestRefundInformation: {
+    reason: {
+      type: String
+    }
+  },
   pricing: {
     type: String
   },

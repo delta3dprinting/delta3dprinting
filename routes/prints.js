@@ -15,57 +15,35 @@ module.exports = (app, passport, upload, conn) => {
     gfs.collection("fs");
   });
 
-  /* ======================================== FOR TESTING ========================================= */
+  /* ====================================== CHECK OWNERSHIP ======================================= */
 
-  // @route   GET /test/payment-confirmation-date
-  // @desc    Set the Order's Payment Confirmation Date for Testing
+  // @route   POST /order/check-ownership
+  // @desc    Check if User is the Owner of the Order
   // @access  Private
-  app.post("/test/payment-confirmation-date", restrictedPages, (req, res) => {
-    PrintOrder.findOneAndUpdate(
-      {
-        orderNumber: req.body.orderNumber
-      },
-      { $set: { paymentConfirmationDate: new Date() } },
-      (err, order) => {
-        if (err) return res.send("failed");
-
-        res.send("success");
+  app.post("/order/check-ownership", restrictedPages, (req, res) => {
+    const orderNumber = req.body.orderNumber;
+    const userId = req.user._id + "";
+    PrintOrder.findOne({ orderNumber }, (err, order) => {
+      if (err) {
+        console.log("error when fetching an order");
+        return res.send("false");
       }
-    );
-  });
 
-  // @route   GET /test/order-delivery-date
-  // @desc    Set the Order's Delivery Date for Testing
-  // @access  Private
-  app.post("/test/order-delivery-date", restrictedPages, (req, res) => {
-    PrintOrder.findOneAndUpdate(
-      {
-        orderNumber: req.body.orderNumber
-      },
-      { $set: { orderDeliveryDate: new Date() } },
-      (err, order) => {
-        if (err) return res.send("failed");
-
-        res.send("success");
+      if (!order) {
+        console.log("no order found");
+        return res.send("false");
       }
-    );
-  });
 
-  // @route   GET /test/order-completion-date
-  // @desc    Set the Order's Completion Date for Testing
-  // @access  Private
-  app.post("/test/order-completion-date", restrictedPages, (req, res) => {
-    PrintOrder.findOneAndUpdate(
-      {
-        orderNumber: req.body.orderNumber
-      },
-      { $set: { orderCompletionDate: new Date() } },
-      (err, order) => {
-        if (err) return res.send("failed");
+      ownerId = order.ownerId + "";
 
-        res.send("success");
+      if (ownerId === userId) {
+        console.log("success");
+        return res.send("true");
+      } else {
+        console.log("not owner");
+        return res.send("failed");
       }
-    );
+    });
   });
 
   /* =============================== 3D PRINT ORDERS RELATED ROUTES =============================== */
@@ -347,6 +325,42 @@ module.exports = (app, passport, upload, conn) => {
       console.log("Order status could not be identified");
       res.send("failed");
     }
+  });
+
+  /* ========================================== REFUND ========================================== */
+
+  // @route   POST /order/request-refund
+  // @desc    Request Refund
+  // @access  Private
+  app.post("/order/request-refund", restrictedPages, (req, res) => {
+    const orderNumber = req.body.orderNumber;
+    const ownerId = req.user._id;
+    const reason = req.body.refundRequestInformation.reason;
+
+    PrintOrder.findOneAndUpdate(
+      { orderNumber, ownerId },
+      {
+        $set: {
+          orderStatus: "Requesting Refund",
+          "requestRefundInformation.reason": reason,
+          lastUpdateDate: new Date()
+        }
+      },
+      (err, order) => {
+        if (err) {
+          console.log("error when fetching an order");
+          return res.send("false");
+        }
+
+        if (!order) {
+          console.log("no order found");
+          return res.send("false");
+        }
+
+        console.log(order);
+        res.send("success");
+      }
+    );
   });
 
   /* ==================================== ADMIN: ORDER LIST ===================================== */

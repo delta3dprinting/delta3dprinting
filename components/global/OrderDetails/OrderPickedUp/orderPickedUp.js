@@ -74,6 +74,12 @@ const constructOrderDetailsOrderPickedUpModal = (order, orderStatusId) => {
     .addEventListener("click", () => {
       orderPickedUpCompleteOrderConfirm(order, orderStatusId);
     });
+
+  /* ------------------------------------ ADD REQUEST REFUND ------------------------------------ */
+
+  const orderNumber = order.orderNumber;
+
+  orderDetailsRequestRefundInit(orderNumber, orderStatusId);
 };
 
 /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */

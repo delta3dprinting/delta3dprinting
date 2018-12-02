@@ -21,9 +21,11 @@ const constructOrderDetailsAwaitingPaymentConfirmationModal = (
   // ELEMENTS
   const orderDetailsAwaitingPaymentConfirmationModalHeader = orderDetailsModalHeader;
   const orderDetailsAwaitingPaymentConfirmationModalFooter =
-    "<div class='order_details_footer_buttons_body'>" +
-    "<div class='order_details_footer_button'>" +
+    "<div id='awaiting_payment_confirmation_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
+    "<div class='order_details_footer_button_body'>" +
+    "<div id='awaiting_payment_confirmation_request_refund_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Request Refund</div>" +
+    "</div>" +
     "</div>" +
     "</div>";
   const orderDetailsAwaitingPaymentConfirmationModalElementObject = new modalElementObject(
@@ -49,6 +51,12 @@ const constructOrderDetailsAwaitingPaymentConfirmationModal = (
     orderDetailsAwaitingPaymentConfirmationModalElementObject,
     orderDetailsAwaitingPaymentConfirmationModalCSSObject
   );
+
+  /* ------------------------------------ ADD REQUEST REFUND ------------------------------------ */
+
+  const orderNumber = order.orderNumber;
+
+  orderDetailsRequestRefundInit(orderNumber, orderStatusId);
 };
 
 /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */

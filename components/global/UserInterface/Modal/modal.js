@@ -231,6 +231,3 @@ const modalScreensizeCSS = (id, cssObject, screensize) => {
     modalFooterContentsElement.style.opacity = "1";
   }
 };
-
-/* OPTIMISATION NOTES */
-// Optimise Screensize CSS

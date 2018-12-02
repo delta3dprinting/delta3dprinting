@@ -46,6 +46,12 @@ const constructOrderDetailsPrintingOrderModal = (order, orderStatusId) => {
     orderDetailsPrintingOrderModalElementObject,
     orderDetailsPrintingOrderModalCSSObject
   );
+
+  /* ------------------------------------ ADD REQUEST REFUND ------------------------------------ */
+
+  const orderNumber = order.orderNumber;
+
+  orderDetailsRequestRefundInit(orderNumber, orderStatusId);
 };
 
 /* ========================== CONSTRUCT ORDER STATUS DESCRIPTION BODY =========================== */
