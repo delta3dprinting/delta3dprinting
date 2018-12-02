@@ -18,9 +18,11 @@ const constructOrderDetailsPrintingOrderModal = (order, orderStatusId) => {
   // ELEMENTS
   const orderDetailsPrintingOrderModalHeader = orderDetailsModalHeader;
   const orderDetailsPrintingOrderModalFooter =
-    "<div class='order_details_footer_buttons_body'>" +
-    "<div class='order_details_footer_button'>" +
+    "<div id='printing_order_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
+    "<div class='order_details_footer_button_body'>" +
+    "<div id='printing_order_request_refund_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Request Refund</div>" +
+    "</div>" +
     "</div>" +
     "</div>";
   const orderDetailsPrintingOrderModalElementObject = new modalElementObject(

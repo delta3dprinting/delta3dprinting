@@ -18,9 +18,11 @@ const constructOrderDetailsReadyForShippingModal = orderStatusId => {
   // ELEMENTS
   const orderDetailsReadyForShippingModalHeader = orderDetailsModalHeader;
   const orderDetailsReadyForShippingModalFooter =
-    "<div class='order_details_footer_buttons_body'>" +
-    "<div class='order_details_footer_button'>" +
+    "<div id='ready_for_shipping_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
+    "<div class='order_details_footer_button_body'>" +
+    "<div id='ready_for_shipping_request_refund_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Request Refund</div>" +
+    "</div>" +
     "</div>" +
     "</div>";
   const orderDetailsReadyForShippingModalElementObject = new modalElementObject(

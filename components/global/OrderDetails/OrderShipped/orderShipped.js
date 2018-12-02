@@ -19,19 +19,27 @@ const constructOrderDetailsOrderShippedModal = orderStatusId => {
   const orderDetailsOrderShippedModalHeader = orderDetailsModalHeader;
   const orderDetailsOrderShippedModalFooter =
     "<div id='order_shipped_footer_buttons_body' class='order_details_footer_buttons_body order_shipped_footer_buttons_body_close order_shipped_footer_buttons_body_open'>" +
+    "<div class='order_details_footer_button_body'>" +
     "<div id='order_shipped_complete_order_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Complete Order</div>" +
     "</div>" +
-    "<div class='order_details_footer_button'>" +
+    "</div>" +
+    "<div class='order_details_footer_button_body'>" +
+    "<div id='order_shipped_request_refund_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Request Refund</div>" +
     "</div>" +
     "</div>" +
+    "</div>" +
     "<div id='order_shipped_complete_order_footer_buttons_body' class='order_details_footer_buttons_body order_shipped_footer_buttons_body_close'>" +
+    "<div class='order_details_footer_button_body'>" +
     "<div id='order_shipped_order_completed_confirm_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Confirm</div>" +
     "</div>" +
+    "</div>" +
+    "<div class='order_details_footer_button_body'>" +
     "<div id='order_shipped_cancel_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Cancel</div>" +
+    "</div>" +
     "</div>" +
     "</div>";
   const orderDetailsOrderShippedModalElementObject = new modalElementObject(
