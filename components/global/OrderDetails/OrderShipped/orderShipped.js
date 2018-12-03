@@ -2,7 +2,7 @@
 
 const orderShippedInit = order => {
   const orderStatusId = constructOrderStatusId(order.orderStatus);
-  constructOrderDetailsOrderShippedModal(orderStatusId);
+  constructOrderDetailsOrderShippedModal(order, orderStatusId);
   constructHTMLStructure(orderStatusId);
   orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
   orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
@@ -14,7 +14,7 @@ const orderShippedInit = order => {
 
 /* =========================================== MODAL ============================================ */
 
-const constructOrderDetailsOrderShippedModal = orderStatusId => {
+const constructOrderDetailsOrderShippedModal = (order, orderStatusId) => {
   // ELEMENTS
   const orderDetailsOrderShippedModalHeader = orderDetailsModalHeader;
   const orderDetailsOrderShippedModalFooter =

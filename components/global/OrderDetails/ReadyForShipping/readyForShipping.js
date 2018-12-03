@@ -2,7 +2,7 @@
 
 const readyForShippingInit = order => {
   const orderStatusId = constructOrderStatusId(order.orderStatus);
-  constructOrderDetailsReadyForShippingModal(orderStatusId);
+  constructOrderDetailsReadyForShippingModal(order, orderStatusId);
   constructHTMLStructure(orderStatusId);
   orderStatusDescriptionBodyTabs(orderStatusId, order.delivery);
   orderStatusDescriptionBodyHeader(order.orderStatus, orderStatusId);
@@ -14,7 +14,7 @@ const readyForShippingInit = order => {
 
 /* =========================================== MODAL ============================================ */
 
-const constructOrderDetailsReadyForShippingModal = orderStatusId => {
+const constructOrderDetailsReadyForShippingModal = (order, orderStatusId) => {
   // ELEMENTS
   const orderDetailsReadyForShippingModalHeader = orderDetailsModalHeader;
   const orderDetailsReadyForShippingModalFooter =
