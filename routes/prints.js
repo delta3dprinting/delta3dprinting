@@ -336,6 +336,7 @@ module.exports = (app, passport, upload, conn) => {
     const orderNumber = req.body.orderNumber;
     const ownerId = req.user._id;
     const reason = req.body.refundRequestInformation.reason;
+    const bankDetails = req.body.refundRequestInformation.bankDetails;
 
     PrintOrder.findOneAndUpdate(
       { orderNumber, ownerId },
@@ -343,6 +344,14 @@ module.exports = (app, passport, upload, conn) => {
         $set: {
           orderStatus: "Requesting Refund",
           "requestRefundInformation.reason": reason,
+          "requestRefundInformation.bankDetails.bankNumber":
+            bankDetails.bankNumber,
+          "requestRefundInformation.bankDetails.branchNumber":
+            bankDetails.branchNumber,
+          "requestRefundInformation.bankDetails.accountNumber":
+            bankDetails.accountNumber,
+          "requestRefundInformation.bankDetails.suffixNumber":
+            bankDetails.suffixNumber,
           lastUpdateDate: new Date()
         }
       },

@@ -18,7 +18,7 @@ const constructOrderDetailsReadyForPickupModal = (order, orderStatusId) => {
   // ELEMENTS
   const orderDetailsReadyForPickupModalHeader = orderDetailsModalHeader;
   const orderDetailsReadyForPickupModalFooter =
-    "<div id='ready_for_pickup_footer_buttons_body' class='order_details_footer_buttons_body ready_for_pickup_footer_buttons_body_close ready_for_pickup_footer_buttons_body_open'>" +
+    "<div id='ready_for_pickup_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
     "<div class='order_details_footer_button_body'>" +
     "<div id='ready_for_pickup_complete_order_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Picked Up</div>" +

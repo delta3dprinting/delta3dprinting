@@ -130,6 +130,20 @@ const PrintOrderSchema = new Schema({
   requestRefundInformation: {
     reason: {
       type: String
+    },
+    bankDetails: {
+      bankNumber: {
+        type: String
+      },
+      branchNumber: {
+        type: String
+      },
+      accountNumber: {
+        type: String
+      },
+      suffixNumber: {
+        type: String
+      }
     }
   },
   pricing: {

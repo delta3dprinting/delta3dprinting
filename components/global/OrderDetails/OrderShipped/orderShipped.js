@@ -18,7 +18,7 @@ const constructOrderDetailsOrderShippedModal = orderStatusId => {
   // ELEMENTS
   const orderDetailsOrderShippedModalHeader = orderDetailsModalHeader;
   const orderDetailsOrderShippedModalFooter =
-    "<div id='order_shipped_footer_buttons_body' class='order_details_footer_buttons_body order_shipped_footer_buttons_body_close order_shipped_footer_buttons_body_open'>" +
+    "<div id='order_shipped_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
     "<div class='order_details_footer_button_body'>" +
     "<div id='order_shipped_complete_order_footer_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Complete Order</div>" +
