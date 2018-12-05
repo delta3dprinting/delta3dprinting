@@ -371,8 +371,7 @@ module.exports = (app, passport, upload, conn) => {
           return res.send("false");
         }
 
-        console.log(order);
-        res.send(order.orderNumber);
+        res.send(order.orderNumber + "");
       });
     });
   });

@@ -146,6 +146,10 @@
   color: rgb(80, 80, 80);
 }
 
+.order_status_description_sub_details_body {
+  padding: 0 6vmin;
+}
+
 /* ATTACHMENT */
 
 .order_details_attachments_header {
@@ -225,6 +229,10 @@
 
   .order_status_description_details_text {
     font-size: 1.75vmin;
+  }
+
+  .order_status_description_sub_details_body {
+    padding: 0 3vmin;
   }
 
   /* ATTACHMENT */
