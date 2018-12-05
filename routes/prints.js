@@ -501,6 +501,21 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
+  // @route   GET /admin/orders/requesting-refund
+  // @desc
+  // @access  Admin
+  app.get(
+    "/admin/orders/requesting-refund",
+    adminRestrictedPages,
+    (req, res) => {
+      PrintOrder.find({ orderStatus: "Requesting Refund" }, (err, orders) => {
+        if (err) throw err;
+
+        res.send(orders);
+      });
+    }
+  );
+
   // @route   GET /admin/orders
   // @desc
   // @access  Admin

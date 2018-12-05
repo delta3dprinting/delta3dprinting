@@ -61,6 +61,12 @@ const constructAdminProfileOrdersPrintsBaseHTML = () => {
     "</div>" +
     "<div class='admin_profile_orders_prints_order_list_body'>" +
     "<div class='admin_profile_orders_prints_order_list_header_body'>" +
+    "<div class='admin_profile_orders_prints_order_list_header_text'>Requesting Refund</div>" +
+    "</div>" +
+    "<div id='admin_profile_orders_prints_requesting_refund_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
+    "</div>" +
+    "<div class='admin_profile_orders_prints_order_list_body'>" +
+    "<div class='admin_profile_orders_prints_order_list_header_body'>" +
     "<div class='admin_profile_orders_prints_order_list_header_text'>Orders</div>" +
     "</div>" +
     "<div id='admin_profile_orders_prints_orders_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
@@ -80,6 +86,7 @@ const adminPorfileOrdersOrderStatusIdsArray = [
   "printing_order",
   "ready_for_pickup",
   "ready_for_shipping",
+  "requesting_refund",
   "orders"
 ];
 
@@ -107,6 +114,9 @@ const loadAdminProfileOrdersPrintsOrderList = () => {
           break;
         case "ready_for_shipping":
           url = "/admin/orders/ready-for-shipping";
+          break;
+        case "requesting_refund":
+          url = "/admin/orders/requesting-refund";
           break;
         case "orders":
           url = "/admin/orders";

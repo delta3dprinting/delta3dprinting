@@ -24,6 +24,8 @@ const viewAdminProfileOrdersPrintsOrderDetails = orderNumber => {
         orderShippedInit(data);
       } else if (data.orderStatus == "Order Completed") {
         adminOrderCompletedInit(data);
+      } else if (data.orderStatus == "Requesting Refund") {
+        adminRequestingRefundInit(data);
       } else {
         console.log("Couldn't Determine Order Status");
       }
