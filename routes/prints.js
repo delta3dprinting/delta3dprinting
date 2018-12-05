@@ -338,38 +338,85 @@ module.exports = (app, passport, upload, conn) => {
     const reason = req.body.refundRequestInformation.reason;
     const bankDetails = req.body.refundRequestInformation.bankDetails;
 
-    PrintOrder.findOneAndUpdate(
-      { orderNumber, ownerId },
-      {
-        $set: {
-          orderStatus: "Requesting Refund",
-          "requestRefundInformation.reason": reason,
-          "requestRefundInformation.bankDetails.bankNumber":
-            bankDetails.bankNumber,
-          "requestRefundInformation.bankDetails.branchNumber":
-            bankDetails.branchNumber,
-          "requestRefundInformation.bankDetails.accountNumber":
-            bankDetails.accountNumber,
-          "requestRefundInformation.bankDetails.suffixNumber":
-            bankDetails.suffixNumber,
-          lastUpdateDate: new Date()
-        }
-      },
-      (err, order) => {
-        if (err) {
-          console.log("error when fetching an order");
-          return res.send("false");
-        }
+    PrintOrder.findOne({ orderNumber, ownerId }, (err, order) => {
+      if (err) {
+        console.log("error when fetching an order");
+        return res.send("false");
+      }
 
-        if (!order) {
-          console.log("no order found");
+      if (!order) {
+        console.log("no order found");
+        return res.send("false");
+      }
+
+      const oldOrderStatus = order.orderStatus;
+      const newOrderStatus = "Requesting Refund";
+
+      order.orderStatus = newOrderStatus;
+      order.requestRefundInformation.reason = reason;
+      order.requestRefundInformation.bankDetails.bankNumber =
+        bankDetails.bankNumber;
+      order.requestRefundInformation.bankDetails.branchNumber =
+        bankDetails.branchNumber;
+      order.requestRefundInformation.bankDetails.accountNumber =
+        bankDetails.accountNumber;
+      order.requestRefundInformation.bankDetails.suffixNumber =
+        bankDetails.suffixNumber;
+      order.requestRefundInformation.oldOrderStatus = oldOrderStatus;
+      order.lastUpdateDate = new Date();
+
+      order.save((err, order) => {
+        if (err) {
+          console.log("error when saving order");
           return res.send("false");
         }
 
         console.log(order);
-        res.send("success");
+        res.send(order.orderNumber);
+      });
+    });
+  });
+
+  // @route   POST /order/cancel-refund
+  // @desc    Cancel Refund
+  // @access  Private
+  app.post("/order/cancel-refund", restrictedPages, (req, res) => {
+    const orderNumber = req.body.orderNumber;
+    const ownerId = req.user._id;
+
+    PrintOrder.findOne({ orderNumber, ownerId }, (err, order) => {
+      if (err) {
+        console.log("error when fetching an order");
+        return res.send("failed");
       }
-    );
+
+      if (!order) {
+        console.log("no order found");
+        return res.send("failed");
+      }
+
+      req.body = order;
+
+      const preRefundOrderStatus =
+        order.requestRefundInformation.oldOrderStatus;
+
+      if (preRefundOrderStatus == "Awaiting Payment Confirmation") {
+        updateOrderStatusAwaitingPayment(req, res);
+      } else if (preRefundOrderStatus == "Printing Order") {
+        updateOrderStatusAwaitingPaymentConfirmation(req, res);
+      } else if (preRefundOrderStatus == "Ready for Pickup") {
+        updateOrderStatusPrintingOrder(req, res);
+      } else if (preRefundOrderStatus == "Order Picked Up") {
+        updateOrderStatusReadyForPickup(req, res);
+      } else if (preRefundOrderStatus == "Ready for Shipping") {
+        updateOrderStatusPrintingOrder(req, res);
+      } else if (preRefundOrderStatus == "Order Shipped") {
+        updateOrderStatusReadyForShipping(req, res);
+      } else {
+        console.log("Order status could not be identified");
+        res.send("failed");
+      }
+    });
   });
 
   /* ==================================== ADMIN: ORDER LIST ===================================== */

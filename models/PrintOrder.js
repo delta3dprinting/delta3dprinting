@@ -144,6 +144,12 @@ const PrintOrderSchema = new Schema({
       suffixNumber: {
         type: String
       }
+    },
+    oldOrderStatus: {
+      type: String
+    },
+    refundStatus: {
+      type: String
     }
   },
   pricing: {

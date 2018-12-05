@@ -75,7 +75,7 @@ const addOrderDetailsRequestRefundButtonClickListener = (
   document
     .querySelector("#request_refund_send_request_footer_button")
     .addEventListener("click", () => {
-      submitRefundRequest(orderNumber);
+      submitRefundRequest(orderStatusId, orderNumber);
     });
 };
 
@@ -198,7 +198,7 @@ const toggleRequestRefundButton = (
 
 /* =================================== SUBMIT REFUND REQUEST ==================================== */
 
-const submitRefundRequest = orderNumber => {
+const submitRefundRequest = (orderStatusId, orderNumber) => {
   // Validate Input
   validateRefundRequestInputs()
     .then(() => {
@@ -207,9 +207,12 @@ const submitRefundRequest = orderNumber => {
         .then(() => {
           collectRefundRequestInformation().then(refundRequestInformation => {
             submitRefundRequestInformation(
+              orderStatusId,
               orderNumber,
               refundRequestInformation
-            );
+            ).then(orderNumber => {
+              viewOrderDetails(orderNumber);
+            });
           });
         })
         .catch(() => {
@@ -425,6 +428,7 @@ const validateOrderOwnership = orderNumber => {
 /* ============================= SUBMIT REFUND REQUEST INFORMATION ============================== */
 
 const submitRefundRequestInformation = (
+  orderStatusId,
   orderNumber,
   refundRequestInformation
 ) => {
@@ -435,7 +439,11 @@ const submitRefundRequestInformation = (
       contentType: "application/json",
       data: JSON.stringify({ orderNumber, refundRequestInformation }),
       success: data => {
-        console.log(data);
+        removeBackdrop(orderStatusId);
+        removeModal(orderStatusId);
+        setTimeout(() => {
+          resolve(data);
+        }, 500);
       }
     });
   });
