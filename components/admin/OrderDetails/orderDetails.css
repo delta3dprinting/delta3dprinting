@@ -14,6 +14,22 @@
 
 .admin_order_details_footer_buttons_body_close {
   height: 0;
+  opacity: 0;
+  z-index: 0;
+}
+
+.admin_order_details_footer_buttons_body_open {
+  height: 14vmin;
+  opacity: 1;
+  z-index: 1;
+}
+
+.admin_order_details_footer_button_body {
+  height: 14vmin;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .admin_order_details_footer_button {
@@ -95,6 +111,10 @@
 
 @media only screen and (min-width: 600px) {
   /* ---------------------------------------- MODAL FOOTER ---------------------------------------- */
+
+  .admin_order_details_footer_button_body {
+    height: 7vmin;
+  }
 
   .admin_order_details_footer_button {
     height: 5vmin;

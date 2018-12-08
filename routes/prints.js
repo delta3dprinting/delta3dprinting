@@ -418,6 +418,82 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
+  /* ====================================== ADMIN: REFUND ======================================= */
+
+  /* -------------------------------------- APPROVE REFUND -------------------------------------- */
+
+  // @route   POST /admin/order/approve-refund
+  // @desc    Approve Refund Request
+  // @access  Admin
+  app.post("/admin/order/approve-refund", adminRestrictedPages, (req, res) => {
+    const order = req.body.order;
+    const orderNumber = order.orderNumber;
+
+    PrintOrder.findOneAndUpdate(
+      { orderNumber },
+      {
+        $set: {
+          orderStatus: "Refund Approved",
+          "requestRefundInformation.refundStatus": "approved",
+          "requestRefundInformation.processDate": new Date(),
+          lastUpdateDate: new Date()
+        }
+      },
+      (err, order) => {
+        if (err) {
+          console.log("error when fetching an order");
+          return res.send("failed");
+        }
+
+        if (!order) {
+          console.log("no order found");
+          return res.send("failed");
+        }
+
+        console.log("successfully updated the order");
+        res.send("success");
+      }
+    );
+  });
+
+  /* -------------------------------------- DELCINE REFUND -------------------------------------- */
+
+  // @route   POST /admin/order/decline-refund
+  // @desc    Decline Refund Request
+  // @access  Admin
+  app.post("/admin/order/decline-refund", adminRestrictedPages, (req, res) => {
+    const order = req.body.order;
+    const orderNumber = order.orderNumber;
+    const reasonForDecline = req.body.declineInput.reasonForDecline;
+
+    PrintOrder.findOneAndUpdate(
+      { orderNumber },
+      {
+        $set: {
+          orderStatus: "Refund Declined",
+          "requestRefundInformation.refundStatus": "declined",
+          "requestRefundInformation.processDate": new Date(),
+          "requestRefundInformation.declineMessage": reasonForDecline,
+          lastUpdateDate: new Date()
+        }
+      },
+      (err, order) => {
+        if (err) {
+          console.log("error when fetching an order");
+          return res.send("failed");
+        }
+
+        if (!order) {
+          console.log("no order found");
+          return res.send("failed");
+        }
+
+        console.log("successfully updated the order");
+        res.send("success");
+      }
+    );
+  });
+
   /* ==================================== ADMIN: ORDER LIST ===================================== */
 
   // @route   POST /admin/order

@@ -26,6 +26,12 @@ const viewOrderDetails = orderNumber => {
         orderCompletedInit(data);
       } else if (data.orderStatus == "Requesting Refund") {
         requestingRefundInit(data);
+      } else if (data.orderStatus == "Refund Approved") {
+        refundApprovedInit(data);
+      } else if (data.orderStatus == "Refund Declined") {
+        refundDeclinedInit(data);
+      } else if (data.orderStatus == "Refund Processed") {
+        refundProcessedInit(data);
       } else {
         console.log("Couldn't Determine Order Status");
       }

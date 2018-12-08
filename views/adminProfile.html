@@ -41,6 +41,8 @@
     <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/dateFormatter.js"></script>
     <!-- DATE -->
     <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/date.js"></script>
+    <!-- DISPLAY MESSAGE -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/displayMessage.js"></script>
     <!--
       --------------------------------------------- NAVIGATION ---------------------------------------------
     -->
@@ -311,9 +313,7 @@
     <!--
       ----------------------------------------------- PRINTS -----------------------------------------------
     -->
-    <!--
-      <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/Profile/Orders/Prints/prints.js"></script>
-    -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/Profile/Orders/Prints/prints.js"></script>
     <link
       rel="stylesheet"
       href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/Profile/Orders/Prints/prints.css"
@@ -331,9 +331,7 @@
     <!--
       ======================================== ADMIN: ORDER DETAILS ========================================
     -->
-    <!--
-      <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/OrderDetails/orderDetails.js"></script>
-    -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/OrderDetails/orderDetails.js"></script>
     <link
       rel="stylesheet"
       href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/OrderDetails/orderDetails.css"
@@ -369,6 +367,12 @@
     <link
       rel="stylesheet"
       href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/OrderDetails/ReadyForShipping/readyForShipping.css"
+    />
+    <!-- ------------------------ REQUESTING REFUND ------------------------ -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/OrderDetails/RequestingRefund/requestingRefund.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/admin/OrderDetails/RequestingRefund/requestingRefund.css"
     />
   </head>
 
@@ -522,320 +526,421 @@
   </body>
 </html>
 
+<style>
+  .admin_order_details_footer_button_body {
+    height: 14vmin;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .admin_order_details_footer_buttons_body_close {
+    height: 0;
+    opacity: 0;
+    z-index: 0;
+  }
+
+  .admin_order_details_footer_buttons_body_open {
+    height: 14vmin;
+    opacity: 1;
+    z-index: 1;
+  }
+
+  #admin_requesting_refund_summary_body {
+    width: 100%;
+  }
+
+  .admin_awaiting_payment_confirmation_order_summary_bank_details_column {
+    width: calc((100% / 3) * 2);
+  }
+
+  .admin_requesting_refund_decline_header_body {
+    width: 100%;
+    display: flex;
+    padding: 4vmin;
+  }
+
+  .admin_requesting_refund_decline_header {
+    font-family: "Russo One", sans-serif;
+    font-size: 3.2vmin;
+  }
+
+  .admin_requesting_refund_decline_input_body {
+    width: 100%;
+    display: flex;
+    padding: 4vmin;
+  }
+
+  .admin_requesting_refund_decline_input {
+    height: 30vmin;
+    width: 60vmin;
+    padding: 2vmin;
+  }
+
+  @media only screen and (min-width: 600px) {
+    .admin_order_details_footer_button_body {
+      height: 7vmin;
+    }
+
+    .admin_awaiting_payment_confirmation_order_summary_bank_details_column {
+      width: calc((100% / 3));
+    }
+
+    .admin_order_details_footer_buttons_body_open {
+      height: 7vmin;
+    }
+
+    .admin_requesting_refund_decline_header_body {
+      padding: 2vmin;
+    }
+
+    .admin_requesting_refund_decline_header {
+      font-size: 1.6vmin;
+    }
+
+    .admin_requesting_refund_decline_input_body {
+      padding: 2vmin;
+    }
+
+    .admin_requesting_refund_decline_input {
+      height: 20vmin;
+      width: 60vmin;
+      padding: 1vmin;
+    }
+  }
+</style>
+
 <script>
   /* ======================================= INITIALISATION ======================================= */
 
-  const viewAdminProfileOrdersPrintsOrderDetails = orderNumber => {
-    $.ajax({
-      type: "POST",
-      url: "/admin/order",
-      data: { orderNumber: orderNumber },
-      success: data => {
-        if (data.orderStatus == "Awaiting Quote") {
-          adminAwaitingQuoteInit(data);
-        } else if (data.orderStatus == "Awaiting Payment") {
-          awaitingPaymentInit(data);
-        } else if (data.orderStatus == "Awaiting Payment Confirmation") {
-          adminAwaitingPaymentConfirmationInit(data);
-        } else if (data.orderStatus == "Printing Order") {
-          adminPrintingOrderInit(data);
-        } else if (data.orderStatus == "Ready for Pickup") {
-          readyForPickupInit(data);
-        } else if (data.orderStatus == "Order Picked Up") {
-          adminOrderPickedUpInit(data);
-        } else if (data.orderStatus == "Ready for Shipping") {
-          adminReadyForShippingInit(data);
-        } else if (data.orderStatus == "Order Shipped") {
-          orderShippedInit(data);
-        } else if (data.orderStatus == "Order Completed") {
-          adminOrderCompletedInit(data);
-        } else if (data.orderStatus == "Requesting Refund") {
-          adminRequestingRefundInit(data);
-        } else {
-          console.log("Couldn't Determine Order Status");
-        }
-      }
-    });
+  const adminRequestingRefundInit = order => {
+    const orderStatusId = "admin_" + constructOrderStatusId(order.orderStatus);
+    constructAdminOrderDetailsRequestingRefundModal(order, orderStatusId);
+    constructAdminRequestingRefundDescriptionBodyDetails();
+    setAdminAwaitingPaymentConfirmationVariables(order);
+    adminAwaitingPaymentConfirmationOrderPriceCalculation(
+      adminAwaitingPaymentConfirmationOrderPartFileDetailsArray,
+      order
+    );
+    adminRequestingRefundSummary(
+      order.orderNumber,
+      order.requestRefundInformation.bankDetails,
+      adminAwaitingPaymentConfirmationTotalOrderPrice
+    );
+    addAdminOrderDetailsRequestingRefundButtonClickListener(order);
   };
 
-  const adminOrderDetailsModalHeader = "Admin Order Details";
+  /* =========================================== MODAL ============================================ */
 
-  /* ================================== PART FILE NAME FORMATTER ================================== */
-
-  const adminOrderDetailsPartFileNameFormatter = (
-    fileName,
-    numberOfCharacters
+  const constructAdminOrderDetailsRequestingRefundModal = (
+    order,
+    orderStatusId
   ) => {
-    const fileExtensionPosition = fileName.indexOf(".");
-    const extensionlessFileName = fileName.slice(0, fileExtensionPosition);
-    const fileNameCharacterLength = extensionlessFileName.length;
-    const numberOfAlphanumeric = numberOfCharacters - 3;
-    let firstNameAlphanumericLength;
-    let lastNameAlphanumericLength;
-    let firstName;
-    let lastName;
-    let formattedFileName;
+    // ELEMENTS
+    const adminOrderDetailsRequestingRefundModalHeader = adminOrderDetailsModalHeader;
+    const adminOrderDetailsRequestingRefundModalFooter =
+      "<div id='admin_order_details_requesting_refund_buttons_body' class='admin_order_details_footer_buttons_body admin_order_details_footer_buttons_body_close admin_order_details_footer_buttons_body_open'>" +
+      "<div class='admin_order_details_footer_button_body'>" +
+      "<div id='admin_order_details_approve_refund_button' class='admin_order_details_footer_button'>" +
+      "<div class='admin_order_details_footer_button_text'>Approve Refund</div>" +
+      "</div>" +
+      "</div>" +
+      "<div class='admin_order_details_footer_button_body'>" +
+      "<div id='admin_order_details_decline_refund_button' class='admin_order_details_footer_button'>" +
+      "<div class='admin_order_details_footer_button_text'>Decline Refund</div>" +
+      "</div>" +
+      "</div>" +
+      "</div>" +
+      "<div id='admin_order_details_requesting_refund_approve_buttons_body' class='admin_order_details_footer_buttons_body admin_order_details_footer_buttons_body_close'>" +
+      "<div class='admin_order_details_footer_button_body'>" +
+      "<div id='admin_order_details_approve_refund_confirm_button' class='admin_order_details_footer_button'>" +
+      "<div class='admin_order_details_footer_button_text'>Confirm</div>" +
+      "</div>" +
+      "</div>" +
+      "<div class='admin_order_details_footer_button_body'>" +
+      "<div id='admin_order_details_approve_refund_cancel_button' class='admin_order_details_footer_button'>" +
+      "<div class='admin_order_details_footer_button_text'>Cancel</div>" +
+      "</div>" +
+      "</div>" +
+      "</div>" +
+      "<div id='admin_order_details_requesting_refund_decline_buttons_body' class='admin_order_details_footer_buttons_body admin_order_details_footer_buttons_body_close'>" +
+      "<div class='admin_order_details_footer_button_body'>" +
+      "<div id='admin_order_details_decline_refund_confirm_button' class='admin_order_details_footer_button'>" +
+      "<div class='admin_order_details_footer_button_text'>Confirm</div>" +
+      "</div>" +
+      "</div>" +
+      "<div class='admin_order_details_footer_button_body'>" +
+      "<div id='admin_order_details_decline_refund_cancel_button' class='admin_order_details_footer_button'>" +
+      "<div class='admin_order_details_footer_button_text'>Cancel</div>" +
+      "</div>" +
+      "</div>" +
+      "</div>";
+    const adminOrderDetailsRequestingRefundModalElementObject = new modalElementObject(
+      orderStatusId,
+      adminOrderDetailsRequestingRefundModalHeader,
+      adminOrderDetailsRequestingRefundModalFooter
+    );
+    // CSS
+    const adminOrderDetailsRequestingRefundModalMobileHeight = 90;
+    const adminOrderDetailsRequestingRefundModalMobileWidth = 90;
+    const adminOrderDetailsRequestingRefundModalDesktopHeight = 90;
+    const adminOrderDetailsRequestingRefundModalDesktopWidth = 60;
+    const adminOrderDetailsRequestingRefundModalFooterHeight = 14;
+    const adminOrderDetailsRequestingRefundModalCSSObject = new modalCSSObject(
+      adminOrderDetailsRequestingRefundModalMobileHeight,
+      adminOrderDetailsRequestingRefundModalMobileWidth,
+      adminOrderDetailsRequestingRefundModalDesktopHeight,
+      adminOrderDetailsRequestingRefundModalDesktopWidth,
+      adminOrderDetailsRequestingRefundModalFooterHeight
+    );
 
-    if (numberOfAlphanumeric % 2 == 1) {
-      firstNameAlphanumericLength = Math.floor(numberOfAlphanumeric / 2) + 1;
-      lastNameAlphanumericLength = Math.floor(numberOfAlphanumeric / 2);
-    } else {
-      firstNameAlphanumericLength = numberOfAlphanumeric / 2;
-      lastNameAlphanumericLength = numberOfAlphanumeric / 2;
-    }
-
-    if (fileNameCharacterLength > numberOfCharacters) {
-      firstName = extensionlessFileName.slice(0, firstNameAlphanumericLength);
-      lastName = extensionlessFileName.slice(
-        fileNameCharacterLength - lastNameAlphanumericLength,
-        fileNameCharacterLength
-      );
-      formattedFileName = firstName + "..." + lastName;
-    } else {
-      formattedFileName = extensionlessFileName;
-    }
-
-    return formattedFileName;
-  };
-
-  /* ============================================================================================== */
-</script>
-
-<script>
-  /* =========================== ADMIN PROFILE ORDER: PRINTS COMPONENTS =========================== */
-
-  // Profile Orders Prints Object
-  let adminProfileOrdersPrintsObject;
-
-  // Profile Orders Prints Object Properties
-  const adminProfileOrdersPrintsId = "prints";
-  const adminProfileOrdersPrintsName = "Prints";
-
-  // Contruct Profile Orders Prints Object
-  const contructAdminProfileOrdersPrintsObject = () => {
-    adminProfileOrdersPrintsObject = new adminProfileOrdersComponentObject(
-      adminProfileOrdersPrintsId,
-      adminProfileOrdersPrintsName,
-      adminProfileOrdersPrintsInit
+    addModal(
+      adminOrderDetailsRequestingRefundModalElementObject,
+      adminOrderDetailsRequestingRefundModalCSSObject
     );
   };
 
-  /* ======================================= INITIALISATION ======================================= */
+  /* ========================================== CONTENTS ========================================== */
 
-  const adminProfileOrdersPrintsInit = () => {
-    constructAdminProfileOrdersPrintsBaseHTML();
-    loadAdminProfileOrdersPrintsOrderList();
-    adminProfileOrdersPrintsDiscountInit();
-  };
+  /* -------------------------------------------- BASE -------------------------------------------- */
 
-  /* ==================================== CREATE THE BASE HTML ==================================== */
-
-  const constructAdminProfileOrdersPrintsBaseHTML = () => {
-    const adminProfileOrdersPrintsBaseHTML =
-      "<div id='admin_profile_orders_prints_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_text'>Awaiting Quote</div>" +
+  const constructAdminRequestingRefundDescriptionBodyDetails = () => {
+    const adminRequestingRefundDescriptionBodyDetailsHTML =
+      "<div id='admin_requesting_refund_summary_body'></div>" +
+      "<div id='admin_awaiting_payment_confirmation_order_price_calculation_body'></div>" +
+      "<div class='admin_requesting_refund_decline_message_body'>" +
+      "<div class='admin_requesting_refund_decline_header_body'>" +
+      "<div class='admin_requesting_refund_decline_header'>Reason for Decline</div>" +
       "</div>" +
-      "<div id='admin_profile_orders_prints_awaiting_quote_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
+      "<div class='admin_requesting_refund_decline_input_body'>" +
+      "<textarea id='admin_requesting_refund_reason_for_decline_input' class='admin_requesting_refund_decline_input'></textarea>" +
       "</div>" +
-      "<div class='admin_profile_orders_prints_order_list_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_text'>Awaiting Payment Confirmation</div>" +
-      "</div>" +
-      "<div id='admin_profile_orders_prints_awaiting_payment_confirmation_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
-      "</div>" +
-      "<div class='admin_profile_orders_prints_order_list_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_text'>Printing Order</div>" +
-      "</div>" +
-      "<div id='admin_profile_orders_prints_printing_order_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
-      "</div>" +
-      "<div class='admin_profile_orders_prints_order_list_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_text'>Ready for Pickup</div>" +
-      "</div>" +
-      "<div id='admin_profile_orders_prints_ready_for_pickup_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
-      "</div>" +
-      "<div class='admin_profile_orders_prints_order_list_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_text'>Ready for Shipping</div>" +
-      "</div>" +
-      "<div id='admin_profile_orders_prints_ready_for_shipping_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
-      "</div>" +
-      "<div class='admin_profile_orders_prints_order_list_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_text'>Requesting Refund</div>" +
-      "</div>" +
-      "<div id='admin_profile_orders_prints_requesting_refund_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
-      "</div>" +
-      "<div class='admin_profile_orders_prints_order_list_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_body'>" +
-      "<div class='admin_profile_orders_prints_order_list_header_text'>Orders</div>" +
-      "</div>" +
-      "<div id='admin_profile_orders_prints_orders_list_contents_body' class='admin_profile_orders_prints_order_list_contents_body'></div>" +
+      "<div class='admin_requesting_refund_decline_error_body'>" +
+      "<div id='admin_requesting_refund_reason_for_decline_error' class='admin_requesting_refund_decline_error'></div>" +
       "</div>" +
       "</div>";
 
     document.querySelector(
-      "#admin_profile_orders_contents_body"
-    ).innerHTML = adminProfileOrdersPrintsBaseHTML;
+      "#admin_requesting_refund_modal_body"
+    ).innerHTML = adminRequestingRefundDescriptionBodyDetailsHTML;
   };
 
-  /* ======================================= LOAD ORDER LIST ====================================== */
+  /* ------------------------------------------ SUMMARY ------------------------------------------- */
 
-  const adminPorfileOrdersOrderStatusIdsArray = [
-    "awaiting_quote",
-    "awaiting_payment_confirmation",
-    "printing_order",
-    "ready_for_pickup",
-    "ready_for_shipping",
-    "requesting_refund",
-    "orders"
-  ];
+  const adminRequestingRefundSummary = (
+    orderNumber,
+    bankDetails,
+    orderPrice
+  ) => {
+    const bankNumber = bankDetails.bankNumber;
+    const branchNumber = bankDetails.branchNumber;
+    const accountNumber = bankDetails.accountNumber;
+    const suffixNumber = bankDetails.suffixNumber;
 
-  const loadAdminProfileOrdersPrintsOrderList = () => {
-    adminPorfileOrdersOrderStatusIdsArray.forEach(element => {
-      loadLoader(
-        document.querySelector(
-          "#admin_profile_orders_prints_" + element + "_list_contents_body"
-        )
-      ).then(() => {
-        let url;
+    const adminRequestingRefundSummaryHTML =
+      "<div class='admin_awaiting_payment_confirmation_order_summary'>" +
+      "<div class='admin_awaiting_payment_confirmation_order_summary_row_header'>" +
+      "<div class='admin_awaiting_payment_confirmation_order_summary_column_header'>Order No.</div>" +
+      "<div class='admin_awaiting_payment_confirmation_order_summary_column_header admin_awaiting_payment_confirmation_order_summary_bank_details_column'>Bank Details</div>" +
+      "<div class='admin_awaiting_payment_confirmation_order_summary_column_header'>Refund Value</div>" +
+      "</div>" +
+      "<div class='admin_awaiting_payment_confirmation_order_summary_row'>" +
+      "<div class='admin_awaiting_payment_confirmation_order_summary_column'>" +
+      orderNumber +
+      "</div>" +
+      "<div class='admin_awaiting_payment_confirmation_order_summary_column admin_awaiting_payment_confirmation_order_summary_bank_details_column'>" +
+      bankNumber +
+      "-" +
+      branchNumber +
+      "-" +
+      accountNumber +
+      "-" +
+      suffixNumber +
+      "</div>" +
+      "<div class='admin_awaiting_payment_confirmation_order_summary_column'>$" +
+      orderPrice +
+      "</div>" +
+      "</div>" +
+      "</div>";
 
-        switch (element) {
-          case "awaiting_quote":
-            url = "/admin/orders/awaiting-quote";
-            break;
-          case "awaiting_payment_confirmation":
-            url = "/admin/orders/awaiting-payment-confirmation";
-            break;
-          case "printing_order":
-            url = "/admin/orders/printing-order";
-            break;
-          case "ready_for_pickup":
-            url = "/admin/orders/ready-for-pickup";
-            break;
-          case "ready_for_shipping":
-            url = "/admin/orders/ready-for-shipping";
-            break;
-          case "requesting_refund":
-            url = "/admin/orders/requesting-refund";
-            break;
-          case "orders":
-            url = "/admin/orders";
-        }
+    document
+      .querySelector("#admin_requesting_refund_summary_body")
+      .insertAdjacentHTML("beforeend", adminRequestingRefundSummaryHTML);
+  };
 
-        $.ajax({
-          url: url,
-          success: data => {
-            addAdminProfileOrdersPrintsOrderList(data, element);
-          }
-        });
+  /* =================================== BUTTON CLICK LISTENER ==================================== */
+
+  const addAdminOrderDetailsRequestingRefundButtonClickListener = order => {
+    /* -------------------------------------- APPROVE REFUND -------------------------------------- */
+
+    document
+      .querySelector("#admin_order_details_approve_refund_button")
+      .addEventListener("click", () => {
+        toggleAdminOrderDetailsApproveRefund();
       });
+    // Aprove Refund: Cancel
+    document
+      .querySelector("#admin_order_details_approve_refund_cancel_button")
+      .addEventListener("click", () => {
+        toggleAdminOrderDetailsApproveRefund();
+      });
+    // Approve Refund: Confirm
+    document
+      .querySelector("#admin_order_details_approve_refund_confirm_button")
+      .addEventListener("click", () => {
+        adminOrderDetailsApproveRefundRequest(order);
+      });
+
+    /* -------------------------------------- DECLINE REFUND -------------------------------------- */
+
+    document
+      .querySelector("#admin_order_details_decline_refund_button")
+      .addEventListener("click", () => {
+        toggleAdminOrderDetailsDeclineRefund();
+      });
+    // Decline Refund: Cancel
+    document
+      .querySelector("#admin_order_details_decline_refund_cancel_button")
+      .addEventListener("click", () => {
+        toggleAdminOrderDetailsDeclineRefund();
+      });
+    // Decline Refund: Confirm
+    document
+      .querySelector("#admin_order_details_decline_refund_confirm_button")
+      .addEventListener("click", () => {
+        adminOrderDetailsDeclineRefundRequest(order);
+      });
+  };
+
+  /* ----------------------------------- TOGGLE APPROVE REFUND ------------------------------------ */
+
+  const toggleAdminOrderDetailsApproveRefund = () => {
+    document
+      .querySelector("#admin_order_details_requesting_refund_buttons_body")
+      .classList.toggle("admin_order_details_footer_buttons_body_open");
+
+    document
+      .querySelector(
+        "#admin_order_details_requesting_refund_approve_buttons_body"
+      )
+      .classList.toggle("admin_order_details_footer_buttons_body_open");
+  };
+
+  /* ----------------------------------- TOGGLE DECLINE REFUND ------------------------------------ */
+
+  const toggleAdminOrderDetailsDeclineRefund = () => {
+    document
+      .querySelector("#admin_order_details_requesting_refund_buttons_body")
+      .classList.toggle("admin_order_details_footer_buttons_body_open");
+
+    document
+      .querySelector(
+        "#admin_order_details_requesting_refund_decline_buttons_body"
+      )
+      .classList.toggle("admin_order_details_footer_buttons_body_open");
+  };
+
+  /* ======================================= APPROVE REFUND ======================================= */
+
+  const adminOrderDetailsApproveRefundRequest = order => {
+    $.ajax({
+      type: "POST",
+      url: "/admin/order/approve-refund",
+      contentType: "application/json",
+      data: JSON.stringify({ order }),
+      success: data => {
+        console.log(data);
+      }
     });
   };
 
-  const addAdminProfileOrdersPrintsOrderList = (orders, id) => {
-    // Table Body
-    const profileOrdersPrintsOrdersListTableBodyHTML =
-      "<table class='admin_profile_orders_prints_" +
-      id +
-      "_list_table admin_profile_orders_prints_orders_list_table'>" +
-      "<tbody id='admin_profile_orders_prints_" +
-      id +
-      "_list_table_content_body'></tbody>" +
-      "</table>";
-    document.querySelector(
-      "#admin_profile_orders_prints_" + id + "_list_contents_body"
-    ).innerHTML = profileOrdersPrintsOrdersListTableBodyHTML;
-    // Populate the Table with Contents
-    orders.forEach(ele => {
-      let totalOrderedQuantity = 0;
-      let totalProducedQuantity = 0;
-      let deadline = "";
+  /* ------------------------------------ UPDATE ORDER STATUS ------------------------------------- */
 
-      for (i = 0; i < ele.parts.length; i++) {
-        totalOrderedQuantity += Number(ele.parts[i].orderQuantity);
-        totalProducedQuantity += Number(ele.parts[i].producedQuantity);
-      }
+  /* ======================================= DECLINE REFUND ======================================= */
 
-      if (!ele.paymentConfirmationDate) {
-        deadline = "---";
-      } else {
-        const dateObject = dateFormatter(ele.paymentConfirmationDate);
-        let numberOfDays;
-        switch (ele.pricing) {
-          case "Basic":
-            numberOfDays = 5;
-            break;
-          case "Priority":
-            numberOfDays = 3;
-            break;
-          case "Urgent":
-            numberOfDays = 1;
-            break;
-        }
-        const deadlineDefaultFormat = moment(ele.paymentConfirmationDate).add(
-          numberOfDays,
-          "d"
-        );
-        deadline = dayDateMonthYearFormat(deadlineDefaultFormat._d);
-      }
-
-      const creationDate = dayDateMonthYearFormat(ele.creationDate);
-      const lastUpdateDate = dateFormatter(ele.lastUpdateDate).fromNow;
-
-      const adminProfileOrdersPrintsOrdersListTableContent =
-        "<tr id='admin_profile_orders_prints_" +
-        id +
-        "_order_number_" +
-        ele.orderNumber +
-        "' class='admin_profile_orders_prints_orders_list_table_row'>" +
-        "<td class='admin_profile_orders_prints_orders_list_table_content_text admin_profile_orders_prints_orders_list_table_content admin_profile_orders_prints_orders_list_order_number_content'>" +
-        ele.orderNumber +
-        "</td>" +
-        "<td class='admin_profile_orders_prints_orders_list_table_content_text admin_profile_orders_prints_orders_list_table_content admin_profile_orders_prints_orders_list_creation_date_content'>" +
-        creationDate +
-        "</td>" +
-        "<td class='admin_profile_orders_prints_orders_list_table_content_text admin_profile_orders_prints_orders_list_table_content admin_profile_orders_prints_orders_list_status_content'>" +
-        ele.orderStatus +
-        "</td>" +
-        "<td class='admin_profile_orders_prints_orders_list_table_content_text admin_profile_orders_prints_orders_list_table_content admin_profile_orders_prints_orders_list_update_content'>" +
-        lastUpdateDate +
-        "</td>" +
-        "<td class='admin_profile_orders_prints_orders_list_table_content_text admin_profile_orders_prints_orders_list_table_content admin_profile_orders_prints_orders_list_quantity_content'>" +
-        totalProducedQuantity +
-        "/" +
-        totalOrderedQuantity +
-        "</td>" +
-        "<td class='admin_profile_orders_prints_orders_list_table_content_text admin_profile_orders_prints_orders_list_table_content admin_profile_orders_prints_orders_list_deadline_content'>" +
-        deadline +
-        "</td>" +
-        "<td class='admin_profile_orders_prints_orders_list_table_content_text admin_profile_orders_prints_orders_list_table_content admin_profile_orders_prints_orders_list_print_setting_content'>" +
-        ele.pricing +
-        ", " +
-        ele.delivery +
-        "</td>" +
-        "</tr>";
-      document
-        .querySelector(
-          "#admin_profile_orders_prints_" + id + "_list_table_content_body"
-        )
-        .insertAdjacentHTML(
-          "beforeend",
-          adminProfileOrdersPrintsOrdersListTableContent
-        );
-      document
-        .querySelector(
-          "#admin_profile_orders_prints_" +
-            id +
-            "_order_number_" +
-            ele.orderNumber
-        )
-        .addEventListener("click", () => {
-          viewAdminProfileOrdersPrintsOrderDetails(ele.orderNumber);
+  const adminOrderDetailsDeclineRefundRequest = order => {
+    adminOrderDetailsValidateDeclineRefundInput()
+      .then(() => {
+        adminOrderDetailsCollectDeclineRefundInput().then(declineInput => {
+          $.ajax({
+            type: "POST",
+            url: "/admin/order/decline-refund",
+            contentType: "application/json",
+            data: JSON.stringify({ declineInput, order }),
+            success: data => {
+              console.log(data);
+            }
+          });
         });
+      })
+      .catch(() => {
+        console.log("Invalid Input(s)");
+      });
+  };
+
+  /* --------------------------------------- VALIDATE INPUT --------------------------------------- */
+
+  const adminOrderDetailsValidateDeclineRefundInput = () => {
+    return new Promise((resolve, reject) => {
+      // VALIDITY VARIABLE;
+      let validity = true;
+      let errorObjectArray = [];
+
+      // REASON FOR DECLINE
+      // Input
+      const reasonForDeclineInput = document.querySelector(
+        "#admin_requesting_refund_reason_for_decline_input"
+      ).value;
+      // Error Element Id
+      const reasonForDeclineErrorElementId =
+        "admin_requesting_refund_reason_for_decline_error";
+      // Error Message
+      let reasonForDeclineErrorMessage;
+      // Validation
+      if (!reasonForDeclineInput) {
+        // Check if there's no input
+        reasonForDeclineErrorMessage =
+          "please give a reason for declining the refund request";
+
+        // Change validity status
+        validity = false;
+      } else {
+        // If there's no error
+        reasonForDeclineErrorMessage = "";
+      }
+
+      // Update the error object array
+      errorObjectArray.push(
+        new MessageObject(
+          reasonForDeclineErrorElementId,
+          reasonForDeclineErrorMessage
+        )
+      );
+
+      // DISPLAY OR CLEAR ANY ERROR MESSAGE
+      displayMessage(errorObjectArray);
+
+      // COMPLETE PROMISE
+      if (validity) {
+        resolve();
+      } else {
+        reject();
+      }
+    });
+  };
+
+  /* --------------------------------------- COLLECT INPUT ---------------------------------------- */
+
+  const adminOrderDetailsCollectDeclineRefundInput = () => {
+    return new Promise((resolve, reject) => {
+      // REASON FOR DECLINE
+      // Input
+      const reasonForDeclineInput = document.querySelector(
+        "#admin_requesting_refund_reason_for_decline_input"
+      ).value;
+
+      resolve({ reasonForDecline: reasonForDeclineInput });
     });
   };
 
