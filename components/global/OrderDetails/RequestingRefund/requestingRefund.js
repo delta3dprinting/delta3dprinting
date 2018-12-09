@@ -97,21 +97,21 @@ const addOrderDetailsRefundTimelineTabs = (order, orderStatusId) => {
   if (refundStatus === "approved") {
     refundTimelineTabTwoHTML =
       "<div id='refund_approved_order_status_tab_body' class='order_status_tab_body'>" +
-      "<div id='requesting_refund_order_status_tab_text' class='order_status_tab_text'>" +
+      "<div id='refund_approved_order_status_tab_text' class='order_status_tab_text'>" +
       "Refund Approved" +
       "</div>" +
       "</div>";
   } else if (refundStatus === "declined") {
     refundTimelineTabTwoHTML =
       "<div id='refund_declined_order_status_tab_body' class='order_status_tab_body'>" +
-      "<div id='requesting_refund_order_status_tab_text' class='order_status_tab_text'>" +
+      "<div id='refund_declined_order_status_tab_text' class='order_status_tab_text'>" +
       "Refund Declined" +
       "</div>" +
       "</div>";
   } else {
     refundTimelineTabTwoHTML =
       "<div id='refund_approved_declined_order_status_tab_body' class='order_status_tab_body'>" +
-      "<div id='requesting_refund_order_status_tab_text' class='order_status_tab_text'>" +
+      "<div id='refund_approved_declined_order_status_tab_text' class='order_status_tab_text'>" +
       "Refund Approved / Declined" +
       "</div>" +
       "</div>";

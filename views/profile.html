@@ -513,3 +513,70 @@
     </div>
   </body>
 </html>
+<script>
+  /* ======================================= INITIALISATION ======================================= */
+
+  const refundDeclinedInit = order => {
+    const orderStatusId = order.orderStatus.toLowerCase().replace(/ /g, "_");
+    constructOrderDetailsRefundDeclinedModal(orderStatusId);
+    constructHTMLStructure(orderStatusId);
+    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
+    constructOrderDetailsAttachments(order, orderStatusId);
+    constructOrderDetailsComments(order, orderStatusId);
+    addOrderDetailsRefundDescription(order, orderStatusId);
+  };
+
+  /* =========================================== MODAL ============================================ */
+
+  const constructOrderDetailsRefundDeclinedModal = orderStatusId => {
+    // ELEMENTS
+    const orderDetailsRefundDeclinedModalHeader = orderDetailsModalHeader;
+    const orderDetailsRefundDeclinedModalFooter =
+      "<div id='refund_declined_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
+      "<div class='order_details_footer_button_body'>" +
+      "<div id='refund_declined_end_request_footer_button' class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>End Request</div>" +
+      "</div>" +
+      "</div>" +
+      "</div>" +
+      "<div id='refund_declined_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close'>" +
+      "<div class='order_details_footer_button_body'>" +
+      "<div id='refund_declined_end_request_confirm_footer_button' class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>Confirm</div>" +
+      "</div>" +
+      "</div>" +
+      "<div class='order_details_footer_button_body'>" +
+      "<div id='refund_declined_end_request_cancel_footer_button' class='order_details_footer_button'>" +
+      "<div class='order_details_footer_button_text'>Cancel</div>" +
+      "</div>" +
+      "</div>" +
+      "</div>";
+    const orderDetailsRefundDeclinedModalElementObject = new modalElementObject(
+      orderStatusId,
+      orderDetailsRefundDeclinedModalHeader,
+      orderDetailsRefundDeclinedModalFooter
+    );
+    // CSS
+    const orderDetailsRefundDeclinedModalMobileHeight = 90;
+    const orderDetailsRefundDeclinedModalMobileWidth = 90;
+    const orderDetailsRefundDeclinedModalDesktopHeight = 90;
+    const orderDetailsRefundDeclinedModalDesktopWidth = 60;
+    const orderDetailsRefundDeclinedModalFooterHeight = 14;
+    const orderDetailsRefundDeclinedModalCSSObject = new modalCSSObject(
+      orderDetailsRefundDeclinedModalMobileHeight,
+      orderDetailsRefundDeclinedModalMobileWidth,
+      orderDetailsRefundDeclinedModalDesktopHeight,
+      orderDetailsRefundDeclinedModalDesktopWidth,
+      orderDetailsRefundDeclinedModalFooterHeight
+    );
+
+    addModal(
+      orderDetailsRefundDeclinedModalElementObject,
+      orderDetailsRefundDeclinedModalCSSObject
+    );
+  };
+
+  /* ========================================== CONTENTS ========================================== */
+
+  /* ============================================================================================== */
+</script>
