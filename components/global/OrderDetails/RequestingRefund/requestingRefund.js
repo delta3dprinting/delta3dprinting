@@ -300,4 +300,62 @@ const cancelRefundRequest = (orderNumber, orderStatusId) => {
   });
 };
 
+/* ================================= REFUND AUTOCOMPLETE TIMER ================================== */
+
+const orderDetailsRefundProcessedAutoCompleteTimer = order => {
+  const dateOfAutoComplete = moment(
+    order.requestRefundInformation.processDate
+  ).add(5, "days");
+  const currentDate = moment();
+  const totalRemainingSeconds = dateOfAutoComplete.diff(currentDate, "seconds");
+  const remainingDays = Math.floor(totalRemainingSeconds / (24 * 60 * 60));
+  const remainingHours = Math.floor(
+    (totalRemainingSeconds % (24 * 60 * 60)) / (60 * 60)
+  );
+  const remainingMinutes = Math.floor(
+    ((totalRemainingSeconds % (24 * 60 * 60)) % (60 * 60)) / 60
+  );
+  const remainingSeconds =
+    ((totalRemainingSeconds % (24 * 60 * 60)) % (60 * 60)) % 60;
+  const timerMessage =
+    remainingDays +
+    "D : " +
+    remainingHours +
+    "H : " +
+    remainingMinutes +
+    "M : " +
+    remainingSeconds +
+    "S";
+  document.querySelector(
+    "#order_details_refund_approved_declined_auto_complete_timer"
+  ).innerHTML = timerMessage;
+};
+
+/* =================================== UPDATE REFUND REQUEST ==================================== */
+
+const orderDetailsUpdateRefundApprovedDeclined = orderNumber => {
+  validateOrderOwnership(orderNumber)
+    .then(() => {
+      $.ajax({
+        type: "POST",
+        url: "/order/process-refund",
+        data: { orderNumber },
+        success: data => {
+          if (data === "failed") {
+            return console.log("failed");
+          } else {
+            removeBackdrop(orderStatusId);
+            removeModal(orderStatusId);
+            setTimeout(() => {
+              viewOrderDetails(data);
+            }, 500);
+          }
+        }
+      });
+    })
+    .catch(() => {
+      return console.log("not owner");
+    });
+};
+
 /* ============================================================================================== */

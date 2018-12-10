@@ -156,6 +156,9 @@ const PrintOrderSchema = new Schema({
     },
     declineMessage: {
       type: String
+    },
+    refundCompletionDate: {
+      type: String
     }
   },
   pricing: {

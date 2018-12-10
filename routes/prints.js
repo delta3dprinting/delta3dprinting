@@ -418,6 +418,40 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
+  /* -------------------------------------- PROCESS REFUND -------------------------------------- */
+
+  // @route   POST /order/process-refund
+  // @desc    Request Refund
+  // @access  Private
+  app.post("/order/process-refund", restrictedPages, (req, res) => {
+    const orderNumber = req.body.orderNumber;
+
+    PrintOrder.findOneAndUpdate(
+      { orderNumber },
+      {
+        $set: {
+          orderStatus: "Refund Processed",
+          refundCompletionDate: new Date(),
+          lastUpdateDate: new Date()
+        }
+      },
+      (err, order) => {
+        if (err) {
+          console.log("error when fetching an order");
+          return res.send("failed");
+        }
+
+        if (!order) {
+          console.log("no order found");
+          return res.send("failed");
+        }
+
+        console.log("successfully updated the order");
+        res.send(order.orderNumber + "");
+      }
+    );
+  });
+
   /* ====================================== ADMIN: REFUND ======================================= */
 
   /* -------------------------------------- APPROVE REFUND -------------------------------------- */
