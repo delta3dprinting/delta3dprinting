@@ -15,24 +15,46 @@ module.exports = (app, passport, upload, conn) => {
     gfs.collection("fs");
   });
 
+  /* ======================== GET ORDER DETAILS ARRAY BY ORDER STATUS ========================= */
+
+  // @route   POST /order/get-order-details-array-by-order-status
+  // @desc    Get an array of order details with the provided order status
+  // @access  Private
+  app.post(
+    "/order/get-order-details-array-by-order-status",
+    restrictedPages,
+    (req, res) => {
+      /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+      const orderStatus = req.body.orderStatus;
+      const ownerId = req.user._id;
+      /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+      let query;
+      if (req.user.accountType == "admin") {
+        // ADMIN ACCESS
+        query = { orderStatus };
+      } else {
+        // USER ACCESS
+        query = { orderStatus, ownerId };
+      }
+      /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+      getOrderDetailsArray(res, query);
+    }
+  );
+
   /* =========================== GET ORDER DETAILS BY ORDER NUMBER ============================ */
 
   // @route   POST /order/get-order-details-by-order-number
-  // @desc    Check if User is the Owner of the Order
+  // @desc    Get an order details based on the provided order number
   // @access  Private
   app.post(
     "/order/get-order-details-by-order-number",
     restrictedPages,
     (req, res) => {
       /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
-
       const orderNumber = req.body.orderNumber;
       const ownerId = req.user._id;
-
       /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
-
       let query;
-
       if (req.user.accountType == "admin") {
         // ADMIN ACCESS
         query = { orderNumber };
@@ -40,9 +62,7 @@ module.exports = (app, passport, upload, conn) => {
         // USER ACCESS
         query = { orderNumber, ownerId };
       }
-
       /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-
       getOrderDetails(res, query);
     }
   );
@@ -880,6 +900,42 @@ module.exports = (app, passport, upload, conn) => {
 };
 
 /* ========================================== FUNCTION ========================================== */
+
+/* --------------------------------- GET ORDERS DETAILS (FIND) ---------------------------------- */
+
+const getOrderDetailsArray = (res, query, filter) => {
+  PrintOrder.find(query, (err, orderDetailsArray) => {
+    if (err) {
+      return res.send({
+        status: "failed",
+        error: "500: Error Found when Fetching Orders Details"
+      });
+    }
+
+    if (!orderDetailsArray) {
+      return res.send({
+        status: "failed",
+        error: "404: No Order Found with that Order Number"
+      });
+    }
+
+    if (filter) {
+      let filteredOrderDetailsArray;
+      for (let i = 0; i < orderDetailsArray.length; i++) {
+        filteredOrderDetailsArray.push(filter(orderDetailsArray[i]));
+      }
+      return res.send({
+        status: "success",
+        orderDetailsArray: filteredOrderDetailsArray
+      });
+    }
+
+    return res.send({
+      status: "success",
+      orderDetailsArray
+    });
+  });
+};
 
 /* -------------------------------- GET ORDER DETAILS (FIND ONE) -------------------------------- */
 

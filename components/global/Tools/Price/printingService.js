@@ -1,69 +1,74 @@
-/* =================================== PART PRICE CALCULATION =================================== */
+/* ========================================= PART PRICE ========================================= */
 
-const partPriceCalculation = orderNumber => {
+/* --------------------------------------- GET PART PRICE --------------------------------------- */
+
+const getPartPrice = orderNumber => {
+  return new Promise((resolve, reject) => {
+    getOrderDetailsByOrderNumber(orderNumber).then(orderDetails => {
+      partPriceCalculation(orderDetails)
+        .then(orderPriceObject => {
+          resolve(orderPriceObject);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
+};
+
+/* ----------------------------------- PART PRICE CALCULATION ----------------------------------- */
+
+const partPriceCalculation = orderDetails => {
   return new Promise((resolve, reject) => {
     /* -------------------------------- DECLARE LOCAL VARIABLES --------------------------------- */
     let partPriceObjectArray = [];
     let totalPrice = 0;
     let calculation = "";
-    /* --------------------------- GET ORDER DETAILS BY ORDER NUMBER ---------------------------- */
-    getOrderDetailsByOrderNumber(orderNumber)
-      // Execute 'then' if order details was successfully fetched
-      .then(orderDetails => {
-        // Simplify parts variable
-        const parts = orderDetails.parts;
+    // Simplify parts variable
+    const parts = orderDetails.parts;
 
-        // Create the Part Price Object for each Part
-        for (let i = 0; i < parts.length; i++) {
-          // Get File Details of the Part
-          const fileDetails = getFileDetails(parts[i].fileId);
-          // Construct Part Price Object
-          const partPriceObject = new PartPriceObject(
-            parts[i].fileName,
-            parts[i].orderQuantity,
-            fileDetails.fileDetail.price
-          );
-          // Add the Part Price Object to the an Array
-          partPriceObjectArray.push(partPriceObject);
-          // Calculate the collective price of all the parts
-          totalPrice = totalPrice + Number(partPriceObject.totalPrice);
-          // Construct the calculation string to show how the total price is calculated
-          if (i == 0) {
-            calculation +=
-              "$" +
-              numberToTwoDecimalStringConverter(
-                Number(partPriceObject.totalPrice)
-              );
-          } else if (i == parts.length - 1) {
-            calculation +=
-              " + $" +
-              numberToTwoDecimalStringConverter(
-                Number(partPriceObject.totalPrice)
-              ) +
-              " = " +
-              numberToTwoDecimalStringConverter(Number(totalPrice));
-          } else {
-            calculation +=
-              " + $" +
-              numberToTwoDecimalStringConverter(
-                Number(partPriceObject.totalPrice)
-              );
-          }
-        }
-        // Construct the Parts Price Object
-        const partsPriceObject = new PartsPriceObject(
-          partPriceObjectArray,
-          totalPrice,
-          calculation
-        );
+    // Create the Part Price Object for each Part
+    for (let i = 0; i < parts.length; i++) {
+      // Get File Details of the Part
+      const fileDetails = getFileDetails(parts[i].fileId);
+      // Construct Part Price Object
+      const partPriceObject = new PartPriceObject(
+        parts[i].fileName,
+        parts[i].orderQuantity,
+        fileDetails.fileDetail.price
+      );
+      // Add the Part Price Object to the an Array
+      partPriceObjectArray.push(partPriceObject);
+      // Calculate the collective price of all the parts
+      totalPrice = totalPrice + Number(partPriceObject.totalPrice);
+      // Construct the calculation string to show how the total price is calculated
+      if (i == 0) {
+        calculation +=
+          "$" +
+          numberToTwoDecimalStringConverter(Number(partPriceObject.totalPrice));
+      } else if (i == parts.length - 1) {
+        calculation +=
+          " + $" +
+          numberToTwoDecimalStringConverter(
+            Number(partPriceObject.totalPrice)
+          ) +
+          " = " +
+          numberToTwoDecimalStringConverter(Number(totalPrice));
+      } else {
+        calculation +=
+          " + $" +
+          numberToTwoDecimalStringConverter(Number(partPriceObject.totalPrice));
+      }
+    }
+    // Construct the Parts Price Object
+    const partsPriceObject = new PartsPriceObject(
+      partPriceObjectArray,
+      totalPrice,
+      calculation
+    );
 
-        // Resolve the promise by returning the
-        resolve(partsPriceObject);
-      })
-      // Execute 'catch' if an error occurs while fetching order details
-      .catch(error => {
-        reject(error);
-      });
+    // Resolve the promise by returning the
+    resolve(partsPriceObject);
   });
 };
 
@@ -94,56 +99,66 @@ class PartsPriceObject {
   }
 }
 
-/* ================================= PRICING PRICE CALCULATION ================================== */
+/* ======================================= PRICING PRICE ======================================== */
 
-const pricingPriceCalculation = orderNumber => {
+/* ------------------------------------- GET PRICING PRICE -------------------------------------- */
+
+const getPricingPrice = orderNumber => {
+  return new Promise((resolve, reject) => {
+    getOrderDetailsByOrderNumber(orderNumber).then(orderDetails => {
+      pricingPriceCalculation(orderDetails)
+        .then(orderPriceObject => {
+          resolve(orderPriceObject);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
+};
+
+/* --------------------------------- PRICING PRICE CALCULATION ---------------------------------- */
+
+const pricingPriceCalculation = orderDetails => {
   return new Promise((resolve, reject) => {
     /* ----------------------------- GET THE PARTS PRICING DETAILS ------------------------------ */
-    partPriceCalculation(orderNumber)
+    partPriceCalculation(orderDetails)
       .then(partsPriceObject => {
-        /* --------------------------- GET THE DELIVERY PRICE DETAILS --------------------------- */
-        getOrderDetailsByOrderNumber(orderNumber)
-          .then(orderDetails => {
-            /* ---------------------------- DECLARE LOCAL VARIABLES ----------------------------- */
-            let pricing;
-            let pricingMultiplier;
-            let pricingPrice;
-            let calculation;
-            /* ---------------------------- DEFINE VARIABLE: PRICING ---------------------------- */
-            pricing = orderDetails.pricing;
-            /* ---------------------- DEFINE VARIABLE: PRICING MULTIPLIER ----------------------- */
-            if (orderDetails.pricing == "Basic") {
-              pricingMultiplier = 0;
-            } else if (orderDetails.pricing == "Priority") {
-              pricingMultiplier = 0.25;
-            } else if (orderDetails.pricing == "Urgent") {
-              pricingMultiplier = 0.5;
-            }
-            /* ------------------------- DEFINE VARIABLE: PRICING PRICE ------------------------- */
-            pricingPrice =
-              Number(partsPriceObject.totalPrice) * pricingMultiplier;
-            /* -------------------------- DEFINE VARIABLE: CALCULATION -------------------------- */
-            calculation =
-              "$" +
-              numberToTwoDecimalStringConverter(
-                Number(partsPriceObject.totalPrice)
-              ) +
-              " x " +
-              pricingMultiplier +
-              " = $" +
-              numberToTwoDecimalStringConverter(pricingPrice);
-            /* --------------------- DEFINE VARIABLE: PRICING PRICE OBJECT ---------------------- */
-            const pricingPriceObject = new PricingPriceObject(
-              orderDetails.pricing,
-              pricingPrice,
-              calculation
-            );
+        /* ---------------------------- DECLARE LOCAL VARIABLES ----------------------------- */
+        let pricing;
+        let pricingMultiplier;
+        let pricingPrice;
+        let calculation;
+        /* ---------------------------- DEFINE VARIABLE: PRICING ---------------------------- */
+        pricing = orderDetails.pricing;
+        /* ---------------------- DEFINE VARIABLE: PRICING MULTIPLIER ----------------------- */
+        if (orderDetails.pricing == "Basic") {
+          pricingMultiplier = 0;
+        } else if (orderDetails.pricing == "Priority") {
+          pricingMultiplier = 0.25;
+        } else if (orderDetails.pricing == "Urgent") {
+          pricingMultiplier = 0.5;
+        }
+        /* ------------------------- DEFINE VARIABLE: PRICING PRICE ------------------------- */
+        pricingPrice = Number(partsPriceObject.totalPrice) * pricingMultiplier;
+        /* -------------------------- DEFINE VARIABLE: CALCULATION -------------------------- */
+        calculation =
+          "$" +
+          numberToTwoDecimalStringConverter(
+            Number(partsPriceObject.totalPrice)
+          ) +
+          " x " +
+          pricingMultiplier +
+          " = $" +
+          numberToTwoDecimalStringConverter(pricingPrice);
+        /* --------------------- DEFINE VARIABLE: PRICING PRICE OBJECT ---------------------- */
+        const pricingPriceObject = new PricingPriceObject(
+          orderDetails.pricing,
+          pricingPrice,
+          calculation
+        );
 
-            resolve(pricingPriceObject);
-          })
-          .catch(error => {
-            reject(error);
-          });
+        resolve(pricingPriceObject);
       })
       .catch(error => {
         reject(error);
@@ -161,71 +176,66 @@ class PricingPriceObject {
   }
 }
 
-/* ================================= DISCOUNT PRICE CALCULATION ================================= */
+/* ======================================= DISCOUNT PRICE ======================================= */
 
-const discountPriceCalculation = orderNumber => {
+/* ------------------------------------- GET DISCOUNT PRICE ------------------------------------- */
+
+const getDiscountPrice = orderNumber => {
+  return new Promise((resolve, reject) => {
+    getOrderDetailsByOrderNumber(orderNumber).then(orderDetails => {
+      discountPriceCalculation(orderDetails)
+        .then(orderPriceObject => {
+          resolve(orderPriceObject);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
+};
+
+/* --------------------------------- DISCOUNT PRICE CALCULATION --------------------------------- */
+
+const discountPriceCalculation = orderDetails => {
   return new Promise((resolve, reject) => {
     /* ----------------------------- GET THE PARTS PRICING DETAILS ------------------------------ */
-    partPriceCalculation(orderNumber)
+    partPriceCalculation(orderDetails)
       .then(partsPriceObject => {
         /* --------------------------- GET THE PRICING PRICE DETAILS ---------------------------- */
-        pricingPriceCalculation(orderNumber)
+        pricingPriceCalculation(orderDetails)
           .then(pricingPriceObject => {
-            /* ------------------------- GET THE DELIVERY PRICE DETAILS ------------------------- */
-            getOrderDetailsByOrderNumber(orderNumber)
-              .then(orderDetails => {
-                /* -------------------------- DECLARE LOCAL VARIABLES --------------------------- */
-                const totalPreDiscountPrice =
-                  Number(partsPriceObject.totalPrice) +
-                  Number(pricingPriceObject.pricingPrice);
-                let discountPriceObjectArray = [];
-                let totalDiscount = 0;
-                let totalCalculation = "";
-                /* ------------------------------ DEFINE VARIABLES ------------------------------ */
-                for (let i = 0; i < orderDetails.discounts.length; i++) {
-                  /* ---------- DEFINE AND DECLARE VARIABLES FOR DISCOUNT PRICE OBJECT ---------- */
-                  const rate = Number(orderDetails.discounts[i].rate);
-                  const minOrderValue = Number(
-                    orderDetails.discounts[i].minOrderValue
-                  );
-                  const maxOrderValue = Number(
-                    orderDetails.discounts[i].maxOrderValue
-                  );
-                  let discountableValue = 0;
-                  let calculation = "";
-                  /* ----------- DEFINE VARIABLE: DISCOUNTABLE VALUE AND CALCULATION ------------ */
-                  if (
-                    maxOrderValue > 0 &&
-                    minOrderValue < totalPreDiscountPrice
-                  ) {
-                    if (minOrderValue > 0) {
-                      if (maxOrderValue < totalPreDiscountPrice) {
-                        discountableValue = maxOrderValue - minOrderValue;
+            /* -------------------------- DECLARE LOCAL VARIABLES --------------------------- */
+            const totalPreDiscountPrice =
+              Number(partsPriceObject.totalPrice) +
+              Number(pricingPriceObject.pricingPrice);
+            let discountPriceObjectArray = [];
+            let totalDiscount = 0;
+            let totalCalculation = "";
+            /* ------------------------------ DEFINE VARIABLES ------------------------------ */
+            for (let i = 0; i < orderDetails.discounts.length; i++) {
+              /* ---------- DEFINE AND DECLARE VARIABLES FOR DISCOUNT PRICE OBJECT ---------- */
+              const rate = Number(orderDetails.discounts[i].rate);
+              const minOrderValue = Number(
+                orderDetails.discounts[i].minOrderValue
+              );
+              const maxOrderValue = Number(
+                orderDetails.discounts[i].maxOrderValue
+              );
+              let discountableValue = 0;
+              let calculation = "";
+              /* ----------- DEFINE VARIABLE: DISCOUNTABLE VALUE AND CALCULATION ------------ */
+              if (maxOrderValue > 0 && minOrderValue < totalPreDiscountPrice) {
+                if (minOrderValue > 0) {
+                  if (maxOrderValue < totalPreDiscountPrice) {
+                    discountableValue = maxOrderValue - minOrderValue;
 
-                        calculation =
-                          "($" +
-                          numberToTwoDecimalStringConverter(maxOrderValue) +
-                          " - $" +
-                          numberToTwoDecimalStringConverter(minOrderValue) +
-                          ")";
-                      } else if (maxOrderValue > totalPreDiscountPrice) {
-                        discountableValue =
-                          totalPreDiscountPrice - minOrderValue;
-
-                        calculation =
-                          "($" +
-                          numberToTwoDecimalStringConverter(
-                            totalPreDiscountPrice
-                          ) +
-                          " - $" +
-                          numberToTwoDecimalStringConverter(minOrderValue) +
-                          ")";
-                      }
-                    }
-                  } else if (
-                    minOrderValue > 0 &&
-                    minOrderValue < totalPreDiscountPrice
-                  ) {
+                    calculation =
+                      "($" +
+                      numberToTwoDecimalStringConverter(maxOrderValue) +
+                      " - $" +
+                      numberToTwoDecimalStringConverter(minOrderValue) +
+                      ")";
+                  } else if (maxOrderValue > totalPreDiscountPrice) {
                     discountableValue = totalPreDiscountPrice - minOrderValue;
 
                     calculation =
@@ -234,90 +244,100 @@ const discountPriceCalculation = orderNumber => {
                       " - $" +
                       numberToTwoDecimalStringConverter(minOrderValue) +
                       ")";
-                  } else if (minOrderValue == 0) {
-                    discountableValue = totalPreDiscountPrice;
-
-                    calculation =
-                      "$" +
-                      numberToTwoDecimalStringConverter(totalPreDiscountPrice);
-                  } else {
-                    discountableValue = 0;
-
-                    calculation = "$" + numberToTwoDecimalStringConverter(0);
                   }
-                  /* ------------------------ DEFINE VARIABLE: DISCOUNT ------------------------- */
-                  const discount = Number(discountableValue) * rate;
-                  /* ------------------ UPDATE VARIABLE: DISCOUNT CALCULATION ------------------- */
-                  calculation =
-                    calculation +
-                    " x " +
-                    rate +
+                }
+              } else if (
+                minOrderValue > 0 &&
+                minOrderValue < totalPreDiscountPrice
+              ) {
+                discountableValue = totalPreDiscountPrice - minOrderValue;
+
+                calculation =
+                  "($" +
+                  numberToTwoDecimalStringConverter(totalPreDiscountPrice) +
+                  " - $" +
+                  numberToTwoDecimalStringConverter(minOrderValue) +
+                  ")";
+              } else if (minOrderValue == 0) {
+                discountableValue = totalPreDiscountPrice;
+
+                calculation =
+                  "$" +
+                  numberToTwoDecimalStringConverter(totalPreDiscountPrice);
+              } else {
+                discountableValue = 0;
+
+                calculation = "$" + numberToTwoDecimalStringConverter(0);
+              }
+              /* ------------------------ DEFINE VARIABLE: DISCOUNT ------------------------- */
+              const discount = Number(discountableValue) * rate;
+              /* ------------------ UPDATE VARIABLE: DISCOUNT CALCULATION ------------------- */
+              calculation =
+                calculation +
+                " x " +
+                rate +
+                " = $" +
+                numberToTwoDecimalStringConverter(
+                  Number(discountableValue) * rate
+                );
+              /* --------------------- UPDATE VARIABLE: TOTAL DISCOUNT ---------------------- */
+              totalDiscount = totalDiscount + discount;
+              /* --------------- UPDATE VARIABLE: TOTAL DISCOUNT CALCULATION ---------------- */
+              if (totalCalculation) {
+                if (i == orderDetails.discounts.length - 1) {
+                  totalCalculation =
+                    totalCalculation +
+                    " + $" +
+                    numberToTwoDecimalStringConverter(
+                      Number(discountableValue) * rate
+                    ) +
                     " = $" +
+                    numberToTwoDecimalStringConverter(totalDiscount);
+                } else {
+                  totalCalculation =
+                    totalCalculation +
+                    " + $" +
                     numberToTwoDecimalStringConverter(
                       Number(discountableValue) * rate
                     );
-                  /* --------------------- UPDATE VARIABLE: TOTAL DISCOUNT ---------------------- */
-                  totalDiscount = totalDiscount + discount;
-                  /* --------------- UPDATE VARIABLE: TOTAL DISCOUNT CALCULATION ---------------- */
-                  if (totalCalculation) {
-                    if (i == orderDetails.discounts.length - 1) {
-                      totalCalculation =
-                        totalCalculation +
-                        " + $" +
-                        numberToTwoDecimalStringConverter(
-                          Number(discountableValue) * rate
-                        ) +
-                        " = $" +
-                        numberToTwoDecimalStringConverter(totalDiscount);
-                    } else {
-                      totalCalculation =
-                        totalCalculation +
-                        " + $" +
-                        numberToTwoDecimalStringConverter(
-                          Number(discountableValue) * rate
-                        );
-                    }
-                  } else {
-                    if (i == orderDetails.discounts.length - 1) {
-                      totalCalculation =
-                        "$" +
-                        numberToTwoDecimalStringConverter(
-                          Number(discountableValue) * rate
-                        ) +
-                        " = $" +
-                        numberToTwoDecimalStringConverter(totalDiscount);
-                    } else {
-                      totalCalculation =
-                        "$" +
-                        numberToTwoDecimalStringConverter(
-                          Number(discountableValue) * rate
-                        );
-                    }
-                  }
-                  /* --------------- UPDATE VARIABLE: DISCOUNT PRICE OBJECT ARRAY --------------- */
-                  discountPriceObjectArray.push(
-                    new DiscountPriceObject(
-                      orderDetails.discounts[i].name,
-                      rate,
-                      minOrderValue,
-                      maxOrderValue,
-                      discount,
-                      calculation
-                    )
-                  );
                 }
-                /* ------------------ DEFINE VARIABLE: DISCOUNTS PRICE OBJECT ------------------- */
-                const discountsPriceObject = new DiscountsPriceObject(
-                  discountPriceObjectArray,
-                  totalDiscount,
-                  totalCalculation
-                );
+              } else {
+                if (i == orderDetails.discounts.length - 1) {
+                  totalCalculation =
+                    "$" +
+                    numberToTwoDecimalStringConverter(
+                      Number(discountableValue) * rate
+                    ) +
+                    " = $" +
+                    numberToTwoDecimalStringConverter(totalDiscount);
+                } else {
+                  totalCalculation =
+                    "$" +
+                    numberToTwoDecimalStringConverter(
+                      Number(discountableValue) * rate
+                    );
+                }
+              }
+              /* --------------- UPDATE VARIABLE: DISCOUNT PRICE OBJECT ARRAY --------------- */
+              discountPriceObjectArray.push(
+                new DiscountPriceObject(
+                  orderDetails.discounts[i].name,
+                  rate,
+                  minOrderValue,
+                  maxOrderValue,
+                  discount,
+                  calculation
+                )
+              );
+            }
+            /* ------------------ DEFINE VARIABLE: DISCOUNTS PRICE OBJECT ------------------- */
+            const discountsPriceObject = new DiscountsPriceObject(
+              discountPriceObjectArray,
+              totalDiscount,
+              totalCalculation
+            );
 
-                resolve(discountsPriceObject);
-              })
-              .catch(error => {
-                reject(error);
-              });
+            resolve(discountsPriceObject);
           })
           .catch(error => {
             reject(error);
@@ -352,46 +372,56 @@ class DiscountsPriceObject {
   }
 }
 
-/* ================================= DELIVERY PRICE CALCULATION ================================= */
+/* ======================================= DELIVERY PRICE ======================================= */
 
-const deliveryPriceCalculation = orderNumber => {
+/* ------------------------------------- GET DELIVERY PRICE ------------------------------------- */
+
+const getDeliveryPrice = orderNumber => {
   return new Promise((resolve, reject) => {
-    /* ------------------------ GET ORDER DETAILS BASED ON ORDER NUMBER ------------------------- */
-    getOrderDetailsByOrderNumber(orderNumber)
-      .then(orderDetails => {
-        /* ------------------------------ DECLARE LOCAL VARIABLES ------------------------------- */
-        let delivery;
-        let details;
-        let price;
-        /* ----------------------------- DEFINE VARIABLES: DELIVERY ----------------------------- */
-        delivery = orderDetails.delivery;
-        /* ------------------------ DEFINE VARIABLES: DETAILS AND PRICE ------------------------- */
-        if (delivery == "Pickup") {
-          details =
-            "Pickup is available 24/7. This means that customers can arrange a pickup time that suits them the most.";
-          price = 0;
-        } else if (delivery == "Tracking") {
-          details =
-            "Tracking takes up to 3 working days nationwide. You will be given a tracking number to track parcel.";
-          price = 7;
-        } else if (delivery == "Courier") {
-          details =
-            "Parcels shipped using the Courier service usually arrive the next working day between major towns and cities.";
-          price = 8.5;
-        }
-        /* -------------------------- CREATE THE DELIVERY PRICE OBJECT -------------------------- */
-        const deliveryPriceObject = new DeliveryPriceObject(
-          delivery,
-          details,
-          price
-        );
+    getOrderDetailsByOrderNumber(orderNumber).then(orderDetails => {
+      deliveryPriceCalculation(orderDetails)
+        .then(orderPriceObject => {
+          resolve(orderPriceObject);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
+};
 
-        resolve(deliveryPriceObject);
-      })
-      /* ------------------------------ CATCH ANY INCOMING ERRORS ------------------------------- */
-      .catch(error => {
-        reject(error);
-      });
+/* --------------------------------- DELIVERY PRICE CALCULATION --------------------------------- */
+
+const deliveryPriceCalculation = orderDetails => {
+  return new Promise((resolve, reject) => {
+    /* ------------------------------ DECLARE LOCAL VARIABLES ------------------------------- */
+    let delivery;
+    let details;
+    let price;
+    /* ----------------------------- DEFINE VARIABLES: DELIVERY ----------------------------- */
+    delivery = orderDetails.delivery;
+    /* ------------------------ DEFINE VARIABLES: DETAILS AND PRICE ------------------------- */
+    if (delivery == "Pickup") {
+      details =
+        "Pickup is available 24/7. This means that customers can arrange a pickup time that suits them the most.";
+      price = 0;
+    } else if (delivery == "Tracking") {
+      details =
+        "Tracking takes up to 3 working days nationwide. You will be given a tracking number to track parcel.";
+      price = 7;
+    } else if (delivery == "Courier") {
+      details =
+        "Parcels shipped using the Courier service usually arrive the next working day between major towns and cities.";
+      price = 8.5;
+    }
+    /* -------------------------- CREATE THE DELIVERY PRICE OBJECT -------------------------- */
+    const deliveryPriceObject = new DeliveryPriceObject(
+      delivery,
+      details,
+      price
+    );
+
+    resolve(deliveryPriceObject);
   });
 };
 
@@ -405,21 +435,39 @@ class DeliveryPriceObject {
   }
 }
 
-/* ================================== ORDER PRICE CALCULATION =================================== */
+/* ======================================== ORDER PRICE ========================================= */
 
-const orderPriceCalculation = orderNumber => {
+/* -------------------------------------- GET ORDER PRICE --------------------------------------- */
+
+const getOrderPrice = orderNumber => {
+  return new Promise((resolve, reject) => {
+    getOrderDetailsByOrderNumber(orderNumber).then(orderDetails => {
+      orderPriceCalculation(orderDetails)
+        .then(orderPriceObject => {
+          resolve(orderPriceObject);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
+};
+
+/* ---------------------------------- ORDER PRICE CALCULATION ----------------------------------- */
+
+const orderPriceCalculation = orderDetails => {
   return new Promise((resolve, reject) => {
     /* ----------------------------- GET THE PARTS PRICING DETAILS ------------------------------ */
-    partPriceCalculation(orderNumber)
+    partPriceCalculation(orderDetails)
       .then(partsPriceObject => {
         /* --------------------------- GET THE PRICING PRICE DETAILS ---------------------------- */
-        pricingPriceCalculation(orderNumber)
+        pricingPriceCalculation(orderDetails)
           .then(pricingPriceObject => {
             /* ------------------------ GET THE DISCOUNTS PRICE DETAILS ------------------------- */
-            discountPriceCalculation(orderNumber)
+            discountPriceCalculation(orderDetails)
               .then(discountsPriceObject => {
                 /* ----------------------- GET THE DELIVERY PRICE DETAILS ----------------------- */
-                deliveryPriceCalculation(orderNumber)
+                deliveryPriceCalculation(orderDetails)
                   .then(deliveryPriceObject => {
                     /* ------------------------ DECLARE LOCAL VARIABLES ------------------------- */
                     let orderPrice;
