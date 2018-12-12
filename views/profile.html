@@ -26,17 +26,17 @@
     ></script>
     <!-- Moment -->
     <script src="https://gitcdn.link/repo/moment/moment/develop/moment.js"></script>
-    <!--
-      =============================================== GLOBAL ===============================================
-    -->
+    <!-- ============================= GLOBAL ============================== -->
     <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/global.js"></script>
     <link
       rel="stylesheet"
       href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/global.css"
     />
-    <!--
-      ----------------------------------------------- TOOLS ------------------------------------------------
-    -->
+    <!-- ------------------------------ TOOLS ------------------------------ -->
+    <!-- PRICE: Printing Service -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/Price/printingService.js"></script>
+    <!-- DATE -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/date.js"></script>
     <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/dateFormatter.js"></script>
     <!-- Display Message -->
     <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/displayMessage.js"></script>
@@ -290,9 +290,7 @@
       href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/OrderShipped/orderShipped.css"
     />
     <!-- Order Details: Requesting Refund -->
-    <!--
-      <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/RequestingRefund/requestingRefund.js"></script>
-    -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/RequestingRefund/requestingRefund.js"></script>
     <link
       rel="stylesheet"
       href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/OrderDetails/RequestingRefund/requestingRefund.css"
@@ -525,783 +523,607 @@
     </div>
   </body>
 </html>
-<style>
-  #order_details_refund_approved_declined_auto_complete_timer {
-    width: 100%;
-    text-align: center;
-    font-size: 4vmin;
-    font-weight: bold;
-    padding: 2vmin 0;
-  }
-</style>
 
 <script>
-  /* ======================================= INITIALISATION ======================================= */
-
-  const refundDeclinedInit = order => {
-    const orderStatusId = order.orderStatus.toLowerCase().replace(/ /g, "_");
-    constructOrderDetailsRefundDeclinedModal(orderStatusId);
-    constructHTMLStructure(orderStatusId);
-    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
-    constructOrderDetailsAttachments(order, orderStatusId);
-    constructOrderDetailsComments(order, orderStatusId);
-    addOrderDetailsRefundDescription(order, orderStatusId);
-    addOrderDetailsRefundDeclinedDescription(order);
-    addOrderDetailsRefundDeclinedButtonClickListener(order, orderStatusId);
-  };
-
-  /* =========================================== MODAL ============================================ */
-
-  const constructOrderDetailsRefundDeclinedModal = orderStatusId => {
-    // ELEMENTS
-    const orderDetailsRefundDeclinedModalHeader = orderDetailsModalHeader;
-    const orderDetailsRefundDeclinedModalFooter =
-      "<div id='refund_declined_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_declined_continue_order_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Continue Order</div>" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_declined_end_request_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>End Request</div>" +
-      "</div>" +
-      "</div>" +
-      "</div>" +
-      "<div id='refund_declined_continue_order_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close'>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_declined_continue_order_confirm_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Confirm</div>" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_declined_continue_order_cancel_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Cancel</div>" +
-      "</div>" +
-      "</div>" +
-      "</div>" +
-      "<div id='refund_declined_end_request_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close'>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_declined_end_request_confirm_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Confirm</div>" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_declined_end_request_cancel_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Cancel</div>" +
-      "</div>" +
-      "</div>" +
-      "</div>";
-
-    const orderDetailsRefundDeclinedModalElementObject = new modalElementObject(
-      orderStatusId,
-      orderDetailsRefundDeclinedModalHeader,
-      orderDetailsRefundDeclinedModalFooter
-    );
-    // CSS
-    const orderDetailsRefundDeclinedModalMobileHeight = 90;
-    const orderDetailsRefundDeclinedModalMobileWidth = 90;
-    const orderDetailsRefundDeclinedModalDesktopHeight = 90;
-    const orderDetailsRefundDeclinedModalDesktopWidth = 60;
-    const orderDetailsRefundDeclinedModalFooterHeight = 14;
-    const orderDetailsRefundDeclinedModalCSSObject = new modalCSSObject(
-      orderDetailsRefundDeclinedModalMobileHeight,
-      orderDetailsRefundDeclinedModalMobileWidth,
-      orderDetailsRefundDeclinedModalDesktopHeight,
-      orderDetailsRefundDeclinedModalDesktopWidth,
-      orderDetailsRefundDeclinedModalFooterHeight
-    );
-
-    addModal(
-      orderDetailsRefundDeclinedModalElementObject,
-      orderDetailsRefundDeclinedModalCSSObject
-    );
-  };
-
-  /* ========================================== CONTENTS ========================================== */
-
-  const addOrderDetailsRefundDeclinedDescription = order => {
-    addOrderDetailsRefundDeclinedReasonForDecline(order);
-    // Apply Auto Complete Timer
-    orderDetailsRefundProcessedAutoCompleteTimer(order);
-    const refundDeclinedAutoCompleteOrderTimer = setInterval(() => {
-      orderDetailsRefundProcessedAutoCompleteTimer(order);
-    }, 1000);
-    // Remove Interval when Order Details is closed
-    document
-      .querySelector("#refund_declined_backdrop")
-      .addEventListener("click", () => {
-        clearInterval(refundDeclinedAutoCompleteOrderTimer);
-      });
-  };
-
-  /* ------------------------------------- REASON FOR DECLINE ------------------------------------- */
-
-  const addOrderDetailsRefundDeclinedReasonForDecline = order => {
-    const reason = order.requestRefundInformation.declineMessage;
-
-    const reasonForDecline =
-      "<div class='order_status_description_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      "Reason For Decline:" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_status_description_details_body order_status_description_sub_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      reason +
-      "</div>" +
-      "</div>" +
-      "<div class='order_status_description_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      "Your refund request will automatically be declared 'processed' in:" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_status_description_details_body order_status_description_sub_details_body'>" +
-      "<div id='order_details_refund_approved_declined_auto_complete_timer' class='order_status_description_details_text'></div>" +
-      "</div>";
-
-    document
-      .querySelector("#refund_declined_order_status_description_body")
-      .insertAdjacentHTML("beforeend", reasonForDecline);
-  };
-
-  /* =================================== BUTTON CLICK LISTENER ==================================== */
-
-  const addOrderDetailsRefundDeclinedButtonClickListener = (
-    order,
-    orderStatusId
-  ) => {
-    /* -------------------------------------- CONTINUE ORDER -------------------------------------- */
-
-    // MAIN
-    document
-      .querySelector("#refund_declined_continue_order_footer_button")
-      .addEventListener("click", () => {
-        toggleOrderDetailsRefundDeclinedContinueOrder();
-      });
-    // CONFIRM
-    document
-      .querySelector("#refund_declined_continue_order_confirm_footer_button")
-      .addEventListener("click", () => {
-        orderDetailsCancelRefundRequest(order.orderNumber, orderStatusId);
-      });
-    // CANCEL
-    document
-      .querySelector("#refund_declined_continue_order_cancel_footer_button")
-      .addEventListener("click", () => {
-        toggleOrderDetailsRefundDeclinedContinueOrder();
-      });
-
-    /* --------------------------------------- END REQUEST ---------------------------------------- */
-
-    // MAIN
-    document
-      .querySelector("#refund_declined_end_request_footer_button")
-      .addEventListener("click", () => {
-        toggleOrderDetailsRefundDeclinedEndRequest();
-      });
-    // CONFIRM
-    document
-      .querySelector("#refund_declined_end_request_confirm_footer_button")
-      .addEventListener("click", () => {
-        orderDetailsUpdateRefundApprovedDeclined(order.orderNumber);
-      });
-    // CANCEL
-    document
-      .querySelector("#refund_declined_end_request_cancel_footer_button")
-      .addEventListener("click", () => {
-        toggleOrderDetailsRefundDeclinedEndRequest();
-      });
-  };
-
-  /* ----------------------------------- TOGGLE CONTINUE ORDER ------------------------------------ */
-
-  const toggleOrderDetailsRefundDeclinedContinueOrder = () => {
-    document
-      .querySelector("#refund_declined_footer_buttons_body")
-      .classList.toggle("order_details_footer_buttons_body_open");
-
-    document
-      .querySelector("#refund_declined_continue_order_footer_buttons_body")
-      .classList.toggle("order_details_footer_buttons_body_open");
-  };
-
-  /* ------------------------------------- TOGGLE END REQUEST ------------------------------------- */
-
-  const toggleOrderDetailsRefundDeclinedEndRequest = () => {
-    document
-      .querySelector("#refund_declined_footer_buttons_body")
-      .classList.toggle("order_details_footer_buttons_body_open");
-
-    document
-      .querySelector("#refund_declined_end_request_footer_buttons_body")
-      .classList.toggle("order_details_footer_buttons_body_open");
-  };
-
-  /* ============================================================================================== */
-</script>
-
-<script>
-  /* ======================================= INITIALISATION ======================================= */
-
-  const refundApprovedInit = order => {
-    const orderStatusId = order.orderStatus.toLowerCase().replace(/ /g, "_");
-    constructOrderDetailsRefundApprovedModal(orderStatusId);
-    constructHTMLStructure(orderStatusId);
-    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
-    constructOrderDetailsAttachments(order, orderStatusId);
-    constructOrderDetailsComments(order, orderStatusId);
-    addOrderDetailsRefundDescription(order, orderStatusId);
-    addOrderDetailsRefundApprovedDescription(order);
-    addOrderDetailsRefundApprovedButtonClickListener(order, orderStatusId);
-  };
-
-  /* =========================================== MODAL ============================================ */
-
-  const constructOrderDetailsRefundApprovedModal = orderStatusId => {
-    // ELEMENTS
-    const orderDetailsRefundApprovedModalHeader = orderDetailsModalHeader;
-    const orderDetailsRefundApprovedModalFooter =
-      "<div id='refund_approved_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_approved_end_request_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>End Request</div>" +
-      "</div>" +
-      "</div>" +
-      "</div>" +
-      "<div id='refund_approved_end_request_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close'>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_approved_end_request_confirm_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Confirm</div>" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='refund_approved_end_request_cancel_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Cancel</div>" +
-      "</div>" +
-      "</div>" +
-      "</div>";
-
-    const orderDetailsRefundApprovedModalElementObject = new modalElementObject(
-      orderStatusId,
-      orderDetailsRefundApprovedModalHeader,
-      orderDetailsRefundApprovedModalFooter
-    );
-    // CSS
-    const orderDetailsRefundApprovedModalMobileHeight = 90;
-    const orderDetailsRefundApprovedModalMobileWidth = 90;
-    const orderDetailsRefundApprovedModalDesktopHeight = 90;
-    const orderDetailsRefundApprovedModalDesktopWidth = 60;
-    const orderDetailsRefundApprovedModalFooterHeight = 14;
-    const orderDetailsRefundApprovedModalCSSObject = new modalCSSObject(
-      orderDetailsRefundApprovedModalMobileHeight,
-      orderDetailsRefundApprovedModalMobileWidth,
-      orderDetailsRefundApprovedModalDesktopHeight,
-      orderDetailsRefundApprovedModalDesktopWidth,
-      orderDetailsRefundApprovedModalFooterHeight
-    );
-
-    addModal(
-      orderDetailsRefundApprovedModalElementObject,
-      orderDetailsRefundApprovedModalCSSObject
-    );
-  };
-
-  /* ========================================== CONTENTS ========================================== */
-
-  const addOrderDetailsRefundApprovedDescription = order => {
-    addOrderDetailsRefundApprovedDescriptionApproveMessage(order);
-    // Apply Auto Complete Timer
-    orderDetailsRefundProcessedAutoCompleteTimer(order);
-    const refundApprovedAutoCompleteOrderTimer = setInterval(() => {
-      orderDetailsRefundProcessedAutoCompleteTimer(order);
-    }, 1000);
-    // Remove Interval when Order Details is closed
-    document
-      .querySelector("#refund_approved_backdrop")
-      .addEventListener("click", () => {
-        clearInterval(refundApprovedAutoCompleteOrderTimer);
-      });
-  };
-
-  /* ------------------------------------- REASON FOR DECLINE ------------------------------------- */
-
-  const addOrderDetailsRefundApprovedDescriptionApproveMessage = order => {
-    const approveMessage =
-      "<div class='order_status_description_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      "Your refund request has been approved! We have sent the specified 'Refund Value' to the specified 'Bank Number'." +
-      "</div>" +
-      "</div>" +
-      "<div class='order_status_description_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      "Your refund request will automatically be declared 'processed' in:" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_status_description_details_body order_status_description_sub_details_body'>" +
-      "<div id='order_details_refund_approved_declined_auto_complete_timer' class='order_status_description_details_text'></div>" +
-      "</div>";
-
-    document
-      .querySelector("#refund_approved_order_status_description_body")
-      .insertAdjacentHTML("beforeend", approveMessage);
-  };
-
-  /* =================================== BUTTON CLICK LISTENER ==================================== */
-
-  const addOrderDetailsRefundApprovedButtonClickListener = (
-    order,
-    orderStatusId
-  ) => {
-    /* --------------------------------------- END REQUEST ---------------------------------------- */
-
-    // MAIN
-    document
-      .querySelector("#refund_approved_end_request_footer_button")
-      .addEventListener("click", () => {
-        toggleOrderDetailsRefundApprovedEndRequest();
-      });
-    // CONFIRM
-    document
-      .querySelector("#refund_approved_end_request_confirm_footer_button")
-      .addEventListener("click", () => {
-        orderDetailsUpdateRefundApprovedDeclined(order.orderNumber);
-      });
-    // CANCEL
-    document
-      .querySelector("#refund_approved_end_request_cancel_footer_button")
-      .addEventListener("click", () => {
-        toggleOrderDetailsRefundApprovedEndRequest();
-      });
-  };
-
-  /* ------------------------------------- TOGGLE END REQUEST ------------------------------------- */
-
-  const toggleOrderDetailsRefundApprovedEndRequest = () => {
-    document
-      .querySelector("#refund_approved_footer_buttons_body")
-      .classList.toggle("order_details_footer_buttons_body_open");
-
-    document
-      .querySelector("#refund_approved_end_request_footer_buttons_body")
-      .classList.toggle("order_details_footer_buttons_body_open");
-  };
-
-  /* ============================================================================================== */
-</script>
-
-<script>
-  /* ======================================= INITIALISATION ======================================= */
-
-  const refundProcessedInit = order => {
-    const orderStatusId = order.orderStatus.toLowerCase().replace(/ /g, "_");
-    constructOrderDetailsRefundProcessedModal(orderStatusId);
-    constructHTMLStructure(orderStatusId);
-    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
-    constructOrderDetailsAttachments(order, orderStatusId);
-    constructOrderDetailsComments(order, orderStatusId);
-    addOrderDetailsRefundDescription(order, orderStatusId);
-  };
-
-  /* =========================================== MODAL ============================================ */
-
-  const constructOrderDetailsRefundProcessedModal = orderStatusId => {
-    // ELEMENTS
-    const orderDetailsRefundProcessedModalHeader = orderDetailsModalHeader;
-    const orderDetailsRefundProcessedModalFooter = "";
-
-    const orderDetailsRefundProcessedModalElementObject = new modalElementObject(
-      orderStatusId,
-      orderDetailsRefundProcessedModalHeader,
-      orderDetailsRefundProcessedModalFooter
-    );
-    // CSS
-    const orderDetailsRefundProcessedModalMobileHeight = 90;
-    const orderDetailsRefundProcessedModalMobileWidth = 90;
-    const orderDetailsRefundProcessedModalDesktopHeight = 90;
-    const orderDetailsRefundProcessedModalDesktopWidth = 60;
-    const orderDetailsRefundProcessedModalFooterHeight = 0;
-    const orderDetailsRefundProcessedModalCSSObject = new modalCSSObject(
-      orderDetailsRefundProcessedModalMobileHeight,
-      orderDetailsRefundProcessedModalMobileWidth,
-      orderDetailsRefundProcessedModalDesktopHeight,
-      orderDetailsRefundProcessedModalDesktopWidth,
-      orderDetailsRefundProcessedModalFooterHeight
-    );
-
-    addModal(
-      orderDetailsRefundProcessedModalElementObject,
-      orderDetailsRefundProcessedModalCSSObject
-    );
-  };
-
-  /* ============================================================================================== */
-</script>
-
-<script>
-  /* ======================================= INITIALISATION ======================================= */
-
-  const requestingRefundInit = order => {
-    const orderStatusId = order.orderStatus.toLowerCase().replace(/ /g, "_");
-    constructOrderDetailsRequestingRefundModal(orderStatusId);
-    constructHTMLStructure(orderStatusId);
-    constructOrderDetailsOrderOptionsDetails(order, orderStatusId);
-    constructOrderDetailsAttachments(order, orderStatusId);
-    constructOrderDetailsComments(order, orderStatusId);
-    addOrderDetailsRefundDescription(order, orderStatusId);
-    addOrderDetailsRequestingRefundButtonClickListener(order, orderStatusId);
-  };
-
-  /* =========================================== MODAL ============================================ */
-
-  const constructOrderDetailsRequestingRefundModal = orderStatusId => {
-    // ELEMENTS
-    const orderDetailsRequestingRefundModalHeader = orderDetailsModalHeader;
-    const orderDetailsRequestingRefundModalFooter =
-      "<div id='requesting_refund_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close order_details_footer_buttons_body_open'>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='cancel_refund_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Cancel Refund</div>" +
-      "</div>" +
-      "</div>" +
-      "</div>" +
-      "<div id='cancel_refund_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close'>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='cancel_refund_confirm_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Confirm</div>" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_details_footer_button_body'>" +
-      "<div id='cancel_refund_cancel_footer_button' class='order_details_footer_button'>" +
-      "<div class='order_details_footer_button_text'>Cancel</div>" +
-      "</div>" +
-      "</div>" +
-      "</div>";
-    const orderDetailsRequestingRefundModalElementObject = new modalElementObject(
-      orderStatusId,
-      orderDetailsRequestingRefundModalHeader,
-      orderDetailsRequestingRefundModalFooter
-    );
-    // CSS
-    const orderDetailsRequestingRefundModalMobileHeight = 90;
-    const orderDetailsRequestingRefundModalMobileWidth = 90;
-    const orderDetailsRequestingRefundModalDesktopHeight = 90;
-    const orderDetailsRequestingRefundModalDesktopWidth = 60;
-    const orderDetailsRequestingRefundModalFooterHeight = 14;
-    const orderDetailsRequestingRefundModalCSSObject = new modalCSSObject(
-      orderDetailsRequestingRefundModalMobileHeight,
-      orderDetailsRequestingRefundModalMobileWidth,
-      orderDetailsRequestingRefundModalDesktopHeight,
-      orderDetailsRequestingRefundModalDesktopWidth,
-      orderDetailsRequestingRefundModalFooterHeight
-    );
-
-    addModal(
-      orderDetailsRequestingRefundModalElementObject,
-      orderDetailsRequestingRefundModalCSSObject
-    );
-  };
-
-  /* ======================================= MODAL CONTENTS ======================================= */
-
-  /* -------------------------------------- DESCRIPTION BODY -------------------------------------- */
-
-  const addOrderDetailsRefundDescription = (order, orderStatusId) => {
-    addOrderDetailsRefundTimelineTabs(order, orderStatusId);
-    addOrderDetailsRefundHeader(orderStatusId);
-    addOrderDetailsRefundReason(order, orderStatusId);
-    addOrderDetailsRefundDetails(order, orderStatusId);
-  };
-
-  /* ------------------------------------ REFUND TIMELINE TABS ------------------------------------ */
-
-  const addOrderDetailsRefundTimelineTabs = (order, orderStatusId) => {
-    const refundStatus = order.requestRefundInformation.refundStatus;
-
-    // Create the Timeline Tab HTMLs
-    const refundTimelineTabOneHTML =
-      "<div id='requesting_refund_order_status_tab_body' class='order_status_tab_body'>" +
-      "<div id='requesting_refund_order_status_tab_text' class='order_status_tab_text'>" +
-      "Requesting Refund" +
-      "</div>" +
-      "</div>";
-
-    const refundTimelineTabThreeHTML =
-      "<div id='refund_processed_order_status_tab_body' class='order_status_tab_body'>" +
-      "<div id='refund_processed_order_status_tab_text' class='order_status_tab_text'>" +
-      "Refund Processed" +
-      "</div>" +
-      "</div>";
-
-    let refundTimelineTabTwoHTML;
-
-    if (refundStatus === "approved") {
-      refundTimelineTabTwoHTML =
-        "<div id='refund_approved_order_status_tab_body' class='order_status_tab_body'>" +
-        "<div id='refund_approved_order_status_tab_text' class='order_status_tab_text'>" +
-        "Refund Approved" +
-        "</div>" +
-        "</div>";
-    } else if (refundStatus === "declined") {
-      refundTimelineTabTwoHTML =
-        "<div id='refund_declined_order_status_tab_body' class='order_status_tab_body'>" +
-        "<div id='refund_declined_order_status_tab_text' class='order_status_tab_text'>" +
-        "Refund Declined" +
-        "</div>" +
-        "</div>";
-    } else {
-      refundTimelineTabTwoHTML =
-        "<div id='refund_approved_declined_order_status_tab_body' class='order_status_tab_body'>" +
-        "<div id='refund_approved_declined_order_status_tab_text' class='order_status_tab_text'>" +
-        "Refund Approved / Declined" +
-        "</div>" +
-        "</div>";
-    }
-
-    // Compile all Tab HTMLs into a single HTML
-    const refundTimelineTabsHTML =
-      "<div id='order_status_tabs_body'>" +
-      refundTimelineTabOneHTML +
-      refundTimelineTabTwoHTML +
-      refundTimelineTabThreeHTML +
-      "</div>";
-
-    // Insert Tabs into Description Body
-    document
-      .querySelector("#" + orderStatusId + "_order_status_description_body")
-      .insertAdjacentHTML("beforeend", refundTimelineTabsHTML);
-
-    // Highlight the Current Tab
-    document
-      .querySelector("#" + orderStatusId + "_order_status_tab_body")
-      .classList.add("order_status_tab_body_selected");
-    document
-      .querySelector("#" + orderStatusId + "_order_status_tab_text")
-      .classList.add("order_status_tab_text_selected");
-  };
-
-  /* ------------------------------------- DESCRIPTION HEADER ------------------------------------- */
-
-  const addOrderDetailsRefundHeader = orderStatusId => {
-    let header;
-
-    if (orderStatusId === "requesting_refund") {
-      header = "Analysing Your Refund Request";
-    } else if (orderStatusId === "refund_approved") {
-      header = "Your Refund Request has been Approved";
-    } else if (orderStatusId === "refund_declined") {
-      header = "Your Refund Request has been Declined";
-    } else if (orderStatusId === "refund_processed") {
-      header = "Your Refund Request has been Processed";
-    }
-
-    const refundHeaderHTML =
-      "<div id='order_status_description_heading_body'>" +
-      "<div id='order_status_description_heading_text'>" +
-      header +
-      "</div>" +
-      "</div>";
-
-    document
-      .querySelector("#" + orderStatusId + "_order_status_description_body")
-      .insertAdjacentHTML("beforeend", refundHeaderHTML);
-  };
-
-  /* --------------------------------------- REFUND REASON ---------------------------------------- */
-
-  const addOrderDetailsRefundReason = (order, orderStatusId) => {
-    const reason = order.requestRefundInformation.reason;
-
-    const refundReasonHTML =
-      "<div class='order_status_description_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      "Reason:" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_status_description_details_body order_status_description_sub_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      reason +
-      "</div>" +
-      "</div>";
-
-    document
-      .querySelector("#" + orderStatusId + "_order_status_description_body")
-      .insertAdjacentHTML("beforeend", refundReasonHTML);
-  };
-
-  /* --------------------------------------- REFUND DETAILS --------------------------------------- */
-
-  const addOrderDetailsRefundDetails = (order, orderStatusId) => {
-    const bankNumber = order.requestRefundInformation.bankDetails.bankNumber;
-    const branchNumber =
-      order.requestRefundInformation.bankDetails.branchNumber;
-    const accountNumber =
-      order.requestRefundInformation.bankDetails.accountNumber;
-    const suffixNumber =
-      order.requestRefundInformation.bankDetails.suffixNumber;
-
-    const refundDetailsHTML =
-      "<div class='order_status_description_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      "Refund Details:" +
-      "</div>" +
-      "</div>" +
-      "<div class='order_status_description_details_body order_status_description_sub_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      "Refund Value - $" +
-      orderDetailsTotalOrderPrice +
-      "</div>" +
-      "</div>" +
-      "<div class='order_status_description_details_body order_status_description_sub_details_body'>" +
-      "<div class='order_status_description_details_text'>" +
-      "Bank Number - " +
-      bankNumber +
-      "-" +
-      branchNumber +
-      "-" +
-      accountNumber +
-      "-" +
-      suffixNumber +
-      "</div>" +
-      "</div>";
-
-    document
-      .querySelector("#" + orderStatusId + "_order_status_description_body")
-      .insertAdjacentHTML("beforeend", refundDetailsHTML);
-  };
-
-  /* =================================== BUTTON CLICK LISTENER ==================================== */
-
-  const addOrderDetailsRequestingRefundButtonClickListener = (
-    order,
-    orderStatusId
-  ) => {
-    const orderNumber = order.orderNumber;
-
-    // Cancel Refund Request
-    document
-      .querySelector("#cancel_refund_footer_button")
-      .addEventListener("click", () => {
-        toggleOrderDetailsCancelRefund();
-      });
-    // Confirm "Cancel Refund Request"
-    document
-      .querySelector("#cancel_refund_confirm_footer_button")
-      .addEventListener("click", () => {
-        orderDetailsCancelRefundRequest(orderNumber, orderStatusId);
-      });
-    // Cancel "Cancel Refund Request"
-    document
-      .querySelector("#cancel_refund_cancel_footer_button")
-      .addEventListener("click", () => {
-        toggleOrderDetailsCancelRefund();
-      });
-  };
-
-  /* =================================== FOOTER CONTENT CHANGE ==================================== */
-
-  /* ----------------------------------- CANCEL REFUND REQUEST ------------------------------------ */
-
-  const toggleOrderDetailsCancelRefund = () => {
-    document
-      .querySelector("#requesting_refund_footer_buttons_body")
-      .classList.toggle("order_details_footer_buttons_body_open");
-
-    document
-      .querySelector("#cancel_refund_footer_buttons_body")
-      .classList.toggle("order_details_footer_buttons_body_open");
-  };
-
-  /* ======================================== CANCEL ORDER ======================================== */
-
-  const orderDetailsCancelRefundRequest = (orderNumber, orderStatusId) => {
-    validateOrderOwnership(orderNumber)
-      .then(() => {
-        cancelRefundRequest(orderNumber, orderStatusId);
-      })
-      .catch(() => {
-        return console.log("not owner");
-      });
-  };
-
-  const cancelRefundRequest = (orderNumber, orderStatusId) => {
-    $.ajax({
-      type: "POST",
-      url: "/order/cancel-refund",
-      data: { orderNumber },
-      success: data => {
-        if (data === "failed") {
-          return console.log("failed");
-        } else {
-          removeBackdrop(orderStatusId);
-          removeModal(orderStatusId);
-          setTimeout(() => {
-            viewOrderDetails(data);
-          }, 500);
-        }
-      }
+  /* =================================== PART PRICE CALCULATION =================================== */
+
+  const partPriceCalculation = orderNumber => {
+    return new Promise((resolve, reject) => {
+      /* -------------------------------- DECLARE LOCAL VARIABLES --------------------------------- */
+      let partPriceObjectArray = [];
+      let totalPrice = 0;
+      let calculation = "";
+      /* --------------------------- GET ORDER DETAILS BY ORDER NUMBER ---------------------------- */
+      getOrderDetailsByOrderNumber(orderNumber)
+        // Execute 'then' if order details was successfully fetched
+        .then(orderDetails => {
+          // Simplify parts variable
+          const parts = orderDetails.parts;
+
+          // Create the Part Price Object for each Part
+          for (let i = 0; i < parts.length; i++) {
+            // Get File Details of the Part
+            const fileDetails = getFileDetails(parts[i].fileId);
+            // Construct Part Price Object
+            const partPriceObject = new PartPriceObject(
+              parts[i].fileName,
+              parts[i].orderQuantity,
+              fileDetails.fileDetail.price
+            );
+            // Add the Part Price Object to the an Array
+            partPriceObjectArray.push(partPriceObject);
+            // Calculate the collective price of all the parts
+            totalPrice = totalPrice + Number(partPriceObject.totalPrice);
+            // Construct the calculation string to show how the total price is calculated
+            if (i == 0) {
+              calculation +=
+                "$" +
+                numberToTwoDecimalStringConverter(
+                  Number(partPriceObject.totalPrice)
+                );
+            } else if (i == parts.length - 1) {
+              calculation +=
+                " + $" +
+                numberToTwoDecimalStringConverter(
+                  Number(partPriceObject.totalPrice)
+                ) +
+                " = " +
+                numberToTwoDecimalStringConverter(Number(totalPrice));
+            } else {
+              calculation +=
+                " + $" +
+                numberToTwoDecimalStringConverter(
+                  Number(partPriceObject.totalPrice)
+                );
+            }
+          }
+          // Construct the Parts Price Object
+          const partsPriceObject = new PartsPriceObject(
+            partPriceObjectArray,
+            totalPrice,
+            calculation
+          );
+
+          // Resolve the promise by returning the
+          resolve(partsPriceObject);
+        })
+        // Execute 'catch' if an error occurs while fetching order details
+        .catch(error => {
+          reject(error);
+        });
     });
   };
 
-  /* ================================= REFUND AUTOCOMPLETE TIMER ================================== */
+  /* ------------------------------- PART PRICE OBJECT CONSTRUCTOR -------------------------------- */
 
-  const orderDetailsRefundProcessedAutoCompleteTimer = order => {
-    const dateOfAutoComplete = moment(
-      order.requestRefundInformation.processDate
-    ).add(5, "days");
-    const currentDate = moment();
-    const totalRemainingSeconds = dateOfAutoComplete.diff(
-      currentDate,
-      "seconds"
-    );
-    const remainingDays = Math.floor(totalRemainingSeconds / (24 * 60 * 60));
-    const remainingHours = Math.floor(
-      (totalRemainingSeconds % (24 * 60 * 60)) / (60 * 60)
-    );
-    const remainingMinutes = Math.floor(
-      ((totalRemainingSeconds % (24 * 60 * 60)) % (60 * 60)) / 60
-    );
-    const remainingSeconds =
-      ((totalRemainingSeconds % (24 * 60 * 60)) % (60 * 60)) % 60;
-    const timerMessage =
-      remainingDays +
-      "D : " +
-      remainingHours +
-      "H : " +
-      remainingMinutes +
-      "M : " +
-      remainingSeconds +
-      "S";
-    document.querySelector(
-      "#order_details_refund_approved_declined_auto_complete_timer"
-    ).innerHTML = timerMessage;
+  class PartPriceObject {
+    constructor(name, unitPrice, quantity) {
+      this.name = name;
+      this.quantity = quantity;
+      this.unitPrice = unitPrice;
+      this.totalPrice = Number(unitPrice) * Number(quantity);
+      this.calculation =
+        quantity +
+        " x $" +
+        numberToTwoDecimalStringConverter(unitPrice) +
+        " = $" +
+        numberToTwoDecimalStringConverter(Number(unitPrice) * Number(quantity));
+    }
+  }
+
+  /* ------------------------------- PARTS PRICE OBJECT CONSTRUCTOR ------------------------------- */
+
+  class PartsPriceObject {
+    constructor(partPriceObjectArray, totalPrice, calculation) {
+      this.partPriceObjectArray = partPriceObjectArray;
+      this.totalPrice = totalPrice;
+      this.calculation = calculation;
+    }
+  }
+
+  /* ================================= PRICING PRICE CALCULATION ================================== */
+
+  const pricingPriceCalculation = orderNumber => {
+    return new Promise((resolve, reject) => {
+      /* ----------------------------- GET THE PARTS PRICING DETAILS ------------------------------ */
+      partPriceCalculation(orderNumber)
+        .then(partsPriceObject => {
+          /* --------------------------- GET THE DELIVERY PRICE DETAILS --------------------------- */
+          getOrderDetailsByOrderNumber(orderNumber)
+            .then(orderDetails => {
+              /* ---------------------------- DECLARE LOCAL VARIABLES ----------------------------- */
+              let pricing;
+              let pricingMultiplier;
+              let pricingPrice;
+              let calculation;
+              /* ---------------------------- DEFINE VARIABLE: PRICING ---------------------------- */
+              pricing = orderDetails.pricing;
+              /* ---------------------- DEFINE VARIABLE: PRICING MULTIPLIER ----------------------- */
+              if (orderDetails.pricing == "Basic") {
+                pricingMultiplier = 0;
+              } else if (orderDetails.pricing == "Priority") {
+                pricingMultiplier = 0.25;
+              } else if (orderDetails.pricing == "Urgent") {
+                pricingMultiplier = 0.5;
+              }
+              /* ------------------------- DEFINE VARIABLE: PRICING PRICE ------------------------- */
+              pricingPrice =
+                Number(partsPriceObject.totalPrice) * pricingMultiplier;
+              /* -------------------------- DEFINE VARIABLE: CALCULATION -------------------------- */
+              calculation =
+                "$" +
+                numberToTwoDecimalStringConverter(
+                  Number(partsPriceObject.totalPrice)
+                ) +
+                " x " +
+                pricingMultiplier +
+                " = $" +
+                numberToTwoDecimalStringConverter(pricingPrice);
+              /* --------------------- DEFINE VARIABLE: PRICING PRICE OBJECT ---------------------- */
+              const pricingPriceObject = new PricingPriceObject(
+                orderDetails.pricing,
+                pricingPrice,
+                calculation
+              );
+
+              resolve(pricingPriceObject);
+            })
+            .catch(error => {
+              reject(error);
+            });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   };
 
-  /* =================================== UPDATE REFUND REQUEST ==================================== */
+  /* ------------------------------ PRICING PRICE OBJECT CONSTRUCTOR ------------------------------ */
 
-  const orderDetailsUpdateRefundApprovedDeclined = orderNumber => {
-    validateOrderOwnership(orderNumber)
-      .then(() => {
-        $.ajax({
-          type: "POST",
-          url: "/order/process-refund",
-          data: { orderNumber },
-          success: data => {
-            if (data === "failed") {
-              return console.log("failed");
-            } else {
-              removeBackdrop(orderStatusId);
-              removeModal(orderStatusId);
-              setTimeout(() => {
-                viewOrderDetails(data);
-              }, 500);
-            }
-          }
+  class PricingPriceObject {
+    constructor(pricing, pricingPrice, calculation) {
+      this.pricing = pricing;
+      this.pricingPrice = pricingPrice;
+      this.calculation = calculation;
+    }
+  }
+
+  /* ================================= DISCOUNT PRICE CALCULATION ================================= */
+
+  const discountPriceCalculation = orderNumber => {
+    return new Promise((resolve, reject) => {
+      /* ----------------------------- GET THE PARTS PRICING DETAILS ------------------------------ */
+      partPriceCalculation(orderNumber)
+        .then(partsPriceObject => {
+          /* --------------------------- GET THE PRICING PRICE DETAILS ---------------------------- */
+          pricingPriceCalculation(orderNumber)
+            .then(pricingPriceObject => {
+              /* ------------------------- GET THE DELIVERY PRICE DETAILS ------------------------- */
+              getOrderDetailsByOrderNumber(orderNumber)
+                .then(orderDetails => {
+                  /* -------------------------- DECLARE LOCAL VARIABLES --------------------------- */
+                  const totalPreDiscountPrice =
+                    Number(partsPriceObject.totalPrice) +
+                    Number(pricingPriceObject.pricingPrice);
+                  let discountPriceObjectArray = [];
+                  let totalDiscount = 0;
+                  let totalCalculation = "";
+                  /* ------------------------------ DEFINE VARIABLES ------------------------------ */
+                  for (let i = 0; i < orderDetails.discounts.length; i++) {
+                    /* ---------- DEFINE AND DECLARE VARIABLES FOR DISCOUNT PRICE OBJECT ---------- */
+                    const rate = Number(orderDetails.discounts[i].rate);
+                    const minOrderValue = Number(
+                      orderDetails.discounts[i].minOrderValue
+                    );
+                    const maxOrderValue = Number(
+                      orderDetails.discounts[i].maxOrderValue
+                    );
+                    let discountableValue = 0;
+                    let calculation = "";
+                    /* ----------- DEFINE VARIABLE: DISCOUNTABLE VALUE AND CALCULATION ------------ */
+                    if (
+                      maxOrderValue > 0 &&
+                      minOrderValue < totalPreDiscountPrice
+                    ) {
+                      if (minOrderValue > 0) {
+                        if (maxOrderValue < totalPreDiscountPrice) {
+                          discountableValue = maxOrderValue - minOrderValue;
+
+                          calculation =
+                            "($" +
+                            numberToTwoDecimalStringConverter(maxOrderValue) +
+                            " - $" +
+                            numberToTwoDecimalStringConverter(minOrderValue) +
+                            ")";
+                        } else if (maxOrderValue > totalPreDiscountPrice) {
+                          discountableValue =
+                            totalPreDiscountPrice - minOrderValue;
+
+                          calculation =
+                            "($" +
+                            numberToTwoDecimalStringConverter(
+                              totalPreDiscountPrice
+                            ) +
+                            " - $" +
+                            numberToTwoDecimalStringConverter(minOrderValue) +
+                            ")";
+                        }
+                      }
+                    } else if (
+                      minOrderValue > 0 &&
+                      minOrderValue < totalPreDiscountPrice
+                    ) {
+                      discountableValue = totalPreDiscountPrice - minOrderValue;
+
+                      calculation =
+                        "($" +
+                        numberToTwoDecimalStringConverter(
+                          totalPreDiscountPrice
+                        ) +
+                        " - $" +
+                        numberToTwoDecimalStringConverter(minOrderValue) +
+                        ")";
+                    } else if (minOrderValue == 0) {
+                      discountableValue = totalPreDiscountPrice;
+
+                      calculation =
+                        "$" +
+                        numberToTwoDecimalStringConverter(
+                          totalPreDiscountPrice
+                        );
+                    } else {
+                      discountableValue = 0;
+
+                      calculation = "$" + numberToTwoDecimalStringConverter(0);
+                    }
+                    /* ------------------------ DEFINE VARIABLE: DISCOUNT ------------------------- */
+                    const discount = Number(discountableValue) * rate;
+                    /* ------------------ UPDATE VARIABLE: DISCOUNT CALCULATION ------------------- */
+                    calculation =
+                      calculation +
+                      " x " +
+                      rate +
+                      " = $" +
+                      numberToTwoDecimalStringConverter(
+                        Number(discountableValue) * rate
+                      );
+                    /* --------------------- UPDATE VARIABLE: TOTAL DISCOUNT ---------------------- */
+                    totalDiscount = totalDiscount + discount;
+                    /* --------------- UPDATE VARIABLE: TOTAL DISCOUNT CALCULATION ---------------- */
+                    if (totalCalculation) {
+                      if (i == orderDetails.discounts.length - 1) {
+                        totalCalculation =
+                          totalCalculation +
+                          " + $" +
+                          numberToTwoDecimalStringConverter(
+                            Number(discountableValue) * rate
+                          ) +
+                          " = $" +
+                          numberToTwoDecimalStringConverter(totalDiscount);
+                      } else {
+                        totalCalculation =
+                          totalCalculation +
+                          " + $" +
+                          numberToTwoDecimalStringConverter(
+                            Number(discountableValue) * rate
+                          );
+                      }
+                    } else {
+                      if (i == orderDetails.discounts.length - 1) {
+                        totalCalculation =
+                          "$" +
+                          numberToTwoDecimalStringConverter(
+                            Number(discountableValue) * rate
+                          ) +
+                          " = $" +
+                          numberToTwoDecimalStringConverter(totalDiscount);
+                      } else {
+                        totalCalculation =
+                          "$" +
+                          numberToTwoDecimalStringConverter(
+                            Number(discountableValue) * rate
+                          );
+                      }
+                    }
+                    /* --------------- UPDATE VARIABLE: DISCOUNT PRICE OBJECT ARRAY --------------- */
+                    discountPriceObjectArray.push(
+                      new DiscountPriceObject(
+                        orderDetails.discounts[i].name,
+                        rate,
+                        minOrderValue,
+                        maxOrderValue,
+                        discount,
+                        calculation
+                      )
+                    );
+                  }
+                  /* ------------------ DEFINE VARIABLE: DISCOUNTS PRICE OBJECT ------------------- */
+                  const discountsPriceObject = new DiscountsPriceObject(
+                    discountPriceObjectArray,
+                    totalDiscount,
+                    totalCalculation
+                  );
+
+                  resolve(discountsPriceObject);
+                })
+                .catch(error => {
+                  reject(error);
+                });
+            })
+            .catch(error => {
+              reject(error);
+            });
+        })
+        .catch(error => {
+          reject(error);
         });
-      })
-      .catch(() => {
-        return console.log("not owner");
+    });
+  };
+
+  /* ----------------------------- DISCOUNT PRICE OBJECT CONSTRUCTOR ------------------------------ */
+
+  class DiscountPriceObject {
+    constructor(
+      name,
+      rate,
+      minOrderValue,
+      maxOrderValue,
+      discount,
+      calculation
+    ) {
+      this.name = name;
+      this.rate = rate;
+      this.minOrderValue = minOrderValue;
+      this.maxOrderValue = maxOrderValue;
+      this.discount = discount;
+      this.calculation = calculation;
+    }
+  }
+
+  /* ----------------------------- DISCOUNTS PRICE OBJECT CONSTRUCTOR ----------------------------- */
+
+  class DiscountsPriceObject {
+    constructor(discountPriceObjectArray, totalDiscount, calculation) {
+      this.discountPriceObjectArray = discountPriceObjectArray;
+      this.totalDiscount = totalDiscount;
+      this.calculation = calculation;
+    }
+  }
+
+  /* ================================= DELIVERY PRICE CALCULATION ================================= */
+
+  const deliveryPriceCalculation = orderNumber => {
+    return new Promise((resolve, reject) => {
+      /* ------------------------ GET ORDER DETAILS BASED ON ORDER NUMBER ------------------------- */
+      getOrderDetailsByOrderNumber(orderNumber)
+        .then(orderDetails => {
+          /* ------------------------------ DECLARE LOCAL VARIABLES ------------------------------- */
+          let delivery;
+          let details;
+          let price;
+          /* ----------------------------- DEFINE VARIABLES: DELIVERY ----------------------------- */
+          delivery = orderDetails.delivery;
+          /* ------------------------ DEFINE VARIABLES: DETAILS AND PRICE ------------------------- */
+          if (delivery == "Pickup") {
+            details =
+              "Pickup is available 24/7. This means that customers can arrange a pickup time that suits them the most.";
+            price = 0;
+          } else if (delivery == "Tracking") {
+            details =
+              "Tracking takes up to 3 working days nationwide. You will be given a tracking number to track parcel.";
+            price = 7;
+          } else if (delivery == "Courier") {
+            details =
+              "Parcels shipped using the Courier service usually arrive the next working day between major towns and cities.";
+            price = 8.5;
+          }
+          /* -------------------------- CREATE THE DELIVERY PRICE OBJECT -------------------------- */
+          const deliveryPriceObject = new DeliveryPriceObject(
+            delivery,
+            details,
+            price
+          );
+
+          resolve(deliveryPriceObject);
+        })
+        /* ------------------------------ CATCH ANY INCOMING ERRORS ------------------------------- */
+        .catch(error => {
+          reject(error);
+        });
+    });
+  };
+
+  /* ----------------------------- DELIVERY PRICE OBJECT CONSTRUCTOR ------------------------------ */
+
+  class DeliveryPriceObject {
+    constructor(delivery, details, price) {
+      this.delivery = delivery;
+      this.details = details;
+      this.price = price;
+    }
+  }
+
+  /* ================================== ORDER PRICE CALCULATION =================================== */
+
+  const orderPriceCalculation = orderNumber => {
+    return new Promise((resolve, reject) => {
+      /* ----------------------------- GET THE PARTS PRICING DETAILS ------------------------------ */
+      partPriceCalculation(orderNumber)
+        .then(partsPriceObject => {
+          /* --------------------------- GET THE PRICING PRICE DETAILS ---------------------------- */
+          pricingPriceCalculation(orderNumber)
+            .then(pricingPriceObject => {
+              /* ------------------------ GET THE DISCOUNTS PRICE DETAILS ------------------------- */
+              discountPriceCalculation(orderNumber)
+                .then(discountsPriceObject => {
+                  /* ----------------------- GET THE DELIVERY PRICE DETAILS ----------------------- */
+                  deliveryPriceCalculation(orderNumber)
+                    .then(deliveryPriceObject => {
+                      /* ------------------------ DECLARE LOCAL VARIABLES ------------------------- */
+                      let orderPrice;
+                      let calculation;
+                      /* --------------------- DEFINE VARIABLES: ORDER PRICE ---------------------- */
+                      orderPrice =
+                        partsPriceObject.totalPrice +
+                        pricingPriceObject.pricingPrice -
+                        discountsPriceObject.totalDiscount +
+                        deliveryPriceObject.price;
+                      /* --------------------- DEFINE VARIABLES: CALCULATION ---------------------- */
+                      calculation =
+                        "$" +
+                        numberToTwoDecimalStringConverter(
+                          partsPriceObject.totalPrice
+                        ) +
+                        " + $" +
+                        numberToTwoDecimalStringConverter(
+                          pricingPriceObject.pricingPrice
+                        ) +
+                        " - $" +
+                        numberToTwoDecimalStringConverter(
+                          discountsPriceObject.totalDiscount
+                        ) +
+                        " + $" +
+                        numberToTwoDecimalStringConverter(
+                          deliveryPriceObject.price
+                        ) +
+                        " = $" +
+                        numberToTwoDecimalStringConverter(orderPrice);
+                      /* ----------------------- CREATE ORDER PRICE OBJECT ------------------------ */
+                      const orderPriceObject = new OrderPriceObject(
+                        orderPrice,
+                        calculation
+                      );
+
+                      resolve(orderPriceObject);
+                    })
+                    .catch(error => {
+                      reject(error);
+                    });
+                })
+                .catch(error => {
+                  reject(error);
+                });
+            })
+            .catch(error => {
+              resolve(error);
+            });
+        })
+        .catch(error => {
+          resolve(error);
+        });
+    });
+  };
+
+  /* ------------------------------- ORDER PRICE OBJECT CONSTRUCTOR ------------------------------- */
+
+  class OrderPriceObject {
+    constructor(orderPrice, calculation) {
+      this.orderPrice = orderPrice;
+      this.calculation = calculation;
+    }
+  }
+
+  /* ============================================================================================== */
+
+  /* =========================== NUMBER TO TWO DECIMAL STRING CONVERTER =========================== */
+
+  const numberToTwoDecimalStringConverter = number => {
+    number = Number(number);
+    let numberOfDecimalPlaces;
+
+    if (number % 1 == 0) {
+      numberOfDecimalPlaces = 0;
+    } else {
+      numberOfDecimalPlaces = number.toString().split(".")[1].length;
+    }
+
+    let twoDecimalString;
+
+    if (numberOfDecimalPlaces == 0) {
+      twoDecimalString = number + ".00";
+    } else if (numberOfDecimalPlaces == 1) {
+      twoDecimalString = number + "0";
+    } else if (numberOfDecimalPlaces == 2) {
+      twoDecimalString = number.toString();
+    } else if (numberOfDecimalPlaces > 2) {
+      twoDecimalString = number.toFixed(2).toString();
+    }
+
+    return twoDecimalString;
+  };
+
+  /* ==================================== FILE NAME FORMATTER ==================================== */
+
+  const fileNameToNameFormatter = (fileName, numberOfCharacters) => {
+    const fileExtensionPosition = fileName.indexOf(".");
+    const extensionlessFileName = fileName.slice(0, fileExtensionPosition);
+    const fileNameCharacterLength = extensionlessFileName.length;
+    const numberOfAlphanumeric = numberOfCharacters - 3;
+    let firstNameAlphanumericLength;
+    let lastNameAlphanumericLength;
+    let firstName;
+    let lastName;
+    let formattedFileName;
+
+    if (numberOfAlphanumeric % 2 == 1) {
+      firstNameAlphanumericLength = Math.floor(numberOfAlphanumeric / 2) + 1;
+      lastNameAlphanumericLength = Math.floor(numberOfAlphanumeric / 2);
+    } else {
+      firstNameAlphanumericLength = numberOfAlphanumeric / 2;
+      lastNameAlphanumericLength = numberOfAlphanumeric / 2;
+    }
+
+    if (fileNameCharacterLength > numberOfCharacters) {
+      firstName = extensionlessFileName.slice(0, firstNameAlphanumericLength);
+      lastName = extensionlessFileName.slice(
+        fileNameCharacterLength - lastNameAlphanumericLength,
+        fileNameCharacterLength
+      );
+      formattedFileName = firstName + "..." + lastName;
+    } else {
+      formattedFileName = extensionlessFileName;
+    }
+
+    return formattedFileName;
+  };
+
+  /* ================================== GET PART'S FILE DETAILS =================================== */
+
+  const getFileDetails = fileId => {
+    let fileDetails;
+
+    $.ajax({
+      type: "POST",
+      async: false,
+      url: "/file/get-file-details/file-id",
+      contentType: "application/json",
+      data: JSON.stringify({ fileId }),
+      success: data => {
+        fileDetails = data;
+      }
+    });
+
+    return fileDetails;
+  };
+
+  /* ============================= GET ORDER DETAILS BY ORDER NUMBER ============================== */
+
+  const getOrderDetailsByOrderNumber = orderNumber => {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        type: "POST",
+        url: "/order/get-order-details-by-order-number",
+        contentType: "application/json",
+        data: JSON.stringify({ orderNumber }),
+        success: data => {
+          if (data.status === "failed") {
+            reject(data.error);
+          } else if (data.status === "success") {
+            resolve(data.orderDetails);
+          }
+        }
       });
+    });
   };
 
   /* ============================================================================================== */

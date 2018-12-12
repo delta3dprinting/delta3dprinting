@@ -15,7 +15,39 @@ module.exports = (app, passport, upload, conn) => {
     gfs.collection("fs");
   });
 
-  /* ====================================== CHECK OWNERSHIP ======================================= */
+  /* =========================== GET ORDER DETAILS BY ORDER NUMBER ============================ */
+
+  // @route   POST /order/get-order-details-by-order-number
+  // @desc    Check if User is the Owner of the Order
+  // @access  Private
+  app.post(
+    "/order/get-order-details-by-order-number",
+    restrictedPages,
+    (req, res) => {
+      /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+
+      const orderNumber = req.body.orderNumber;
+      const ownerId = req.user._id;
+
+      /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+
+      let query;
+
+      if (req.user.accountType == "admin") {
+        // ADMIN ACCESS
+        query = { orderNumber };
+      } else {
+        // USER ACCESS
+        query = { orderNumber, ownerId };
+      }
+
+      /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+
+      getOrderDetails(res, query);
+    }
+  );
+
+  /* ==================================== CHECK OWNERSHIP ===================================== */
 
   // @route   POST /order/check-ownership
   // @desc    Check if User is the Owner of the Order
@@ -804,28 +836,83 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
+  /* =================================== PART'S FILE DETAILS ==================================== */
+
   // @route   POST /order/part/file-details
   // @desc    Fetch File Details
   // @access  Private
   app.post("/order/part/file-details", restrictedPages, (req, res) => {
+    /* -------------------------- ASSIGNING AND SIMPLIFYING VARIABLES --------------------------- */
+
     const part = req.body;
-    const id = mongoose.Types.ObjectId(part.fileId);
+    const fileId = mongoose.Types.ObjectId(part.fileId);
 
-    gfs.files.findOne({ _id: id }, (err, file) => {
-      if (err) throw err;
+    /* ---------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE ----------------------- */
 
-      if (!file) {
-        console.log("No User Found");
-        res.send("failed");
-        return;
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = { _id: fileId };
+    } else {
+      // USER ACCESS
+      query = {
+        _id: fileId,
+        "metadata.ownerId": req.user._id
+      };
+    }
+
+    /* --------------------------- GET THE FILE DETAILS FROM DATABASE --------------------------- */
+
+    gfs.files.findOne(query, (err, file) => {
+      if (err) {
+        console.log("Error Found when Fetching File Details");
+        return res.send("failed");
       }
 
-      res.send(file);
+      if (!file) {
+        console.log("No File Details Found");
+        return res.send("failed");
+      }
+
+      return res.send(file);
     });
   });
 };
 
 /* ========================================== FUNCTION ========================================== */
+
+/* -------------------------------- GET ORDER DETAILS (FIND ONE) -------------------------------- */
+
+const getOrderDetails = (res, query, filter) => {
+  PrintOrder.findOne(query, (err, orderDetails) => {
+    if (err) {
+      return res.send({
+        status: "failed",
+        error: "500: Error Found when Fetching Order Details"
+      });
+    }
+
+    if (!orderDetails) {
+      return res.send({
+        status: "failed",
+        error: "404: No Order Found with that Order Number"
+      });
+    }
+
+    if (filter) {
+      const filteredOrderDetails = filter(orderDetails);
+      return res.send({
+        status: "success",
+        orderDetails: filteredOrderDetails
+      });
+    }
+
+    return res.send({
+      status: "success",
+      orderDetails
+    });
+  });
+};
 
 /* ---------------------------- UPDATE ORDER STATUS: AWAITING QUOTE ----------------------------- */
 
@@ -904,6 +991,7 @@ const updateOrderStatusAwaitingPaymentConfirmation = (req, res) => {
       $set: {
         orderStatus: "Printing Order",
         paymentConfirmationDate: new Date(),
+        price: order.price,
         lastUpdateDate: new Date()
       }
     },

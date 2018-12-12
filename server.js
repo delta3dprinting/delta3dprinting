@@ -80,5 +80,6 @@ require("./routes/users")(app, passport); // Users
 require("./routes/profile")(app, passport); // Profile
 require("./routes/prints")(app, passport, upload, conn); // Prints
 require("./routes/discount")(app, passport, conn); // Discount
+require("./routes/file")(app, passport, upload, conn); // File
 
 /* ========================================================================================== */
