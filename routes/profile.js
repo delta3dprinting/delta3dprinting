@@ -49,7 +49,65 @@ module.exports = (app, passport) => {
       });
     });
   });
+
+  /* =================================== GET PROFILE DETAILS ==================================== */
+
+  // @route   POST /profile/profile-details
+  // @desc    Get Profile Details
+  // @access  Private
+  app.post("/profile/profile-details", restrictedPages, (req, res) => {
+    /* -------------------------- ASSIGNING AND SIMPLIFYING VARIABLES --------------------------- */
+    let _id;
+    /* ---------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE ----------------------- */
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      _id = mongoose.Types.ObjectId(req.body._id);
+    } else {
+      // USER ACCESS
+      _id = mongoose.Types.ObjectId(req.user._id);
+    }
+    const query = { _id };
+    /* ------------------------- ACCESS DATABASE AND SEND TO FRONT-END -------------------------- */
+    getProfileDetails(res, query);
+  });
 };
+
+/* ========================================== FUNCTION ========================================== */
+
+/* ------------------------------- GET PROFILE DETAILS (FIND ONE) ------------------------------- */
+
+const getProfileDetails = (res, query, filter) => {
+  UserProfile.findOne(query, (error, profileDetails) => {
+    if (error) {
+      return res.send({
+        status: "failed",
+        error: "500: Error Found when Fetching Profile Details"
+      });
+    }
+
+    if (!profileDetails) {
+      return res.send({
+        status: "failed",
+        error: "404: No Profile Found"
+      });
+    }
+
+    if (filter) {
+      const filteredProfileDetails = filter(profileDetails);
+      return res.send({
+        status: "success",
+        profileDetails: filteredProfileDetails
+      });
+    }
+
+    return res.send({
+      status: "success",
+      profileDetails
+    });
+  });
+};
+
+/* ========================================= MIDDLEWARE ========================================= */
 
 // Route middleware to make sure a user is logged in
 const restrictedPages = (req, res, next) => {
@@ -63,3 +121,5 @@ const restrictedPages = (req, res, next) => {
     res.redirect("/");
   }
 };
+
+/* ============================================================================================== */
