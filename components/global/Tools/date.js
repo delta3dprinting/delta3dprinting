@@ -243,4 +243,74 @@ const dayDateMonthYearFormat = defaultDate => {
   return dayDateMonthYearString;
 };
 
+/* ==================================== IS DATE WITHIN RANGE ==================================== */
+
+const isDateWithinRange = (date, startDate, endDate) => {
+  const dateObject = dateFormatter(date);
+  const momentDate = moment([
+    Number(dateObject.year),
+    Number(dateObject.month[1]),
+    Number(dateObject.date)
+  ]);
+  const startDateObject = dateFormatter(startDate);
+  const momentStartDate = moment([
+    Number(startDateObject.year),
+    Number(startDateObject.month[1]),
+    Number(startDateObject.date)
+  ]);
+  const endDateObject = dateFormatter(endDate);
+  const momentEndDate = moment([
+    Number(endDateObject.year),
+    Number(endDateObject.month[1]),
+    Number(endDateObject.date)
+  ]);
+
+  // Positive means date is over the start date
+  const startDateDifference = momentDate.diff(momentStartDate, "days");
+  // Positive means date is under the end date
+  const endDateDifference = momentEndDate.diff(momentDate, "days");
+
+  if (startDateDifference >= 0 && endDateDifference >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+/* ============================= GET LAST MONTH START AND END DATES ============================= */
+
+const getLastMonthStartAndEndDates = promise => {
+  if (promise != false) {
+    return new Promise((resolve, reject) => {
+      const startDateOfPreviousMonth = moment()
+        .startOf("month")
+        .subtract(1, "days")
+        .startOf("month")._d;
+
+      const endDateOfPreviousMonth = moment()
+        .startOf("month")
+        .subtract(1, "days")._d;
+
+      resolve({
+        startDate: startDateOfPreviousMonth,
+        endDate: endDateOfPreviousMonth
+      });
+    });
+  } else {
+    const startDateOfPreviousMonth = moment()
+      .startOf("month")
+      .subtract(1, "days")
+      .startOf("month")._d;
+
+    const endDateOfPreviousMonth = moment()
+      .startOf("month")
+      .subtract(1, "days")._d;
+
+    return {
+      startDate: startDateOfPreviousMonth,
+      endDate: endDateOfPreviousMonth
+    };
+  }
+};
+
 /* ============================================================================================== */

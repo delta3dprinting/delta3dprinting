@@ -15,6 +15,27 @@ module.exports = (app, passport, upload, conn) => {
     gfs.collection("fs");
   });
 
+  /* ================================ GET ORDER DETAILS ARRAY ================================= */
+
+  // @route   POST /order/get-order-details-array
+  // @desc    Get an array of order details
+  // @access  Private
+  app.post("/order/get-order-details-array", restrictedPages, (req, res) => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const ownerId = req.user._id;
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = {};
+    } else {
+      // USER ACCESS
+      query = { ownerId };
+    }
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    getOrderDetailsArray(res, query);
+  });
+
   /* ======================== GET ORDER DETAILS ARRAY BY ORDER STATUS ========================= */
 
   // @route   POST /order/get-order-details-array-by-order-status
