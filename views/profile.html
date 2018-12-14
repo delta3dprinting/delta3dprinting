@@ -527,11 +527,33 @@
   </body>
 </html>
 
+<style>
+  #profile_body {
+    background-color: rgb(255, 252, 252);
+  }
+</style>
+
+<style>
+  #profile_dashboard_heading_body {
+    min-height: 24vmin;
+    display: flex;
+    align-items: center;
+    padding: 8vmin 4vmin;
+  }
+
+  #profile_dashboard_heading_text {
+    font-family: "Russo One", sans-serif;
+    font-size: 8vmin;
+    letter-spacing: 0.2vmin;
+  }
+</style>
+
 <script>
   /* ======================================= INITIALISATION ======================================= */
 
   const profileDashboardInit = () => {
     profileDashboardStructure();
+    profileDashboardHeading();
   };
 
   /* ========================================= STRUCTURE ========================================== */
@@ -539,14 +561,37 @@
   const profileDashboardStructure = () => {
     /* ------------------------------------- CREATE THE HTML -------------------------------------- */
     const html =
-      "<div id='profile_dashboard_contents_body' class='profile_content_body'></div>";
+      "<div id='profile_dashboard_contents_body' class='profile_content_body'>" +
+      "<div id='profile_dashboard_heading_body' class='profile_dashboard_content_body'></div>" +
+      "<div id='profile_dashboard_announcement_body' class='profile_dashboard_content_body'></div>" +
+      "</div>";
     /* ------------------------------------- INSERT THE HTML -------------------------------------- */
     document.querySelector("#profile_contents_body").innerHTML = html;
   };
 
   /* ========================================== HEADING =========================================== */
 
-  const profileDashboardHeading = () => {};
+  const profileDashboardHeading = () => {
+    const element = document.querySelector("#profile_dashboard_heading_body");
+
+    loadLoader(element).then(() => {
+      getMyProfileDetails()
+        .then(profileDetails => {
+          const html =
+            "<div id='profile_dashboard_heading_text'>" +
+            profileDetails.firstName +
+            " " +
+            profileDetails.lastName +
+            "'s Dashboard" +
+            "</div>";
+
+          element.innerHTML = html;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  };
 
   /* ============================================================================================== */
 </script>

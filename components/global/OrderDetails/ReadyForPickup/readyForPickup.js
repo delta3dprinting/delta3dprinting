@@ -30,7 +30,7 @@ const constructOrderDetailsReadyForPickupModal = (order, orderStatusId) => {
     "</div>" +
     "</div>" +
     "</div>" +
-    "<div id='ready_for_pickup_complete_order_footer_buttons_body' class='order_details_footer_buttons_body ready_for_pickup_footer_buttons_body_close'>" +
+    "<div id='ready_for_pickup_complete_order_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close'>" +
     "<div class='order_details_footer_button_body'>" +
     "<div id='order_details_order_picked_up_confirm_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Confirm</div>" +
@@ -413,11 +413,11 @@ const readyForPickupCompleteOrderButton = () => {
   // Set new CSS
   document
     .querySelector("#ready_for_pickup_footer_buttons_body")
-    .classList.toggle("ready_for_pickup_footer_buttons_body_open");
+    .classList.toggle("order_details_footer_buttons_body_open");
 
   document
     .querySelector("#ready_for_pickup_complete_order_footer_buttons_body")
-    .classList.toggle("ready_for_pickup_footer_buttons_body_open");
+    .classList.toggle("order_details_footer_buttons_body_open");
 };
 
 const readyForPickupCompleteOrderConfirm = (order, modalId) => {

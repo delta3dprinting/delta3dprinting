@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const path = require("path");
 
 // Load User Profile Model
@@ -57,16 +58,16 @@ module.exports = (app, passport) => {
   // @access  Private
   app.post("/profile/profile-details", restrictedPages, (req, res) => {
     /* -------------------------- ASSIGNING AND SIMPLIFYING VARIABLES --------------------------- */
-    let _id;
+    let ownerId;
     /* ---------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE ----------------------- */
     if (req.user.accountType == "admin") {
       // ADMIN ACCESS
-      _id = mongoose.Types.ObjectId(req.body._id);
+      ownerId = mongoose.Types.ObjectId(req.body.ownerId);
     } else {
       // USER ACCESS
-      _id = mongoose.Types.ObjectId(req.user._id);
+      ownerId = mongoose.Types.ObjectId(req.user._id);
     }
-    const query = { _id };
+    const query = { ownerId };
     /* ------------------------- ACCESS DATABASE AND SEND TO FRONT-END -------------------------- */
     getProfileDetails(res, query);
   });

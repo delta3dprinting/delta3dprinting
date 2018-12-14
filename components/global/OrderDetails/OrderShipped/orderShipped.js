@@ -30,7 +30,7 @@ const constructOrderDetailsOrderShippedModal = (order, orderStatusId) => {
     "</div>" +
     "</div>" +
     "</div>" +
-    "<div id='order_shipped_complete_order_footer_buttons_body' class='order_details_footer_buttons_body order_shipped_footer_buttons_body_close'>" +
+    "<div id='order_shipped_complete_order_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close'>" +
     "<div class='order_details_footer_button_body'>" +
     "<div id='order_shipped_order_completed_confirm_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Confirm</div>" +
@@ -258,11 +258,11 @@ const orderShippedCompleteOrderButton = () => {
   // Set new CSS
   document
     .querySelector("#order_shipped_footer_buttons_body")
-    .classList.toggle("order_shipped_footer_buttons_body_open");
+    .classList.toggle("order_details_footer_buttons_body_open");
 
   document
     .querySelector("#order_shipped_complete_order_footer_buttons_body")
-    .classList.toggle("order_shipped_footer_buttons_body_open");
+    .classList.toggle("order_details_footer_buttons_body_open");
 };
 
 const orderShippedCompleteOrderConfirm = (order, modalId) => {

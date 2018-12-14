@@ -30,7 +30,7 @@ const constructOrderDetailsOrderPickedUpModal = (order, orderStatusId) => {
     "</div>" +
     "</div>" +
     "</div>" +
-    "<div id='order_picked_up_complete_order_footer_buttons_body' class='order_details_footer_buttons_body order_picked_up_footer_buttons_body_close'>" +
+    "<div id='order_picked_up_complete_order_footer_buttons_body' class='order_details_footer_buttons_body order_details_footer_buttons_body_close'>" +
     "<div class='order_details_footer_button_body'>" +
     "<div id='order_details_order_completed_confirm_button' class='order_details_footer_button'>" +
     "<div class='order_details_footer_button_text'>Confirm</div>" +
@@ -166,11 +166,11 @@ const orderPickedUpCompleteOrderButton = () => {
   // Set new CSS
   document
     .querySelector("#order_picked_up_footer_buttons_body")
-    .classList.toggle("order_picked_up_footer_buttons_body_open");
+    .classList.toggle("order_details_footer_buttons_body_open");
 
   document
     .querySelector("#order_picked_up_complete_order_footer_buttons_body")
-    .classList.toggle("order_picked_up_footer_buttons_body_open");
+    .classList.toggle("order_details_footer_buttons_body_open");
 };
 
 const orderPickedUpCompleteOrderConfirm = (order, modalId) => {
