@@ -525,15 +525,15 @@ const cumulativeOrderValueByOrderStatus = orderStatus => {
       date = orderDetailsArray[i].paymentConfirmationDate;
     } else if (orderStatus == "Order Shipped") {
       date = orderDetailsArray[i].orderDeliveryDate;
-    } else if (data.orderStatus == "Order Completed") {
+    } else if (orderStatus == "Order Completed") {
       date = orderDetailsArray[i].orderCompletionDate;
-    } else if (data.orderStatus == "Requesting Refund") {
+    } else if (orderStatus == "Requesting Refund") {
       date = orderDetailsArray[i].creationDate;
-    } else if (data.orderStatus == "Refund Approved") {
+    } else if (orderStatus == "Refund Approved") {
       date = orderDetailsArray[i].processDate;
-    } else if (data.orderStatus == "Refund Declined") {
+    } else if (orderStatus == "Refund Declined") {
       date = orderDetailsArray[i].processDate;
-    } else if (data.orderStatus == "Refund Processed") {
+    } else if (orderStatus == "Refund Processed") {
       date = orderDetailsArray[i].processDate;
     }
 
@@ -594,15 +594,15 @@ const cumulativeOrderValueByOrderStatusAndDateRange = (
       date = orderDetailsArray[i].paymentConfirmationDate;
     } else if (orderStatus == "Order Shipped") {
       date = orderDetailsArray[i].orderDeliveryDate;
-    } else if (data.orderStatus == "Order Completed") {
+    } else if (orderStatus == "Order Completed") {
       date = orderDetailsArray[i].orderCompletionDate;
-    } else if (data.orderStatus == "Requesting Refund") {
+    } else if (orderStatus == "Requesting Refund") {
       date = orderDetailsArray[i].creationDate;
-    } else if (data.orderStatus == "Refund Approved") {
+    } else if (orderStatus == "Refund Approved") {
       date = orderDetailsArray[i].processDate;
-    } else if (data.orderStatus == "Refund Declined") {
+    } else if (orderStatus == "Refund Declined") {
       date = orderDetailsArray[i].processDate;
-    } else if (data.orderStatus == "Refund Processed") {
+    } else if (orderStatus == "Refund Processed") {
       date = orderDetailsArray[i].processDate;
     }
 
