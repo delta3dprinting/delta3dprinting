@@ -33,12 +33,18 @@
       href="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/global.css"
     />
     <!-- ------------------------------ TOOLS ------------------------------ -->
-    <!-- PRICE: Printing Service -->
+    <!-- PRICE: 3D Printing Service -->
     <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/Price/printingService.js"></script>
     <!-- DATABASE REQUEST: File -->
     <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/DatabaseRequest/file.js"></script>
-    <!-- DATABASE REQUEST: Printing Service -->
-    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/DatabaseRequest/printingService.js"></script>
+    <!-- DATABASE REQUEST: Print -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/DatabaseRequest/print.js"></script>
+    <!-- DATABASE REQUEST: Profile -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/DatabaseRequest/profile.js"></script>
+    <!-- DATABASE REQUEST: Level -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/DatabaseRequest/level.js"></script>
+    <!-- LEVEL -->
+    <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/level.js"></script>
     <!-- DATE -->
     <script src="https://gitcdn.link/repo/delta3dprinting/delta3dprinting/master/components/global/Tools/date.js"></script>
     <!-- DISPLAY MESSAGE -->
@@ -545,6 +551,180 @@
     font-family: "Russo One", sans-serif;
     font-size: 8vmin;
     letter-spacing: 0.2vmin;
+    color: rgb(60, 60, 60);
+  }
+
+  .profile_dashboard_button_body {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2vmin;
+  }
+
+  .profile_dashboard_button {
+    height: 6vmin;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3vmin;
+    background-color: rgb(255, 75, 90);
+    box-shadow: 0 0.5vmin 1vmin 0 rgb(180, 180, 180);
+  }
+
+  .profile_dashboard_button:hover {
+    background-color: rgb(255, 100, 115);
+  }
+
+  .profile_dashboard_button:active {
+    background-color: rgb(230, 50, 65);
+    box-shadow: 0 0 0 rgb(180, 180, 180);
+  }
+
+  .profile_dashboard_button_text {
+    font-family: "Chivo", sans-serif;
+    font-size: 3vmin;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.2vmin;
+    color: rgb(255, 252, 252);
+  }
+
+  .profile_dashboard_table {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    border-style: solid solid none solid;
+    border-radius: 0.8vmin;
+    border-width: 0.2vmin;
+    border-color: rgb(180, 180, 180);
+    box-shadow: 0vmin 0vmin 0.8vmin 0vmin rgb(200, 200, 200);
+  }
+
+  /* =========================================== LEVEL ============================================ */
+
+  #profile_dashboard_level_body {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4vmin;
+  }
+
+  .profile_dashboard_level_heading_body {
+    width: 100%;
+    display: flex;
+    padding: 4vmin;
+    border-style: none none solid none;
+    border-width: 0.2vmin;
+    border-color: rgb(180, 180, 180);
+  }
+
+  .profile_dashboard_level_heading_text {
+    font-family: "Open Sans", sans-serif;
+    font-size: 5vmin;
+    font-weight: bold;
+    letter-spacing: 0.2vmin;
+    color: rgb(60, 60, 60);
+  }
+
+  .profile_dashboard_level_meter_body {
+    height: 16vmin;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4vmin;
+    border-style: none none solid none;
+    border-width: 0.2vmin;
+    border-color: rgb(180, 180, 180);
+  }
+
+  .profile_dashboard_meters_body {
+    height: 4vmin;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .profile_dashboard_meter_body {
+    height: 4vmin;
+    width: 80%;
+    position: absolute;
+  }
+
+  #profile_dashboard_total_meter {
+    width: 100%;
+    height: 100%;
+    border-style: solid;
+    border-width: 0.2vmin;
+    border-color: rgb(100, 100, 100);
+    border-radius: 2vmin;
+  }
+
+  #profile_dashboard_progression_meter {
+    height: 100%;
+    border-radius: 2vmin;
+    background-color: rgb(180, 20, 20);
+  }
+
+  .profile_dashboard_total_meter_labels_body {
+    height: 4vmin;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1vmin;
+  }
+
+  .profile_dashboard_total_meter_label_body {
+    width: 50%;
+    display: flex;
+  }
+
+  #profile_dashboard_minimum_order_value_label_body {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  #profile_dashboard_maximum_order_value_label_body {
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .profile_dashboard_total_meter_label_text {
+    font-family: "Chivo", sans-serif;
+    font-size: 3vmin;
+    color: rgb(120, 120, 120);
+  }
+
+  .profile_dashboard_level_stats_body {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4vmin;
+    border-style: none none solid none;
+    border-width: 0.2vmin;
+    border-color: rgb(180, 180, 180);
+  }
+
+  .profile_dashboard_level_stats_heading_body {
+    width: 100%;
+    padding: 0 0 1vmin 0;
+  }
+
+  .profile_dashboard_level_stats_heading_text {
+    font-family: "Chivo", sans-serif;
+    font-size: 4vmin;
+    color: rgb(120, 120, 120);
+  }
+
+  .profile_dashboard_level_stats_content_body {
+    width: 100%;
+  }
+
+  .profile_dashboard_level_stats_content_text {
+    font-family: "Open Sans", sans-serif;
+    font-size: 6vmin;
+    font-weight: bolder;
+    color: rgb(60, 60, 60);
   }
 </style>
 
@@ -601,129 +781,135 @@
   const profileDashboardLevel = () => {
     const element = document.querySelector("#profile_dashboard_level_body");
 
-    loadLoader(element).then();
+    loadLoader(element).then(() => {
+      setTimeout(() => {
+        calculateLevel().then(levelObject => {
+          const html =
+            "<div class='profile_dashboard_table'>" +
+            "<div class='profile_dashboard_level_heading_body'>" +
+            "<div class='profile_dashboard_level_heading_text'>" +
+            "Account Level: " +
+            levelObject.level +
+            "</div>" +
+            "</div>" +
+            "<div class='profile_dashboard_level_meter_body'>" +
+            "<div class='profile_dashboard_meters_body'>" +
+            "<div id='profile_dashboard_progression_meter_body' class='profile_dashboard_meter_body'>" +
+            "<div id='profile_dashboard_progression_meter' class='profile_dashboard_meter'></div>" +
+            "</div>" +
+            "<div id='profile_dashboard_total_meter_body' class='profile_dashboard_meter_body'>" +
+            "<div id='profile_dashboard_total_meter' class='profile_dashboard_meter'></div>" +
+            "</div>" +
+            "</div>" +
+            "<div class='profile_dashboard_total_meter_labels_body'>" +
+            "<div id='profile_dashboard_minimum_order_value_label_body' class='profile_dashboard_total_meter_label_body'>" +
+            "<div class='profile_dashboard_total_meter_label_text'>" +
+            levelObject.minPoints +
+            "</div>" +
+            "</div>" +
+            "<div id='profile_dashboard_maximum_order_value_label_body' class='profile_dashboard_total_meter_label_body'>" +
+            "<div class='profile_dashboard_total_meter_label_text'>" +
+            levelObject.maxPoints +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "<div class='profile_dashboard_level_stats_body'>" +
+            "<div class='profile_dashboard_level_stats_heading_body'>" +
+            "<div class='profile_dashboard_level_stats_heading_text'>Total Points</div>" +
+            "</div>" +
+            "<div class='profile_dashboard_level_stats_content_body'>" +
+            "<div class='profile_dashboard_level_stats_content_text'>" +
+            numberToTwoDecimalStringConverter(levelObject.points) +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "<div class='profile_dashboard_level_stats_body'>" +
+            "<div class='profile_dashboard_level_stats_heading_body'>" +
+            "<div class='profile_dashboard_level_stats_heading_text'>Benefits</div>" +
+            "</div>" +
+            "<div class='profile_dashboard_button_body'>" +
+            "<div id='profile_dashboard_view_benefits_button' class='profile_dashboard_button'>" +
+            "<div class='profile_dashboard_button_text'>View Benefits</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
+
+          element.innerHTML = html;
+
+          const progressionMeterWidth =
+            100 *
+              ((levelObject.points - levelObject.minPoints) /
+                (levelObject.maxPoints - levelObject.minPoints)) +
+            "%";
+
+          document.querySelector(
+            "#profile_dashboard_progression_meter"
+          ).style.width = progressionMeterWidth;
+
+          document
+            .querySelector("#profile_dashboard_view_benefits_button")
+            .addEventListener("click", () => {
+              profileDashboardLevelViewBenefits(levelObject.benefits);
+            });
+        });
+      }, 0);
+    });
+  };
+
+  /* ------------------------------------ VIEW LEVEL BENEFITS ------------------------------------- */
+
+  const profileDashboardLevelViewBenefits = benefitArray => {
+    profileDashboardLevelViewBenefitsModal();
+    profileDashboardLevelListBenefits(benefitArray);
+  };
+
+  const profileDashboardLevelViewBenefitsModal = () => {
+    const modalId = "level_benefits";
+    const modalHeader = "Benefits";
+    const modalFooter = "";
+
+    const elementObject = new modalElementObject(
+      modalId,
+      modalHeader,
+      modalFooter
+    );
+
+    const modalMobileHeight = 50;
+    const modalMobileWidth = 80;
+    const modalDesktopHeight = 50;
+    const modalDesktopWidth = 50;
+    const modalFooterHeight = 0;
+
+    const CSSObject = new modalCSSObject(
+      modalMobileHeight,
+      modalMobileWidth,
+      modalDesktopHeight,
+      modalDesktopWidth,
+      modalFooterHeight
+    );
+
+    addModal(elementObject, CSSObject);
+  };
+
+  const profileDashboardLevelListBenefits = benefitArray => {
+    benefitArray.forEach(benefit => {
+      const html =
+        "<div class='dashboard_level_benefit_body'>" +
+        "<div class='dashboard_level_benefit_text'>" +
+        benefit +
+        "</div>" +
+        "</div>";
+
+      document
+        .querySelector("#level_benefits_modal_body")
+        .insertAdjacentHTML("beforeend", html);
+    });
   };
 </script>
 
 <script>
-  /* =================================== USER LEVEL CALCULATION =================================== */
-
-  const levels = [
-    { level: "1", minCumulativeOrderValue: 0, maxCumulativeOrderValue: 1000 },
-    {
-      level: "2",
-      minCumulativeOrderValue: 1000,
-      maxCumulativeOrderValue: 2000
-    },
-    {
-      level: "3",
-      minCumulativeOrderValue: 2000,
-      maxCumulativeOrderValue: 3000
-    },
-    {
-      level: "4",
-      minCumulativeOrderValue: 3000,
-      maxCumulativeOrderValue: 4000
-    },
-    {
-      level: "5",
-      minCumulativeOrderValue: 4000,
-      maxCumulativeOrderValue: 5000
-    },
-    {
-      level: "6",
-      minCumulativeOrderValue: 5000,
-      maxCumulativeOrderValue: 6000
-    },
-    {
-      level: "7",
-      minCumulativeOrderValue: 6000,
-      maxCumulativeOrderValue: 7000
-    },
-    {
-      level: "8",
-      minCumulativeOrderValue: 7000,
-      maxCumulativeOrderValue: 8000
-    },
-    {
-      level: "9",
-      minCumulativeOrderValue: 8000,
-      maxCumulativeOrderValue: 9000
-    },
-    {
-      level: "10",
-      minCumulativeOrderValue: 9000,
-      maxCumulativeOrderValue: 10000
-    },
-    {
-      level: "11",
-      minCumulativeOrderValue: 10000,
-      maxCumulativeOrderValue: 20000
-    },
-    {
-      level: "12",
-      minCumulativeOrderValue: 20000,
-      maxCumulativeOrderValue: 30000
-    },
-    {
-      level: "13",
-      minCumulativeOrderValue: 30000,
-      maxCumulativeOrderValue: 40000
-    },
-    {
-      level: "14",
-      minCumulativeOrderValue: 40000,
-      maxCumulativeOrderValue: 50000
-    },
-    {
-      level: "15",
-      minCumulativeOrderValue: 50000,
-      maxCumulativeOrderValue: 60000
-    },
-    {
-      level: "16",
-      minCumulativeOrderValue: 60000,
-      maxCumulativeOrderValue: 70000
-    },
-    {
-      level: "17",
-      minCumulativeOrderValue: 70000,
-      maxCumulativeOrderValue: 80000
-    },
-    {
-      level: "18",
-      minCumulativeOrderValue: 80000,
-      maxCumulativeOrderValue: 90000
-    },
-    {
-      level: "19",
-      minCumulativeOrderValue: 90000,
-      maxCumulativeOrderValue: 100000
-    },
-    {
-      level: "20",
-      minCumulativeOrderValue: 100000,
-      maxCumulativeOrderValue: 200000
-    }
-  ];
-
-  const calculateLevel = () => {
-    let cumulativeOrderValue;
-    let level;
-
-    cumulativeOrderValue = cumulativeOrderValueByOrderStatus("Order Completed");
-
-    for (let i = 0; i < levels.length; i++) {
-      if (
-        levels[i].minCumulativeOrderValue <= cumulativeOrderValue &&
-        levels[i].maxCumulativeOrderValue > cumulativeOrderValue
-      ) {
-        level = levels[i].level;
-        return level;
-      }
-    }
-  };
-
   /* ============================= GET LOGGED IN USER PROFILE DETAILS ============================= */
 
   const getMyProfileDetails = promise => {
@@ -756,5 +942,160 @@
       return retrievedData;
     }
   };
+  /* ============================================================================================== */
+</script>
+
+<script>
+  /* =================================== USER LEVEL CALCULATION =================================== */
+
+  const calculateLevel = promise => {
+    if (promise != false) {
+      /* ------------------------------- RUN FUNCTION AS A PROMISE -------------------------------- */
+      return new Promise((resolve, reject) => {
+        // DECLARE REQUIRED VARIABLES
+        let level;
+        let minPoints;
+        let maxPoints;
+        let benefits = [];
+        let points;
+        let cumulativeOrderValue;
+
+        // ASSIGN VALUE OF THE VARIABLES
+        // Cumulative Order Value
+        cumulativeOrderValue = cumulativeOrderValueByOrderStatus(
+          "Order Completed"
+        ).cumulativeOrderValue;
+        // Points - Calculate Account Points
+        points = cumulativeOrderValue;
+
+        // DETERMINE USER'S LEVEL OBJECT
+        // Fetch the Level Object Array
+        getLevelObjectArray().then(levelObjectArray => {
+          // Sort the Level Object Array by Ascending Level
+          sortLevelObjectArray(
+            levelObjectArray,
+            sortLevelObjectArrayByAscendingLevel
+          );
+          // Using for loop, determine the account level based on the total points
+          for (let i = 0; i < levelObjectArray.length; i++) {
+            // Minimum and MAximum Points Assoiciated with the Level
+            minPoints = levelObjectArray[i].minPoints;
+            maxPoints = levelObjectArray[i].maxPoints;
+            // Create a list of benefits whenever the points exceed or is within the range of points
+            benefits = [...benefits, ...levelObjectArray[i].benefits];
+            // If the total points is within the range, execute the code in the if statement
+            if (minPoints <= points && maxPoints > points) {
+              // Assign the value for the 'level' variable
+              level = levelObjectArray[i].level;
+              // Resolve the promise with the Level Object
+              resolve({
+                level,
+                minPoints,
+                maxPoints,
+                benefits,
+                points
+              });
+            }
+          }
+        });
+      });
+    } else {
+      /* ------------------------------- RUN FUNCTION SYNCHRONOUSLY ------------------------------- */
+      // DECLARE REQUIRED VARIABLES
+      let level;
+      let minPoints;
+      let maxPoints;
+      let benefits = [];
+      let points;
+      let cumulativeOrderValue;
+
+      // ASSIGN VALUE OF THE VARIABLES
+      // Cumulative Order Value
+      cumulativeOrderValue = cumulativeOrderValueByOrderStatus(
+        "Order Completed"
+      ).cumulativeOrderValue;
+      // Points - Calculate Account Points
+      points = cumulativeOrderValue;
+
+      // DETERMINE USER'S LEVEL OBJECT
+      // Fetch the Level Object Array
+      getLevelObjectArray().then(levelObjectArray => {
+        // Sort the Level Object Array by Ascending Level
+        sortLevelObjectArray(
+          levelObjectArray,
+          sortLevelObjectArrayByAscendingLevel
+        );
+        // Using for loop, determine the account level based on the total points
+        for (let i = 0; i < levelObjectArray.length; i++) {
+          // Minimum and MAximum Points Assoiciated with the Level
+          minPoints = levelObjectArray[i].minPoints;
+          maxPoints = levelObjectArray[i].maxPoints;
+          // Create a list of benefits whenever the points exceed or is within the range of points
+          benefits = [...benefits, ...levelObjectArray[i].benefits];
+          // If the total points is within the range, execute the code in the if statement
+          if (minPoints <= points && maxPoints > points) {
+            // Assign the value for the 'level' variable
+            level = levelObjectArray[i].level;
+            // End the function execution by returning the Level Object
+            return {
+              level,
+              minPoints,
+              maxPoints,
+              benefits,
+              points
+            };
+          }
+        }
+      });
+    }
+  };
+
+  /* ================================== SORT LEVEL OBJECT ARRAY =================================== */
+
+  const sortLevelObjectArray = (levelObjectArray, compareFunction) => {
+    levelObjectArray.sort(compareFunction);
+  };
+
+  /* ========================= SORT LEVEL OBJECT ARRAY BY ASCENDING LEVEL ========================= */
+
+  const sortLevelObjectArrayByAscendingLevel = (levelObjectA, levelObjectB) => {
+    return Number(levelObjectA.level) - Number(levelObjectB.level);
+  };
+
+  /* =================================== GET LEVEL OBJECT ARRAY =================================== */
+
+  const getLevelObjectArray = promise => {
+    if (promise != false) {
+      /* ------------------------------- RUN FUNCTION AS A PROMISE -------------------------------- */
+      return new Promise((resolve, reject) => {
+        $.ajax({
+          type: "POST",
+          url: "/level/get-level-object-array",
+          success: data => {
+            if (data.status == "success") {
+              resolve(data.content);
+            } else if (data.status == "failed") {
+              reject(data.content);
+            } else {
+              reject();
+            }
+          }
+        });
+      });
+    } else {
+      /* ------------------------------- RUN FUNCTION SYNCHRONOUSLY ------------------------------- */
+      let retrievedData;
+      $.ajax({
+        type: "POST",
+        async: false,
+        url: "/level/get-level-object-array",
+        success: data => {
+          retrievedData = data;
+        }
+      });
+      return retrievedData;
+    }
+  };
+
   /* ============================================================================================== */
 </script>

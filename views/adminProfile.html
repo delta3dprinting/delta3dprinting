@@ -531,10 +531,146 @@
 </html>
 
 <script>
+  const levels = [
+    {
+      level: "1",
+      minPoints: 0,
+      maxPoints: 1000,
+      benefits: []
+    },
+    {
+      level: "2",
+      minPoints: 1000,
+      maxPoints: 2000,
+      benefits: ["+5% discount for all 3D printing orders"]
+    },
+    {
+      level: "3",
+      minPoints: 2000,
+      maxPoints: 3000,
+      benefits: []
+    },
+    {
+      level: "4",
+      minPoints: 3000,
+      maxPoints: 4000,
+      benefits: []
+    },
+    {
+      level: "5",
+      minPoints: 4000,
+      maxPoints: 5000,
+      benefits: []
+    },
+    {
+      level: "6",
+      minPoints: 5000,
+      maxPoints: 6000,
+      benefits: []
+    },
+    {
+      level: "7",
+      minPoints: 6000,
+      maxPoints: 7000,
+      benefits: []
+    },
+    {
+      level: "8",
+      minPoints: 7000,
+      maxPoints: 8000,
+      benefits: []
+    },
+    {
+      level: "9",
+      minPoints: 8000,
+      maxPoints: 9000,
+      benefits: []
+    },
+    {
+      level: "10",
+      minPoints: 9000,
+      maxPoints: 10000,
+      benefits: []
+    },
+    {
+      level: "11",
+      minPoints: 10000,
+      maxPoints: 20000,
+      benefits: ["+5% discount for all 3D printing orders"]
+    },
+    {
+      level: "12",
+      minPoints: 20000,
+      maxPoints: 30000,
+      benefits: []
+    },
+    {
+      level: "13",
+      minPoints: 30000,
+      maxPoints: 40000,
+      benefits: []
+    },
+    {
+      level: "14",
+      minPoints: 40000,
+      maxPoints: 50000,
+      benefits: []
+    },
+    {
+      level: "15",
+      minPoints: 50000,
+      maxPoints: 60000,
+      benefits: []
+    },
+    {
+      level: "16",
+      minPoints: 60000,
+      maxPoints: 70000,
+      benefits: []
+    },
+    {
+      level: "17",
+      minPoints: 70000,
+      maxPoints: 80000,
+      benefits: []
+    },
+    {
+      level: "18",
+      minPoints: 80000,
+      maxPoints: 90000,
+      benefits: []
+    },
+    {
+      level: "19",
+      minPoints: 90000,
+      maxPoints: 100000,
+      benefits: []
+    },
+    {
+      level: "20",
+      minPoints: 100000,
+      maxPoints: 200000,
+      benefits: ["+5% discount for all 3D printing orders"]
+    }
+  ];
+
   const adminProfileDashboardInit = () => {
     console.log("Dashboard");
   };
   const adminProfileSettingsInit = () => {
     console.log("Settings");
+  };
+  const testSaveLevelObject = levelObjectArray => {
+    levelObjectArray.forEach(levelObject => {
+      $.ajax({
+        type: "POST",
+        url: "/level/add-new-level",
+        contentType: "application/json",
+        data: JSON.stringify({ levelObject }),
+        success: data => {
+          console.log(data);
+        }
+      });
+    });
   };
 </script>
