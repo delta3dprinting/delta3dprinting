@@ -68,9 +68,9 @@ const loadProfileOrdersPrintsOrdersListTableContents = () => {
     ).innerHTML = loaderElement;
     $.ajax({
       type: "GET",
-      url: "/orders",
+      url: "/order/get-order-details-array",
       success: data => {
-        addProfileOrdersPrintsOrdersListTableContents(data);
+        addProfileOrdersPrintsOrdersListTableContents(data.content);
       }
     });
   }

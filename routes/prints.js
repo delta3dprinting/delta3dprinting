@@ -224,26 +224,6 @@ module.exports = (app, passport, upload, conn) => {
   });
 
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REPEATED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-  // @route   GET /orders
-  // @desc    Fetch The Orders in a form of Object based on User
-  // @access  Private
-  app.get("/orders", restrictedPages, (req, res) => {
-    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
-    const ownerId = req.user._id;
-    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
-    let query;
-    if (req.user.accountType == "admin") {
-      // ADMIN ACCESS
-      query = {};
-    } else {
-      // USER ACCESS
-      query = { ownerId };
-    }
-    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-    PrintOrder.getOrderDetailsArray(res, query);
-  });
-
-  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REPEATED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   // @route   GET /order
   // @desc    Fetch an order based on order number
   // @access  Private
@@ -437,22 +417,17 @@ module.exports = (app, passport, upload, conn) => {
   // @desc    Request Refund
   // @access  Private
   app.post("/order/request-refund", restrictedPages, (req, res) => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    // Query
     const orderNumber = req.body.orderNumber;
     const ownerId = req.user._id;
-    const reason = req.body.refundRequestInformation.reason;
-    const bankDetails = req.body.refundRequestInformation.bankDetails;
-
-    PrintOrder.findOne({ orderNumber, ownerId }, (err, order) => {
-      if (err) {
-        console.log("error when fetching an order");
-        return res.send("false");
-      }
-
-      if (!order) {
-        console.log("no order found");
-        return res.send("false");
-      }
-
+    // Update
+    const requestRefundInformation = req.body.refundRequestInformation;
+    const orderStatus = "Requesting Refund";
+    /* ------------------------------------- SET QUERY -------------------------------------- */
+    const query = { orderNumber, ownerId };
+    /* --------------------------------- SET UPDATE METHOD ---------------------------------- */
+    const updateMethod = (orderDetails, updateObject) => {
       const oldOrderStatus = order.orderStatus;
       const newOrderStatus = "Requesting Refund";
 
@@ -477,6 +452,19 @@ module.exports = (app, passport, upload, conn) => {
 
         res.send(order.orderNumber + "");
       });
+    };
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = { requestRefundInformation };
+    PrintOrder.findOne({ orderNumber, ownerId }, (err, order) => {
+      if (err) {
+        console.log("error when fetching an order");
+        return res.send("false");
+      }
+
+      if (!order) {
+        console.log("no order found");
+        return res.send("false");
+      }
     });
   });
 
