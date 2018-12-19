@@ -33,7 +33,7 @@ module.exports = (app, passport, upload, conn) => {
       query = { ownerId };
     }
     /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-    getOrderDetailsArray(res, query);
+    PrintOrder.getOrderDetailsArray(res, query);
   });
 
   /* ======================== GET ORDER DETAILS ARRAY BY ORDER STATUS ========================= */
@@ -58,7 +58,7 @@ module.exports = (app, passport, upload, conn) => {
         query = { orderStatus, ownerId };
       }
       /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-      getOrderDetailsArray(res, query);
+      PrintOrder.getOrderDetailsArray(res, query);
     }
   );
 
@@ -84,7 +84,7 @@ module.exports = (app, passport, upload, conn) => {
         query = { orderNumber, ownerId };
       }
       /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-      getOrderDetails(res, query);
+      PrintOrder.getOrderDetails(res, query);
     }
   );
 
@@ -94,20 +94,20 @@ module.exports = (app, passport, upload, conn) => {
   // @desc    Check if User is the Owner of the Order
   // @access  Private
   app.post("/order/check-ownership", restrictedPages, (req, res) => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     const orderNumber = req.body.orderNumber;
     const userId = req.user._id + "";
-    PrintOrder.findOne({ orderNumber }, (err, order) => {
-      if (err) {
-        console.log("error when fetching an order");
-        return res.send("false");
-      }
-
-      if (!order) {
-        console.log("no order found");
-        return res.send("false");
-      }
-
-      ownerId = order.ownerId + "";
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    const query = { orderNumber };
+    /* ----------------------------- SET DUMMY FILTER VARIABLE ------------------------------ */
+    const filter = undefined;
+    /* --------------------- SET METHOD FOR VALIDATING ORDER OWNERSHIP ---------------------- */
+    // Object
+    const object = { userId };
+    // Method
+    const method = (orderDetails, object) => {
+      const userId = object.userId;
+      const ownerId = orderDetails.ownerId;
 
       if (ownerId === userId) {
         console.log("success");
@@ -116,7 +116,9 @@ module.exports = (app, passport, upload, conn) => {
         console.log("not owner");
         return res.send("failed");
       }
-    });
+    };
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.getOrderDetails(res, query, filter, method, object);
   });
 
   /* =============================== 3D PRINT ORDERS RELATED ROUTES =============================== */
@@ -221,51 +223,80 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REPEATED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   // @route   GET /orders
   // @desc    Fetch The Orders in a form of Object based on User
   // @access  Private
   app.get("/orders", restrictedPages, (req, res) => {
-    PrintOrder.find({ ownerId: req.user._id }, (err, docs) => {
-      res.send(docs);
-    });
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const ownerId = req.user._id;
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = {};
+    } else {
+      // USER ACCESS
+      query = { ownerId };
+    }
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.getOrderDetailsArray(res, query);
   });
 
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REPEATED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   // @route   GET /order
   // @desc    Fetch an order based on order number
   // @access  Private
   app.post("/order", restrictedPages, (req, res) => {
-    PrintOrder.findOne(
-      { ownerId: req.user._id, orderNumber: req.body.orderNumber },
-      (err, docs) => {
-        res.send(docs);
-      }
-    );
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const orderNumber = req.body.orderNumber;
+    const ownerId = req.user._id;
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = { orderNumber };
+    } else {
+      // USER ACCESS
+      query = { orderNumber, ownerId };
+    }
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.getOrderDetails(res, query);
   });
 
   // @route   POST /order/comment
   // @desc    Fetch an order based on order number
   // @access  Private
   app.post("/Profile/order-comment", restrictedPages, (req, res) => {
-    PrintOrder.findOne({
-      ownerId: req.body.order.ownerId,
-      orderNumber: req.body.order.orderNumber
-    }).then(order => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const orderNumber = req.body.order.orderNumber;
+    const ownerId = req.body.order.ownerId;
+    const userId = req.user._id;
+    const comment = req.body.comment;
+    /* ------------------------------------- SET QUERY -------------------------------------- */
+    const query = { ownerId, orderNumber };
+    /* --------------------------------- SET UPDATE METHOD ---------------------------------- */
+    const updateMethod = (orderDetails, updateObject) => {
       const newComment = {
-        userId: req.user._id,
-        text: req.body.comment,
+        userId: updateObject.userId,
+        text: updateObject.comment,
         createdDate: new Date()
       };
 
-      order.comments.push(newComment);
-      order.lastUpdateDate = new Date();
+      orderDetails.comments.push(newComment);
+      orderDetails.lastUpdateDate = new Date();
 
-      order.save().then(order => {
-        res.send({
-          orderOwnerId: order.ownerId,
-          orderOrderNumber: order.orderNumber
+      orderDetails.save().then(orderDetails => {
+        return res.send({
+          orderOwnerId: orderDetails.ownerId,
+          orderOrderNumber: orderDetails.orderNumber
         });
       });
-    });
+    };
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = { userId, comment };
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
   // @route   POST /order/comments

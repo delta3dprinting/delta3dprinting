@@ -15,11 +15,11 @@ const getPartPrice = (orderNumber, promise) => {
     const data = getOrderDetailsByOrderNumber(orderNumber, false);
     const status = data.status;
     if (status == "success") {
-      const orderDetails = data.orderDetails;
+      const orderDetails = data.content;
       const partsPriceObject = partPriceCalculation(orderDetails);
       return { status, partsPriceObject };
     } else if (status == "failed") {
-      const error = data.error;
+      const error = data.content;
       return { status, error };
     }
   }
@@ -121,11 +121,11 @@ const getPricingPrice = (orderNumber, promise) => {
     const data = getOrderDetailsByOrderNumber(orderNumber, false);
     const status = data.status;
     if (status == "success") {
-      const orderDetails = data.orderDetails;
+      const orderDetails = data.content;
       const pricingPriceObject = pricingPriceCalculation(orderDetails);
       return { status, pricingPriceObject };
     } else if (status == "failed") {
-      const error = data.error;
+      const error = data.content;
       return { status, error };
     }
   }
@@ -198,11 +198,11 @@ const getDiscountPrice = (orderNumber, promise) => {
     const data = getOrderDetailsByOrderNumber(orderNumber, false);
     const status = data.status;
     if (status == "success") {
-      const orderDetails = data.orderDetails;
+      const orderDetails = data.content;
       const discountsPriceObject = discountPriceCalculation(orderDetails);
       return { status, discountsPriceObject };
     } else if (status == "failed") {
-      const error = data.error;
+      const error = data.content;
       return { status, error };
     }
   }
@@ -373,11 +373,11 @@ const getDeliveryPrice = (orderNumber, promise) => {
     const data = getOrderDetailsByOrderNumber(orderNumber, false);
     const status = data.status;
     if (status == "success") {
-      const orderDetails = data.orderDetails;
+      const orderDetails = data.content;
       const deliveryPriceObject = deliveryPriceCalculation(orderDetails);
       return { status, deliveryPriceObject };
     } else if (status == "failed") {
-      const error = data.error;
+      const error = data.content;
       return { status, error };
     }
   }
@@ -439,11 +439,11 @@ const getOrderPrice = (orderNumber, promise) => {
     const data = getOrderDetailsByOrderNumber(orderNumber, false);
     const status = data.status;
     if (status == "success") {
-      const orderDetails = data.orderDetails;
+      const orderDetails = data.content;
       const orderPriceObject = orderPriceCalculation(orderDetails);
       return { status, orderPriceObject };
     } else if (status == "failed") {
-      const error = data.error;
+      const error = data.content;
       return { status, error };
     }
   }
@@ -502,7 +502,7 @@ class OrderPriceObject {
 
 const cumulativeOrderValueByOrderStatus = orderStatus => {
   orderDetailsArray = getOrderDetailsArrayByOrderStatus(orderStatus, false)
-    .orderDetailsArray;
+    .content;
   let filteredOrderDetailsArray = [];
   let cumulativeOrderValue = 0;
 
@@ -571,7 +571,7 @@ const cumulativeOrderValueByOrderStatusAndDateRange = (
   endDate
 ) => {
   orderDetailsArray = getOrderDetailsArrayByOrderStatus(orderStatus, false)
-    .orderDetailsArray;
+    .content;
   let filteredOrderDetailsArray = [];
   let cumulativeOrderValue = 0;
 

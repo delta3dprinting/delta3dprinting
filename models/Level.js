@@ -49,13 +49,13 @@ LevelSchema.statics.saveLevelObject = function(res, levelObject) {
   // Save New Level Object
   newLevelObject.save((error, levelObject) => {
     if (error) {
-      res.send({
+      return res.send({
         status: "failed",
         content: "500: Error Found when Saving New Level Object"
       });
     }
 
-    res.send({
+    return res.send({
       status: "success",
       content: levelObject
     });
