@@ -650,39 +650,42 @@ module.exports = (app, passport, upload, conn) => {
     (req, res) => {
       /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
       const producedQuantity = req.body.producedQuantity;
-      const orderId = req.body.orderId;
+      const orderNumber = req.body.orderNumber;
       const partId = req.body.partId;
-
-      const findPartIndex = element => {
-        return element._id == partId;
-      };
-
-      PrintOrder.findById(orderId, (err, order) => {
-        if (err) {
-          console.log(err);
-          res.send("failed");
-          return;
-        }
-
-        if (!order) {
-          console.log("No order found");
-          res.send("failed");
-          return;
-        }
+      /* ------------------------------------- SET QUERY -------------------------------------- */
+      const query = { orderNumber };
+      /* --------------------------------- SET UPDATE METHOD ---------------------------------- */
+      const updateMethod = (orderDetails, updateObject) => {
+        const findPartIndex = element => {
+          return element._id == updateObject.partId;
+        };
 
         const partIndex = order.parts.findIndex(findPartIndex);
 
-        order.parts[partIndex].producedQuantity = producedQuantity;
+        orderDetails.parts[partIndex].producedQuantity =
+          updateObject.producedQuantity;
 
-        order.save((err, order) => {
-          if (err) {
-            console.log("Failed to Save");
-            res.send("failed");
-            return;
+        orderDetails.save((error, updatedOrderDetails) => {
+          // Check if error occured while saving new print order
+          if (error) {
+            return res.send({
+              status: "failed",
+              content:
+                "500: Error Found when Saving New Updates of Order Details"
+            });
           }
-          res.send(order);
+
+          // If successfully saved
+          return res.send({
+            status: "success",
+            content: updatedOrderDetails
+          });
         });
-      });
+      };
+      /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+      const updateObject = { producedQuantity, partId };
+      /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+      PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
     }
   );
 
