@@ -607,125 +607,6 @@ module.exports = (app, passport, upload, conn) => {
     PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
-  /* ~~~~~~~~~~~~~~~~~~~~~ REPEATED: GET ORDER DETAILS BY ORDER NUMBER ~~~~~~~~~~~~~~~~~~~~~~ */
-  /* ================================== ADMIN: ORDER LIST =================================== */
-
-  // @route   POST /admin/order
-  // @desc
-  // @access  Admin
-  app.post("/admin/order", adminRestrictedPages, (req, res) => {
-    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
-    const orderNumber = req.body.orderNumber;
-    const ownerId = req.user._id;
-    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
-    let query;
-    if (req.user.accountType == "admin") {
-      // ADMIN ACCESS
-      query = { orderNumber };
-    } else {
-      // USER ACCESS
-      query = { orderNumber, ownerId };
-    }
-    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-    PrintOrder.getOrderDetails(res, query);
-  });
-
-  // @route   GET /admin/orders/awaiting-quote
-  // @desc
-  // @access  Admin
-  app.get("/admin/orders/awaiting-quote", adminRestrictedPages, (req, res) => {
-    PrintOrder.find({ orderStatus: "Awaiting Quote" }, (err, orders) => {
-      if (err) throw err;
-
-      res.send(orders);
-    });
-  });
-
-  // @route   GET /admin/orders/awaiting-payment-confirmation
-  // @desc
-  // @access  Admin
-  app.get(
-    "/admin/orders/awaiting-payment-confirmation",
-    adminRestrictedPages,
-    (req, res) => {
-      PrintOrder.find(
-        { orderStatus: "Awaiting Payment Confirmation" },
-        (err, orders) => {
-          if (err) throw err;
-
-          res.send(orders);
-        }
-      );
-    }
-  );
-
-  // @route   GET /admin/orders/printing-order
-  // @desc
-  // @access  Admin
-  app.get("/admin/orders/printing-order", adminRestrictedPages, (req, res) => {
-    PrintOrder.find({ orderStatus: "Printing Order" }, (err, orders) => {
-      if (err) throw err;
-
-      res.send(orders);
-    });
-  });
-
-  // @route   GET /admin/orders/ready-for-pickup
-  // @desc
-  // @access  Admin
-  app.get(
-    "/admin/orders/ready-for-pickup",
-    adminRestrictedPages,
-    (req, res) => {
-      PrintOrder.find({ orderStatus: "Ready for Pickup" }, (err, orders) => {
-        if (err) throw err;
-
-        res.send(orders);
-      });
-    }
-  );
-
-  // @route   GET /admin/orders/ready-for-shipping
-  // @desc
-  // @access  Admin
-  app.get(
-    "/admin/orders/ready-for-shipping",
-    adminRestrictedPages,
-    (req, res) => {
-      PrintOrder.find({ orderStatus: "Ready for Shipping" }, (err, orders) => {
-        if (err) throw err;
-
-        res.send(orders);
-      });
-    }
-  );
-
-  // @route   GET /admin/orders/requesting-refund
-  // @desc
-  // @access  Admin
-  app.get(
-    "/admin/orders/requesting-refund",
-    adminRestrictedPages,
-    (req, res) => {
-      PrintOrder.find({ orderStatus: "Requesting Refund" }, (err, orders) => {
-        if (err) throw err;
-
-        res.send(orders);
-      });
-    }
-  );
-
-  // @route   GET /admin/orders
-  // @desc
-  // @access  Admin
-  app.get("/admin/orders", adminRestrictedPages, (req, res) => {
-    PrintOrder.find((err, orders) => {
-      if (err) throw err;
-
-      res.send(orders);
-    });
-  });
-
   // @route   POST /admin/file-details
   // @desc    Get File Details
   // @access  Admin
@@ -758,6 +639,8 @@ module.exports = (app, passport, upload, conn) => {
     );
   });
 
+  /* =========================== UPDATE ORDER'S PRODUCED QUANTITY =========================== */
+
   // @route   POST /admin/part/update-produced-quantity
   // @desc    Update Produced Quantity
   // @access  Admin
@@ -765,6 +648,7 @@ module.exports = (app, passport, upload, conn) => {
     "/admin/part/update-produced-quantity",
     adminRestrictedPages,
     (req, res) => {
+      /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
       const producedQuantity = req.body.producedQuantity;
       const orderId = req.body.orderId;
       const partId = req.body.partId;
@@ -870,12 +754,9 @@ module.exports = (app, passport, upload, conn) => {
   // @access  Private
   app.post("/order/part/file-details", restrictedPages, (req, res) => {
     /* -------------------------- ASSIGNING AND SIMPLIFYING VARIABLES --------------------------- */
-
     const part = req.body;
     const fileId = mongoose.Types.ObjectId(part.fileId);
-
     /* ---------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE ----------------------- */
-
     let query;
     if (req.user.accountType == "admin") {
       // ADMIN ACCESS
@@ -887,9 +768,7 @@ module.exports = (app, passport, upload, conn) => {
         "metadata.ownerId": req.user._id
       };
     }
-
     /* --------------------------- GET THE FILE DETAILS FROM DATABASE --------------------------- */
-
     gfs.files.findOne(query, (err, file) => {
       if (err) {
         console.log("Error Found when Fetching File Details");

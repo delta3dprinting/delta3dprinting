@@ -83,9 +83,9 @@ const getOrderDetailsByOrderNumber = (orderNumber, promise) => {
         data: JSON.stringify({ orderNumber }),
         success: data => {
           if (data.status === "failed") {
-            reject(data.error);
+            reject(data.content);
           } else if (data.status === "success") {
-            resolve(data.orderDetails);
+            resolve(data.content);
           }
         }
       });

@@ -152,7 +152,7 @@ const addAdminOrderDetailsPrintingOrderOrderList = order => {
 
 const updateAdminOrderDetailsPrintingOrderProducedQuantity = (
   parts,
-  orderId
+  orderNumber
 ) => {
   for (i = 0; i < parts.length; i++) {
     const input = document.querySelector(
@@ -162,7 +162,12 @@ const updateAdminOrderDetailsPrintingOrderProducedQuantity = (
     $.ajax({
       type: "POST",
       url: "/admin/part/update-produced-quantity",
-      data: { producedQuantity: input, orderId: orderId, partId: parts[i]._id },
+      data: JSON.stringify({
+        producedQuantity: input,
+        orderNumber,
+        partId: parts[i]._id
+      }),
+      contentType: "application/json",
       success: data => {
         console.log(data);
       }
