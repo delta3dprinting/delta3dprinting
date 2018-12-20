@@ -392,26 +392,28 @@ module.exports = (app, passport, upload, conn) => {
   // @desc    Update Order Status
   // @access  Private
   app.post("/order/update-order-status", restrictedPages, (req, res) => {
-    if (req.body.orderStatus == "Awaiting Quote") {
-    } else if (req.body.orderStatus == "Awaiting Payment") {
-      updateOrderStatusAwaitingPayment(req, res);
-    } else if (req.body.orderStatus == "Awaiting Payment Confirmation") {
-    } else if (req.body.orderStatus == "Printing Order") {
-    } else if (req.body.orderStatus == "Ready for Pickup") {
-      updateOrderStatusReadyForPickup(req, res);
-    } else if (req.body.orderStatus == "Order Picked Up") {
-      updateOrderStatusOrderPickedUp(req, res);
-    } else if (req.body.orderStatus == "Ready for Shipping") {
-    } else if (req.body.orderStatus == "Order Shipped") {
-      updateOrderStatusOrderShipped(req, res);
-    } else if (req.body.orderStatus == "Order Completed") {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const orderDetails = req.body.orderDetails;
+    const orderNumber = orderDetails.orderNumber;
+    const ownerId = req.user._id;
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = { orderNumber };
     } else {
-      console.log("Order status could not be identified");
-      res.send("failed");
+      // USER ACCESS
+      query = { orderNumber, ownerId };
     }
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = setUpdateOrderStatusUpdateObject(orderDetails);
+    /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
+    const updateMethod = undefined;
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
-  /* ========================================== REFUND ========================================== */
+  /* ======================================== REFUND ======================================== */
 
   // @route   POST /order/request-refund
   // @desc    Request Refund
@@ -428,44 +430,32 @@ module.exports = (app, passport, upload, conn) => {
     const query = { orderNumber, ownerId };
     /* --------------------------------- SET UPDATE METHOD ---------------------------------- */
     const updateMethod = (orderDetails, updateObject) => {
-      const oldOrderStatus = order.orderStatus;
-      const newOrderStatus = "Requesting Refund";
+      const oldOrderStatus = orderDetails.orderStatus;
 
-      order.orderStatus = newOrderStatus;
-      order.requestRefundInformation.reason = reason;
-      order.requestRefundInformation.bankDetails.bankNumber =
-        bankDetails.bankNumber;
-      order.requestRefundInformation.bankDetails.branchNumber =
-        bankDetails.branchNumber;
-      order.requestRefundInformation.bankDetails.accountNumber =
-        bankDetails.accountNumber;
-      order.requestRefundInformation.bankDetails.suffixNumber =
-        bankDetails.suffixNumber;
-      order.requestRefundInformation.oldOrderStatus = oldOrderStatus;
-      order.lastUpdateDate = new Date();
+      orderDetails.orderStatus = updateObject.orderStatus;
+      orderDetails.requestRefundInformation =
+        updateObject.requestRefundInformation;
+      orderDetails.requestRefundInformation.oldOrderStatus = oldOrderStatus;
+      orderDetails.lastUpdateDate = new Date();
 
-      order.save((err, order) => {
-        if (err) {
-          console.log("error when saving order");
-          return res.send("false");
+      orderDetails.save((error, updateOrderDetails) => {
+        // Check if error occured while saving new print order
+        if (error) {
+          return res.send({
+            status: "failed",
+            content: "500: Error Found when Saving New Updates of Order Details"
+          });
         }
 
-        res.send(order.orderNumber + "");
+        const orderNumber = updateOrderDetails.orderNumber + "";
+
+        res.send(orderNumber);
       });
     };
     /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
-    const updateObject = { requestRefundInformation };
-    PrintOrder.findOne({ orderNumber, ownerId }, (err, order) => {
-      if (err) {
-        console.log("error when fetching an order");
-        return res.send("false");
-      }
-
-      if (!order) {
-        console.log("no order found");
-        return res.send("false");
-      }
-    });
+    const updateObject = { requestRefundInformation, orderStatus };
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
   // @route   POST /order/cancel-refund
@@ -941,298 +931,66 @@ module.exports = (app, passport, upload, conn) => {
 
 /* ========================================== FUNCTION ========================================== */
 
-/* --------------------------------- GET ORDERS DETAILS (FIND) ---------------------------------- */
+/* --------------------------- SET UPDATE ORDER STATUS UPDATE OBJECT ---------------------------- */
 
-const getOrderDetailsArray = (res, query, filter) => {
-  PrintOrder.find(query, (err, orderDetailsArray) => {
-    if (err) {
-      return res.send({
-        status: "failed",
-        error: "500: Error Found when Fetching Orders Details"
-      });
-    }
+const setUpdateOrderStatusUpdateObject = orderDetails => {
+  let updateObject;
 
-    if (!orderDetailsArray) {
-      return res.send({
-        status: "failed",
-        error: "404: No Order Found with that Order Number"
-      });
-    }
-
-    if (filter) {
-      let filteredOrderDetailsArray;
-      for (let i = 0; i < orderDetailsArray.length; i++) {
-        filteredOrderDetailsArray.push(filter(orderDetailsArray[i]));
-      }
-      return res.send({
-        status: "success",
-        orderDetailsArray: filteredOrderDetailsArray
-      });
-    }
-
-    return res.send({
-      status: "success",
-      orderDetailsArray
-    });
-  });
-};
-
-/* -------------------------------- GET ORDER DETAILS (FIND ONE) -------------------------------- */
-
-const getOrderDetails = (res, query, filter) => {
-  PrintOrder.findOne(query, (err, orderDetails) => {
-    if (err) {
-      return res.send({
-        status: "failed",
-        error: "500: Error Found when Fetching Order Details"
-      });
-    }
-
-    if (!orderDetails) {
-      return res.send({
-        status: "failed",
-        error: "404: No Order Found with that Order Number"
-      });
-    }
-
-    if (filter) {
-      const filteredOrderDetails = filter(orderDetails);
-      return res.send({
-        status: "success",
-        orderDetails: filteredOrderDetails
-      });
-    }
-
-    return res.send({
-      status: "success",
-      orderDetails
-    });
-  });
-};
-
-/* ---------------------------- UPDATE ORDER STATUS: AWAITING QUOTE ----------------------------- */
-
-const updateOrderStatusAwaitingQuote = (req, res) => {
-  const order = req.body;
-
-  PrintOrder.findOneAndUpdate(
-    { _id: order._id, orderNumber: order.orderNumber },
-    {
-      $set: {
-        orderStatus: "Awaiting Payment",
+  if (orderDetails.orderStatus == "Awaiting Quote") {
+    updateObject = {
+      orderStatus: "Awaiting Payment",
+      lastUpdateDate: new Date()
+    };
+  } else if (orderDetails.orderStatus == "Awaiting Payment") {
+    updateObject = {
+      orderStatus: "Awaiting Payment Confirmation",
+      lastUpdateDate: new Date()
+    };
+  } else if (orderDetails.orderStatus == "Awaiting Payment Confirmation") {
+    updateObject = {
+      orderStatus: "Printing Order",
+      paymentConfirmationDate: new Date(),
+      lastUpdateDate: new Date()
+    };
+  } else if (orderDetails.orderStatus == "Printing Order") {
+    if (orderDetails.delivery == "Pickup") {
+      updateObject = {
+        orderStatus: "Ready for Pickup",
         lastUpdateDate: new Date()
-      }
-    },
-    (err, order) => {
-      if (err) throw err;
-
-      const orderNumber = order.orderNumber + "";
-
-      res.send(orderNumber);
+      };
+    } else {
+      updateObject = {
+        orderStatus: "Ready for Shipping",
+        lastUpdateDate: new Date()
+      };
     }
-  );
-};
-
-/* --------------------------- UPDATE ORDER STATUS: AWAITING PAYMENT ---------------------------- */
-
-const updateOrderStatusAwaitingPayment = (req, res) => {
-  const order = req.body;
-  let query;
-  if (req.user.accountType == "admin") {
-    query = { _id: order._id, orderNumber: order.orderNumber };
-  } else {
-    query = {
-      _id: order._id,
-      orderNumber: order.orderNumber,
-      ownerId: req.user._id
+  } else if (orderDetails.orderStatus == "Ready for Pickup") {
+    updateObject = {
+      orderStatus: "Order Picked Up",
+      orderDeliveryDate: new Date(),
+      lastUpdateDate: new Date()
+    };
+  } else if (orderDetails.orderStatus == "Order Picked Up") {
+    updateObject = {
+      orderStatus: "Order Completed",
+      orderCompletionDate: new Date(),
+      lastUpdateDate: new Date()
+    };
+  } else if (orderDetails.orderStatus == "Ready for Shipping") {
+    updateObject = {
+      orderStatus: "Order Shipped",
+      orderDeliveryDate: new Date(),
+      lastUpdateDate: new Date()
+    };
+  } else if (orderDetails.orderStatus == "Order Shipped") {
+    updateObject = {
+      orderStatus: "Order Completed",
+      orderCompletionDate: new Date(),
+      lastUpdateDate: new Date()
     };
   }
 
-  PrintOrder.findOneAndUpdate(
-    query,
-    {
-      $set: {
-        orderStatus: "Awaiting Payment Confirmation",
-        lastUpdateDate: new Date()
-      }
-    },
-    (err, order) => {
-      if (err) throw err;
-
-      const orderNumber = order.orderNumber + "";
-
-      res.send(orderNumber);
-    }
-  );
-};
-
-/* ------------------------------- AWAITING PAYMENT CONFIRMATION -------------------------------- */
-
-const updateOrderStatusAwaitingPaymentConfirmation = (req, res) => {
-  const order = req.body;
-  let query;
-  if (req.user.accountType == "admin") {
-    query = { _id: order._id, orderNumber: order.orderNumber };
-  } else {
-    query = {
-      _id: order._id,
-      orderNumber: order.orderNumber,
-      ownerId: req.user._id
-    };
-  }
-
-  PrintOrder.findOneAndUpdate(
-    query,
-    {
-      $set: {
-        orderStatus: "Printing Order",
-        paymentConfirmationDate: new Date(),
-        price: order.price,
-        lastUpdateDate: new Date()
-      }
-    },
-    (err, order) => {
-      if (err) throw err;
-
-      const orderNumber = order.orderNumber + "";
-
-      res.send(orderNumber);
-    }
-  );
-};
-
-/* ---------------------------- UPDATE ORDER STATUS: PRINTING ORDER ----------------------------- */
-
-const updateOrderStatusPrintingOrder = (req, res) => {
-  const order = req.body;
-  let orderStatus;
-
-  if (order.delivery == "Pickup") {
-    orderStatus = "Ready for Pickup";
-  } else {
-    orderStatus = "Ready for Shipping";
-  }
-
-  PrintOrder.findByIdAndUpdate(
-    order._id,
-    {
-      $set: {
-        orderStatus: orderStatus,
-        lastUpdateDate: new Date()
-      }
-    },
-    (err, order) => {
-      if (err) {
-        console.log("Failed to update order");
-        res.send("failed");
-        return;
-      }
-
-      const orderNumber = order.orderNumber + "";
-
-      res.send(orderNumber);
-    }
-  );
-};
-
-/* --------------------------- UPDATE ORDER STATUS: READY FOR PICKUP ---------------------------- */
-
-const updateOrderStatusReadyForPickup = (req, res) => {
-  const order = req.body;
-
-  PrintOrder.findOneAndUpdate(
-    { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
-    {
-      $set: {
-        orderStatus: "Order Picked Up",
-        orderDeliveryDate: new Date(),
-        lastUpdateDate: new Date()
-      }
-    },
-    (err, order) => {
-      if (err) throw err;
-
-      const orderNumber = order.orderNumber + "";
-
-      res.send(orderNumber);
-    }
-  );
-};
-
-/* ---------------------------- UPDATE ORDER STATUS: ORDER PICKED UP ---------------------------- */
-
-const updateOrderStatusOrderPickedUp = (req, res) => {
-  const order = req.body;
-
-  PrintOrder.findOneAndUpdate(
-    { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
-    {
-      $set: {
-        orderStatus: "Order Completed",
-        orderCompletionDate: new Date(),
-        lastUpdateDate: new Date()
-      }
-    },
-    (err, order) => {
-      if (err) throw err;
-
-      const orderNumber = order.orderNumber + "";
-
-      res.send(orderNumber);
-    }
-  );
-};
-
-/* -------------------------- UPDATE ORDER STATUS: READY FOR SHIPPING --------------------------- */
-
-const updateOrderStatusReadyForShipping = (req, res) => {
-  const order = req.body;
-
-  PrintOrder.findByIdAndUpdate(
-    order._id,
-    {
-      $set: {
-        orderStatus: "Order Shipped",
-        orderDeliveryDate: new Date(),
-        lastUpdateDate: new Date()
-      }
-    },
-    (err, order) => {
-      if (err) {
-        console.log("Failed to update order");
-        res.send("failed");
-        return;
-      }
-
-      const orderNumber = order.orderNumber + "";
-
-      res.send(orderNumber);
-    }
-  );
-};
-
-/* --------------------------- UPDATE ORDER STATUS: ORDER SHIPPED UP ---------------------------- */
-
-const updateOrderStatusOrderShipped = (req, res) => {
-  const order = req.body;
-
-  PrintOrder.findOneAndUpdate(
-    { _id: order._id, orderNumber: order.orderNumber, ownerId: req.user._id },
-    {
-      $set: {
-        orderStatus: "Order Completed",
-        orderCompletionDate: new Date(),
-        lastUpdateDate: new Date()
-      }
-    },
-    (err, order) => {
-      if (err) throw err;
-
-      const orderNumber = order.orderNumber + "";
-
-      res.send(orderNumber);
-    }
-  );
+  return updateObject;
 };
 
 /* ========================================= MIDDLEWARE ========================================= */

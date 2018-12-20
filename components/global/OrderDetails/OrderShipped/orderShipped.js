@@ -265,21 +265,21 @@ const orderShippedCompleteOrderButton = () => {
     .classList.toggle("order_details_footer_buttons_body_open");
 };
 
-const orderShippedCompleteOrderConfirm = (order, modalId) => {
+const orderShippedCompleteOrderConfirm = (orderDetails, modalId) => {
   loadLoader(document.querySelector("#order_shipped_modal_body")).then(() => {
     clearInterval(orderShippedAutoCompleteOrderTimer);
 
     $.ajax({
       type: "POST",
       url: "/order/update-order-status",
-      data: JSON.stringify(order),
+      data: JSON.stringify({ orderDetails }),
       contentType: "application/json",
       success: data => {
         removeModal(modalId);
         removeBackdrop(modalId);
         loadProfileOrdersPrintsOrdersListTableContents();
         setTimeout(() => {
-          viewOrderDetails(data);
+          viewOrderDetails(data.content.orderNumber);
         }, 500);
       }
     });

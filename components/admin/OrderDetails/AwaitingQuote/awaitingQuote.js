@@ -225,9 +225,10 @@ const adminOrderDetailsAwaitingQuoteToggleFooterButtons = () => {
 
 /* ==================================== UPDATE ORDER STATUS ===================================== */
 
-const adminOrderDetailsAwaitingQuoteUpdateOrderStatus = (order, modalId) => {
-  console.log(order);
-
+const adminOrderDetailsAwaitingQuoteUpdateOrderStatus = (
+  orderDetails,
+  modalId
+) => {
   adminOrderDetailsAwaitingQuoteToggleFooterButtons();
 
   validateAdminOrderDetailsAwaitingQuotePartPrices().then(validity => {
@@ -243,14 +244,14 @@ const adminOrderDetailsAwaitingQuoteUpdateOrderStatus = (order, modalId) => {
     () => {
       $.ajax({
         type: "POST",
-        url: "/admin/order/update-order-status",
-        data: JSON.stringify(order),
+        url: "/order/update-order-status",
+        data: JSON.stringify({ orderDetails }),
         contentType: "application/json",
         success: data => {
           removeModal(modalId);
           removeBackdrop(modalId);
           setTimeout(() => {
-            viewAdminProfileOrdersPrintsOrderDetails(data);
+            viewAdminProfileOrdersPrintsOrderDetails(data.content.orderNumber);
           }, 500);
         }
       });

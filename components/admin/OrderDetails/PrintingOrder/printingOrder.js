@@ -186,19 +186,22 @@ const adminOrderDetailsPrintingOrderToggleFooterButtons = () => {
 
 /* ==================================== UPDATE ORDER STATUS ===================================== */
 
-const adminOrderDetailsPrintingOrderUpdateOrderStatus = (order, modalId) => {
+const adminOrderDetailsPrintingOrderUpdateOrderStatus = (
+  orderDetails,
+  modalId
+) => {
   loadLoader(document.querySelector("#admin_printing_order_modal_body")).then(
     () => {
       $.ajax({
         type: "POST",
-        url: "/admin/order/update-order-status",
-        data: JSON.stringify(order),
+        url: "/order/update-order-status",
+        data: JSON.stringify({ orderDetails }),
         contentType: "application/json",
         success: data => {
           removeModal(modalId);
           removeBackdrop(modalId);
           setTimeout(() => {
-            viewAdminProfileOrdersPrintsOrderDetails(data);
+            viewAdminProfileOrdersPrintsOrderDetails(data.content.orderNumber);
           }, 500);
         }
       });

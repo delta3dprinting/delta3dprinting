@@ -362,7 +362,7 @@ const adminOrderDetailsAwaitingPaymentConfirmationToggleFooterButtons = () => {
 /* ==================================== UPDATE ORDER STATUS ===================================== */
 
 const adminOrderDetailsAwaitingPaymentConfirmationUpdateOrderStatus = (
-  order,
+  orderDetails,
   modalId
 ) => {
   loadLoader(
@@ -370,14 +370,14 @@ const adminOrderDetailsAwaitingPaymentConfirmationUpdateOrderStatus = (
   ).then(() => {
     $.ajax({
       type: "POST",
-      url: "/admin/order/update-order-status",
-      data: JSON.stringify(order),
+      url: "/order/update-order-status",
+      data: JSON.stringify({ orderDetails }),
       contentType: "application/json",
       success: data => {
         removeModal(modalId);
         removeBackdrop(modalId);
         setTimeout(() => {
-          viewAdminProfileOrdersPrintsOrderDetails(data);
+          viewAdminProfileOrdersPrintsOrderDetails(data.content.orderNumber);
         }, 500);
       }
     });

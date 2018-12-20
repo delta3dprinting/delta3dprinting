@@ -206,7 +206,8 @@ PrintOrderSchema.statics.createNewOrder = function(
     if (error) {
       return res.send({
         status: "failed",
-        error: "500: Error Found when Counting the Number of Historical Orders"
+        content:
+          "500: Error Found when Counting the Number of Historical Orders"
       });
     }
 
@@ -269,14 +270,14 @@ PrintOrderSchema.statics.getOrderDetailsArray = function(
     if (error) {
       return res.send({
         status: "failed",
-        error: "500: Error Found when Fetching Order Details"
+        content: "500: Error Found when Fetching Order Details"
       });
     }
 
     if (!orderDetailsArray) {
       return res.send({
         status: "failed",
-        error: "404: No Order Details Found"
+        content: "404: No Order Details Found"
       });
     }
 
@@ -315,14 +316,14 @@ PrintOrderSchema.statics.getOrderDetails = function(
     if (error) {
       return res.send({
         status: "failed",
-        error: "500: Error Found when Fetching Order Details"
+        content: "500: Error Found when Fetching Order Details"
       });
     }
 
     if (!orderDetails) {
       return res.send({
         status: "failed",
-        error: "404: No Order Details Found"
+        content: "404: No Order Details Found"
       });
     }
 
@@ -360,14 +361,14 @@ PrintOrderSchema.statics.updateOrderDetails = function(
     if (error) {
       return res.send({
         status: "failed",
-        error: "500: Error Found when Fetching Order Details"
+        content: "500: Error Found when Fetching Order Details"
       });
     }
 
     if (!orderDetails) {
       return res.send({
         status: "failed",
-        error: "404: No Order Details Found"
+        content: "404: No Order Details Found"
       });
     }
 

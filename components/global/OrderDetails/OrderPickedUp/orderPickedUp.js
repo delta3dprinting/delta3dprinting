@@ -173,21 +173,21 @@ const orderPickedUpCompleteOrderButton = () => {
     .classList.toggle("order_details_footer_buttons_body_open");
 };
 
-const orderPickedUpCompleteOrderConfirm = (order, modalId) => {
+const orderPickedUpCompleteOrderConfirm = (orderDetails, modalId) => {
   loadLoader(document.querySelector("#order_picked_up_modal_body")).then(() => {
     clearInterval(autoCompleteOrderTimer);
 
     $.ajax({
       type: "POST",
       url: "/order/update-order-status",
-      data: JSON.stringify(order),
+      data: JSON.stringify({ orderDetails }),
       contentType: "application/json",
       success: data => {
         removeModal(modalId);
         removeBackdrop(modalId);
         loadProfileOrdersPrintsOrdersListTableContents();
         setTimeout(() => {
-          viewOrderDetails(data);
+          viewOrderDetails(data.content.orderNumber);
         }, 500);
       }
     });

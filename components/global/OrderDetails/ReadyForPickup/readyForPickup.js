@@ -420,20 +420,20 @@ const readyForPickupCompleteOrderButton = () => {
     .classList.toggle("order_details_footer_buttons_body_open");
 };
 
-const readyForPickupCompleteOrderConfirm = (order, modalId) => {
+const readyForPickupCompleteOrderConfirm = (orderDetails, modalId) => {
   loadLoader(document.querySelector("#ready_for_pickup_modal_body")).then(
     () => {
       $.ajax({
         type: "POST",
         url: "/order/update-order-status",
-        data: JSON.stringify(order),
+        data: JSON.stringify({ orderDetails }),
         contentType: "application/json",
         success: data => {
           removeModal(modalId);
           removeBackdrop(modalId);
           loadProfileOrdersPrintsOrdersListTableContents();
           setTimeout(() => {
-            viewOrderDetails(data);
+            viewOrderDetails(data.content.orderNumber);
           }, 500);
         }
       });

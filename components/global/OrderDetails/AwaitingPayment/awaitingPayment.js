@@ -153,20 +153,20 @@ const awaitingPaymentPayed = () => {
     .classList.toggle("order_details_footer_buttons_body_open");
 };
 
-const awaitingPaymentPayedConfirm = (order, modalId) => {
+const awaitingPaymentPayedConfirm = (orderDetails, modalId) => {
   loadLoader(document.querySelector("#awaiting_payment_modal_body")).then(
     () => {
       $.ajax({
         type: "POST",
         url: "/order/update-order-status",
-        data: JSON.stringify(order),
+        data: JSON.stringify({ orderDetails }),
         contentType: "application/json",
         success: data => {
           removeModal(modalId);
           removeBackdrop(modalId);
           loadProfileOrdersPrintsOrdersListTableContents();
           setTimeout(() => {
-            viewOrderDetails(data);
+            viewOrderDetails(data.content.orderNumber);
           }, 500);
         }
       });

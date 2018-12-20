@@ -239,8 +239,11 @@ const adminOrderDetailsReadyForShippingToggleFooterButtons = () => {
 
 /* ==================================== UPDATE ORDER STATUS ===================================== */
 
-const adminOrderDetailsReadyForShippingUpdateOrderStatus = (order, modalId) => {
-  adminOrderDetailsReadyForShippingSaveTrackingNumber(order._id);
+const adminOrderDetailsReadyForShippingUpdateOrderStatus = (
+  orderDetails,
+  modalId
+) => {
+  adminOrderDetailsReadyForShippingSaveTrackingNumber(orderDetails._id);
 
   loadLoader(
     document.querySelector("#admin_ready_for_shipping_modal_body")
@@ -248,13 +251,13 @@ const adminOrderDetailsReadyForShippingUpdateOrderStatus = (order, modalId) => {
     $.ajax({
       type: "POST",
       url: "/admin/order/update-order-status",
-      data: JSON.stringify(order),
+      data: JSON.stringify({ orderDetails }),
       contentType: "application/json",
       success: data => {
         removeModal(modalId);
         removeBackdrop(modalId);
         setTimeout(() => {
-          viewAdminProfileOrdersPrintsOrderDetails(data);
+          viewAdminProfileOrdersPrintsOrderDetails(data.content.orderNumber);
         }, 500);
       }
     });
