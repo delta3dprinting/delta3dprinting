@@ -223,7 +223,8 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
-  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REPEATED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* ~~~~~~~~~~~~~~~~~~~~~ REPEATED: GET ORDER DETAILS BY ORDER NUMBER ~~~~~~~~~~~~~~~~~~~~~~ */
+
   // @route   GET /order
   // @desc    Fetch an order based on order number
   // @access  Private
@@ -362,31 +363,25 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
-  /* ==================================== BOOK A PICKUP TIME ==================================== */
+  /* ================================== BOOK A PICKUP TIME ================================== */
 
   app.post("/order/book-pickup", restrictedPages, (req, res) => {
-    console.log(req.body.bookingFormInputsObject);
-    PrintOrder.findOneAndUpdate(
-      {
-        ownerId: req.user._id,
-        orderNumber: req.body.orderNumber
-      },
-      {
-        $set: {
-          pickupBookingSchedule: req.body.bookingFormInputsObject,
-          lastUpdateDate: new Date()
-        }
-      },
-      (err, order) => {
-        if (err) {
-          return res.send("Booking Failed");
-        }
-        res.send("Booking Success");
-      }
-    );
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const orderNumber = req.body.orderNumber;
+    const ownerId = req.user._id;
+    const pickupBookingSchedule = req.body.bookingFormInputsObject;
+    const lastUpdateDate = new Date();
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    let query = { orderNumber, ownerId };
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = { pickupBookingSchedule, lastUpdateDate };
+    /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
+    const updateMethod = undefined;
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
-  /* =================================== UPDATE ORDER STATUS ==================================== */
+  /* ================================= UPDATE ORDER STATUS ================================== */
 
   // @route   POST /order/update-order-status
   // @desc    Update Order Status
@@ -396,9 +391,10 @@ module.exports = (app, passport, upload, conn) => {
     const orderDetails = req.body.orderDetails;
     const orderNumber = orderDetails.orderNumber;
     const ownerId = req.user._id;
+    const accountType = req.user.accountType;
     /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
     let query;
-    if (req.user.accountType == "admin") {
+    if (accountType == "admin") {
       // ADMIN ACCESS
       query = { orderNumber };
     } else {
@@ -406,7 +402,10 @@ module.exports = (app, passport, upload, conn) => {
       query = { orderNumber, ownerId };
     }
     /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
-    const updateObject = setUpdateOrderStatusUpdateObject(orderDetails);
+    const updateObject = setUpdateOrderStatusUpdateObject(
+      orderDetails,
+      accountType
+    );
     /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
     const updateMethod = undefined;
     /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
@@ -462,165 +461,173 @@ module.exports = (app, passport, upload, conn) => {
   // @desc    Cancel Refund
   // @access  Private
   app.post("/order/cancel-refund", restrictedPages, (req, res) => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     const orderNumber = req.body.orderNumber;
     const ownerId = req.user._id;
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = { orderNumber };
+    } else {
+      // USER ACCESS
+      query = { orderNumber, ownerId };
+    }
 
-    PrintOrder.findOne({ orderNumber, ownerId }, (err, order) => {
-      if (err) {
-        console.log("error when fetching an order");
-        return res.send("failed");
+    PrintOrder.findOne(query, (error, orderDetails) => {
+      if (error) {
+        return res.send({
+          status: "failed",
+          content: "500: Error Found when Fetching Order Details"
+        });
       }
 
-      if (!order) {
-        console.log("no order found");
-        return res.send("failed");
+      if (!orderDetails) {
+        return res.send({
+          status: "failed",
+          content: "404: No Order Details Found"
+        });
       }
 
-      req.body = order;
-
-      const preRefundOrderStatus =
-        order.requestRefundInformation.oldOrderStatus;
-
-      if (preRefundOrderStatus == "Awaiting Payment Confirmation") {
-        updateOrderStatusAwaitingPayment(req, res);
-      } else if (preRefundOrderStatus == "Printing Order") {
-        updateOrderStatusAwaitingPaymentConfirmation(req, res);
-      } else if (preRefundOrderStatus == "Ready for Pickup") {
-        updateOrderStatusPrintingOrder(req, res);
-      } else if (preRefundOrderStatus == "Order Picked Up") {
-        updateOrderStatusReadyForPickup(req, res);
-      } else if (preRefundOrderStatus == "Ready for Shipping") {
-        updateOrderStatusPrintingOrder(req, res);
-      } else if (preRefundOrderStatus == "Order Shipped") {
-        updateOrderStatusReadyForShipping(req, res);
-      } else {
-        console.log("Order status could not be identified");
-        res.send("failed");
-      }
+      /* -------------------------------- SET UPDATE OBJECT --------------------------------- */
+      const updateObject = setCancelRefundRequestUpdateObject(orderDetails);
+      /* ------------------------------- SET DUMMY VARIABLES -------------------------------- */
+      const updateMethod = undefined;
+      /* ---------------------- ACCESS DATABASE AND SEND TO FRONT-END ----------------------- */
+      PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
     });
   });
 
-  /* -------------------------------------- PROCESS REFUND -------------------------------------- */
+  /* ==================================== PROCESS REFUND ==================================== */
 
   // @route   POST /order/process-refund
   // @desc    Request Refund
   // @access  Private
   app.post("/order/process-refund", restrictedPages, (req, res) => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     const orderNumber = req.body.orderNumber;
+    const ownerId = req.user._id;
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = { orderNumber };
+    } else {
+      // USER ACCESS
+      query = { orderNumber, ownerId };
+    }
+    /* --------------------------------- SET UPDATE METHOD ---------------------------------- */
+    const updateMethod = (orderDetails, updateObject) => {
+      orderDetails.orderStatus = updateObject.orderStatus;
+      orderDetails.requestRefundInformation.refundCompletionDate =
+        updateObject.refundCompletionDate;
+      orderDetails.lastUpdateDate;
 
-    PrintOrder.findOneAndUpdate(
-      { orderNumber },
-      {
-        $set: {
-          orderStatus: "Refund Processed",
-          refundCompletionDate: new Date(),
-          lastUpdateDate: new Date()
-        }
-      },
-      (err, order) => {
-        if (err) {
-          console.log("error when fetching an order");
-          return res.send("failed");
+      orderDetails.save((error, updateOrderDetails) => {
+        // Check if error occured while saving new print order
+        if (error) {
+          return res.send({
+            status: "failed",
+            content: "500: Error Found when Saving New Updates of Order Details"
+          });
         }
 
-        if (!order) {
-          console.log("no order found");
-          return res.send("failed");
-        }
+        const orderNumber = updateOrderDetails.orderNumber + "";
 
-        console.log("successfully updated the order");
-        res.send(order.orderNumber + "");
-      }
-    );
+        res.send(orderNumber);
+      });
+    };
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = {
+      orderStatus: "Refund Processed",
+      refundCompletionDate: new Date(),
+      lastUpdateDate: new Date()
+    };
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
-  /* ====================================== ADMIN: REFUND ======================================= */
-
-  /* -------------------------------------- APPROVE REFUND -------------------------------------- */
+  /* ================================ ADMIN: APPROVE REFUND ================================= */
 
   // @route   POST /admin/order/approve-refund
   // @desc    Approve Refund Request
   // @access  Admin
   app.post("/admin/order/approve-refund", adminRestrictedPages, (req, res) => {
-    const order = req.body.order;
-    const orderNumber = order.orderNumber;
-
-    PrintOrder.findOneAndUpdate(
-      { orderNumber },
-      {
-        $set: {
-          orderStatus: "Refund Approved",
-          "requestRefundInformation.refundStatus": "approved",
-          "requestRefundInformation.processDate": new Date(),
-          lastUpdateDate: new Date()
-        }
-      },
-      (err, order) => {
-        if (err) {
-          console.log("error when fetching an order");
-          return res.send("failed");
-        }
-
-        if (!order) {
-          console.log("no order found");
-          return res.send("failed");
-        }
-
-        console.log("successfully updated the order");
-        res.send("success");
-      }
-    );
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const orderDetails = req.body.order;
+    const orderNumber = orderDetails.orderNumber;
+    const orderStatus = "Refund Approved";
+    const lastUpdateDate = new Date();
+    // Request Refund Information
+    let requestRefundInformation = orderDetails.requestRefundInformation;
+    requestRefundInformation.refundStatus = "approved";
+    requestRefundInformation.processDate = new Date();
+    /* ------------------------------------- SET QUERY -------------------------------------- */
+    const query = { orderNumber };
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = {
+      orderStatus,
+      requestRefundInformation,
+      lastUpdateDate
+    };
+    /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
+    const updateMethod = undefined;
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
-  /* -------------------------------------- DELCINE REFUND -------------------------------------- */
+  /* ================================ ADMIN: DELCINE REFUND ================================= */
 
   // @route   POST /admin/order/decline-refund
   // @desc    Decline Refund Request
   // @access  Admin
   app.post("/admin/order/decline-refund", adminRestrictedPages, (req, res) => {
-    const order = req.body.order;
-    const orderNumber = order.orderNumber;
-    const reasonForDecline = req.body.declineInput.reasonForDecline;
-
-    PrintOrder.findOneAndUpdate(
-      { orderNumber },
-      {
-        $set: {
-          orderStatus: "Refund Declined",
-          "requestRefundInformation.refundStatus": "declined",
-          "requestRefundInformation.processDate": new Date(),
-          "requestRefundInformation.declineMessage": reasonForDecline,
-          lastUpdateDate: new Date()
-        }
-      },
-      (err, order) => {
-        if (err) {
-          console.log("error when fetching an order");
-          return res.send("failed");
-        }
-
-        if (!order) {
-          console.log("no order found");
-          return res.send("failed");
-        }
-
-        console.log("successfully updated the order");
-        res.send("success");
-      }
-    );
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const orderDetails = req.body.order;
+    const orderNumber = orderDetails.orderNumber;
+    const orderStatus = "Refund Declined";
+    const lastUpdateDate = new Date();
+    // Request Refund Information
+    let requestRefundInformation = orderDetails.requestRefundInformation;
+    requestRefundInformation.refundStatus = "declined";
+    requestRefundInformation.processDate = new Date();
+    requestRefundInformation.declineMessage =
+      req.body.declineInput.reasonForDecline;
+    /* ------------------------------------- SET QUERY -------------------------------------- */
+    const query = { orderNumber };
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = {
+      orderStatus,
+      requestRefundInformation,
+      lastUpdateDate
+    };
+    /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
+    const updateMethod = undefined;
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
-  /* ==================================== ADMIN: ORDER LIST ===================================== */
+  /* ~~~~~~~~~~~~~~~~~~~~~ REPEATED: GET ORDER DETAILS BY ORDER NUMBER ~~~~~~~~~~~~~~~~~~~~~~ */
+  /* ================================== ADMIN: ORDER LIST =================================== */
 
   // @route   POST /admin/order
   // @desc
   // @access  Admin
   app.post("/admin/order", adminRestrictedPages, (req, res) => {
-    PrintOrder.findOne({ orderNumber: req.body.orderNumber }, (err, order) => {
-      if (err) throw err;
-
-      res.send(order);
-    });
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const orderNumber = req.body.orderNumber;
+    const ownerId = req.user._id;
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = { orderNumber };
+    } else {
+      // USER ACCESS
+      query = { orderNumber, ownerId };
+    }
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    PrintOrder.getOrderDetails(res, query);
   });
 
   // @route   GET /admin/orders/awaiting-quote
@@ -829,36 +836,6 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
-  // @route   POST /admin/order/update-order-status
-  // @desc    Update Order Status
-  // @access  Private
-  app.post(
-    "/admin/order/update-order-status",
-    adminRestrictedPages,
-    (req, res) => {
-      if (req.body.orderStatus == "Awaiting Quote") {
-        updateOrderStatusAwaitingQuote(req, res);
-      } else if (req.body.orderStatus == "Awaiting Payment") {
-        updateOrderStatusAwaitingPayment(req, res);
-      } else if (req.body.orderStatus == "Awaiting Payment Confirmation") {
-        updateOrderStatusAwaitingPaymentConfirmation(req, res);
-      } else if (req.body.orderStatus == "Printing Order") {
-        updateOrderStatusPrintingOrder(req, res);
-      } else if (req.body.orderStatus == "Ready for Pickup") {
-        updateOrderStatusReadyForPickup(req, res);
-      } else if (req.body.orderStatus == "Order Picked Up") {
-        updateOrderStatusOrderPickedUp(req, res);
-      } else if (req.body.orderStatus == "Ready for Shipping") {
-        updateOrderStatusReadyForShipping(req, res);
-      } else if (req.body.orderStatus == "Order Shipped") {
-        updateOrderStatusOrderShipped(req, res);
-      } else {
-        console.log("Order status could not be identified");
-        res.send("failed");
-      }
-    }
-  );
-
   // @route   POST /order/owner-details
   // @desc    Fetch Order's Owner Details
   // @access  Private
@@ -933,10 +910,10 @@ module.exports = (app, passport, upload, conn) => {
 
 /* --------------------------- SET UPDATE ORDER STATUS UPDATE OBJECT ---------------------------- */
 
-const setUpdateOrderStatusUpdateObject = orderDetails => {
+const setUpdateOrderStatusUpdateObject = (orderDetails, accountType) => {
   let updateObject;
 
-  if (orderDetails.orderStatus == "Awaiting Quote") {
+  if (orderDetails.orderStatus == "Awaiting Quote" && accountType == "admin") {
     updateObject = {
       orderStatus: "Awaiting Payment",
       lastUpdateDate: new Date()
@@ -946,13 +923,19 @@ const setUpdateOrderStatusUpdateObject = orderDetails => {
       orderStatus: "Awaiting Payment Confirmation",
       lastUpdateDate: new Date()
     };
-  } else if (orderDetails.orderStatus == "Awaiting Payment Confirmation") {
+  } else if (
+    orderDetails.orderStatus == "Awaiting Payment Confirmation" &&
+    accountType == "admin"
+  ) {
     updateObject = {
       orderStatus: "Printing Order",
       paymentConfirmationDate: new Date(),
       lastUpdateDate: new Date()
     };
-  } else if (orderDetails.orderStatus == "Printing Order") {
+  } else if (
+    orderDetails.orderStatus == "Printing Order" &&
+    accountType == "admin"
+  ) {
     if (orderDetails.delivery == "Pickup") {
       updateObject = {
         orderStatus: "Ready for Pickup",
@@ -976,7 +959,10 @@ const setUpdateOrderStatusUpdateObject = orderDetails => {
       orderCompletionDate: new Date(),
       lastUpdateDate: new Date()
     };
-  } else if (orderDetails.orderStatus == "Ready for Shipping") {
+  } else if (
+    orderDetails.orderStatus == "Ready for Shipping" &&
+    accountType == "admin"
+  ) {
     updateObject = {
       orderStatus: "Order Shipped",
       orderDeliveryDate: new Date(),
@@ -986,6 +972,49 @@ const setUpdateOrderStatusUpdateObject = orderDetails => {
     updateObject = {
       orderStatus: "Order Completed",
       orderCompletionDate: new Date(),
+      lastUpdateDate: new Date()
+    };
+  }
+
+  return updateObject;
+};
+
+const setCancelRefundRequestUpdateObject = orderDetails => {
+  let updateObject;
+
+  const oldOrderStatus = orderDetails.requestRefundInformation.oldOrderStatus;
+
+  if (oldOrderStatus == "Awaiting Payment Confirmation") {
+    updateObject = {
+      orderStatus: "Awaiting Payment Confirmation",
+      lastUpdateDate: new Date()
+    };
+  } else if (oldOrderStatus == "Printing Order") {
+    updateObject = {
+      orderStatus: "Printing Order",
+      paymentConfirmationDate: new Date(),
+      lastUpdateDate: new Date()
+    };
+  } else if (oldOrderStatus == "Ready for Pickup") {
+    updateObject = {
+      orderStatus: "Ready for Pickup",
+      lastUpdateDate: new Date()
+    };
+  } else if (oldOrderStatus == "Order Picked Up") {
+    updateObject = {
+      orderStatus: "Order Picked Up",
+      orderDeliveryDate: new Date(),
+      lastUpdateDate: new Date()
+    };
+  } else if (oldOrderStatus == "Ready for Shipping") {
+    updateObject = {
+      orderStatus: "Ready for Shipping",
+      lastUpdateDate: new Date()
+    };
+  } else if (oldOrderStatus == "Order Shipped") {
+    updateObject = {
+      orderStatus: "Order Shipped",
+      orderDeliveryDate: new Date(),
       lastUpdateDate: new Date()
     };
   }
