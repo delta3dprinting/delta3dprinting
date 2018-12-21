@@ -1,12 +1,24 @@
+/* ========================================= MODULES ========================================== */
+
 const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
+
+/* ========================================== MODELS ========================================== */
 
 // Load PrintOrder Model
 const PrintOrder = require("../models/PrintOrder");
 // Load User Profile Model
 const UserProfile = require("../models/UserProfile");
 
+/* ======================================== IMPORTS ========================================= */
+
+const FileModel = require("../models/File");
+
+/* ========================================= EXPORT ========================================= */
+
 module.exports = (app, passport, upload, conn) => {
+  /* ================================ SET MONGODB CONNECTION ================================ */
+
   let gfs;
 
   conn.once("open", () => {
@@ -21,9 +33,9 @@ module.exports = (app, passport, upload, conn) => {
   // @desc    Get an array of order details
   // @access  Private
   app.post("/order/get-order-details-array", restrictedPages, (req, res) => {
-    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    /* ------------------------- ASSIGNING AND SIMPLIFYING VARIABLES -------------------------- */
     const ownerId = req.user._id;
-    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    /* --------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE ---------------------- */
     let query;
     if (req.user.accountType == "admin") {
       // ADMIN ACCESS
@@ -32,7 +44,7 @@ module.exports = (app, passport, upload, conn) => {
       // USER ACCESS
       query = { ownerId };
     }
-    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    /* ------------------------ ACCESS DATABASE AND SEND TO FRONT-END ------------------------- */
     PrintOrder.getOrderDetailsArray(res, query);
   });
 
@@ -94,14 +106,14 @@ module.exports = (app, passport, upload, conn) => {
   // @desc    Check if User is the Owner of the Order
   // @access  Private
   app.post("/order/check-ownership", restrictedPages, (req, res) => {
-    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    /* ------------------------- ASSIGNING AND SIMPLIFYING VARIABLES -------------------------- */
     const orderNumber = req.body.orderNumber;
     const userId = req.user._id + "";
-    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
+    /* --------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE ---------------------- */
     const query = { orderNumber };
-    /* ----------------------------- SET DUMMY FILTER VARIABLE ------------------------------ */
+    /* ------------------------------ SET DUMMY FILTER VARIABLE ------------------------------- */
     const filter = undefined;
-    /* --------------------- SET METHOD FOR VALIDATING ORDER OWNERSHIP ---------------------- */
+    /* ---------------------- SET METHOD FOR VALIDATING ORDER OWNERSHIP ----------------------- */
     // Object
     const object = { userId };
     // Method
@@ -117,7 +129,7 @@ module.exports = (app, passport, upload, conn) => {
         return res.send("failed");
       }
     };
-    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    /* ------------------------ ACCESS DATABASE AND SEND TO FRONT-END ------------------------- */
     PrintOrder.getOrderDetails(res, query, filter, method, object);
   });
 
@@ -674,6 +686,8 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TO BE OPTIMISED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
   /* =================================== PART'S FILE DETAILS ==================================== */
 
   // @route   POST /order/part/file-details
@@ -711,16 +725,35 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
-  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TO BE OPTIMISED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
   // @route   POST /order/price
   // @desc    Fetch an order based on order number
   // @access  Private
   app.post("/order/price", restrictedPages, (req, res) => {
-    const id = mongoose.Types.ObjectId(req.body.fileId);
+    /* -------------------------- ASSIGNING AND SIMPLIFYING VARIABLES --------------------------- */
+    const _id = mongoose.Types.ObjectId(req.body.fileId);
+    /* ---------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE ----------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = { _id };
+    } else {
+      // USER ACCESS
+      query = {
+        _id,
+        "metadata.ownerId": req.user._id
+      };
+    }
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    gfs.files.findOne(query, (error, file) => {
+      if (error) {
+        console.log("Error Found when Fetching File Details");
+        return res.send("failed");
+      }
 
-    gfs.files.findOne({ _id: id }, (err, file) => {
-      if (err) return console.log("Error");
+      if (!file) {
+        console.log("No File Details Found");
+        return res.send("failed");
+      }
 
       res.send(file.metadata.price);
     });

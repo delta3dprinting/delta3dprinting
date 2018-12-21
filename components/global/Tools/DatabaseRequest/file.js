@@ -10,7 +10,7 @@ const getFileDetails = fileId => {
     contentType: "application/json",
     data: JSON.stringify({ fileId }),
     success: data => {
-      fileDetails = data;
+      fileDetails = data.content;
     }
   });
 

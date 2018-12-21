@@ -3,18 +3,19 @@
 const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
 
-/* ==================================== GLOBAL VARIABLES ==================================== */
+/* ======================================== IMPORTS ========================================= */
 
-let gfs;
+const FileModel = require("../models/File");
 
 /* ========================================= EXPORT ========================================= */
 
 module.exports = (app, passport, upload, conn) => {
-  /* =============================== SET MONGOOSE CONNECTION ================================ */
+  /* ================================ SET MONGODB CONNECTION ================================ */
+
+  let gfs;
 
   conn.once("open", () => {
-    /* ---------------------------- ACCESS TO FILES ON DATABASE ----------------------------- */
-
+    // Init stream
     gfs = Grid(conn.db, mongoose.mongo);
     gfs.collection("fs");
   });
@@ -26,13 +27,9 @@ module.exports = (app, passport, upload, conn) => {
   // @access  Private
   app.get("/file/download/:fileId", restrictedPages, (req, res) => {
     /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
-
     const fileId = mongoose.Types.ObjectId(req.params.fileId);
-
     /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
-
     let query;
-
     if (req.user.accountType == "admin") {
       // ADMIN ACCESS
       query = { _id: fileId };
@@ -43,9 +40,7 @@ module.exports = (app, passport, upload, conn) => {
         "metadata.ownerId": req.user._id
       };
     }
-
     /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-
     downloadFile(res, query);
   });
 
@@ -56,13 +51,9 @@ module.exports = (app, passport, upload, conn) => {
   // @access  Private
   app.post("/file/get-file-details/file-id", restrictedPages, (req, res) => {
     /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
-
     const fileId = mongoose.Types.ObjectId(req.body.fileId);
-
     /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
-
     let query;
-
     if (req.user.accountType == "admin") {
       // ADMIN ACCESS
       query = { _id: fileId };
@@ -73,9 +64,7 @@ module.exports = (app, passport, upload, conn) => {
         "metadata.ownerId": req.user._id
       };
     }
-
-    /* ----------------- ACCESS DATABASE AND SEND FILE DETAILS TO FRONT-END ----------------- */
-
+    /* ------------------------------------- SET FILTER ------------------------------------- */
     // Set the details that will be sent to front-end
     const filter = file => {
       return {
@@ -83,8 +72,8 @@ module.exports = (app, passport, upload, conn) => {
         fileDetail: file.metadata
       };
     };
-
-    getFileDetails(res, query, filter);
+    /* ----------------- ACCESS DATABASE AND SEND FILE DETAILS TO FRONT-END ----------------- */
+    FileModel.getFileDetails(gfs, res, query, filter);
   });
 };
 
@@ -126,7 +115,7 @@ const downloadFile = (res, query) => {
 
 /* ------------------------------------ GET FILE DETAILS ------------------------------------ */
 
-const getFileDetails = (res, query, filter) => {
+const getFileDetails = (gfs, res, query, filter) => {
   gfs.files.findOne(query, (err, file) => {
     // CHECK IF ERROR WHILE QUERYING DATABASE
 
