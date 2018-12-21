@@ -280,6 +280,8 @@ module.exports = (app, passport, upload, conn) => {
     PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
+  /*  */
+
   // @route   POST /order/comments
   // @desc    Fetch an order based on order number
   // @access  Private
@@ -350,21 +352,11 @@ module.exports = (app, passport, upload, conn) => {
     );
   });
 
-  // @route   POST /order/price
-  // @desc    Fetch an order based on order number
-  // @access  Private
-  app.post("/order/price", restrictedPages, (req, res) => {
-    const id = mongoose.Types.ObjectId(req.body.fileId);
-
-    gfs.files.findOne({ _id: id }, (err, file) => {
-      if (err) return console.log("Error");
-
-      res.send(file.metadata.price);
-    });
-  });
-
   /* ================================== BOOK A PICKUP TIME ================================== */
 
+  // @route   POST /order/book-pickup
+  // @desc    Book a Pickup Time
+  // @access  Private
   app.post("/order/book-pickup", restrictedPages, (req, res) => {
     /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     const orderNumber = req.body.orderNumber;
@@ -456,6 +448,8 @@ module.exports = (app, passport, upload, conn) => {
     /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
     PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
+
+  /* ==================================== CANCEL REFUND ===================================== */
 
   // @route   POST /order/cancel-refund
   // @desc    Cancel Refund
@@ -607,38 +601,6 @@ module.exports = (app, passport, upload, conn) => {
     PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
-  // @route   POST /admin/file-details
-  // @desc    Get File Details
-  // @access  Admin
-  app.post("/admin/file-details", adminRestrictedPages, (req, res) => {
-    const id = mongoose.Types.ObjectId(req.body.fileId);
-
-    gfs.files.findOne({ _id: id }, (err, file) => {
-      if (err) throw err;
-
-      if (!file) return res.send("No File Found");
-
-      res.send(file);
-    });
-  });
-
-  // @route   POST /admin/part/set-price
-  // @desc    Set Part's Price
-  // @access  Admin
-  app.post("/admin/part/set-price", adminRestrictedPages, (req, res) => {
-    const id = mongoose.Types.ObjectId(req.body.fileId);
-
-    gfs.files.findOneAndUpdate(
-      { _id: id },
-      { $set: { "metadata.price": req.body.partPrice } },
-      (err, doc) => {
-        if (err) throw err;
-
-        res.send(doc);
-      }
-    );
-  });
-
   /* =========================== UPDATE ORDER'S PRODUCED QUANTITY =========================== */
 
   // @route   POST /admin/part/update-produced-quantity
@@ -689,6 +651,8 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
+  /* ================================= UPDATE TRACKING NUMBER ================================= */
+
   // @route   POST /admin/order/update-tracking-number
   // @desc    Update Tracking Number
   // @access  Admin
@@ -696,59 +660,19 @@ module.exports = (app, passport, upload, conn) => {
     "/admin/order/update-tracking-number",
     adminRestrictedPages,
     (req, res) => {
+      /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
       const id = mongoose.Types.ObjectId(req.body.orderId);
-
-      PrintOrder.findByIdAndUpdate(
-        id,
-        {
-          $set: { trackingNumber: req.body.trackingNumber }
-        },
-        (err, order) => {
-          if (err) {
-            console.log("Error found");
-            res.send("failed");
-            return;
-          }
-
-          if (!order) {
-            console.log("No order found");
-            res.send("failed");
-            return;
-          }
-
-          console.log(order);
-          res.send("success");
-        }
-      );
+      const trackingNumber = req.body.trackingNumber;
+      /* ------------------------------------- SET QUERY -------------------------------------- */
+      const query = { _id: id };
+      /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+      const updateObject = { trackingNumber };
+      /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
+      const updateMethod = undefined;
+      /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+      PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
     }
   );
-
-  // @route   POST /order/owner-details
-  // @desc    Fetch Order's Owner Details
-  // @access  Private
-  app.post("/order/owner-details", restrictedPages, (req, res) => {
-    const order = req.body;
-    const id = mongoose.Types.ObjectId(order.ownerId);
-
-    if (req.user.accountType != "admin") {
-      if (req.user._id != id) {
-        console.log("Incorrect User");
-        return res.send("failed");
-      }
-    }
-
-    UserProfile.findOne({ ownerId: id }, (err, user) => {
-      if (err) throw err;
-
-      if (!user) {
-        console.log("No User Found");
-        res.send("failed");
-        return;
-      }
-
-      res.send(user);
-    });
-  });
 
   /* =================================== PART'S FILE DETAILS ==================================== */
 
@@ -784,6 +708,80 @@ module.exports = (app, passport, upload, conn) => {
       }
 
       return res.send(file);
+    });
+  });
+
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TO BE OPTIMISED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+  // @route   POST /order/price
+  // @desc    Fetch an order based on order number
+  // @access  Private
+  app.post("/order/price", restrictedPages, (req, res) => {
+    const id = mongoose.Types.ObjectId(req.body.fileId);
+
+    gfs.files.findOne({ _id: id }, (err, file) => {
+      if (err) return console.log("Error");
+
+      res.send(file.metadata.price);
+    });
+  });
+
+  // @route   POST /admin/part/set-price
+  // @desc    Set Part's Price
+  // @access  Admin
+  app.post("/admin/part/set-price", adminRestrictedPages, (req, res) => {
+    const id = mongoose.Types.ObjectId(req.body.fileId);
+
+    gfs.files.findOneAndUpdate(
+      { _id: id },
+      { $set: { "metadata.price": req.body.partPrice } },
+      (err, doc) => {
+        if (err) throw err;
+
+        res.send(doc);
+      }
+    );
+  });
+
+  // @route   POST /admin/file-details
+  // @desc    Get File Details
+  // @access  Admin
+  app.post("/admin/file-details", adminRestrictedPages, (req, res) => {
+    const id = mongoose.Types.ObjectId(req.body.fileId);
+
+    gfs.files.findOne({ _id: id }, (err, file) => {
+      if (err) throw err;
+
+      if (!file) return res.send("No File Found");
+
+      res.send(file);
+    });
+  });
+
+  // @route   POST /order/owner-details
+  // @desc    Fetch Order's Owner Details
+  // @access  Private
+  app.post("/order/owner-details", restrictedPages, (req, res) => {
+    const order = req.body;
+    const id = mongoose.Types.ObjectId(order.ownerId);
+
+    if (req.user.accountType != "admin") {
+      if (req.user._id != id) {
+        console.log("Incorrect User");
+        return res.send("failed");
+      }
+    }
+
+    UserProfile.findOne({ ownerId: id }, (err, user) => {
+      if (err) throw err;
+
+      if (!user) {
+        console.log("No User Found");
+        res.send("failed");
+        return;
+      }
+
+      res.send(user);
     });
   });
 };
@@ -860,6 +858,8 @@ const setUpdateOrderStatusUpdateObject = (orderDetails, accountType) => {
 
   return updateObject;
 };
+
+/* -------------------------- SET CANCEL REFUND REQUEST UPDATE OBJECT --------------------------- */
 
 const setCancelRefundRequestUpdateObject = orderDetails => {
   let updateObject;
