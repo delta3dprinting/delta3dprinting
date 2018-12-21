@@ -20,7 +20,7 @@ const contructAdminProfileOrdersPrintsObject = () => {
 
 const adminProfileOrdersPrintsInit = () => {
   constructAdminProfileOrdersPrintsBaseHTML();
-  loadAdminProfileOrdersPrintsOrderList();
+  loadAdminProfileOrdersPrintsOrderLists();
   adminProfileOrdersPrintsDiscountInit();
 };
 
