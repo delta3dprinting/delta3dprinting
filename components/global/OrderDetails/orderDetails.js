@@ -7,31 +7,31 @@ const viewOrderDetails = orderNumber => {
     data: { orderNumber },
     success: data => {
       if (data.content.orderStatus == "Awaiting Quote") {
-        awaitingQuoteInit(data);
+        awaitingQuoteInit(data.content);
       } else if (data.content.orderStatus == "Awaiting Payment") {
-        awaitingPaymentInit(data);
+        awaitingPaymentInit(data.content);
       } else if (data.content.orderStatus == "Awaiting Payment Confirmation") {
-        awaitingPaymentConfirmationInit(data);
+        awaitingPaymentConfirmationInit(data.content);
       } else if (data.content.orderStatus == "Printing Order") {
-        printingOrderInit(data);
+        printingOrderInit(data.content);
       } else if (data.content.orderStatus == "Ready for Pickup") {
-        readyForPickupInit(data);
+        readyForPickupInit(data.content);
       } else if (data.content.orderStatus == "Order Picked Up") {
-        orderPickedUpInit(data);
+        orderPickedUpInit(data.content);
       } else if (data.content.orderStatus == "Ready for Shipping") {
-        readyForShippingInit(data);
+        readyForShippingInit(data.content);
       } else if (data.content.orderStatus == "Order Shipped") {
-        orderShippedInit(data);
+        orderShippedInit(data.content);
       } else if (data.content.orderStatus == "Order Completed") {
-        orderCompletedInit(data);
+        orderCompletedInit(data.content);
       } else if (data.content.orderStatus == "Requesting Refund") {
-        requestingRefundInit(data);
+        requestingRefundInit(data.content);
       } else if (data.content.orderStatus == "Refund Approved") {
-        refundApprovedInit(data);
+        refundApprovedInit(data.content);
       } else if (data.content.orderStatus == "Refund Declined") {
-        refundDeclinedInit(data);
+        refundDeclinedInit(data.content);
       } else if (data.content.orderStatus == "Refund Processed") {
-        refundProcessedInit(data);
+        refundProcessedInit(data.content);
       } else {
         console.log("Couldn't Determine Order Status");
       }
