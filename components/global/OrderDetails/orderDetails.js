@@ -3,34 +3,34 @@
 const viewOrderDetails = orderNumber => {
   $.ajax({
     type: "POST",
-    url: "/order",
-    data: { orderNumber: orderNumber },
+    url: "/order/get-order-details-array",
+    data: { orderNumber },
     success: data => {
-      if (data.orderStatus == "Awaiting Quote") {
+      if (data.content.orderStatus == "Awaiting Quote") {
         awaitingQuoteInit(data);
-      } else if (data.orderStatus == "Awaiting Payment") {
+      } else if (data.content.orderStatus == "Awaiting Payment") {
         awaitingPaymentInit(data);
-      } else if (data.orderStatus == "Awaiting Payment Confirmation") {
+      } else if (data.content.orderStatus == "Awaiting Payment Confirmation") {
         awaitingPaymentConfirmationInit(data);
-      } else if (data.orderStatus == "Printing Order") {
+      } else if (data.content.orderStatus == "Printing Order") {
         printingOrderInit(data);
-      } else if (data.orderStatus == "Ready for Pickup") {
+      } else if (data.content.orderStatus == "Ready for Pickup") {
         readyForPickupInit(data);
-      } else if (data.orderStatus == "Order Picked Up") {
+      } else if (data.content.orderStatus == "Order Picked Up") {
         orderPickedUpInit(data);
-      } else if (data.orderStatus == "Ready for Shipping") {
+      } else if (data.content.orderStatus == "Ready for Shipping") {
         readyForShippingInit(data);
-      } else if (data.orderStatus == "Order Shipped") {
+      } else if (data.content.orderStatus == "Order Shipped") {
         orderShippedInit(data);
-      } else if (data.orderStatus == "Order Completed") {
+      } else if (data.content.orderStatus == "Order Completed") {
         orderCompletedInit(data);
-      } else if (data.orderStatus == "Requesting Refund") {
+      } else if (data.content.orderStatus == "Requesting Refund") {
         requestingRefundInit(data);
-      } else if (data.orderStatus == "Refund Approved") {
+      } else if (data.content.orderStatus == "Refund Approved") {
         refundApprovedInit(data);
-      } else if (data.orderStatus == "Refund Declined") {
+      } else if (data.content.orderStatus == "Refund Declined") {
         refundDeclinedInit(data);
-      } else if (data.orderStatus == "Refund Processed") {
+      } else if (data.content.orderStatus == "Refund Processed") {
         refundProcessedInit(data);
       } else {
         console.log("Couldn't Determine Order Status");

@@ -694,6 +694,7 @@ module.exports = (app, passport, upload, conn) => {
   app.post("/admin/part/set-price", adminRestrictedPages, (req, res) => {
     /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     const _id = mongoose.Types.ObjectId(req.body.fileId);
+    const price = req.body.partPrice;
     /* ------------------------------------- SET QUERY -------------------------------------- */
     const query = { _id };
     /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
