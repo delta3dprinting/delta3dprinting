@@ -663,7 +663,7 @@ module.exports = (app, passport, upload, conn) => {
     }
   );
 
-  /* ================================= UPDATE TRACKING NUMBER ================================= */
+  /* ================================ UPDATE TRACKING NUMBER ================================ */
 
   // @route   POST /admin/order/update-tracking-number
   // @desc    Update Tracking Number
@@ -673,10 +673,10 @@ module.exports = (app, passport, upload, conn) => {
     adminRestrictedPages,
     (req, res) => {
       /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
-      const id = mongoose.Types.ObjectId(req.body.orderId);
+      const _id = mongoose.Types.ObjectId(req.body.orderId);
       const trackingNumber = req.body.trackingNumber;
       /* ------------------------------------- SET QUERY -------------------------------------- */
-      const query = { _id: id };
+      const query = { _id };
       /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
       const updateObject = { trackingNumber };
       /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
@@ -685,6 +685,24 @@ module.exports = (app, passport, upload, conn) => {
       PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
     }
   );
+
+  /* ==================================== SET PART PRICE ==================================== */
+
+  // @route   POST /admin/part/set-price
+  // @desc    Set Part's Price
+  // @access  Admin
+  app.post("/admin/part/set-price", adminRestrictedPages, (req, res) => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const _id = mongoose.Types.ObjectId(req.body.fileId);
+    /* ------------------------------------- SET QUERY -------------------------------------- */
+    const query = { _id };
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = { price };
+    /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
+    const updateMethod = undefined;
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    FileModel.updateFileDetails(gfs, res, query, updateMethod, updateObject);
+  });
 
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TO BE OPTIMISED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -757,23 +775,6 @@ module.exports = (app, passport, upload, conn) => {
 
       res.send(file.metadata.price);
     });
-  });
-
-  // @route   POST /admin/part/set-price
-  // @desc    Set Part's Price
-  // @access  Admin
-  app.post("/admin/part/set-price", adminRestrictedPages, (req, res) => {
-    const id = mongoose.Types.ObjectId(req.body.fileId);
-
-    gfs.files.findOneAndUpdate(
-      { _id: id },
-      { $set: { "metadata.price": req.body.partPrice } },
-      (err, doc) => {
-        if (err) throw err;
-
-        res.send(doc);
-      }
-    );
   });
 
   // @route   POST /admin/file-details

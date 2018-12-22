@@ -20,7 +20,7 @@ module.exports = (app, passport, upload, conn) => {
     gfs.collection("fs");
   });
 
-  /* ==================================== DOWNLOAD FILE ===================================== */
+  /* =============================== DOWNLOAD FILE BY FILE ID =============================== */
 
   // @route   GET /file/download/:fileId
   // @desc    Download File
@@ -41,7 +41,7 @@ module.exports = (app, passport, upload, conn) => {
       };
     }
     /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-    downloadFile(res, query);
+    FileModel.downloadFile(gfs, res, query);
   });
 
   /* ============================= GET FILE DETAILS BY FILE ID ============================== */
@@ -76,71 +76,6 @@ module.exports = (app, passport, upload, conn) => {
     FileModel.getFileDetails(gfs, res, query, filter);
   });
 };
-
-/* ======================================== FUNCTION ======================================== */
-
-/* ------------------------------------- DOWNLOAD FILE -------------------------------------- */
-
-const downloadFile = (res, query) => {
-  gfs.files.findOne(query, (err, file) => {
-    // CHECK IF ERROR WHILE QUERYING DATABASE
-
-    if (err) {
-      res.status(500).json({ error: "error was found while fetching file" });
-    }
-
-    // CHECK IF A FILE IS FOUND
-
-    if (!file) {
-      return res.status(404).json({
-        error: "no file was found"
-      });
-    }
-
-    // IF FILE EXIST, EXECUTE THE CODE BELOW
-
-    // Stream data out of GridFS
-    const readstream = gfs.createReadStream(file.filename);
-
-    // Set header
-    res.set({
-      "content-disposition": "attachment; filename=" + file.filename,
-      "content-type": "application/octet-stream"
-    });
-
-    // Send response to front-end
-    readstream.pipe(res);
-  });
-};
-
-/* ------------------------------------ GET FILE DETAILS ------------------------------------ */
-
-const getFileDetails = (gfs, res, query, filter) => {
-  gfs.files.findOne(query, (err, file) => {
-    // CHECK IF ERROR WHILE QUERYING DATABASE
-
-    if (err) {
-      res.status(500).json({ error: "error was found while fetching file" });
-    }
-
-    // CHECK IF A FILE IS FOUND
-
-    if (!file) {
-      return res.status(404).json({
-        error: "no file was found"
-      });
-    }
-
-    if (filter) {
-      const filteredDetails = filter(file);
-      return res.send(filteredDetails);
-    }
-
-    res.send(file);
-  });
-};
-
-/* -------------------------------------- DELETE FILE --------------------------------------- */
 
 /* ======================================= MIDDLEWARE ======================================= */
 

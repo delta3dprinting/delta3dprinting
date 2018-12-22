@@ -67,7 +67,7 @@ const loadProfileOrdersPrintsOrdersListTableContents = () => {
       "#profile_orders_prints_orders_list_table_content_main_body"
     ).innerHTML = loaderElement;
     $.ajax({
-      type: "POST ",
+      type: "POST",
       url: "/order/get-order-details-array",
       success: data => {
         addProfileOrdersPrintsOrdersListTableContents(data.content);
