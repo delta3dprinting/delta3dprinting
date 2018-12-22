@@ -3,7 +3,7 @@
 const viewOrderDetails = orderNumber => {
   $.ajax({
     type: "POST",
-    url: "/order/get-order-details-array",
+    url: "/order/get-order-details-by-order-number",
     data: { orderNumber },
     success: data => {
       if (data.content.orderStatus == "Awaiting Quote") {

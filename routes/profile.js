@@ -16,15 +16,6 @@ module.exports = (app, passport) => {
     }
   });
 
-  // @route   GET /profile
-  // @desc    Get Profile Details
-  // @access  Private
-  app.get("/Profile/profile-details", restrictedPages, (req, res) => {
-    UserProfile.findOne({ ownerId: req.user._id }, (err, profile) => {
-      res.send(profile);
-    });
-  });
-
   // @route   POST /profile/save
   // @desc    Save Profile Changes
   // @access  Private
