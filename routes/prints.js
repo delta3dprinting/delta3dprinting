@@ -235,27 +235,7 @@ module.exports = (app, passport, upload, conn) => {
     });
   });
 
-  /* ~~~~~~~~~~~~~~~~~~~~~ REPEATED: GET ORDER DETAILS BY ORDER NUMBER ~~~~~~~~~~~~~~~~~~~~~~ */
-
-  // @route   GET /order
-  // @desc    Fetch an order based on order number
-  // @access  Private
-  app.post("/order", restrictedPages, (req, res) => {
-    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
-    const orderNumber = req.body.orderNumber;
-    const ownerId = req.user._id;
-    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
-    let query;
-    if (req.user.accountType == "admin") {
-      // ADMIN ACCESS
-      query = { orderNumber };
-    } else {
-      // USER ACCESS
-      query = { orderNumber, ownerId };
-    }
-    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-    PrintOrder.getOrderDetails(res, query);
-  });
+  /* ================================== ORDER: ADD COMMENT ================================== */
 
   // @route   POST /order/comment
   // @desc    Fetch an order based on order number
@@ -622,13 +602,13 @@ module.exports = (app, passport, upload, conn) => {
     "/admin/part/update-produced-quantity",
     adminRestrictedPages,
     (req, res) => {
-      /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+      /* ----------------------- ASSIGNING AND SIMPLIFYING VARIABLES ------------------------ */
       const producedQuantity = req.body.producedQuantity;
       const orderNumber = req.body.orderNumber;
       const partId = req.body.partId;
-      /* ------------------------------------- SET QUERY -------------------------------------- */
+      /* ------------------------------------ SET QUERY ------------------------------------- */
       const query = { orderNumber };
-      /* --------------------------------- SET UPDATE METHOD ---------------------------------- */
+      /* -------------------------------- SET UPDATE METHOD --------------------------------- */
       const updateMethod = (orderDetails, updateObject) => {
         const findPartIndex = element => {
           return element._id == updateObject.partId;
@@ -656,9 +636,9 @@ module.exports = (app, passport, upload, conn) => {
           });
         });
       };
-      /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+      /* -------------------------------- SET UPDATE OBJECT --------------------------------- */
       const updateObject = { producedQuantity, partId };
-      /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+      /* ---------------------- ACCESS DATABASE AND SEND TO FRONT-END ----------------------- */
       PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
     }
   );
@@ -672,16 +652,16 @@ module.exports = (app, passport, upload, conn) => {
     "/admin/order/update-tracking-number",
     adminRestrictedPages,
     (req, res) => {
-      /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+      /* ----------------------- ASSIGNING AND SIMPLIFYING VARIABLES ------------------------ */
       const _id = mongoose.Types.ObjectId(req.body.orderId);
       const trackingNumber = req.body.trackingNumber;
-      /* ------------------------------------- SET QUERY -------------------------------------- */
+      /* ------------------------------------ SET QUERY ------------------------------------- */
       const query = { _id };
-      /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+      /* -------------------------------- SET UPDATE OBJECT --------------------------------- */
       const updateObject = { trackingNumber };
-      /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
+      /* ------------------------------- SET DUMMY VARIABLES -------------------------------- */
       const updateMethod = undefined;
-      /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+      /* ---------------------- ACCESS DATABASE AND SEND TO FRONT-END ----------------------- */
       PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
     }
   );
@@ -698,11 +678,9 @@ module.exports = (app, passport, upload, conn) => {
     /* ------------------------------------- SET QUERY -------------------------------------- */
     const query = { _id };
     /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
-    const updateObject = { price };
-    /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
-    const updateMethod = undefined;
+    const update = { $set: { "metadata.price": price } };
     /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
-    FileModel.updateFileDetails(gfs, res, query, updateMethod, updateObject);
+    FileModel.updateFileDetails(gfs, res, query, update);
   });
 
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TO BE OPTIMISED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

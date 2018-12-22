@@ -69,42 +69,7 @@ module.exports = (app, passport) => {
     }
     const query = { ownerId };
     /* ------------------------- ACCESS DATABASE AND SEND TO FRONT-END -------------------------- */
-    getProfileDetails(res, query);
-  });
-};
-
-/* ========================================== FUNCTION ========================================== */
-
-/* ------------------------------- GET PROFILE DETAILS (FIND ONE) ------------------------------- */
-
-const getProfileDetails = (res, query, filter) => {
-  UserProfile.findOne(query, (error, profileDetails) => {
-    if (error) {
-      return res.send({
-        status: "failed",
-        error: "500: Error Found when Fetching Profile Details"
-      });
-    }
-
-    if (!profileDetails) {
-      return res.send({
-        status: "failed",
-        error: "404: No Profile Found"
-      });
-    }
-
-    if (filter) {
-      const filteredProfileDetails = filter(profileDetails);
-      return res.send({
-        status: "success",
-        profileDetails: filteredProfileDetails
-      });
-    }
-
-    return res.send({
-      status: "success",
-      profileDetails
-    });
+    UserProfile.getProfileDetails(res, query);
   });
 };
 

@@ -45,6 +45,51 @@ const UserProfileSchema = new Schema({
   }
 });
 
+/* ================================== STATIC METHODS =================================== */
+
+/* -------------------------- GET PROFILE DETAILS (FIND ONE) --------------------------- */
+
+UserProfileSchema.statics.getProfileDetails = function(
+  res,
+  query,
+  filter,
+  method,
+  object
+) {
+  return this.findOne(query, (error, profileDetails) => {
+    if (error) {
+      return res.send({
+        status: "failed",
+        error: "500: Error Found when Fetching Profile Details"
+      });
+    }
+
+    if (!profileDetails) {
+      return res.send({
+        status: "failed",
+        error: "404: No Profile Found"
+      });
+    }
+
+    if (filter) {
+      const filteredProfileDetails = filter(profileDetails);
+      return res.send({
+        status: "success",
+        profileDetails: filteredProfileDetails
+      });
+    }
+
+    if (method) {
+      return method(profileDetails, object);
+    }
+
+    return res.send({
+      status: "success",
+      profileDetails
+    });
+  });
+};
+
 /* ====================================== EXPORT ======================================= */
 
 module.exports = UserProfile = conn.model("userProfiles", UserProfileSchema);

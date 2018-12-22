@@ -42,11 +42,11 @@ const constructProfileSettingsProfileStructure = () => {
 const profileSettingsProfileUpdateInputFields = () => {
   // Get Profile Details
   $.ajax({
-    type: "GET",
-    url: "/Profile/profile-details",
+    type: "POST",
+    url: "/profile/profile-details",
     success: data => {
       // Populate Input Fields
-      profileSettingsProfilePopulateInputFields(data);
+      profileSettingsProfilePopulateInputFields(data.content);
     }
   });
 };

@@ -126,13 +126,12 @@ FileModel.updateFileDetails = function(
   gfs,
   res,
   query,
-  updateMethod,
-  updateObject,
+  update,
   filter,
   method,
   object
 ) {
-  return gfs.files.findOne(query, (error, fileDetails) => {
+  return gfs.files.findOneAndUpdate(query, update, (error, fileDetails) => {
     if (error) {
       return res.send({
         status: "failed",
@@ -147,41 +146,21 @@ FileModel.updateFileDetails = function(
       });
     }
 
-    if (updateMethod) {
-      return updateMethod(fileDetails, updateObject);
-    }
-
-    // Update order details
-    for (let property in updateObject) {
-      fileDetails.metadata[property] = updateObject[property];
-    }
-
-    fileDetails.save((error, updatedFileDetails) => {
-      // Check if error occured while saving new print order
-      if (error) {
-        return res.send({
-          status: "failed",
-          content: "500: Error Found when Saving New Updates of File Details"
-        });
-      }
-
-      if (filter) {
-        const filteredUpdatedFileDetails = filter(updatedFileDetails);
-        return res.send({
-          status: "success",
-          content: filteredUpdatedFileDetails
-        });
-      }
-
-      if (method) {
-        return method(updatedFileDetails, object);
-      }
-
-      // If successfully saved
+    if (filter) {
+      const filteredFileDetails = filter(fileDetails);
       return res.send({
         status: "success",
-        content: updatedFileDetails
+        content: filteredFileDetails
       });
+    }
+
+    if (method) {
+      return method(fileDetails, object);
+    }
+
+    return res.send({
+      status: "success",
+      content: fileDetails
     });
   });
 };
