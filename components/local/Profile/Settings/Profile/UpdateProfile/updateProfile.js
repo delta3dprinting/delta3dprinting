@@ -42,7 +42,9 @@ const profileSettingsProfileSaveChanges = () => {
   if (!validateProfileSettingsProfileInputValues()) {
     return;
   }
-  profileSettingsProfileSaveChangesSubmit();
+  profileSettingsProfileSaveChangesSubmit(
+    profileSettingsProfileInputValuesObject
+  );
 };
 
 /* =========================================== COLLECT INPUT ============================================ */
@@ -240,11 +242,11 @@ const profileSettingsProfileSaveChangesSuccess = () => {
     "<div id='profile_settings_profile_save_changes_success_message'>saved</div>";
 };
 
-const profileSettingsProfileSaveChangesSubmit = () => {
+const profileSettingsProfileSaveChangesSubmit = profileDetails => {
   $.ajax({
     type: "POST",
-    url: "/Profile/save-profile-details",
-    data: JSON.stringify(profileSettingsProfileInputValuesObject),
+    url: "/profile/save-profile-details",
+    data: JSON.stringify({ profileDetails }),
     contentType: "application/json",
     success: data => {
       profileSettingsProfileSaveChangesSuccess();

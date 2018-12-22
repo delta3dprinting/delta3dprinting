@@ -1,14 +1,18 @@
+/* ========================================= MODULES ========================================== */
+
 const mongoose = require("mongoose");
 const path = require("path");
+
+/* ========================================== MODELS ========================================== */
 
 // Load User Profile Model
 const UserProfile = require("../models/UserProfile");
 
 module.exports = (app, passport) => {
-  // @route   GET /Profile
+  // @route   GET /profile
   // @desc    Get Profile HTML
   // @access  Private
-  app.get("/Profile", restrictedPages, (req, res) => {
+  app.get("/profile", restrictedPages, (req, res) => {
     if (req.user.accountType == "admin") {
       res.sendFile(path.join(__dirname, "../views/adminProfile.html"));
     } else if (req.user.accountType == "normal") {
@@ -16,41 +20,32 @@ module.exports = (app, passport) => {
     }
   });
 
-  // @route   POST /profile/save
+  // @route   POST /profile/save-profile-details
   // @desc    Save Profile Changes
   // @access  Private
-  app.post("/Profile/save-profile-details", restrictedPages, (req, res) => {
-    UserProfile.findOne({ ownerId: req.user._id }).then(profile => {
-      // Update Profile Values
-      for (component in req.body) {
-        if (component == "shippingAddress") {
-          for (component in req.body.shippingAddress) {
-            profile.shippingAddress[component] =
-              req.body.shippingAddress[component];
-          }
-        } else {
-          profile[component] = req.body[component];
-        }
-      }
-      profile.save((err, profile) => {
-        if (err) throw err;
-
-        console.log(profile);
-
-        res.send("success");
-      });
-    });
+  app.post("/profile/save-profile-details", restrictedPages, (req, res) => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const ownerId = req.user._id;
+    const profileDetails = req.body.profileDetails;
+    /* ------------------------------------- SET QUERY -------------------------------------- */
+    const query = { ownerId };
+    /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
+    const updateObject = profileDetails;
+    /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
+    const updateMethod = undefined;
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
+    UserProfile.updateProfileDetails(res, query, updateMethod, updateObject);
   });
 
-  /* =================================== GET PROFILE DETAILS ==================================== */
+  /* ================================= GET PROFILE DETAILS ================================== */
 
   // @route   POST /profile/profile-details
   // @desc    Get Profile Details
   // @access  Private
   app.post("/profile/profile-details", restrictedPages, (req, res) => {
-    /* -------------------------- ASSIGNING AND SIMPLIFYING VARIABLES --------------------------- */
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     let ownerId;
-    /* ---------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE ----------------------- */
+    /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
     if (req.user.accountType == "admin") {
       // ADMIN ACCESS
       ownerId = mongoose.Types.ObjectId(req.body.ownerId);
@@ -59,7 +54,7 @@ module.exports = (app, passport) => {
       ownerId = mongoose.Types.ObjectId(req.user._id);
     }
     const query = { ownerId };
-    /* ------------------------- ACCESS DATABASE AND SEND TO FRONT-END -------------------------- */
+    /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */
     UserProfile.getProfileDetails(res, query);
   });
 };

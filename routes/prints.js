@@ -10,14 +10,14 @@ const PrintOrder = require("../models/PrintOrder");
 // Load User Profile Model
 const UserProfile = require("../models/UserProfile");
 
-/* ======================================== IMPORTS ========================================= */
+/* ========================================= IMPORTS ========================================== */
 
 const FileModel = require("../models/File");
 
-/* ========================================= EXPORT ========================================= */
+/* ========================================== EXPORT ========================================== */
 
 module.exports = (app, passport, upload, conn) => {
-  /* ================================ SET MONGODB CONNECTION ================================ */
+  /* ================================= SET MONGODB CONNECTION ================================= */
 
   let gfs;
 
@@ -262,7 +262,7 @@ module.exports = (app, passport, upload, conn) => {
       orderDetails.save().then(orderDetails => {
         return res.send({
           orderOwnerId: orderDetails.ownerId,
-          orderOrderNumber: orderDetails.orderNumber
+          orderNumber: orderDetails.orderNumber
         });
       });
     };

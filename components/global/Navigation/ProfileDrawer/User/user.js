@@ -10,7 +10,7 @@ const addProfileDrawerUserContents = () => {
 
 const addProfileDrawerUserProfileContents = () => {
   const profileDrawerUserProfileHTML =
-    "<a href='/Profile' class='profile_drawer_link'>Profile</a>";
+    "<a href='/profile' class='profile_drawer_link'>Profile</a>";
 
   document
     .querySelector("#profile_drawer")

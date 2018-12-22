@@ -90,6 +90,71 @@ UserProfileSchema.statics.getProfileDetails = function(
   });
 };
 
+/* ------------------------------ UPDATE PROFILE DETAILS ------------------------------- */
+
+UserProfileSchema.statics.updateProfileDetails = function(
+  res,
+  query,
+  updateMethod,
+  updateObject,
+  filter,
+  method,
+  object
+) {
+  return this.findOne(query, (error, profileDetails) => {
+    if (error) {
+      return res.send({
+        status: "failed",
+        content: "500: Error Found when Fetching Profile Details"
+      });
+    }
+
+    if (!profileDetails) {
+      return res.send({
+        status: "failed",
+        content: "404: No Profile Details Found"
+      });
+    }
+
+    if (updateMethod) {
+      return updateMethod(profileDetails, updateObject);
+    }
+
+    // Update order details
+    for (let property in updateObject) {
+      profileDetails[property] = updateObject[property];
+    }
+
+    profileDetails.save((error, updatedProfileDetails) => {
+      // Check if error occured while saving new print order
+      if (error) {
+        return res.send({
+          status: "failed",
+          content: "500: Error Found when Saving New Updates of Profile Details"
+        });
+      }
+
+      if (filter) {
+        const filteredUpdatedProfileDetails = filter(updatedProfileDetails);
+        return res.send({
+          status: "success",
+          content: filteredUpdatedProfileDetails
+        });
+      }
+
+      if (method) {
+        return method(updatedProfileDetails, object);
+      }
+
+      // If successfully saved
+      return res.send({
+        status: "success",
+        content: updatedProfileDetails
+      });
+    });
+  });
+};
+
 /* ====================================== EXPORT ======================================= */
 
 module.exports = UserProfile = conn.model("userProfiles", UserProfileSchema);
