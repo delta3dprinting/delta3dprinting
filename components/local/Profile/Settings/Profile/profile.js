@@ -51,30 +51,30 @@ const profileSettingsProfileUpdateInputFields = () => {
   });
 };
 
-const profileSettingsProfilePopulateInputFields = profileObject => {
+const profileSettingsProfilePopulateInputFields = profileDetails => {
   document.querySelector(
     "#profile_settings_edit_profile_first_name_input"
-  ).value = profileObject.firstName;
+  ).value = profileDetails.firstName;
   document.querySelector(
     "#profile_settings_edit_profile_middle_names_input"
-  ).value = profileObject.middleNames;
+  ).value = profileDetails.middleNames;
   document.querySelector(
     "#profile_settings_edit_profile_last_name_input"
-  ).value = profileObject.lastName;
+  ).value = profileDetails.lastName;
   document.querySelector(
     "#profile_settings_edit_profile_street_number_input"
-  ).value = profileObject.shippingAddress.streetNumber;
+  ).value = profileDetails.shippingAddress.streetNumber;
   document.querySelector("#profile_settings_edit_profile_route_input").value =
-    profileObject.shippingAddress.streetName;
+    profileDetails.shippingAddress.streetName;
   document.querySelector(
     "#profile_settings_edit_profile_sublocality_level_1_input"
-  ).value = profileObject.shippingAddress.suburb;
+  ).value = profileDetails.shippingAddress.suburb;
   document.querySelector(
     "#profile_settings_edit_profile_locality_input"
-  ).value = profileObject.shippingAddress.city;
+  ).value = profileDetails.shippingAddress.city;
   document.querySelector(
     "#profile_settings_edit_profile_postal_code_input"
-  ).value = profileObject.shippingAddress.postcode;
+  ).value = profileDetails.shippingAddress.postcode;
   document.querySelector("#profile_settings_edit_profile_country_input").value =
-    profileObject.shippingAddress.country;
+    profileDetails.shippingAddress.country;
 };
