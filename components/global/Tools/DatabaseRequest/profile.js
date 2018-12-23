@@ -9,9 +9,9 @@ const getMyProfileDetails = promise => {
         url: "/profile/profile-details",
         success: data => {
           if (data.status === "failed") {
-            reject(data.error);
+            reject(data.content);
           } else if (data.status === "success") {
-            resolve(data.profileDetails);
+            resolve(data.content);
           }
         }
       });

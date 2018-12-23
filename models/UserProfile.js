@@ -60,14 +60,14 @@ UserProfileSchema.statics.getProfileDetails = function(
     if (error) {
       return res.send({
         status: "failed",
-        error: "500: Error Found when Fetching Profile Details"
+        content: "500: Error Found when Fetching Profile Details"
       });
     }
 
     if (!profileDetails) {
       return res.send({
         status: "failed",
-        error: "404: No Profile Found"
+        content: "404: No Profile Found"
       });
     }
 
@@ -75,7 +75,7 @@ UserProfileSchema.statics.getProfileDetails = function(
       const filteredProfileDetails = filter(profileDetails);
       return res.send({
         status: "success",
-        profileDetails: filteredProfileDetails
+        content: filteredProfileDetails
       });
     }
 
@@ -85,7 +85,7 @@ UserProfileSchema.statics.getProfileDetails = function(
 
     return res.send({
       status: "success",
-      profileDetails
+      content: profileDetails
     });
   });
 };
