@@ -238,7 +238,7 @@ const adminOrderDetailsAwaitingQuoteUpdateOrderStatus = (
   });
 
   adminOrderDetailsAwaitingQuoteSavePrices();
-  loadAdminProfileOrdersPrintsOrderList();
+  loadAdminProfileOrdersPrintsOrderLists();
 
   loadLoader(document.querySelector("#admin_awaiting_quote_modal_body")).then(
     () => {

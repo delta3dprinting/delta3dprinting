@@ -20,6 +20,8 @@ module.exports = (app, passport) => {
     }
   });
 
+  /* ================================= SAVE PROFILE DETAILS ================================= */
+
   // @route   POST /profile/save-profile-details
   // @desc    Save Profile Changes
   // @access  Private
@@ -59,7 +61,7 @@ module.exports = (app, passport) => {
   });
 };
 
-/* ========================================= MIDDLEWARE ========================================= */
+/* ======================================= MIDDLEWARE ======================================= */
 
 // Route middleware to make sure a user is logged in
 const restrictedPages = (req, res, next) => {
@@ -74,4 +76,4 @@ const restrictedPages = (req, res, next) => {
   }
 };
 
-/* ============================================================================================== */
+/* ========================================================================================== */
