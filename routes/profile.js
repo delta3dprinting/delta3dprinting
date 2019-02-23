@@ -15,24 +15,27 @@ module.exports = (app, passport) => {
   app.get("/profile", restrictedPages, (req, res) => {
     if (req.user.accountType == "admin") {
       res.sendFile(path.join(__dirname, "../views/adminProfile.html"));
-    } else if (req.user.accountType == "normal") {
+    } else if (
+      req.user.accountType == "normal" ||
+      req.user.accountType == "partner"
+    ) {
       res.sendFile(path.join(__dirname, "../views/profile.html"));
     }
   });
 
   /* ================================= SAVE PROFILE DETAILS ================================= */
 
-  // @route   POST /profile/save-profile-details
+  // @route   POST /profile/update
   // @desc    Save Profile Changes
   // @access  Private
-  app.post("/profile/save-profile-details", restrictedPages, (req, res) => {
+  app.post("/profile/update", restrictedPages, (req, res) => {
     /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     const ownerId = req.user._id;
-    const profileDetails = req.body.profileDetails;
+    const profile = req.body.profile;
     /* ------------------------------------- SET QUERY -------------------------------------- */
     const query = { ownerId };
     /* --------------------------------- SET UPDATE OBJECT ---------------------------------- */
-    const updateObject = profileDetails;
+    const updateObject = profile;
     /* -------------------------------- SET DUMMY VARIABLES --------------------------------- */
     const updateMethod = undefined;
     /* ----------------------- ACCESS DATABASE AND SEND TO FRONT-END ------------------------ */

@@ -46,7 +46,7 @@ FileModel.getFileDetailsArray = function(
   method,
   object
 ) {
-  return gfs.files.find(query, (error, fileDetailsArray) => {
+  return gfs.files.find(query).toArray((error, fileDetailsArray) => {
     if (error) {
       return res.send({
         status: "failed",

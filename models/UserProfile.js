@@ -14,6 +14,22 @@ const UserProfileSchema = new Schema({
     ref: "users",
     required: true
   },
+  summary: {
+    points: {
+      type: String
+    },
+    numberOfCompletedOrders: {
+      type: String
+    }
+  },
+  profilePicture: {
+    id: {
+      type: String
+    },
+    name: {
+      type: String
+    }
+  },
   firstName: {
     type: String
   },
@@ -24,6 +40,9 @@ const UserProfileSchema = new Schema({
     type: String
   },
   shippingAddress: {
+    unit: {
+      type: String
+    },
     streetNumber: {
       type: String
     },
@@ -40,6 +59,17 @@ const UserProfileSchema = new Schema({
       type: String
     },
     country: {
+      type: String
+    }
+  },
+  organisation: {
+    companyName: {
+      type: String
+    },
+    briefDescription: {
+      type: String
+    },
+    getFeatured: {
       type: String
     }
   }
