@@ -9,9 +9,9 @@ const getOrderDetailsArray = promise => {
         url: "/order/get-order-details-array",
         success: data => {
           if (data.status === "failed") {
-            reject(data.error);
+            reject(data.content);
           } else if (data.status === "success") {
-            resolve(data.orderDetails);
+            resolve(data.content);
           }
         }
       });
@@ -44,9 +44,9 @@ const getOrderDetailsArrayByOrderStatus = (orderStatus, promise) => {
         data: JSON.stringify({ orderStatus }),
         success: data => {
           if (data.status === "failed") {
-            reject(data.error);
+            reject(data.content);
           } else if (data.status === "success") {
-            resolve(data.orderDetailsArray);
+            resolve(data.content);
           }
         }
       });

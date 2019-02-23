@@ -95,7 +95,7 @@ const constructAdminOrderDetailsPrintingOrderBase = order => {
     .addEventListener("click", () => {
       updateAdminOrderDetailsPrintingOrderProducedQuantity(
         order.parts,
-        order._id
+        order.orderNumber
       );
     });
 };

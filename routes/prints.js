@@ -133,7 +133,7 @@ module.exports = (app, passport, upload, conn) => {
     PrintOrder.getOrderDetails(res, query, filter, method, object);
   });
 
-  /* =============================== 3D PRINT ORDERS RELATED ROUTES =============================== */
+  /* ============================= 3D PRINT ORDERS RELATED ROUTES ============================= */
 
   // @route   GET /orders/:filename
   // @desc    Download the STL File
@@ -240,7 +240,7 @@ module.exports = (app, passport, upload, conn) => {
   // @route   POST /order/comment
   // @desc    Fetch an order based on order number
   // @access  Private
-  app.post("/Profile/order-comment", restrictedPages, (req, res) => {
+  app.post("/order/comment", restrictedPages, (req, res) => {
     /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     const orderNumber = req.body.order.orderNumber;
     const ownerId = req.body.order.ownerId;
@@ -261,7 +261,7 @@ module.exports = (app, passport, upload, conn) => {
 
       orderDetails.save().then(orderDetails => {
         return res.send({
-          orderOwnerId: orderDetails.ownerId,
+          ownerId: orderDetails.ownerId,
           orderNumber: orderDetails.orderNumber
         });
       });
@@ -272,76 +272,126 @@ module.exports = (app, passport, upload, conn) => {
     PrintOrder.updateOrderDetails(res, query, updateMethod, updateObject);
   });
 
-  /*  */
+  /* ==================================== ORDER COMMENTS ==================================== */
 
   // @route   POST /order/comments
   // @desc    Fetch an order based on order number
   // @access  Private
-  app.post("/Profile/order-comments", restrictedPages, (req, res) => {
-    class CommentsDetailObject {
-      constructor(userName, comment, dateCreated, ownership) {
-        this.userName = userName;
-        this.comment = comment;
-        this.dateCreated = dateCreated;
-        this.ownership = ownership;
-      }
+  app.post("/order/comments", restrictedPages, (req, res) => {
+    /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
+    const orderNumber = req.body.orderNumber;
+    const ownerId = req.user._id;
+    let commentDetailsObjects = [];
+    /* ------------------------------------- SET QUERY -------------------------------------- */
+    let query;
+    if (req.user.accountType == "admin") {
+      // ADMIN ACCESS
+      query = { orderNumber };
+    } else {
+      // USER ACCESS
+      query = { orderNumber, ownerId };
     }
-
-    let commentsDetailObjectArray = [];
-
-    PrintOrder.findOne(
-      {
-        ownerId: req.body.ownerId,
-        orderNumber: req.body.orderNumber
-      },
-      (err, order) => {
-        if (err) throw err;
-
-        if (order.comments.length == 0) {
-          return res.send(commentsDetailObjectArray);
-        }
-
-        for (i = 0; i < order.comments.length; i++) {
-          const userId = order.comments[i].userId;
-          let userName;
-          const comment = order.comments[i].text;
-          const dateCreated = order.comments[i].createdDate;
-          let ownership;
-
-          UserProfile.findOne(
-            {
-              ownerId: userId
-            },
-            (err, profile) => {
-              if (err) throw err;
-
-              userName = profile.firstName;
-
-              const userId = req.user._id + "";
-              const commentOwnerId = profile.ownerId + "";
-
-              if (userId === commentOwnerId) {
-                ownership = true;
-              } else {
-                ownership = false;
-              }
-              commentsDetailObjectArray.push(
-                new CommentsDetailObject(
-                  userName,
-                  comment,
-                  dateCreated,
-                  ownership
-                )
-              );
-
-              if (commentsDetailObjectArray.length == order.comments.length) {
-                res.send(commentsDetailObjectArray);
-              }
-            }
-          );
-        }
+    /* ------------------------------------- FIND ORDER ------------------------------------- */
+    PrintOrder.findOne(query, (error, order) => {
+      // CHECK IF ERROR FOUND WHEN FERCHING ORDER
+      if (error) {
+        return res.send({
+          status: "failed",
+          content: "500: Error Found when Fetching Order"
+        });
       }
-    );
+
+      const comments = order.comments;
+
+      // CHECK IF THE ORDER HAS NO COMMENT
+      if (comments == 0 || !comments) {
+        // Return an empty array of comment details
+        return res.send({
+          status: "success",
+          content: commentDetailsObjects
+        });
+      }
+
+      // IF THE ORDER HAS AT LEAST ONE COMMENT
+      for (i = 0; i < comments.length; i++) {
+        // Assigning and simplifying variables
+        let firstname;
+        let lastname;
+        const date = order.comments[i].createdDate;
+        const text = order.comments[i].text;
+        let ownership;
+        let availability;
+        let id;
+        const commentOwnerId = order.comments[i].userId;
+        // FIND PROFILE
+        UserProfile.findOne(
+          {
+            ownerId: commentOwnerId
+          },
+          (error, profile) => {
+            // Check if error found when fetching profile
+            if (error) {
+              return res.send({
+                status: "failed",
+                content: "500: Error Found when Fetching Profile"
+              });
+            }
+            // Check if no profile found
+            if (!profile) {
+              return res.send({
+                status: "failed",
+                content: "404: No Profile Found"
+              });
+            }
+
+            // SET VARIABLE VALUES
+            firstname = profile.firstName;
+            lastname = profile.lastName;
+            // Comment Ownership
+            const userId = ownerId + "";
+            const commentOwnerIdString = commentOwnerId + "";
+            if (userId === commentOwnerIdString) {
+              ownership = true;
+            } else {
+              ownership = false;
+            }
+            // Profile Picture
+            if (profile.profilePicture) {
+              availability = true;
+              id = profile.profilePicture.id;
+            } else {
+              availability = false;
+              id = "";
+            }
+            // CONSTRUCT COMMENT DETAILS
+            const commentDetails = {
+              user: {
+                firstname,
+                lastname
+              },
+              comment: {
+                date,
+                text,
+                ownership
+              },
+              profilePicture: {
+                availability,
+                id
+              }
+            };
+            // ADD COMMENT DETAILS TO THE COLLECTIVE ARRAY
+            commentDetailsObjects.push(commentDetails);
+            // CHECK IF ALL COMMENTS ARE PROCESSED
+            if (commentDetailsObjects.length == comments.length) {
+              return res.send({
+                status: "success",
+                content: commentDetailsObjects
+              });
+            }
+          }
+        );
+      }
+    });
   });
 
   /* ================================== BOOK A PICKUP TIME ================================== */
@@ -353,7 +403,7 @@ module.exports = (app, passport, upload, conn) => {
     /* ------------------------ ASSIGNING AND SIMPLIFYING VARIABLES ------------------------- */
     const orderNumber = req.body.orderNumber;
     const ownerId = req.user._id;
-    const pickupBookingSchedule = req.body.bookingFormInputsObject;
+    const pickupBookingSchedule = req.body.bookingFormInputs;
     const lastUpdateDate = new Date();
     /* -------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE --------------------- */
     let query = { orderNumber, ownerId };
@@ -602,6 +652,7 @@ module.exports = (app, passport, upload, conn) => {
     "/admin/part/update-produced-quantity",
     adminRestrictedPages,
     (req, res) => {
+      console.log(req.body);
       /* ----------------------- ASSIGNING AND SIMPLIFYING VARIABLES ------------------------ */
       const producedQuantity = req.body.producedQuantity;
       const orderNumber = req.body.orderNumber;
@@ -614,7 +665,7 @@ module.exports = (app, passport, upload, conn) => {
           return element._id == updateObject.partId;
         };
 
-        const partIndex = order.parts.findIndex(findPartIndex);
+        const partIndex = orderDetails.parts.findIndex(findPartIndex);
 
         orderDetails.parts[partIndex].producedQuantity =
           updateObject.producedQuantity;

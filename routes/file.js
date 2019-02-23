@@ -6,6 +6,8 @@ const Grid = require("gridfs-stream");
 /* ======================================== IMPORTS ========================================= */
 
 const FileModel = require("../models/File");
+// Load User Profile Model
+const Profile = require("../models/UserProfile");
 
 /* ========================================= EXPORT ========================================= */
 
@@ -44,6 +46,57 @@ module.exports = (app, passport, upload, conn) => {
     FileModel.downloadFile(gfs, res, query);
   });
 
+  /* ======================= GET FILE DETAILS ARRAY BY FILE ID ARRAY ======================== */
+
+  // @route   POST /file/get-file-details/file-id-array
+  // @desc    Get File Details by File ID Array
+  // @access  Private
+  app.post(
+    "/file/get-file-details/file-id-array",
+    restrictedPages,
+    (req, res) => {
+      /* ----------------------- ASSIGNING AND SIMPLIFYING VARIABLES ------------------------ */
+      const fileIdArray = req.body.fileIdArray.map(fileId =>
+        mongoose.Types.ObjectId(fileId)
+      );
+      /* ------------------- SETTING MONGOOSE QUERY BASED ON ACCESS TYPE -------------------- */
+      let query;
+      if (req.user.accountType == "admin") {
+        // ADMIN ACCESS
+        query = {};
+      } else {
+        // USER ACCESS
+        query = {
+          "metadata.ownerId": req.user._id
+        };
+      }
+      /* --------------------------------- SET DUMMY FILTER --------------------------------- */
+      const filter = undefined;
+      /* ------------------------------------ SET METHOD ------------------------------------ */
+      const method = (fileDetailsArray, object) => {
+        const fileIdArray = object.fileIdArray;
+        let newFileDetailsArray = [];
+
+        for (let i = 0; i < fileIdArray.length; i++) {
+          const fileDetails = fileDetailsArray.filter(
+            fileDetails => String(fileDetails._id) == String(fileIdArray[i])
+          )[0];
+
+          newFileDetailsArray.push(fileDetails);
+        }
+
+        return res.send({
+          status: "success",
+          content: newFileDetailsArray
+        });
+      };
+      /* ------------------------------------ SET OBJECT ------------------------------------ */
+      const object = { fileIdArray };
+      /* ---------------- ACCESS DATABASE AND SEND FILE DETAILS TO FRONT-END ---------------- */
+      FileModel.getFileDetailsArray(gfs, res, query, filter, method, object);
+    }
+  );
+
   /* ============================= GET FILE DETAILS BY FILE ID ============================== */
 
   // @route   POST /file/get-file-details/file-id
@@ -74,6 +127,114 @@ module.exports = (app, passport, upload, conn) => {
     };
     /* ----------------- ACCESS DATABASE AND SEND FILE DETAILS TO FRONT-END ----------------- */
     FileModel.getFileDetails(gfs, res, query, filter);
+  });
+
+  /* =================================== PROFILE PICTURE ==================================== */
+
+  // @route   POST /upload/profile-picture
+  // @desc    Get File Details by File ID
+  // @access  Private
+  app.post(
+    "/upload/profile-picture",
+    upload.single("uploadProfilePicture"),
+    restrictedPages,
+    (req, res) => {
+      const file = req.file;
+      const user = req.user;
+      const profilePicture = {
+        id: file.id,
+        name: file.filename
+      };
+
+      Profile.findOne({ ownerId: user._id }, (error, profile) => {
+        if (error) {
+          return res.send({
+            status: "failed",
+            content: "500: Error Found when Fetching Profile"
+          });
+        }
+
+        if (!profile) {
+          return res.send({
+            status: "failed",
+            content: "404: No Profile Found"
+          });
+        }
+
+        if (profile.profilePicture) {
+          fileId = mongoose.Types.ObjectId(profile.profilePicture.id);
+          gfs.remove({ _id: fileId }, error => {
+            if (error) {
+              return res.send({
+                status: "failed",
+                content: "500: Error Found when Deleting Profile Picture"
+              });
+            }
+            profile.profilePicture = profilePicture;
+
+            profile.save((error, updatedProfile) => {
+              // Check if error occured while saving new print order
+              if (error) {
+                return res.send({
+                  status: "failed",
+                  content: "500: Error Found when Saving New Updates of Profile"
+                });
+              }
+
+              // If successfully saved
+              return res.send({
+                status: "success",
+                content: updatedProfile
+              });
+            });
+          });
+        } else {
+          profile.profilePicture = profilePicture;
+
+          profile.save((error, updatedProfile) => {
+            // Check if error occured while saving new print order
+            if (error) {
+              return res.send({
+                status: "failed",
+                content: "500: Error Found when Saving New Updates of Profile"
+              });
+            }
+
+            // If successfully saved
+            return res.send({
+              status: "success",
+              content: updatedProfile
+            });
+          });
+        }
+      });
+    }
+  );
+
+  /* ================================= GET PROFILE PICTURE ================================== */
+
+  // @route   GET /profile-picture/:id
+  // @desc    Get Profile Picture
+  // @access  Private
+  app.get("/profile-picture/:id", restrictedPages, (req, res) => {
+    const id = mongoose.Types.ObjectId(req.params.id);
+    gfs.files.findOne({ _id: id }, (error, file) => {
+      if (error) {
+        return res.send({
+          status: "failed",
+          content: "500: Error Found when Retrieving Profile Picture"
+        });
+      }
+      if (!file) {
+        return res.send({
+          status: "failed",
+          content: "404: No Profile Picture"
+        });
+      }
+      /* ------------------------------ READ OUTPUT TO BROWSER ------------------------------ */
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    });
   });
 };
 

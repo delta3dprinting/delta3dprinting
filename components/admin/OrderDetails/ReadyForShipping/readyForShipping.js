@@ -250,7 +250,7 @@ const adminOrderDetailsReadyForShippingUpdateOrderStatus = (
   ).then(() => {
     $.ajax({
       type: "POST",
-      url: "/admin/order/update-order-status",
+      url: "/order/update-order-status",
       data: JSON.stringify({ orderDetails }),
       contentType: "application/json",
       success: data => {
